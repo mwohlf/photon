@@ -15,12 +15,16 @@ import org.slf4j.LoggerFactory;
 
 import com.jogamp.opengl.math.Quaternion;
 
-public class RotateEvent extends Quaternion implements PoolableObject, Serializable {
+public class RotateEvent  implements PoolableObject, Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(RotateEvent.class);
     private static final int POOL_SIZE = 10;
 
     private static final float ROTATION_SPEED = MathTool.TWO_PI; // one rotation per sec
+
+
+    private final Quaternion delegate = new Quaternion();
+
 
     private static final ObjectPool<RotateEvent> POOL = new ObjectPool<RotateEvent>(POOL_SIZE) {
         @Override
@@ -32,7 +36,7 @@ public class RotateEvent extends Quaternion implements PoolableObject, Serializa
     @Override
     public void reset() {
         LOGGER.debug("reset rotate: " + this);
-        setIdentity();
+        // delegate.setIdentity();
         POOL.returnObject(this);
     }
 
@@ -67,8 +71,8 @@ public class RotateEvent extends Quaternion implements PoolableObject, Serializa
     @Nullable static RotateEvent rotate(float rad, Vector3f axis) {
         try {
             final RotateEvent result = POOL.borrowObject();
-            result.setIdentity();
-            MathTool.rotate(result, rad, axis);
+            result.delegate.setIdentity();
+            MathTool.rotate(result.delegate, rad, axis);
             LOGGER.debug("created rotate: " + result);
             return result;
         } catch (OutOfResourcesException ex) {
@@ -76,5 +80,9 @@ public class RotateEvent extends Quaternion implements PoolableObject, Serializa
             return null;
         }
     }
+
+	public Quaternion get() {
+		return delegate;
+	}
 
 }

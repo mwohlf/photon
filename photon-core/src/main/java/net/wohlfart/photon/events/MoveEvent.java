@@ -12,12 +12,14 @@ import net.wohlfart.photon.tools.OutOfResourcesException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class MoveEvent extends Vector3f implements PoolableObject, Serializable {
+public class MoveEvent implements PoolableObject, Serializable {
     private static final long serialVersionUID = 1L;
     protected static final Logger LOGGER = LoggerFactory.getLogger(MoveEvent.class);
     protected static final int POOL_SIZE = 10;
     private static final float MOVE_SPEED = 50f;
     private static final float WHEEL_SENSITIVITY = 0.05f;
+
+    private final Vector3f delegate = new Vector3f();
 
     private static final ObjectPool<MoveEvent> POOL = new ObjectPool<MoveEvent>(POOL_SIZE) {
         @Override
@@ -28,7 +30,7 @@ public class MoveEvent extends Vector3f implements PoolableObject, Serializable 
 
     @Override
     public void reset() {
-        x = y = z = 0;
+        delegate.set(new float[] {0, 0, 0});
         POOL.returnObject(this);
     }
 
@@ -69,14 +71,16 @@ public class MoveEvent extends Vector3f implements PoolableObject, Serializable 
     @Nullable static MoveEvent move(float x, float y, float z) {
         try {
             final MoveEvent result = POOL.borrowObject();
-            result.x = x;
-            result.y = y;
-            result.z = z;
+            result.delegate.set(new float[] {x, y, z});
             return result;
         } catch (OutOfResourcesException ex) {
             LOGGER.warn("returning null", ex);
             return null;
         }
     }
+
+	public Vector3f get() {
+		return delegate;
+	}
 
 }

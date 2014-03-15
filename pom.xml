@@ -12,6 +12,7 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<photon.version>0.0.1-SNAPSHOT</photon.version>
 		<antlr.version>4.0</antlr.version>
 		<junit.version>4.11</junit.version>
 		<org.slf4j.version>1.7.5</org.slf4j.version>
@@ -27,12 +28,12 @@
 	<modules>
 		<module>photon-core</module>
 		<module>photon-scene</module>
+		<module>photon-desktop</module>
 	</modules>
 
 	<dependencies>
 
 		<!-- testing -->
-
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

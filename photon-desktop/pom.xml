@@ -1,0 +1,41 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>net.wohlfart.photon</groupId>
+		<artifactId>photon</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>photon-desktop</artifactId>
+
+
+
+	<dependencies>
+
+		<dependency>
+			<groupId>net.wohlfart.photon</groupId>
+			<artifactId>photon-core</artifactId>
+			<version>${photon.version}</version>
+			<!--  
+			<exclusions>
+				<exclusion>
+					<groupId>org.jogamp.gluegen</groupId>
+					<artifactId>gluegen-rt-main</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jogamp.jogl</groupId>
+					<artifactId>jogl-all-main</artifactId>
+				</exclusion>
+			</exclusions>
+			 -->
+		</dependency>
+
+		<dependency>
+			<groupId>net.wohlfart.photon</groupId>
+			<artifactId>photon-scene</artifactId>
+			<version>${photon.version}</version>
+		</dependency>
+
+	</dependencies>
+
+</project>

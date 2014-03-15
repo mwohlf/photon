@@ -41,7 +41,7 @@ public class StartState implements IState {
         LOGGER.debug("incoming move event: " + evt);
         // adding move, since the cam is always at 0/0/0 and in -z this works
         //MathTool.add(evt, movement.getPosition(), movement.getPosition());
-        movement.getPosition().add(evt);
+        movement.getPosition().add(evt.get());
     }
 
     @Subscribe
@@ -49,7 +49,7 @@ public class StartState implements IState {
         LOGGER.debug("incoming rotate event: " + evt);
         // multiplying a quaternion means adding the rotations
         //MathTool.mul(evt, rotation.getRotation(), rotation.getRotation());
-        rotation.getRotation().mult(evt);
+        rotation.getRotation().mult(evt.get());
     }
 
     @Override

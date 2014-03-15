@@ -1,5 +1,6 @@
 package net.wohlfart.photon;
 
+
 import javax.inject.Singleton;
 
 import net.wohlfart.photon.events.PoolEventBus;
@@ -10,11 +11,8 @@ import dagger.Module;
 import dagger.Provides;
 
 
-@Module(
-	injects= {Application.class, PoolEventBus.class},
-	library=true
-)
-public class ApplicationModule {
+@Module(library=true)
+public class PhotonModule {
 
 	private final ClockImpl clockImpl = new ClockImpl();
 
