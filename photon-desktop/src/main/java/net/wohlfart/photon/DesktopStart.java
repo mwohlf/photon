@@ -46,12 +46,12 @@ public class DesktopStart {
 
 
 	@Inject
-	public DesktopStart(/*Application application,*/ PoolEventBus eventBus, OpenGlCanvas canvas){
+	public DesktopStart(Game game, PoolEventBus eventBus, OpenGlCanvas canvas){
 		//this.application = application;
+		this.game = game;
 		this.eventBus = eventBus;
 		this.canvas = canvas;
 		this.frame = new JFrame();
-		this.game = new Game();
 	}
 
 

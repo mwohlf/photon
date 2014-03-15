@@ -11,13 +11,13 @@
 
 
 	<dependencies>
-
+<!-- 
 		<dependency>
 			<groupId>net.wohlfart.photon</groupId>
 			<artifactId>photon-core</artifactId>
 			<version>${photon.version}</version>
 		</dependency>
-
+-->
 		<dependency>
 			<groupId>net.wohlfart.photon</groupId>
 			<artifactId>photon-scene</artifactId>

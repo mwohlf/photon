@@ -28,8 +28,11 @@ public class RendererImpl implements IRenderer, IGraphicContext {
 	protected volatile boolean debug;
 
 	@Inject
-	public RendererImpl(IGraphicContext delegate) {
-		this.delegate = delegate;
+	public RendererImpl() {
+	}
+
+	public void setGfxContext(IGraphicContext gfxCtx) {
+		this.delegate = gfxCtx;
 	}
 
     @Override
@@ -53,6 +56,9 @@ public class RendererImpl implements IRenderer, IGraphicContext {
             if (debug) { LOGGER.error(" }"); }
         }
     }
+
+
+
 
     @Override
     public IGraphicContext init(GLAutoDrawable drawable) {
