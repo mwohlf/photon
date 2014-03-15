@@ -15,40 +15,50 @@ import com.jogamp.opengl.util.FPSAnimator;
 
 
 // wrap the Canvas for clients so they don't depend on jogl2
+// TODO: probably different kinds of components needed for different platforms, use generics..
 public class OpenGlCanvas {
-	private static final int FPS = 60; // animator's target frames per second
+	private static final int FPS = 4; // animator's target frames per second
 
-	private final GLCanvas delegate;
+	private final GLCanvas canvas;
+
 
 	@Inject
 	public OpenGlCanvas() {
 		super();
-		delegate = new GLCanvas(new GLCapabilities(GLProfile.getDefault()));
+		canvas = new GLCanvas(new GLCapabilities(GLProfile.getDefault()));
 		FPSAnimator animator = new FPSAnimator(FPS, true);
-		animator.add(delegate);
+		animator.add(canvas);
 	}
 
 	public void setPreferredSize(Dimension dimension) {
-		delegate.setPreferredSize(dimension);
+		canvas.setPreferredSize(dimension);
 	}
 
-	public void setLifecycleListener(Application listener) {
-		delegate.addGLEventListener(listener);
+	/*
+	@Deprecated
+	public void setApplication(Application listener) {
+		canvas.addGLEventListener(listener);
+	}
+	*/
+
+	public void addLifecycleListener(ILifecycleListener listener) {
+		canvas.addGLEventListener(new LifecycleAdpator(listener));
 	}
 
 	public void addKeyListener(KeyListener keyListener) {
-		delegate.addKeyListener(keyListener);
+		canvas.addKeyListener(keyListener);
 	}
 
 	public void startAnimator() {
-		delegate.getAnimator().start();
+		canvas.getAnimator().start();
 	}
 
 	public void stopAnimator() {
-		delegate.getAnimator().stop();
+		canvas.getAnimator().stop();
 	}
 
+	// generics ?
 	Component asComponent() {
-		return delegate;
+ 		return canvas;
 	}
 }

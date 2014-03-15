@@ -16,18 +16,27 @@
 			<groupId>net.wohlfart.photon</groupId>
 			<artifactId>photon-core</artifactId>
 			<version>${photon.version}</version>
-			<!--  
+
 			<exclusions>
+				<!-- 
 				<exclusion>
-					<groupId>org.jogamp.gluegen</groupId>
-					<artifactId>gluegen-rt-main</artifactId>
+					<groupId>*</groupId>
+					<artifactId>*</artifactId>
 				</exclusion>
-				<exclusion>
-					<groupId>org.jogamp.jogl</groupId>
-					<artifactId>jogl-all-main</artifactId>
-				</exclusion>
+				-->
+				<!-- 
+				<exclusion> 
+					<groupId>org.jogamp.gluegen</groupId> 
+					<artifactId>gluegen-rt-main</artifactId> 
+				</exclusion> 
+			    <exclusion> 
+					<groupId>org.jogamp.jogl</groupId> 
+					<artifactId>jogl-all-main</artifactId> 
+			    </exclusion> 
+			    -->
+
 			</exclusions>
-			 -->
+
 		</dependency>
 
 		<dependency>

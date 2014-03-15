@@ -37,20 +37,23 @@ public class DesktopStart {
 	protected final OpenGlCanvas canvas;
 
 	// the application that has to implement the rendering callbacks
-	protected final Application application;
+	//protected final Application application;
 
 
 	protected final PoolEventBus eventBus;
 
 	protected final JFrame frame;
 
+	protected final Game game;
+
 
 	@Inject
-	public DesktopStart(Application application, PoolEventBus eventBus, OpenGlCanvas canvas){
-		this.application = application;
+	public DesktopStart(/*Application application,*/ PoolEventBus eventBus, OpenGlCanvas canvas){
+		//this.application = application;
 		this.eventBus = eventBus;
 		this.canvas = canvas;
 		this.frame = new JFrame();
+		this.game = new Game();
 	}
 
 
@@ -62,7 +65,7 @@ public class DesktopStart {
 			public void run() {
 
 				canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
-				canvas.setLifecycleListener(application);
+				canvas.addLifecycleListener(game);
 				canvas.addKeyListener(new KeyListener());
 
 				frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

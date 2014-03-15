@@ -21,11 +21,14 @@ public class PhotonModule {
 		return new PoolEventBus();
 	}
 
+	/*
 	@Provides @Singleton
 	IGraphicContext provideGraphicContext() {
 		return new GraphicContext();
 	}
+	*/
 
+	// TODO: not sure if the resource manager belongs into the core
 	@Provides @Singleton
 	ResourceManager provideResourceManager() {
 		return ResourceManager.INSTANCE;
