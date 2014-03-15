@@ -16,10 +16,22 @@
 
 	<properties>
 		<antlr.version>4.0</antlr.version>
-		
-		</properties>
+
+	</properties>
 
 	<dependencies>
+
+		<dependency>
+			<groupId>net.wohlfart.photon</groupId>
+			<artifactId>photon-core</artifactId>
+			<version>${photon.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>net.wohlfart.photon</groupId>
+			<artifactId>photon-scene</artifactId>
+			<version>${photon.version}</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.antlr</groupId>

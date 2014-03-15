@@ -12,7 +12,7 @@ import dagger.Provides;
 
 
 @Module(library=true)
-public class PhotonModule {
+public class CoreModule {
 
 	private final ClockImpl clockImpl = new ClockImpl();
 

@@ -4,7 +4,7 @@ import dagger.Module;
 
 
 @Module(
-	includes = PhotonModule.class,
+	includes = {CoreModule.class, SceneModule.class},
 	injects = {DesktopStart.class},
 	library = false
 )

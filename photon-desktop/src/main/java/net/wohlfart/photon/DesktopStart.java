@@ -31,8 +31,6 @@ public class DesktopStart {
 	private static final int CANVAS_WIDTH = 800;  // width of the drawable
 	private static final int CANVAS_HEIGHT = 600; // height of the drawable
 
-
-
 	// platform dependant drawing target, already wired with the animator loop
 	protected final OpenGlCanvas canvas;
 
