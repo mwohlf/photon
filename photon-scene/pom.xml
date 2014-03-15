@@ -4,14 +4,37 @@
          ">
 
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>net.wohlfart.photon</groupId>
 		<artifactId>photon</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+
 	<artifactId>photon-scene</artifactId>
 	<packaging>jar</packaging>
-	
+
+	<properties>
+		<antlr.version>4.0</antlr.version>
+		
+		</properties>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.antlr</groupId>
+			<artifactId>antlr4</artifactId>
+			<version>${antlr.version}</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>${jsr305.version}</version>
+		</dependency>
+
+	</dependencies>
+
 </project>
