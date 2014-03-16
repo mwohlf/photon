@@ -5,11 +5,13 @@ import java.util.Comparator;
 
 
 
-// final render order:
+// the final render order should be:
+//
 // - hud (solid)      \
 // - solid           -- (front to back)
 // - skybox           /
 // - transparent/hud  - (back to front) depth writing off
+//
 public class NodeSortStrategy<T extends NodeSortStrategy.HasSortToken> implements Comparator<TreeImpl<T>>, Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -25,10 +27,12 @@ public class NodeSortStrategy<T extends NodeSortStrategy.HasSortToken> implement
             return 0;
         }
 
+        /*
         @Override
         public void setZOrder(double zOrder) {
             // do nothing
         }
+        */
 
         @Override
         public String toString() {
@@ -49,7 +53,7 @@ public class NodeSortStrategy<T extends NodeSortStrategy.HasSortToken> implement
 
         double getZOrder();
 
-        void setZOrder(double zOrder);
+        // void setZOrder(double zOrder);
 
     }
 

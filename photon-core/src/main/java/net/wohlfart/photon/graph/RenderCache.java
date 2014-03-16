@@ -17,7 +17,7 @@ public class RenderCache implements IRenderCache {
 
 
     @Override
-    public Tree<IRenderNode> getRoot() {
+    public ITree<IRenderNode> getRoot() {
         return root;
     }
 

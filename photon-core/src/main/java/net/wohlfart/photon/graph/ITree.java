@@ -2,14 +2,14 @@ package net.wohlfart.photon.graph;
 
 import java.util.Iterator;
 
-public interface Tree<T> {
+public interface ITree<T> {
 
     T getValue();
 
-    Tree<T> add(T value);
+    ITree<T> add(T value);
 
     void remove(T value);
 
-    Iterator<? extends Tree<T>> getChildren();
+    Iterator<? extends ITree<T>> getChildren();
 
 }

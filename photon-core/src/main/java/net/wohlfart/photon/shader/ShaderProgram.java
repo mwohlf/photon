@@ -9,7 +9,7 @@ import java.util.Set;
 import javax.media.opengl.GL2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
-import net.wohlfart.photon.shader.UniformHandle.UniformValue;
+import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.texture.ITexture;
 
 import org.slf4j.Logger;
@@ -139,12 +139,12 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	@Override
-	public void useUniforms(Map<String, UniformValue> uniformValues) {
+	public void useUniforms(Map<String, IUniformValue> uniformValues) {
 		for (String uniformName : getUniformHandleNames()) {
 			// check if the uniform slot is a defined texture, if so we can skip that since
 			// we already did set the texture index on that uniform
 			if (!textureNames.contains(uniformName)) {
-				UniformValue uniformValue = uniformValues.get(uniformName);
+				IUniformValue uniformValue = uniformValues.get(uniformName);
 				setUniform(gl, uniformName, uniformValue);
 			}
 		}
@@ -186,7 +186,7 @@ public class ShaderProgram implements IShaderProgram {
 		currentHandle.setTextureIndex(gl, textureSlot);
 	}
 
-	private void setUniform(GL2 gl2, String uniformName, UniformValue uniformValue) {
+	private void setUniform(GL2 gl2, String uniformName, IUniformValue uniformValue) {
 		UniformHandle currentHandle = getUniformHandle(uniformName);
 		if (currentHandle == null) {
 			LOGGER.error("uniform for '{}' can't be found in shader {}, skipping this uniform", uniformName, this);

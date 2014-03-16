@@ -6,8 +6,8 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
+import net.wohlfart.photon.tools.Quaternion;
 
-import com.jogamp.opengl.math.Quaternion;
 
 public interface ISceneGraph {
 
@@ -47,6 +47,6 @@ public interface ISceneGraph {
 
     void removeRenderCommands(Collection<? extends IRenderNode> nodes);
 
-    Tree<IRenderNode> createSubTree(IRenderNode effect);
+    ITree<IRenderNode> createSubTree(IRenderNode effect);
 
 }

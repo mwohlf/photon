@@ -12,4 +12,5 @@ public interface ILifecycleListener {
 	public void display(IGraphicContext gfxContext);
 
 	public void reshape(IGraphicContext gfxContext, int x, int y, int width, int height);
+
 }

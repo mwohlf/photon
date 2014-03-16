@@ -64,8 +64,8 @@ public class StartState implements IState {
     	while (iter.hasNext()) {
     		iter.next().update(rotation, movement, delta);
     	}
-    	rotation.setIdentity();
     	movement.set(0, 0, 0);
+    	rotation.set(0, 0, 0, 1);
     }
 
     @Override

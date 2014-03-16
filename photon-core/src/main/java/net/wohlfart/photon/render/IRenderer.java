@@ -4,10 +4,10 @@ import java.util.Map;
 
 import javax.vecmath.Matrix4f;
 
+import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.HasSortToken;
-import net.wohlfart.photon.graph.Tree;
 import net.wohlfart.photon.shader.ShaderIdentifier;
-import net.wohlfart.photon.shader.UniformHandle.UniformValue;
+import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
 public interface IRenderer {
@@ -15,7 +15,7 @@ public interface IRenderer {
     public interface IRenderNode extends HasSortToken {
 
         // the render calls, must call renderer.renderChildren(tree)
-        void accept(IRenderer renderer, Tree<IRenderNode> tree);
+        void accept(IRenderer renderer, ITree<IRenderNode> tree);
 
     }
 
@@ -31,7 +31,7 @@ public interface IRenderer {
     public interface IRenderElem extends IRenderNode {
 
         // the shader uniforms
-        Map<String, UniformValue> getUniformValues();
+        Map<String, IUniformValue> getUniformValues();
 
         // texture uniforms
         Map<String, ITextureIdentifier> getTextures();
@@ -58,16 +58,16 @@ public interface IRenderer {
     void setDebugMode(boolean enableDebug);
 
     // init call to start rendering the command cache
-    void renderParent(Tree<IRenderNode> tree);
+    void renderParent(ITree<IRenderNode> tree);
 
-    // render the subnodes
-    void renderChildren(Tree<IRenderNode> tree);
+    // render the subnodes of a render command
+    void renderChildren(ITree<IRenderNode> tree);
 
     // call sequence for drawing a  standard render command from the render cache
     void setRenderConfig(ShaderIdentifier shaderId, IRenderConfig<RenderConfigImpl> nextRenderConfig);
 
     // updating the uniform values
-    void setUniformValues(Map<String, ITextureIdentifier> textures, Map<String, UniformValue> uniformValues);
+    void setUniformValues(Map<String, ITextureIdentifier> textures, Map<String, IUniformValue> uniformValues);
 
     // the draw call
     void drawGeometry(IGeometry geometry);

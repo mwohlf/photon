@@ -6,7 +6,7 @@ import java.util.Map;
 import javax.media.opengl.GL2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
-import net.wohlfart.photon.shader.UniformHandle.UniformValue;
+import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.texture.ITexture;
 
 public interface IShaderProgram {
@@ -25,7 +25,7 @@ public interface IShaderProgram {
 
 	void useTextures(Map<String, ITexture> textures);
 
-	void useUniforms(Map<String, UniformValue> uniformValues);
+	void useUniforms(Map<String, IUniformValue> uniformValues);
 
 	void useAttributes(VertexFormat vertexFormat);
 
@@ -58,7 +58,7 @@ public interface IShaderProgram {
 		}
 
 		@Override
-		public void useUniforms(Map<String, UniformValue> uniformValues) {
+		public void useUniforms(Map<String, IUniformValue> uniformValues) {
 			// do nothing
 		}
 

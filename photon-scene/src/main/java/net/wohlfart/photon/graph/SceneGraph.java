@@ -83,14 +83,14 @@ public class SceneGraph implements ISceneGraph {
     }
 
     @Override
-    public Tree<IRenderNode> createSubTree(IRenderNode effect) {
+    public ITree<IRenderNode> createSubTree(IRenderNode effect) {
         assert effect != null;
         return renderCache.add(effect);
     }
 
 
 
-    public Tree<IRenderNode> getRenderCache() {
+    public ITree<IRenderNode> getRenderCache() {
         renderCache.reOrder();
         return renderCache.getRoot();
     }
@@ -99,12 +99,12 @@ public class SceneGraph implements ISceneGraph {
         return semanticView;
     }
 
-    protected StringBuilder dumpNode(String inset, StringBuilder builder, Tree<IRenderNode> renderNode) {
+    protected StringBuilder dumpNode(String inset, StringBuilder builder, ITree<IRenderNode> renderNode) {
         builder.append(inset);
         builder.append(renderNode.getValue());
         builder.append(System.lineSeparator());
 
-        Iterator<? extends Tree<IRenderNode>> iter = renderNode.getChildren();
+        Iterator<? extends ITree<IRenderNode>> iter = renderNode.getChildren();
         while (iter.hasNext()) {
             dumpNode(inset + "   ", builder, iter.next());
         }

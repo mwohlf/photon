@@ -23,7 +23,7 @@ import com.google.common.collect.UnmodifiableIterator;
  *
  * this class is not thread-safe at all
  */
-class TreeImpl<T> implements Tree<T> {
+class TreeImpl<T> implements ITree<T> {
 
     protected final T value;
 

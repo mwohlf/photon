@@ -9,7 +9,7 @@ import javax.vecmath.Matrix4f;
 // the uniform handle is the name and location of a uniform in a specific shader
 public class UniformHandle {
 
-    public static final UniformValue SHADER_UNIFORM_NULL_VALUE = new NullValue();
+    public static final IUniformValue SHADER_UNIFORM_NULL_VALUE = new NullValue();
 
     private final int shaderId;
 
@@ -18,20 +18,20 @@ public class UniformHandle {
     private final int location;
 
 
-    public interface UniformValue {
+    public interface IUniformValue {
 
         void accept(GL2 gl, UniformHandle handle);
     }
 
 
-    private static class NullValue implements UniformValue {
+    private static class NullValue implements IUniformValue {
         @Override
         public void accept(GL2 gl, UniformHandle handle) {
             // do nothing
         }
     }
 
-    public static class Matrix4fValue implements UniformValue {
+    public static class Matrix4fValue implements IUniformValue {
         private final Matrix4f matrix;
 
         public Matrix4fValue(Matrix4f matrix) {
@@ -73,7 +73,7 @@ public class UniformHandle {
 
     }
 
-    public static class TextureIndexValue implements UniformValue {
+    public static class TextureIndexValue implements IUniformValue {
         private final int index;
 
         TextureIndexValue(int index) {

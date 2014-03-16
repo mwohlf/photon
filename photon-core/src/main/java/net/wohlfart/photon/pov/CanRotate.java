@@ -4,7 +4,8 @@ import java.io.Serializable;
 
 import javax.vecmath.Vector3f;
 
-import com.jogamp.opengl.math.Quaternion;
+import net.wohlfart.photon.tools.Quaternion;
+
 
 public interface CanRotate extends Serializable {
 

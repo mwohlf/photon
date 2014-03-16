@@ -2,17 +2,18 @@ package net.wohlfart.photon.state;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.StartState;
-
 public class StateManager {
 
     private IState currentState = StateAdaptor.INIT_STATE;
 
-    @Inject
-    StartState startState;
+    private IState startState;
 
     @Inject
     StateManager() {}
+
+    public void setStartState(IState state) {
+    	startState = state;
+    }
 
 	public IState getCurrentState() {
 		return currentState;

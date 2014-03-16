@@ -3,8 +3,8 @@ package net.wohlfart.photon.pov;
 import javax.vecmath.Vector3f;
 
 import net.wohlfart.photon.tools.MathTool;
+import net.wohlfart.photon.tools.Quaternion;
 
-import com.jogamp.opengl.math.Quaternion;
 
 public class CanRotateImpl extends Quaternion implements CanRotate {
 	private static final long serialVersionUID = 1L;

@@ -17,7 +17,7 @@ import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.shader.IShaderProgram;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderProgram;
-import net.wohlfart.photon.shader.UniformHandle.UniformValue;
+import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.texture.ITexture;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
@@ -43,7 +43,7 @@ public class GraphicContext implements IGraphicContext {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(GraphicContext.class);
 
 	// also contains the texture indices
-	private final Map<String, UniformValue> uniformValues = new HashMap<>();
+	private final Map<String, IUniformValue> uniformValues = new HashMap<>();
 	private final Map<String, ITexture> textures = new HashMap<>();
 
 
@@ -85,7 +85,7 @@ public class GraphicContext implements IGraphicContext {
 
 	// configure the shader uniforms and textures, the textures might need to be loaded first
 	@Override
-	public void setUniformValues(Map<String, ITextureIdentifier> textureIds, Map<String, UniformValue> newUniformValues) {
+	public void setUniformValues(Map<String, ITextureIdentifier> textureIds, Map<String, IUniformValue> newUniformValues) {
 		uniformValues.putAll(newUniformValues);
 		for (Map.Entry<String, ITextureIdentifier> entry : textureIds.entrySet()) {
 			textures.put(entry.getKey(), ResourceManager.loadResource(ITexture.class, entry.getValue()));

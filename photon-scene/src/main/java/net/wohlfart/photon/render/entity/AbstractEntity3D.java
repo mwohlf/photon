@@ -10,8 +10,7 @@ import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
 import net.wohlfart.photon.render.IRenderer.IRenderElem;
 import net.wohlfart.photon.tools.MathTool;
-
-import com.jogamp.opengl.math.Quaternion;
+import net.wohlfart.photon.tools.Quaternion;
 
 
 /**

@@ -4,12 +4,11 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.inject.Inject;
-import javax.media.opengl.GLAutoDrawable;
 
 import net.wohlfart.photon.IGraphicContext;
-import net.wohlfart.photon.graph.Tree;
+import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.shader.ShaderIdentifier;
-import net.wohlfart.photon.shader.UniformHandle.UniformValue;
+import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
 import org.slf4j.Logger;
@@ -17,11 +16,10 @@ import org.slf4j.LoggerFactory;
 
 
 /**
- *
  * delegates the low level work to the graphic context
  * just responsible for calling the render cache's methods in the right order
  */
-public class RendererImpl implements IRenderer, IGraphicContext {
+public class RendererImpl implements IRenderer {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(RendererImpl.class);
 
 	protected IGraphicContext delegate;
@@ -41,28 +39,20 @@ public class RendererImpl implements IRenderer, IGraphicContext {
     }
 
     @Override
-    public void renderParent(Tree<IRenderNode> tree) {
+    public void renderParent(ITree<IRenderNode> tree) {
         final IRenderNode node = tree.getValue();
         if (debug) { LOGGER.error("rendering: {}", node); }
         node.accept(this, tree);
     }
 
     @Override
-    public void renderChildren(Tree<IRenderNode> tree) {
-        final Iterator<? extends Tree<IRenderNode>> iter = tree.getChildren();
+    public void renderChildren(ITree<IRenderNode> tree) {
+        final Iterator<? extends ITree<IRenderNode>> iter = tree.getChildren();
         while (iter.hasNext()) {
             if (debug) { LOGGER.error(" {"); }
             renderParent(iter.next());
             if (debug) { LOGGER.error(" }"); }
         }
-    }
-
-
-
-
-    @Override
-    public IGraphicContext init(GLAutoDrawable drawable) {
-    	return delegate.init(drawable);
     }
 
 	@Override
@@ -71,7 +61,7 @@ public class RendererImpl implements IRenderer, IGraphicContext {
 	}
 
 	@Override
-	public void setUniformValues(Map<String, ITextureIdentifier> textures, Map<String, UniformValue> uniformValues) {
+	public void setUniformValues(Map<String, ITextureIdentifier> textures, Map<String, IUniformValue> uniformValues) {
 		delegate.setUniformValues(textures, uniformValues);
 	}
 

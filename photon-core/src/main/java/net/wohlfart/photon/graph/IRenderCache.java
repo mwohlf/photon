@@ -6,7 +6,7 @@ import net.wohlfart.photon.render.IRenderer.IRenderNode;
 
 public interface IRenderCache {
 
-    Tree<IRenderNode> getRoot();
+    ITree<IRenderNode> getRoot();
 
     TreeImpl<IRenderNode> add(IRenderNode node);
 

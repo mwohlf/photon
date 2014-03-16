@@ -3,7 +3,7 @@ package net.wohlfart.photon.render.entity;
 import java.util.Collection;
 import java.util.HashSet;
 
-import net.wohlfart.photon.render.node.AbstractRenderElement;
+import net.wohlfart.photon.render.AbstractRenderElement;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

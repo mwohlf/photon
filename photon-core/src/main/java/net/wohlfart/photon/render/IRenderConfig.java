@@ -15,6 +15,7 @@ import net.wohlfart.photon.render.RenderConfigImpl.StencilTest;
 
 public interface IRenderConfig<T extends IRenderConfig<T>> {
 
+	// this is for testing and debugging
 	public static final RenderConfigImpl DEFAULT = new RenderConfigImpl(
 			Blending.OFF,
 			ClearColor.BLUE,

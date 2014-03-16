@@ -2,7 +2,7 @@ package net.wohlfart.photon.render;
 
 import net.wohlfart.photon.graph.NodeSortStrategy;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
-import net.wohlfart.photon.graph.Tree;
+import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 
 public class NullRenderNode implements IRenderNode {
@@ -14,7 +14,7 @@ public class NullRenderNode implements IRenderNode {
     }
 
     @Override
-    public void accept(IRenderer renderer, Tree<IRenderNode> tree) {
+    public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
         // do nothing
     }
 
