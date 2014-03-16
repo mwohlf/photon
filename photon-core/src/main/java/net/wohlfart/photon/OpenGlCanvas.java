@@ -17,7 +17,7 @@ import com.jogamp.opengl.util.FPSAnimator;
 // wrap the Canvas for clients so they don't depend on jogl2
 // TODO: probably different kinds of components needed for different platforms, use generics..
 public class OpenGlCanvas {
-	private static final int FPS = 4; // animator's target frames per second
+	private static final int FPS = 120; // animator's target frames per second
 
 	private final GLCanvas canvas;
 
@@ -33,13 +33,6 @@ public class OpenGlCanvas {
 	public void setPreferredSize(Dimension dimension) {
 		canvas.setPreferredSize(dimension);
 	}
-
-	/*
-	@Deprecated
-	public void setApplication(Application listener) {
-		canvas.addGLEventListener(listener);
-	}
-	*/
 
 	public void addLifecycleListener(ILifecycleListener listener) {
 		canvas.addGLEventListener(new LifecycleAdpator(listener));

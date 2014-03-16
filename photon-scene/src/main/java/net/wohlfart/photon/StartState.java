@@ -12,6 +12,7 @@ import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
+import net.wohlfart.photon.render.entity.Skybox;
 import net.wohlfart.photon.render.entity.SphereEntity;
 import net.wohlfart.photon.state.Event;
 import net.wohlfart.photon.state.IState;
@@ -23,10 +24,9 @@ import org.slf4j.LoggerFactory;
 public class StartState implements IState {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(StartState.class);
 
-
     protected final SceneGraph sceneGraph = new SceneGraph();
 
-    private volatile boolean debugOnce = false;
+    private volatile boolean debugOnce = true;
 
     // delegates, the scene is moved not the cam
     private final CanRotateImpl rotation = new CanRotateImpl();
@@ -54,8 +54,8 @@ public class StartState implements IState {
 
     @Override
     public void init() {
-    	final SphereEntity sphereEntity = new SphereEntity();
-    	sphereEntity.register(sceneGraph);
+    	 new SphereEntity() .register(sceneGraph);
+    	 new Skybox() .register(sceneGraph);
     }
 
     @Override

@@ -62,7 +62,7 @@ public class NodeSortStrategy<T extends NodeSortStrategy.HasSortToken> implement
         return compare(left.value, right.value);
     }
 
-    public int compare(HasSortToken left, HasSortToken right) {
+    private int compare(HasSortToken left, HasSortToken right) {
         return compare(left.getSortToken(), right.getSortToken());
     }
 

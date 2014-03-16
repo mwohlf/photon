@@ -5,8 +5,8 @@ import java.util.Map;
 
 import javax.vecmath.Matrix4f;
 
-import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
 import net.wohlfart.photon.graph.ITree;
+import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.UniformHandle;
@@ -24,21 +24,21 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
 	public static final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
 
-    public IRenderConfig<RenderConfigImpl> renderConfig = IRenderConfig.DEFAULT;
-
-    protected ShaderIdentifier shaderId = DEFAULT_SHADER_ID;
-
-    private final Matrix4f model2WorldMatrix =  new Matrix4f();
-
     protected final Map<String, IUniformValue> uniforms = new HashMap<>();
 
     protected final Map<String, ITextureIdentifier> textures = new HashMap<>();
+
+    protected final Matrix4f model2WorldMatrix =  new Matrix4f();
 
     protected double zOrder = Double.NaN;
 
     protected IGeometry geometry;
 
     protected SortToken sortToken = new SortToken();
+
+    public IRenderConfig<RenderConfigImpl> renderConfig = IRenderConfig.DEFAULT;
+
+    protected ShaderIdentifier shaderId = DEFAULT_SHADER_ID;
 
 
     protected AbstractRenderElement() {

@@ -148,10 +148,10 @@ class TreeImpl<T> implements ITree<T> {
 
 
     // TODO: this iterator does not handle the removes!
-    class PreOrderTreeIterator<U> extends UnmodifiableIterator<U> {
+    private class PreOrderTreeIterator<U> extends UnmodifiableIterator<U> {
         private final Deque<TreeImpl<U>> serializedTrees;
 
-        PreOrderTreeIterator(TreeImpl<U> tree) {
+        private PreOrderTreeIterator(TreeImpl<U> tree) {
             this.serializedTrees = new ArrayDeque<TreeImpl<U>>();
             serializedTrees.addLast(tree);
         }

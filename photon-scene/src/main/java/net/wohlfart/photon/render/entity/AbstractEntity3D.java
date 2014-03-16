@@ -40,7 +40,6 @@ public abstract class AbstractEntity3D implements IEntity3D {
 
     @Override
     public void update(Quaternion rot, Vector3f mov, float delta) {
-    	//rotation.mult(rot);
     	Quaternion r = new Quaternion(rot);
     	r.mult(rotation);
     	rotation.setX(r.getX());
