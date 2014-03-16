@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import net.wohlfart.photon.events.CommandEvent;
+import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
 import net.wohlfart.photon.events.RotateEvent;
 import net.wohlfart.photon.events.Subscribe;
@@ -26,7 +28,7 @@ public class StartState implements IState {
 
     protected final SceneGraph sceneGraph = new SceneGraph();
 
-    private volatile boolean debugOnce = true;
+    private volatile boolean debugOnce = false;
 
     // delegates, the scene is moved not the cam
     private final CanRotateImpl rotation = new CanRotateImpl();
@@ -39,18 +41,23 @@ public class StartState implements IState {
     @Subscribe
     public void move(MoveEvent evt) {
         LOGGER.debug("incoming move event: " + evt);
-        // adding move, since the cam is always at 0/0/0 and in -z this works
-        //MathTool.add(evt, movement.getPosition(), movement.getPosition());
         movement.getPosition().add(evt.get());
     }
 
     @Subscribe
     public void rotate(RotateEvent evt) {
         LOGGER.debug("incoming rotate event: " + evt);
-        // multiplying a quaternion means adding the rotations
-        //MathTool.mul(evt, rotation.getRotation(), rotation.getRotation());
         rotation.getRotation().mult(evt.get());
     }
+
+    @Subscribe
+	public void shutdown(CommandEvent event) {
+		if (event.getKey() == CommandKey.DEBUG_RENDER) {
+			debugOnce = true;
+		} else if (event.getKey() == CommandKey.DEBUG_RENDER) {
+			// todo
+		}
+	}
 
     @Override
     public void init() {

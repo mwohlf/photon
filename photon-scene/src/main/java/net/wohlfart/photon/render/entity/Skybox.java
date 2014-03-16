@@ -163,17 +163,11 @@ public class Skybox implements IEntity3D {
     public static class Side extends AbstractRenderElement {
 
         public Side(IGeometry geometry, ITextureIdentifier textureId) {
+            this.geometry = geometry;
+            this.textures.put(ShaderParser.TEXTURE01, textureId);
             this.renderConfig = RenderConfigImpl.SKYBOX;
             this.zOrder = Double.POSITIVE_INFINITY;
             this.shaderId = SKYBOX_SHADER_ID;
-            this.geometry = geometry;
-            textures.put(ShaderParser.TEXTURE01, textureId);
-        }
-
-        @Override
-        public String toString() {
-            return this.getClass().getSimpleName() + " [zOrder=" + zOrder
-                        + " renderConfig=" + renderConfig + "]";
         }
 
     }

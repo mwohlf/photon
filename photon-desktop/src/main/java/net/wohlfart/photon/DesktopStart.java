@@ -91,8 +91,8 @@ public class DesktopStart {
 	public class ShutdownListener {
 		@Subscribe
 		public void shutdown(CommandEvent event) {
-			LOGGER.info("shutdown() called");
 			if (event.getKey() == CommandKey.EXIT) {
+				LOGGER.info("shutdown() called");
 				canvas.stopAnimator();
 				EventQueue.invokeLater(new Runnable() {
 					@Override
@@ -160,6 +160,12 @@ public class DesktopStart {
 				break;
 			case KeyEvent.VK_PAGE_DOWN:
 				evt = RotateEvent.rotateCounterClockwise(time);
+				break;
+			case KeyEvent.VK_0:
+				evt = CommandEvent.dumpScene();
+				break;
+			case KeyEvent.VK_9:
+				evt = CommandEvent.debugRenderer();
 				break;
 			default:
 				evt = null;

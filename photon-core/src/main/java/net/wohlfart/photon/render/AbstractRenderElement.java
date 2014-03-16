@@ -17,7 +17,6 @@ import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 /**
  * this is the base component for rendering 3d objects
  *
- *
  * @author Michael Wohlfart
  */
 public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
@@ -48,14 +47,13 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     @Override
     public void setZOrder(double zOrder) {
-        sortToken.setZOrder(zOrder);
+        this.zOrder = zOrder;
     }
 
     @Override
     public Matrix4f getModel2WorldMatrix() {
         return model2WorldMatrix;
     }
-
 
     @Override
     public final Map<String, ITextureIdentifier> getTextures() {
@@ -85,6 +83,12 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
         return uniforms;
     }
 
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " [zOrder=" + zOrder
+                    + " renderConfig=" + renderConfig + "]";
+    }
+
 
     public class SortToken implements ISortToken {
 
@@ -96,11 +100,6 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
         @Override
         public double getZOrder() {
             return zOrder;
-        }
-
-        //@Override
-        public void setZOrder(double z) {
-            zOrder = z;
         }
 
     }
