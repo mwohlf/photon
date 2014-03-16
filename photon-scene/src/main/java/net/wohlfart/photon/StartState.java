@@ -14,6 +14,8 @@ import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
+import net.wohlfart.photon.render.entity.Earth;
+import net.wohlfart.photon.render.entity.ProceduralCelestial;
 import net.wohlfart.photon.render.entity.Skybox;
 import net.wohlfart.photon.render.entity.SphereEntity;
 import net.wohlfart.photon.state.Event;
@@ -61,8 +63,15 @@ public class StartState implements IState {
 
     @Override
     public void init() {
+
     	 new SphereEntity() .register(sceneGraph);
     	 new Skybox() .register(sceneGraph);
+
+    	 new Earth() .withPosition(10, 0, 0) .register(sceneGraph);
+
+    	 new ProceduralCelestial() .withPosition(40, 0, 0) .register(sceneGraph);
+
+
     }
 
     @Override

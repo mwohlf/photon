@@ -6,7 +6,7 @@ import java.net.URISyntaxException;
 import net.wohlfart.photon.resources.ResourceTool;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
-public class TextureIdentifier implements ITextureIdentifier {    
+public class TextureIdentifier implements ITextureIdentifier {
     private final URI textureResource;
 
     public static TextureIdentifier create(float radius, CelestialType type, long seed) {
@@ -16,8 +16,12 @@ public class TextureIdentifier implements ITextureIdentifier {
                     + "type=" + type.toString() + "&"
                     + "seed=" + seed);
             return new TextureIdentifier(uri);
-        } catch (URISyntaxException ex) {
-            throw new IllegalStateException("invalid uri", ex);
+        } catch (Exception ex) {
+            throw new IllegalStateException("invalid uri "
+            		+ " radius: '" + radius + "'"
+            		+ " type: '" + type + "'"
+            		+ " seed: '" + seed + "'"
+            		, ex);
         }
     }
 
@@ -36,9 +40,9 @@ public class TextureIdentifier implements ITextureIdentifier {
             return new TextureIdentifier(uri);
         } catch (URISyntaxException ex) {
             throw new IllegalStateException("invalid uri", ex);
-        }    
+        }
     }
-  
+
     private TextureIdentifier(URI textureResource) {
         this.textureResource = textureResource;
     }
