@@ -4,13 +4,13 @@ import java.util.Collection;
 import java.util.Collections;
 
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
-import net.wohlfart.photon.render.RootRenderCommand;
+import net.wohlfart.photon.render.RootRenderNode;
 
 
 //
 public class RenderCache implements IRenderCache {
 
-    protected final TreeImpl<IRenderNode> root = new TreeImpl<IRenderNode>(new RootRenderCommand("root"));
+    protected final TreeImpl<IRenderNode> root = new TreeImpl<IRenderNode>(new RootRenderNode("root"));
 
     protected final NodeSortStrategy<IRenderNode> sorter = new NodeSortStrategy<IRenderNode>();
 

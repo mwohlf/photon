@@ -5,7 +5,7 @@ import javax.media.opengl.GLEventListener;
 
 public class LifecycleAdpator implements GLEventListener {
 
-	private final IGraphicContext gfxContext = new GraphicContext();
+	private final GraphicContext gfxContext = new GraphicContext();
 	private final ILifecycleListener listener;
 
 

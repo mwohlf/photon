@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.entity.ProceduralCelestial;
+import net.wohlfart.photon.entity.SimpleEffect;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -12,7 +12,6 @@ import net.wohlfart.photon.events.RotateEvent;
 import net.wohlfart.photon.events.Subscribe;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
 import net.wohlfart.photon.graph.SceneGraph;
-import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
@@ -67,8 +66,26 @@ public class StartState implements IState {
 
     //	 new Earth() .withPosition(10, 0, 0) .register(sceneGraph);
 
-    	 new ProceduralCelestial() .withPosition(0, 0, -10) .withCorona(new Corona().withThinkness(2)) .register(sceneGraph);
+    //	 new ProceduralCelestial() .withPosition(0, 0, -10) .withCorona(new Corona().withThinkness(2)) .register(sceneGraph);
 
+    //	 new SimpleEffect().addEntity(new Earth().withPosition(10, 0, 0)) .register(sceneGraph)
+
+
+
+        SimpleEffect effect = new SimpleEffect();
+        effect.register(sceneGraph);
+
+     //   new QuadEntity() .register(sceneGraph);
+
+       // effect.addEntity(new Earth().withSize(5).withPosition( 0, 0, -30d));
+
+
+        /*
+        new QuadEntity() .withPosition(new Vector3d(+15, 0, 0)).register(sceneGraph);
+        new QuadEntity() .withPosition(new Vector3d(-15, 0, 0)).register(sceneGraph);
+
+        new SphereEntity() .register(sceneGraph);
+        */
 
     }
 

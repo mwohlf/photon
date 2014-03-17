@@ -4,6 +4,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.media.nativewindow.util.Dimension;
 
 import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
@@ -68,6 +69,16 @@ public class RendererImpl implements IRenderer {
 	@Override
 	public void drawGeometry(IGeometry geometry) {
 		delegate.drawGeometry(geometry);
+	}
+
+	@Override
+	public Dimension getDimension() {
+		return delegate.getDimension(); // FIXME: get rid of this method
+	}
+
+	@Override
+	public void setFrameBuffer(IFrameBuffer frameBuffer) {
+		delegate.setFrameBuffer(frameBuffer);
 	}
 
 }

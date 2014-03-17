@@ -4,9 +4,9 @@ import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 
 
-public class RootRenderCommand extends NullRenderNode {
+public class RootRenderNode extends NullRenderNode {
 
-    public RootRenderCommand(String name) {
+    public RootRenderNode(String name) {
         super(name);
     }
 

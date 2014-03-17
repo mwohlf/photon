@@ -60,7 +60,7 @@ public class CelestialTexture implements ITexture {
         return textureId;
     }
 
-    public void setup(GL2 gl) {
+    private void setup(GL2 gl) {
         // Create a new texture object in memory and bind it
     	int[] iBuff = new int[1];
         gl.glGenTextures(1, iBuff, 0);

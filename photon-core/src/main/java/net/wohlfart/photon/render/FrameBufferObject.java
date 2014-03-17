@@ -1,6 +1,6 @@
 package net.wohlfart.photon.render;
 
-import javax.media.nativewindow.util.Dimension;
+import javax.media.opengl.GL2;
 
 
 
@@ -8,13 +8,13 @@ import javax.media.nativewindow.util.Dimension;
 // http://gamedev.stackexchange.com/questions/19804/how-can-i-downsample-a-texture-using-fbos
 // for info about mipmaps
 
-public class FrameBufferObject {
+public class FrameBufferObject implements IFrameBuffer {
 
     private final boolean isInitialized = false;
 
-    private final int fboHandle = -1;
-    private final int depthBufferHandle = -1;
-    private final int textureHandle = -1;
+    private int fboHandle = -1;
+    private int depthBufferHandle = -1;
+    private int textureHandle = -1;
 
     private int width;
     private int height;
@@ -23,71 +23,66 @@ public class FrameBufferObject {
         return isInitialized;
     }
 
-
-    public int getFboHandle() {
-        assert fboHandle != -1;
+    @Override
+	public int getHandle() {
         return fboHandle;
     }
 
-
+    @Override
     public int getTextureHandle() {
+        assert fboHandle != -1;
         return textureHandle;
     }
 
+    @Override
+    public int getDepthBufferHandle() {
+        assert fboHandle != -1;
+        return depthBufferHandle;
+    }
 
-    public void setup(Dimension dim) {
-    	/*
-        this.width = dim.getWidth();
-        this.height = dim.getHeight();
+    protected int getWidth() {
+        return width;
+    }
 
-        // create a new framebuffer
-        fboHandle = EXTFramebufferObject.glGenFramebuffersEXT();
-        // and a new texture used as a color buffer
-        textureHandle = GL11.glGenTextures();
-        // and a new depthbuffer
-        depthBufferHandle = EXTFramebufferObject.glGenRenderbuffersEXT();
+    protected int getHeight() {
+        return height;
+    }
 
-        // switch to the new FBO target can be:  GL_FRAMEBUFFER​, GL_READ_FRAMEBUFFER​, or GL_DRAW_FRAMEBUFFER​
-        EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fboHandle);
+    @Override
+    public void setup(GL2 gl) {
+    	// see: https://github.com/demoscenepassivist/SocialCoding/blob/master/code_demos_jogamp/src/framework/base/BaseFrameBufferObjectRendererExecutor.java
 
-        // initialize texture
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureHandle);
-        GL11.glTexParameterf(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);               // make it linear filterd
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);  // Create the texture data
-        EXTFramebufferObject.glFramebufferTexture2DEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,
-                EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT, GL11.GL_TEXTURE_2D, textureHandle, 0); // attach it to the framebuffer
+        // create and bind a new framebuffer
+        int[] result = new int[1];
+        gl.glGenFramebuffers(1, result, 0);
+        fboHandle = result[0];
+        gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, fboHandle);
 
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_S, GL12.GL_CLAMP_TO_EDGE);
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_WRAP_T, GL12.GL_CLAMP_TO_EDGE);
-        */
+        // create and bind and a new texture used as a color buffer
+        gl.glGenTextures(1, result, 0);
+        textureHandle = result[0];
+        gl.glBindTexture(GL2.GL_TEXTURE_2D, textureHandle);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_NEAREST);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
+        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA8, width, height, 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_BYTE, null);
 
-        /*
+        // create and bind a new depth buffer
+        gl.glGenTextures(1, result, 0);
+        depthBufferHandle = result[0];
+        gl.glBindTexture(GL2.GL_TEXTURE_2D, depthBufferHandle);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_NEAREST);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
+        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_DEPTH_COMPONENT32, width, height, 0, GL2.GL_DEPTH_COMPONENT, GL2.GL_UNSIGNED_INT, null);
+        //attach the textures to the framebuffer
+        gl.glFramebufferTexture2D(GL2.GL_FRAMEBUFFER, GL2.GL_COLOR_ATTACHMENT0, GL2.GL_TEXTURE_2D, textureHandle, 0);
+        gl.glFramebufferTexture2D(GL2.GL_FRAMEBUFFER, GL2.GL_DEPTH_ATTACHMENT, GL2.GL_TEXTURE_2D, depthBufferHandle, 0);
+        gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, 0);
 
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL12.GL_TEXTURE_MAX_LEVEL, 20);
-        //GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL14.GL_GENERATE_MIPMAP, GL11.GL_TRUE);
-
-        // we want GL11.GL_NEAREST so we don't mix in the background color of the first texture/fbo at the edges
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MAG_FILTER, GL11.GL_LINEAR); // GL_NEAREST, GL_LINEAR without mipmaps
-        GL11.glTexParameteri(GL11.GL_TEXTURE_2D, GL11.GL_TEXTURE_MIN_FILTER, GL11.GL_LINEAR);
-        GL11.glTexImage2D(GL11.GL_TEXTURE_2D, 0, GL11.GL_RGBA8, width, height, 0, GL11.GL_RGBA, GL11.GL_INT, (java.nio.ByteBuffer) null);  // Create the texture data
-        EXTFramebufferObject.glFramebufferTexture2DEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,
-                EXTFramebufferObject.GL_COLOR_ATTACHMENT0_EXT, GL11.GL_TEXTURE_2D, textureHandle, 0); // attach it to the framebuffer
-        */
-
-        /*
-        // initialize depth renderbuffer
-        EXTFramebufferObject.glBindRenderbufferEXT(EXTFramebufferObject.GL_RENDERBUFFER_EXT, depthBufferHandle);                // bind the depth renderbuffer
-        EXTFramebufferObject.glRenderbufferStorageEXT(EXTFramebufferObject.GL_RENDERBUFFER_EXT, GL14.GL_DEPTH_COMPONENT24, width, height); // get the data space for it
-        EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT,
-                EXTFramebufferObject.GL_DEPTH_ATTACHMENT_EXT, EXTFramebufferObject.GL_RENDERBUFFER_EXT, depthBufferHandle); // bind it to the renderbuffer
-
-        checkFBO(fboHandle);
-
-        // switch back to normal framebuffer
-        EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fboHandle);
-
-        isInitialized = true;
-        */
+        checkFrameBufferObjectCompleteness(gl);
     }
 
     public void bind() {
@@ -118,33 +113,49 @@ public class FrameBufferObject {
         */
     }
 
+	@Override
+	public void unbind() {
+        //EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, 0);
+        //Dimension dim = visitor.getScreenDimension();
+        //GL11.glViewport(0, 0, dim.getWidth(), dim.getHeight());
+	}
 
-    private void checkFBO(int fboHandle) {
+
+    private void checkFrameBufferObjectCompleteness(GL2 gl) {
+        int err = gl.glCheckFramebufferStatus(GL2.GL_FRAMEBUFFER);
+        switch(err) {
+            case GL2.GL_FRAMEBUFFER_COMPLETE:
+            	// everything is fine
+            	break;
+            	//throw new RuntimeException("FRAMEBUFFEROBJECT CHECK RESULT=GL_FRAMEBUFFER_COMPLETE_EXT");
+            case GL2.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
+            	throw new RuntimeException("FRAMEBUFFEROBJECT CHECK RESULT=GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT");
+            case GL2.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
+            	throw new RuntimeException("FRAMEBUFFEROBJECT CHECK RESULT=GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT");
+            case GL2.GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS:
+            	throw new RuntimeException("FRAMEBUFFEROBJECT CHECK RESULT=GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT");
+            case GL2.GL_FRAMEBUFFER_INCOMPLETE_FORMATS:
+            	throw new RuntimeException("FRAMEBUFFEROBJECT CHECK RESULT=GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT");
+            case GL2.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER:
+            	throw new RuntimeException("FRAMEBUFFEROBJECT CHECK RESULT=GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT");
+            case GL2.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER:
+            	throw new RuntimeException("FRAMEBUFFEROBJECT CHECK RESULT=GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT");
+            case GL2.GL_FRAMEBUFFER_UNSUPPORTED:
+            	throw new RuntimeException("FRAMEBUFFEROBJECT CHECK RESULT=GL_FRAMEBUFFER_UNSUPPORTED_EXT");
+            default:
+            	throw new RuntimeException("FRAMEBUFFER CHECK RETURNED UNKNOWN RESULT ...");
+        }
+    }
+
+    void destroy(GL2 gl) {
     	/*
-        int framebuffer = EXTFramebufferObject.glCheckFramebufferStatusEXT( EXTFramebufferObject.GL_FRAMEBUFFER_EXT );
-        switch ( framebuffer ) {
-        case EXTFramebufferObject.GL_FRAMEBUFFER_COMPLETE_EXT:
-            break;
-        case EXTFramebufferObject.GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT:
-            throw new RuntimeException( "FrameBuffer: " + fboHandle
-                    + ", has caused a GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT_EXT exception" );
-        case EXTFramebufferObject.GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT:
-            throw new RuntimeException( "FrameBuffer: " + fboHandle
-                    + ", has caused a GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT_EXT exception" );
-        case EXTFramebufferObject.GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT:
-            throw new RuntimeException( "FrameBuffer: " + fboHandle
-                    + ", has caused a GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS_EXT exception" );
-        case EXTFramebufferObject.GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT:
-            throw new RuntimeException( "FrameBuffer: " + fboHandle
-                    + ", has caused a GL_FRAMEBUFFER_INCOMPLETE_DRAW_BUFFER_EXT exception" );
-        case EXTFramebufferObject.GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT:
-            throw new RuntimeException( "FrameBuffer: " + fboHandle
-                    + ", has caused a GL_FRAMEBUFFER_INCOMPLETE_FORMATS_EXT exception" );
-        case EXTFramebufferObject.GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT:
-            throw new RuntimeException( "FrameBuffer: " + fboHandle
-                    + ", has caused a GL_FRAMEBUFFER_INCOMPLETE_READ_BUFFER_EXT exception" );
-        default:
-            throw new RuntimeException( "Unexpected reply from glCheckFramebufferStatusEXT: " + framebuffer );
+    	gl.glDeleteFramebuffers(1, Buffers.newDirectIntBuffer(mFrameBufferObjectID));
+    	gl.glDeleteTextures(1, Buffers.newDirectIntBuffer(mColorTextureID));
+    	gl.glDeleteTextures(1, Buffers.newDirectIntBuffer(mDepthTextureID));
+        if (mBaseFrameBufferObjectRendererInterface!=null) {
+            mBaseFrameBufferObjectRendererInterface.cleanup_FBORenderer(inGL,inGLU,inGLUT);
+        } else {
+            BaseLogging.getInstance().warning("BaseFrameBufferObjectRendererInterface FOR THIS EXECUTOR IS NULL! cleanup() SKIPPED!");
         }
         */
     }

@@ -7,9 +7,11 @@ import java.nio.ShortBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.media.nativewindow.util.Dimension;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 
+import net.wohlfart.photon.render.IFrameBuffer;
 import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.render.RenderConfigImpl;
@@ -52,15 +54,20 @@ public class GraphicContext implements IGraphicContext {
 
 	private GL2 gl;
 
+	private final Dimension dim = new Dimension();
+
 	// store the current context, clear color and depth buffers and reset the shader so the new OpenGL context
 	// will be provided to the shader, called once per frame at the beginning
-	@Override
 	public IGraphicContext init(GLAutoDrawable drawable) {
 		assert drawable != null : "drawable is null";
 		assert drawable.getGL() != null : "drawable.gl is null";
-		this.gl = drawable.getGL().getGL2();
-	    this.gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
-	    this.currentShader = ShaderProgram.NULL_SHADER;
+		assert drawable.getGL().getGL2() != null : "drawable.gl.gl2 is null";
+
+		gl = drawable.getGL().getGL2();
+		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
+		currentShader = ShaderProgram.NULL_SHADER;
+		dim.setHeight(drawable.getHeight());
+		dim.setWidth(drawable.getWidth());
 		return this;
 	}
 
@@ -95,6 +102,23 @@ public class GraphicContext implements IGraphicContext {
 	}
 
 	@Override
+	public void setFrameBuffer(IFrameBuffer frameBuffer) {
+
+		if (frameBuffer == null) {
+            gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, 0);
+		} else {
+			int fboHandle = frameBuffer.getHandle();
+			if (fboHandle < 0) {
+				frameBuffer.setup(gl);
+				fboHandle = frameBuffer.getHandle();
+			}
+            gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, fboHandle);
+            gl.glViewport(0, 0, dim.getWidth(), dim.getHeight());
+		}
+	}
+
+
+	@Override
 	public void drawGeometry(IGeometry geometry) {
 
 		int vaoHandle = geometry.getHandle();
@@ -103,7 +127,7 @@ public class GraphicContext implements IGraphicContext {
 			gl.glBindVertexArray(vaoHandle);
 		} else {
 			int[] vaoID = new int[1];
-			gl.glGenVertexArrays(1, vaoID, 0);
+			gl.glGenVertexArrays(1, vaoID, 0);  // FIXME: can we move this into geometry?
 			vaoHandle = vaoID[0];
 
 			gl.glBindVertexArray(vaoHandle);
@@ -134,6 +158,12 @@ public class GraphicContext implements IGraphicContext {
 		// unbind
 		gl.glBindVertexArray(0);
 	}
+
+	@Override
+	public Dimension getDimension() {
+		return dim;
+	}
+
 
 	// keep the OpenGL stuff inside this class
 	private int getPrimitiveType(IGeometry.StreamFormat streamFormat) {

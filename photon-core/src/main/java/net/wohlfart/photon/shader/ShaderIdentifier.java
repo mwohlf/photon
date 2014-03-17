@@ -10,7 +10,7 @@ import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 public class ShaderIdentifier implements IShaderProgramIdentifier {
     private final URI vertexShaderResource;
     private final URI fragmentShaderResource;
-    
+
     public static final ShaderIdentifier create(String vertexShaderResource, String frgamentShaderResource) {
         try {
             return new ShaderIdentifier(
@@ -20,7 +20,7 @@ public class ShaderIdentifier implements IShaderProgramIdentifier {
             throw new IllegalStateException("can't resolve URL", ex);
         }
     }
-    
+
     private ShaderIdentifier(URI vertexShaderResource, URI frgamentShaderResource) {
         assert vertexShaderResource != null;
         assert frgamentShaderResource != null;
@@ -64,5 +64,11 @@ public class ShaderIdentifier implements IShaderProgramIdentifier {
         }
         return true;
     }
- 
+
+	@Override
+	public String toString() {
+		return "ShaderIdentifier [vertexShaderResource=" + vertexShaderResource
+				+ ", fragmentShaderResource=" + fragmentShaderResource + "]";
+	}
+
 }

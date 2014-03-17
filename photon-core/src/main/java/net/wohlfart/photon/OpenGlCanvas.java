@@ -12,10 +12,8 @@ import javax.media.opengl.awt.GLCanvas;
 import com.jogamp.opengl.util.FPSAnimator;
 
 
-
-
 // wrap the Canvas for clients so they don't depend on jogl2
-// TODO: probably different kinds of components needed for different platforms, use generics..
+// TODO: probably different kinds of components needed for different platforms, maybe use generics..
 public class OpenGlCanvas {
 	private static final int FPS = 120; // animator's target frames per second
 

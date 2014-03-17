@@ -4,13 +4,13 @@ import java.util.Map;
 
 import javax.vecmath.Matrix4f;
 
+import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.HasSortToken;
-import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
-public interface IRenderer {
+public interface IRenderer extends IGraphicContext {
 
     public interface IRenderNode extends HasSortToken {
 
@@ -47,7 +47,7 @@ public interface IRenderer {
     }
 
 
-    public interface IRenderEffect extends IRenderNode {
+    public interface IFrameBufferNode extends IRenderNode {
 
         FrameBufferObject getFrameBufferObject();
 
@@ -62,14 +62,5 @@ public interface IRenderer {
 
     // render the subnodes of a render command
     void renderChildren(ITree<IRenderNode> tree);
-
-    // call sequence for drawing a  standard render command from the render cache
-    void setRenderConfig(ShaderIdentifier shaderId, IRenderConfig<RenderConfigImpl> nextRenderConfig);
-
-    // updating the uniform values
-    void setUniformValues(Map<String, ITextureIdentifier> textures, Map<String, IUniformValue> uniformValues);
-
-    // the draw call
-    void drawGeometry(IGeometry geometry);
 
 }

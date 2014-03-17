@@ -33,6 +33,9 @@ public class DesktopStart {
 
 	// platform dependant drawing target, already wired with the animator loop
 	protected final OpenGlCanvas canvas;
+	// FIXME: instead of using an  own component here we shoud be able to
+	// use   public Object getUpstreamWidget(); from GLAutoDrawable here ...
+
 
 	// the application that has to implement the rendering callbacks
 	//protected final Application application;
