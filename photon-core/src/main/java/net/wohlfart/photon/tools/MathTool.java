@@ -1,5 +1,7 @@
 package net.wohlfart.photon.tools;
 
+import java.util.Random;
+
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
@@ -7,6 +9,8 @@ import javax.vecmath.Vector3f;
 import com.jogamp.opengl.math.Quaternion;
 
 public class MathTool {
+
+    private static final Random RANDOM = new Random();
 
 	public static final float HALF_PI = (float)Math.PI/2f;
 
@@ -106,6 +110,10 @@ public class MathTool {
         result.m23 = 0;
         result.m33 = 1;
         */
+	}
+
+	public static float random(float min, float max) {
+        return RANDOM.nextFloat() * (max - min) + min;
 	}
 
 }

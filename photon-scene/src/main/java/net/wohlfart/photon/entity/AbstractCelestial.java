@@ -1,4 +1,4 @@
-package net.wohlfart.photon.render.entity;
+package net.wohlfart.photon.entity;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -6,10 +6,10 @@ import java.util.HashSet;
 
 import javax.vecmath.Vector3d;
 
+import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.render.AbstractRenderElement;
 import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IRenderConfig;
-import net.wohlfart.photon.render.node.Corona;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
@@ -30,6 +30,8 @@ public abstract class AbstractCelestial extends AbstractEntity3D  {
 
     protected final Collection<AbstractRenderElement> renderCommands = new HashSet<>();
 
+	private Corona corona;
+
 
     @Override
     public Collection<AbstractRenderElement> getRenderCommands() {
@@ -47,6 +49,9 @@ public abstract class AbstractCelestial extends AbstractEntity3D  {
     @Override
     public AbstractCelestial withSize(float size) {
         super.withSize(size);
+        if (corona != null) {
+            this.corona.setPlanetSize(size);
+        }
         return this;
     }
 
@@ -69,12 +74,12 @@ public abstract class AbstractCelestial extends AbstractEntity3D  {
     }
 
     public AbstractCelestial withCorona(Corona corona) {
-        corona.setPlanetSize(size);
+    	this.corona = corona;
+        this.corona.setPlanetSize(size);
         renderCommands.add(corona);
         if (sceneGraph != null) {
             sceneGraph.addRenderCommands(Collections.singleton(corona));
         }
-
         return this;
     }
 

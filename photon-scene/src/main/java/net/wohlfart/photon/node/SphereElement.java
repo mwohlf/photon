@@ -1,4 +1,4 @@
-package net.wohlfart.photon.render.node;
+package net.wohlfart.photon.node;
 
 import net.wohlfart.photon.geometry.Sphere;
 import net.wohlfart.photon.render.AbstractRenderElement;

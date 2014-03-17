@@ -1,4 +1,4 @@
-package net.wohlfart.photon.render.entity;
+package net.wohlfart.photon.entity;
 
 import java.util.Collection;
 import java.util.HashSet;

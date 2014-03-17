@@ -1,4 +1,4 @@
-package net.wohlfart.photon.render.node;
+package net.wohlfart.photon.node;
 
 import net.wohlfart.photon.geometry.Sphere;
 import net.wohlfart.photon.render.AbstractRenderElement;
@@ -14,7 +14,7 @@ public class Corona extends AbstractRenderElement {
 
 
     private float planetSize;
-    private float thinkness;
+    private float thinkness = 1;
 
 
     public Corona() {
@@ -25,8 +25,8 @@ public class Corona extends AbstractRenderElement {
     @Override // lazy create the geometry since we don't know the size in the constructor
     public IGeometry getGeometry() {
         if (geometry == null) {
-            geometry = new Sphere(planetSize + thinkness, 6, VertexFormat.VERTEX_P3C0N3T2, StreamFormat.TRIANGLES);
-
+            // geometry = new Sphere(planetSize + thinkness, 6, VertexFormat.VERTEX_P3C0N3T2, StreamFormat.TRIANGLES);
+            geometry = new Sphere(planetSize + thinkness, 6, VertexFormat.VERTEX_P3C0N0T0, StreamFormat.LINES);
         }
         return geometry;
     }
