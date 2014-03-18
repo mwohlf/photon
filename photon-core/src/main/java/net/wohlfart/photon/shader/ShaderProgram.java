@@ -186,7 +186,7 @@ public class ShaderProgram implements IShaderProgram {
 		currentHandle.setTextureIndex(gl, textureSlot);
 	}
 
-	private void setUniform(GL2 gl2, String uniformName, IUniformValue uniformValue) {
+	private void setUniform(GL2 gl, String uniformName, IUniformValue uniformValue) {
 		UniformHandle currentHandle = getUniformHandle(uniformName);
 		if (currentHandle == null) {
 			LOGGER.error("uniform for '{}' can't be found in shader {}, skipping this uniform", uniformName, this);
@@ -198,20 +198,20 @@ public class ShaderProgram implements IShaderProgram {
 			return;
 		}
 
-		uniformValue.accept(gl2, currentHandle);
+		uniformValue.accept(gl, currentHandle);
 	}
 
-	private int loadShader(GL2 gl2, final String code, int shaderType) {
+	private int loadShader(GL2 gl, final String code, int shaderType) {
 		LOGGER.debug("loading shader from '{}' type is '{}'", code, shaderType);
 		int shader = 0;
 
 
-		shader = gl2.glCreateShader(shaderType);
+		shader = gl.glCreateShader(shaderType);
 		if (shader == 0) {
 			throw new ShaderException("glCreateShader returned 0");
 		}
-		gl2.glShaderSource(shader, 1, new String[] { code }, (int[]) null, 0);
-		gl2.glCompileShader(shader);
+		gl.glShaderSource(shader, 1, new String[] { code }, (int[]) null, 0);
+		gl.glCompileShader(shader);
 
 		// TODO: check compile status
 		return shader;

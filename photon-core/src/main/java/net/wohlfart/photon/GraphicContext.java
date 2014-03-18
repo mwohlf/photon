@@ -93,7 +93,9 @@ public class GraphicContext implements IGraphicContext {
 	// configure the shader uniforms and textures, the textures might need to be loaded first
 	@Override
 	public void setUniformValues(Map<String, ITextureIdentifier> textureIds, Map<String, IUniformValue> newUniformValues) {
+		 // adding new uniform values
 		uniformValues.putAll(newUniformValues);
+		// loading the textures
 		for (Map.Entry<String, ITextureIdentifier> entry : textureIds.entrySet()) {
 			textures.put(entry.getKey(), ResourceManager.loadResource(ITexture.class, entry.getValue()));
 		}

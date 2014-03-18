@@ -7,6 +7,7 @@ import javax.vecmath.Matrix4f;
 
 
 // the uniform handle is the name and location of a uniform in a specific shader
+// uniforms also include the textures
 public class UniformHandle {
 
     public static final IUniformValue SHADER_UNIFORM_NULL_VALUE = new NullValue();
@@ -18,9 +19,34 @@ public class UniformHandle {
     private final int location;
 
 
+    public UniformHandle(int shaderId, String name, int location) {
+        if (location < 0) {
+            throw new IllegalArgumentException("uniform: '" + name + "' has location '" + location + "'");
+        }
+        this.shaderId = shaderId;
+        this.name = name;
+        this.location = location;
+    }
+
+    // FIXME: this method is suspicious, remove it!
+    public void setTextureIndex(GL2 gl2, int index) {
+        gl2.glUniform1i(location, index);
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName() + " [shaderProgramId=" + shaderId
+                + ", name=" + name
+                + ", location=" + location + "]";
+    }
+
+
+    // uniform values are values that can be assigned to uniform handlers
+
     public interface IUniformValue {
 
         void accept(GL2 gl, UniformHandle handle);
+
     }
 
 
@@ -48,15 +74,6 @@ public class UniformHandle {
             		matrix.m20, matrix.m21, matrix.m22, matrix.m23,
             		matrix.m30, matrix.m31, matrix.m32, matrix.m33,
             		};
-            		/*
-            float[] modelview = {
-            		matrix.m00, matrix.m10, matrix.m20, matrix.m30,
-            		matrix.m01, matrix.m11, matrix.m21, matrix.m31,
-            		matrix.m02, matrix.m12, matrix.m22, matrix.m32,
-            		matrix.m03, matrix.m13, matrix.m23, matrix.m33,
-            		}; */
-
-
             gl.glUniformMatrix4fv(handle.location, 1, false, modelview, 0);
         }
 
@@ -85,27 +102,6 @@ public class UniformHandle {
             gl.glUniform1i(handle.location, index);
         }
 
-    }
-
-    public UniformHandle(int shaderId, String name, int location) {
-        if (location < 0) {
-            throw new IllegalArgumentException("uniform: '" + name + "' has location '" + location + "'");
-        }
-        this.shaderId = shaderId;
-        this.name = name;
-        this.location = location;
-    }
-
-    // FIXME: this method is suspicious, remove it!
-    public void setTextureIndex(GL2 gl2, int index) {
-        gl2.glUniform1i(location, index);
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName() + " [shaderProgramId=" + shaderId
-                + ", name=" + name
-                + ", location=" + location + "]";
     }
 
 }

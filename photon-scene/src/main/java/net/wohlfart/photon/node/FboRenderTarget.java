@@ -58,9 +58,9 @@ public class FboRenderTarget implements IFrameBufferNode {
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
         // render on framebuffer
- //   	renderer.setFrameBuffer(getFrameBufferObject());
- //       renderer.renderChildren(tree);
- //   	renderer.setFrameBuffer(null);
+    	renderer.setFrameBuffer(getFrameBufferObject());
+        renderer.renderChildren(tree);
+    	renderer.setFrameBuffer(null);
         // render on screen
  //       renderer.renderChildren(tree);
 
