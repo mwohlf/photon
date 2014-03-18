@@ -17,6 +17,7 @@ import net.wohlfart.photon.render.IVertexTransform;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
+import net.wohlfart.photon.shader.UniformHandle;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.texture.TextureIdentifier;
 import net.wohlfart.photon.tools.MathTool;
@@ -164,7 +165,7 @@ public class Skybox implements IEntity3D {
 
         public Side(IGeometry geometry, ITextureIdentifier textureId) {
             this.geometry = geometry;
-            this.textures.put(ShaderParser.TEXTURE01, textureId);
+            this.uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(textureId));
             this.renderConfig = RenderConfigImpl.SKYBOX;
             this.zOrder = Double.POSITIVE_INFINITY;
             this.shaderId = SKYBOX_SHADER_ID;

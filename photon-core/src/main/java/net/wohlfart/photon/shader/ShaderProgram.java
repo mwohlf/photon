@@ -2,7 +2,6 @@ package net.wohlfart.photon.shader;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -10,7 +9,6 @@ import javax.media.opengl.GL2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
-import net.wohlfart.photon.texture.ITexture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,14 +42,18 @@ public class ShaderProgram implements IShaderProgram {
 	// and needs to be refreshed on each bind() call
 	private GL2 gl;
 
-	// texture names, need to skip when setting uniforms
-	private final Set<String> textureNames = new HashSet<String>();
+	private int currentTextureSlot;
 
 	public ShaderProgram(String vertexShaderCode, String fragmentShaderCode) {
 		this.vertexShaderCode = vertexShaderCode;
 		this.fragmentShaderCode = fragmentShaderCode;
 	}
 
+
+	@Override
+	public int getId() {
+		return 0;
+	}
 
 	@Override
 	public void bind(GL2 gl) {
@@ -61,6 +63,17 @@ public class ShaderProgram implements IShaderProgram {
 		LOGGER.debug("binding programId '{}' ", programId);
 		gl.glUseProgram(programId);
 		this.gl = gl;
+		this.currentTextureSlot = -1;
+	}
+
+	@Override
+	public GL2 getGl() {
+		return gl;
+	}
+
+	@Override
+	public int nextTextureSlot() {
+		return ++currentTextureSlot;  // TODO: return -1 when we are out of texture slots
 	}
 
 	// delayed since the OpenGL context needs to be up in order for this to work
@@ -71,6 +84,7 @@ public class ShaderProgram implements IShaderProgram {
 
 		findUniforms(gl2);
 		findAttributes(gl2);
+		currentTextureSlot = -1;
 	}
 
 
@@ -116,40 +130,13 @@ public class ShaderProgram implements IShaderProgram {
 		// offset += (attributeSize * Buffers.SIZEOF_FLOAT);
 	}
 
-
-	@Override
-	public void useTextures(Map<String, ITexture> textures) {
-		textureNames.clear();
-		textureNames.addAll(textures.keySet());
-		// see: http://stackoverflow.com/questions/16497794/sending-two-textures-to-glsl-shader
-		int slot = 0;
-		for (Map.Entry<String, ITexture> entry : textures.entrySet()) {
-			final String key = entry.getKey();
-			final ITexture texture = entry.getValue();
-			// for each texture we activate a texture slot
-			gl.glActiveTexture(ITexture.TEXTURE_SLOTS[slot]);
-			// bind the texture to the current OpenGL context
-			gl.glBindTexture(GL2.GL_TEXTURE_2D, texture.getHandle(gl));
-			setTexture(key, slot);
-			slot++; // check if we are out of texture slots
-			if (slot > ITexture.TEXTURE_SLOTS.length) {
-				break;
-			}
-		}
-	}
-
 	@Override
 	public void useUniforms(Map<String, IUniformValue> uniformValues) {
 		for (String uniformName : getUniformHandleNames()) {
-			// check if the uniform slot is a defined texture, if so we can skip that since
-			// we already did set the texture index on that uniform
-			if (!textureNames.contains(uniformName)) {
-				IUniformValue uniformValue = uniformValues.get(uniformName);
-				setUniform(gl, uniformName, uniformValue);
-			}
+			IUniformValue uniformValue = uniformValues.get(uniformName);
+			setUniform(uniformName, uniformValue);
 		}
 	}
-
 
 	protected void unlink(int... handles) {
 		gl.glUseProgram(0);
@@ -177,16 +164,7 @@ public class ShaderProgram implements IShaderProgram {
 		return attributes.keySet();
 	}
 
-	private void setTexture(String uniformName, int textureSlot) {
-		UniformHandle currentHandle = getUniformHandle(uniformName);
-		if (currentHandle == null) {
-			LOGGER.error("uniform for texture slot '{}' can't be found in shader {}, skipping this texture", uniformName, this);
-			return;
-		}
-		currentHandle.setTextureIndex(gl, textureSlot);
-	}
-
-	private void setUniform(GL2 gl, String uniformName, IUniformValue uniformValue) {
+	private void setUniform(String uniformName, IUniformValue uniformValue) {
 		UniformHandle currentHandle = getUniformHandle(uniformName);
 		if (currentHandle == null) {
 			LOGGER.error("uniform for '{}' can't be found in shader {}, skipping this uniform", uniformName, this);
@@ -198,7 +176,7 @@ public class ShaderProgram implements IShaderProgram {
 			return;
 		}
 
-		uniformValue.accept(gl, currentHandle);
+		uniformValue.accept(currentHandle);
 	}
 
 	private int loadShader(GL2 gl, final String code, int shaderType) {
@@ -239,19 +217,14 @@ public class ShaderProgram implements IShaderProgram {
 
 	// see: http://www.guyford.co.uk/showpage.php?id=50&page=How_to_setup_and_load_GLSL_Shaders_in_JOGL_2.0
 	// see: http://jogamp.org/wiki/index.php/How_to_write_cross_GLProfile_compatible_shader_using_JOGL
-	private void findUniforms(GL2 gl2) {
-		/*
-        int len = gl2.glGetProgramiv(program, pname, params); //.glGetProgrami(programId, GL2.GL_ACTIVE_UNIFORMS);
-        int strLen = GL20.glGetProgrami(programId, GL2.GL_ACTIVE_UNIFORM_MAX_LENGTH);
-		 */
+	private void findUniforms(GL2 gl) {
 
 		final int[] iBuff = new int[1];
-		//int len = GL20.glGetProgrami(programId, GL20.GL_ACTIVE_ATTRIBUTES);
-		gl2.glGetProgramiv(programId, GL2.GL_ACTIVE_UNIFORMS, iBuff, 0);
+
+		gl.glGetProgramiv(programId, GL2.GL_ACTIVE_UNIFORMS, iBuff, 0);
 		final int len = iBuff[0];
 
-		//int strLen = gl2.glGetProgramiv(programId, GL2.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH);
-		gl2.glGetProgramiv(programId, GL2.GL_ACTIVE_UNIFORM_MAX_LENGTH, iBuff, 0);
+		gl.glGetProgramiv(programId, GL2.GL_ACTIVE_UNIFORM_MAX_LENGTH, iBuff, 0);
 		final int strLen = iBuff[0];
 
 		final byte[] nameBuffer = new byte[strLen];
@@ -259,10 +232,10 @@ public class ShaderProgram implements IShaderProgram {
 		final int[] typeBuffer = new int[1];
 		final int[] nameLenBuffer = new int[1];
 		for (int i = 0; i < len; ++i) {
-			gl2.glGetActiveUniform(programId, i, strLen, nameLenBuffer, 0, sizeBuffer, 0, typeBuffer, 0, nameBuffer, 0);
+			gl.glGetActiveUniform(programId, i, strLen, nameLenBuffer, 0, sizeBuffer, 0, typeBuffer, 0, nameBuffer, 0);
 			String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
-			int location = gl2.glGetUniformLocation(programId, name);
-			UniformHandle handle = new UniformHandle(this.programId, name, location);
+			int location = gl.glGetUniformLocation(programId, name);
+			UniformHandle handle = new UniformHandle(this, name, location);
 			uniforms.put(name, handle);
 			LOGGER.info("created uniform handle: " + handle);
 		}

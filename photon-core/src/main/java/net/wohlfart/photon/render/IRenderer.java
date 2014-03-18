@@ -8,7 +8,6 @@ import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.HasSortToken;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
-import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
 public interface IRenderer extends IGraphicContext {
 
@@ -18,7 +17,6 @@ public interface IRenderer extends IGraphicContext {
         void accept(IRenderer renderer, ITree<IRenderNode> tree);
 
     }
-
 
     /* implementations of this interface contain all data needed to
      * rendered an element on screen by a renderer and also
@@ -33,15 +31,13 @@ public interface IRenderer extends IGraphicContext {
         // the shader uniforms
         Map<String, IUniformValue> getUniformValues();
 
-        // texture uniforms
-        Map<String, ITextureIdentifier> getTextures();
-
         // contains the vertex attributes, in some cases we return subclasses of IGeometry
         IGeometry getGeometry();
 
         // the matrix that transforms this element form model to world space
         Matrix4f getModel2WorldMatrix();
 
+        // FIXME: remove this method it is ugly
         void setZOrder(double zOrder);
 
     }
@@ -60,7 +56,7 @@ public interface IRenderer extends IGraphicContext {
     // init call to start rendering the command cache
     void renderParent(ITree<IRenderNode> tree);
 
-    // render the subnodes of a render command
+    // render the sub-nodes of a render command
     void renderChildren(ITree<IRenderNode> tree);
 
 }

@@ -10,7 +10,6 @@ import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
-import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -62,8 +61,8 @@ public class RendererImpl implements IRenderer {
 	}
 
 	@Override
-	public void setUniformValues(Map<String, ITextureIdentifier> textures, Map<String, IUniformValue> uniformValues) {
-		delegate.setUniformValues(textures, uniformValues);
+	public void setUniformValues(Map<String, IUniformValue> uniformValues) {
+		delegate.setUniformValues(uniformValues);
 	}
 
 	@Override

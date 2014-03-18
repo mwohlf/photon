@@ -7,7 +7,6 @@ import javax.media.opengl.GL2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
-import net.wohlfart.photon.texture.ITexture;
 
 public interface IShaderProgram {
 
@@ -20,10 +19,12 @@ public interface IShaderProgram {
 
 	}
 
+	int getId();
+
 	// set the gl context from the current run
 	void bind(GL2 gl);
 
-	void useTextures(Map<String, ITexture> textures);
+	GL2 getGl();
 
 	void useUniforms(Map<String, IUniformValue> uniformValues);
 
@@ -38,8 +39,18 @@ public interface IShaderProgram {
 	public class NullShader implements IShaderProgram {
 
 		@Override
+		public int getId() {
+			return -1;
+		}
+
+		@Override
 		public void bind(GL2 gl2) {
 			// do nothing
+		}
+
+		@Override
+		public GL2 getGl() {
+			return null;
 		}
 
 		@Override
@@ -53,11 +64,6 @@ public interface IShaderProgram {
 		}
 
 		@Override
-		public void useTextures(Map<String, ITexture> textures) {
-			// do nothing
-		}
-
-		@Override
 		public void useUniforms(Map<String, IUniformValue> uniformValues) {
 			// do nothing
 		}
@@ -67,6 +73,13 @@ public interface IShaderProgram {
 			// do nothing
 		}
 
+		@Override
+		public int nextTextureSlot() {
+			return -1;
+		}
+
 	}
+
+	int nextTextureSlot();
 
 }

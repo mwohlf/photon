@@ -15,7 +15,6 @@ import net.wohlfart.photon.shader.UniformHandle;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.state.IState;
 import net.wohlfart.photon.state.StateManager;
-import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.time.TimerImpl;
 import net.wohlfart.photon.tools.PerspectiveProjectionBuilder;
 
@@ -71,7 +70,7 @@ public class LifecycleListener implements ILifecycleListener {
         worldToCamMatrix.setIdentity();
         uniforms.put(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, new UniformHandle.Matrix4fValue(worldToCamMatrix));
 
-        gfxCtx.setUniformValues(new HashMap<String, ITextureIdentifier>(), uniforms);
+        gfxCtx.setUniformValues(uniforms);
         gfxCtx.setRenderConfig(DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
 
 		currentState = stateManager.getCurrentState();
@@ -124,7 +123,7 @@ public class LifecycleListener implements ILifecycleListener {
         .build();
         uniforms.put(ShaderParser.UNIFORM_CAM_2_CLIP_MTX, new UniformHandle.Matrix4fValue(cameraToClipMatrix));
 
-        renderer.setUniformValues(new HashMap<String, ITextureIdentifier>(), uniforms);
+        renderer.setUniformValues(uniforms);
 	}
 
 	/**

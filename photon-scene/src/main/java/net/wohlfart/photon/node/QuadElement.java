@@ -5,6 +5,7 @@ import net.wohlfart.photon.render.AbstractRenderElement;
 import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
+import net.wohlfart.photon.shader.UniformHandle;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.texture.TextureIdentifier;
 
@@ -19,7 +20,7 @@ public class QuadElement extends AbstractRenderElement {
 		QuadElement elem = new QuadElement();
 		elem.geometry = new Quad(2f);
 		elem.shaderId = TEXTURE_SHADER_ID;
-		elem.textures.put(ShaderParser.TEXTURE01, TEXTURE_ID1);
+		elem.uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
 		elem.renderConfig = IRenderConfig.DEFAULT;
 		return elem;
 	}

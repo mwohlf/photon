@@ -12,6 +12,7 @@ import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
+import net.wohlfart.photon.shader.UniformHandle;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.tools.Quaternion;
 
@@ -88,7 +89,9 @@ public abstract class AbstractCelestial extends AbstractEntity3D  {
         public RenderCommand(IGeometry g, ITextureIdentifier texture) {
             geometry = g;
             renderConfig = IRenderConfig.DEFAULT_3D;
-            textures.put(ShaderParser.TEXTURE01, texture);
+            uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(texture));
+            // ResourceManager.loadResource(ITexture.class, entry.getValue())
+            //textures.put(ShaderParser.TEXTURE01, texture);
             shaderId = TEXTURE_SHADER_ID;
         }
 

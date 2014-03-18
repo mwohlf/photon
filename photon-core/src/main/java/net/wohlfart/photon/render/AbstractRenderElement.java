@@ -11,7 +11,6 @@ import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.UniformHandle;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
-import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
 
 /**
@@ -25,11 +24,9 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected final Map<String, IUniformValue> uniforms = new HashMap<>();
 
-    protected final Map<String, ITextureIdentifier> textures = new HashMap<>();
-
     protected final Matrix4f model2WorldMatrix =  new Matrix4f();
 
-    protected double zOrder = Double.NaN;
+    protected double zOrder = Double.NaN; // provided by the sort token
 
     protected IGeometry geometry;
 
@@ -56,11 +53,6 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
     }
 
     @Override
-    public final Map<String, ITextureIdentifier> getTextures() {
-        return textures;
-    }
-
-    @Override
     public IGeometry getGeometry() {
         return geometry;
     }
@@ -68,7 +60,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
     @Override
     public void accept(IRenderer renderer, ITree<IRenderer.IRenderNode> tree) {
         renderer.setRenderConfig(shaderId, renderConfig);
-        renderer.setUniformValues(getTextures(), getUniformValues());
+        renderer.setUniformValues(getUniformValues());
         renderer.drawGeometry(getGeometry());
         renderer.renderChildren(tree);
     }

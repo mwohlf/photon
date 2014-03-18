@@ -21,7 +21,6 @@ import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderProgram;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.texture.ITexture;
-import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -90,16 +89,10 @@ public class GraphicContext implements IGraphicContext {
 		}
 	}
 
-	// configure the shader uniforms and textures, the textures might need to be loaded first
+	// configure the shader uniforms and textures
 	@Override
-	public void setUniformValues(Map<String, ITextureIdentifier> textureIds, Map<String, IUniformValue> newUniformValues) {
-		 // adding new uniform values
+	public void setUniformValues(Map<String, IUniformValue> newUniformValues) {
 		uniformValues.putAll(newUniformValues);
-		// loading the textures
-		for (Map.Entry<String, ITextureIdentifier> entry : textureIds.entrySet()) {
-			textures.put(entry.getKey(), ResourceManager.loadResource(ITexture.class, entry.getValue()));
-		}
-		currentShader.useTextures(textures);
 		currentShader.useUniforms(uniformValues);
 	}
 

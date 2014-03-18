@@ -5,6 +5,10 @@ import java.util.Arrays;
 import javax.media.opengl.GL2;
 import javax.vecmath.Matrix4f;
 
+import net.wohlfart.photon.resources.ResourceManager;
+import net.wohlfart.photon.texture.ITexture;
+import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
+
 
 // the uniform handle is the name and location of a uniform in a specific shader
 // uniforms also include the textures
@@ -12,47 +16,44 @@ public class UniformHandle {
 
     public static final IUniformValue SHADER_UNIFORM_NULL_VALUE = new NullValue();
 
-    private final int shaderId;
+    private final IShaderProgram shader;
 
     private final String name;
 
     private final int location;
 
 
-    public UniformHandle(int shaderId, String name, int location) {
+    public UniformHandle(IShaderProgram shader, String name, int location) {
         if (location < 0) {
             throw new IllegalArgumentException("uniform: '" + name + "' has location '" + location + "'");
         }
-        this.shaderId = shaderId;
+        this.shader = shader;
         this.name = name;
         this.location = location;
     }
 
-    // FIXME: this method is suspicious, remove it!
-    public void setTextureIndex(GL2 gl2, int index) {
-        gl2.glUniform1i(location, index);
-    }
-
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " [shaderProgramId=" + shaderId
+        return this.getClass().getSimpleName() + " [shaderProgramId=" + shader.getId()
                 + ", name=" + name
                 + ", location=" + location + "]";
     }
 
 
     // uniform values are values that can be assigned to uniform handlers
+    // they are independent from a specific shader calling accept for a specific hanle and shader
+    // assigns them
 
     public interface IUniformValue {
 
-        void accept(GL2 gl, UniformHandle handle);
+        void accept(UniformHandle handle);
 
     }
 
 
     private static class NullValue implements IUniformValue {
         @Override
-        public void accept(GL2 gl, UniformHandle handle) {
+        public void accept(UniformHandle handle) {
             // do nothing
         }
     }
@@ -65,7 +66,7 @@ public class UniformHandle {
         }
 
         @Override
-        public void accept(GL2 gl, UniformHandle handle) {
+        public void accept(UniformHandle handle) {
             assert (matrix != null) : "Uniform '" + handle.name + "' is empty";
             // TODO: figure out if this needs to be transposed
              float[] modelview = {
@@ -74,7 +75,7 @@ public class UniformHandle {
             		matrix.m20, matrix.m21, matrix.m22, matrix.m23,
             		matrix.m30, matrix.m31, matrix.m32, matrix.m33,
             		};
-            gl.glUniformMatrix4fv(handle.location, 1, false, modelview, 0);
+             handle.shader.getGl().glUniformMatrix4fv(handle.location, 1, false, modelview, 0);
         }
 
         @Override
@@ -90,17 +91,49 @@ public class UniformHandle {
 
     }
 
-    public static class TextureIndexValue implements IUniformValue {
-        private final int index;
-
-        TextureIndexValue(int index) {
-            this.index = index;
-        }
+    public static abstract class TextureValue implements IUniformValue {
 
         @Override
-        public void accept(GL2 gl, UniformHandle handle) {
-            gl.glUniform1i(handle.location, index);
+        public void accept(UniformHandle handle) {
+        	GL2 gl = handle.shader.getGl();
+        	int slot = handle.shader.nextTextureSlot();
+        	gl.glActiveTexture(ITexture.TEXTURE_SLOTS[slot]);
+        	gl.glBindTexture(GL2.GL_TEXTURE_2D, getTextureHandle(handle));
+        	gl.glUniform1i(handle.location, slot);
         }
+
+        abstract int getTextureHandle(UniformHandle handle);
+
+    }
+
+    public static class TextureIdentValue extends TextureValue {
+
+    	private final ITextureIdentifier textureIdentifier;
+
+		public TextureIdentValue(ITextureIdentifier textureIdentifier) {
+    		this.textureIdentifier = textureIdentifier;
+    	}
+
+    	@Override
+		public int getTextureHandle(UniformHandle handle) {
+    		ITexture texture = ResourceManager.loadResource(ITexture.class, textureIdentifier);
+    		return texture.getHandle(handle.shader.getGl());
+    	}
+
+    }
+
+    public static class TextureHandleValue extends TextureValue {
+
+    	private final int textureHandle;
+
+		public TextureHandleValue(int textureHandle) {
+    		this.textureHandle = textureHandle;
+    	}
+
+    	@Override
+		public int getTextureHandle(UniformHandle handle) {
+    		return textureHandle;
+    	}
 
     }
 

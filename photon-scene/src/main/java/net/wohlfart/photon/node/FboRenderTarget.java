@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.media.nativewindow.util.Dimension;
 import javax.vecmath.Matrix4f;
 
-import net.wohlfart.photon.geometry.Quad;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
 import net.wohlfart.photon.render.FrameBufferObject;
@@ -23,8 +22,8 @@ import net.wohlfart.photon.render.VertexTransform;
 import net.wohlfart.photon.resources.Resources;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
+import net.wohlfart.photon.shader.UniformHandle;
 import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
-import net.wohlfart.photon.texture.ITexture;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.texture.TextureIdentifier;
 
@@ -43,7 +42,7 @@ public class FboRenderTarget implements IFrameBufferNode {
 
     protected final Map<String, IUniformValue> uniforms = new HashMap<>();
 
-    protected IGeometry geometry = new Quad(2); //createGeometry();
+    protected IGeometry geometry; // = new Quad(2); //createGeometry();
 
     protected Matrix4f model2WorldMatrix = new Matrix4f();
 
@@ -53,6 +52,7 @@ public class FboRenderTarget implements IFrameBufferNode {
 
     public FboRenderTarget() {
        // uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
+    	geometry = createGeometry();
     }
 
     @Override
@@ -74,12 +74,12 @@ public class FboRenderTarget implements IFrameBufferNode {
         renderer.setRenderConfig(Resources.TEXTURE_SHADER_ID, renderConfig);
 
       //  final FrameBufferObject frameBufferObject = getFrameBufferObject();
-        final Map<String, ITexture.ITextureIdentifier> textures = new HashMap<>();
+        //final Map<String, ITexture.ITextureIdentifier> textures = new HashMap<>();
 
         // TODO:
         //textures.put(ShaderParser.TEXTURE01, frameBufferObject.getTextureHandle());
     	//ITextureIdentifier TEXTURE_ID1 = TextureIdentifier.create("gfx/textures/texture.jpg");
-        textures.put(ShaderParser.TEXTURE01, TEXTURE_ID1);
+        uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
 
         /*
         Dimension dim = renderer.getDimension();
@@ -89,7 +89,7 @@ public class FboRenderTarget implements IFrameBufferNode {
         model2WorldMatrix.m32 = -2.5f; // z transform     this probably depends on the range of view...
          */
 
-        renderer.setUniformValues(textures, uniforms);
+        renderer.setUniformValues(uniforms);
         renderer.drawGeometry(geometry);
     }
 
@@ -117,7 +117,7 @@ public class FboRenderTarget implements IFrameBufferNode {
         geometry.addVertex().withPosition(-1,-1, 0).withTexture( 0, 0);
         geometry.addVertex().withPosition(+1,-1, 0).withTexture( 1, 0);
         geometry.addRectangle(0, 1, 2, 3);
-        geometry.transformVertices(VertexTransform.move(0, 0, -10));
+        geometry.transformVertices(VertexTransform.move(0, 0, -3));
         return geometry;
     }
 
