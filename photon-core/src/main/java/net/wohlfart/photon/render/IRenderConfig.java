@@ -8,7 +8,6 @@ import net.wohlfart.photon.render.RenderConfigImpl.ClearDepth;
 import net.wohlfart.photon.render.RenderConfigImpl.ColorMask;
 import net.wohlfart.photon.render.RenderConfigImpl.DepthTest;
 import net.wohlfart.photon.render.RenderConfigImpl.FaceCulling;
-import net.wohlfart.photon.render.RenderConfigImpl.PrimitiveRestartIndex;
 import net.wohlfart.photon.render.RenderConfigImpl.SissorTest;
 import net.wohlfart.photon.render.RenderConfigImpl.StencilTest;
 
@@ -23,7 +22,6 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			ColorMask.ON,
 			DepthTest.OFF,
 			FaceCulling.OFF,
-			PrimitiveRestartIndex.MAX_INT,
 			SissorTest.OFF,
 			StencilTest.OFF);
 
@@ -34,7 +32,6 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,
 			FaceCulling.OFF,
-			PrimitiveRestartIndex.MAX_INT,
 			SissorTest.OFF,
 			StencilTest.OFF);
 
@@ -45,7 +42,6 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,
 			FaceCulling.BACK,                   // use BACK for production
-			PrimitiveRestartIndex.MAX_INT,
 			SissorTest.OFF,
 			StencilTest.OFF);
 
@@ -56,14 +52,13 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,
 			FaceCulling.BACK,
-			PrimitiveRestartIndex.MAX_INT,
 			SissorTest.OFF,
 			StencilTest.OFF);
 
 	public static final RenderConfigImpl NULL_CONFIG = new RenderConfigImpl();
 
 
-    public T updateValues(GL2 gl2, T oldState);
+    public T updateValues(GL2 gl, T oldState);
 
     // FIXME: remove this method
     public boolean isTranslucent();

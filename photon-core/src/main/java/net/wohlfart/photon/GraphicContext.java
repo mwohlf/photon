@@ -7,7 +7,6 @@ import java.nio.ShortBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.media.nativewindow.util.Dimension;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GLAutoDrawable;
 
@@ -20,6 +19,7 @@ import net.wohlfart.photon.shader.IShaderProgram;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderProgram;
+import net.wohlfart.photon.tools.Dimension;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,26 +31,22 @@ import com.jogamp.common.nio.Buffers;
  * facade for the OpenGL context
  *
  * - need to be initialized with the drawable from the GLEventListener callback (init/display/reshape)
- * -
- *
- *
- *  FIXME: use identifier for shader and texture instead of the implementaions to delay the
- *         load until the call to the render method and also to have a resource manager available
  *
  * @author Michael Wohlfart
  */
 public class GraphicContext implements IGraphicContext {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(GraphicContext.class);
 
-	// also contains the texture indices
-	private final Map<String, IUniformValue> uniformValues = new HashMap<>();
+	private final Dimension dim = new Dimension();
+
+	private final Map<String, IUniformValue> uniformValues = new HashMap<>(); // contains uniforms and textures
 
 	private RenderConfigImpl currentConfig = RenderConfigImpl.NULL_CONFIG;
+
 	private IShaderProgram currentShader = ShaderProgram.NULL_SHADER;
 
 	private GL2 gl;
 
-	private final Dimension dim = new Dimension();
 
 	// store the current context, clear color and depth buffers and reset the shader so the new OpenGL context
 	// will be provided to the shader, called once per frame at the beginning
@@ -62,8 +58,7 @@ public class GraphicContext implements IGraphicContext {
 		gl = drawable.getGL().getGL2();
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 		currentShader = ShaderProgram.NULL_SHADER;
-		dim.setHeight(drawable.getHeight());
-		dim.setWidth(drawable.getWidth());
+		dim.set(drawable.getWidth(),drawable.getHeight());
 		return this;
 	}
 
@@ -111,7 +106,7 @@ public class GraphicContext implements IGraphicContext {
 
         // switch to rendering on FBO
 		gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, fboHandle);
-		gl.glViewport (0, 0, dim.getWidth(), dim.getHeight());
+		gl.glViewport (0, 0, dim.getWidthi(), dim.getHeighti());
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 	}

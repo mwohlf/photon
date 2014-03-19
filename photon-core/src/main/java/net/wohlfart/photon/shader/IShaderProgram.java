@@ -43,7 +43,7 @@ public interface IShaderProgram {
 		}
 
 		@Override
-		public void bind(GL2 gl2) {
+		public void bind(GL2 gl) {
 			// do nothing
 		}
 

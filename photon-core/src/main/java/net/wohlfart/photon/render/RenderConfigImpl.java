@@ -1,5 +1,6 @@
 package net.wohlfart.photon.render;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
 import net.wohlfart.photon.tools.EnumWeights;
@@ -9,7 +10,7 @@ import net.wohlfart.photon.tools.EnumWeights;
  *  see: "3D Engine Design for Virtual Globes"
  */
 public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
-	
+
 
 	// need to setup the weights first since they are used in the constructor...
 	private static final EnumWeights WEIGHTS = new EnumWeights(
@@ -22,8 +23,8 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 			// values should never change:
 			ClearDepth.class,
 			ClearColor.class,
-			FaceCulling.class,
-			PrimitiveRestartIndex.class);
+			FaceCulling.class
+			);
 
 
 	private final Blending blending;
@@ -37,8 +38,6 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	private final DepthTest depthTest;
 
 	private final FaceCulling faceCulling;
-
-	private final PrimitiveRestartIndex primitiveRestartIndex;
 
 	private final SissorTest scissorTest;
 
@@ -55,9 +54,8 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		this.colorMask = null;
 		this.depthTest = null;
 		this.faceCulling = null;
-		this.primitiveRestartIndex = null;
 		this.scissorTest = null;
-		this.stencilTest = null; 
+		this.stencilTest = null;
 		hash = Integer.MIN_VALUE;
 	}
 
@@ -68,7 +66,6 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 			ColorMask colorMask,
 			DepthTest depthTest,
 			FaceCulling faceCulling,
-			PrimitiveRestartIndex primitiveRestartIndex,
 			SissorTest scissorTest,
 			StencilTest stencilTest) {
 
@@ -78,9 +75,8 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		this.colorMask = colorMask;
 		this.depthTest = depthTest;
 		this.faceCulling = faceCulling;
-		this.primitiveRestartIndex = primitiveRestartIndex;
 		this.scissorTest = scissorTest;
-		this.stencilTest = stencilTest; 
+		this.stencilTest = stencilTest;
 
 		hash = WEIGHTS.getWeightFor(blending,
 				clearColor,
@@ -88,9 +84,8 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 				colorMask,
 				depthTest,
 				faceCulling,
-				primitiveRestartIndex,
 				scissorTest,
-				stencilTest); 
+				stencilTest);
 	}
 
 	@Override
@@ -111,33 +106,30 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	}
 
 	@Override
-	public RenderConfigImpl updateValues(GL2 gl2, RenderConfigImpl that) {
+	public RenderConfigImpl updateValues(GL2 gl, RenderConfigImpl that) {
 		if (that.blending != this.blending) {
-			blending.setValue(gl2);
+			blending.setValue(gl);
 		}
 		if (that.clearColor != this.clearColor) {
-			clearColor.setValue(gl2);
+			clearColor.setValue(gl);
 		}
 		if (that.clearDepth != this.clearDepth) {
-			clearDepth.setValue(gl2);
+			clearDepth.setValue(gl);
 		}
 		if (that.colorMask != this.colorMask) {
-			colorMask.setValue(gl2);
+			colorMask.setValue(gl);
 		}
 		if (that.depthTest != this.depthTest) {
-			depthTest.setValue(gl2);      
+			depthTest.setValue(gl);
 		}
 		if (that.faceCulling != this.faceCulling) {
-			faceCulling.setValue(gl2);
-		}
-		if (that.primitiveRestartIndex != this.primitiveRestartIndex) {
-			primitiveRestartIndex.setValue(gl2);
+			faceCulling.setValue(gl);
 		}
 		if (that.scissorTest != this.scissorTest) {
-			scissorTest.setValue(gl2);
+			scissorTest.setValue(gl);
 		}
 		if (that.stencilTest != stencilTest) {
-			stencilTest.setValue(gl2);
+			stencilTest.setValue(gl);
 		}
 		return this;
 	}
@@ -152,11 +144,11 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [blending=" + blending 
-				+ ", clearColor=" + clearColor 
-				+ ", clearDepth=" + clearDepth 
+		return this.getClass().getSimpleName() + " [blending=" + blending
+				+ ", clearColor=" + clearColor
+				+ ", clearDepth=" + clearDepth
 				+ ", colorMask=" + colorMask
-				+ ", depthTest=" + depthTest 
+				+ ", depthTest=" + depthTest
 				+ ", hash=" + hash + "]";
 	}
 
@@ -164,22 +156,22 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	interface RenderProperty {
 		// implementations get called with the old property value
-		void setValue(GL2 gl2);
-	} 
+		void setValue(GL2 gl);
+	}
 
 
 	public enum Blending implements RenderProperty {
 		OFF {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glDisable(GL2.GL_BLEND);
+			public void setValue(GL2 gl) {
+				gl.glDisable(GL.GL_BLEND);
 			}
 		},
 		ON {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glEnable(GL2.GL_BLEND);
-				gl2.glBlendFunc(GL2.GL_SRC_ALPHA, GL2.GL_ONE_MINUS_SRC_ALPHA);
+			public void setValue(GL2 gl) {
+				gl.glEnable(GL.GL_BLEND);
+				gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 			}
 		}
 	}
@@ -187,28 +179,28 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum ClearColor implements RenderProperty {
 		BLACK {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glClearColor(0f, 0f, 0f, 0.5f);
+			public void setValue(GL2 gl) {
+				gl.glClearColor(0f, 0f, 0f, 0.5f);
 			}
 		},
 		GREY {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
+			public void setValue(GL2 gl) {
+				gl.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 
 			}
 		},
 		BLUE {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glClearColor(0.0f, 0.0f, 0.5f, 0.5f);
+			public void setValue(GL2 gl) {
+				gl.glClearColor(0.0f, 0.0f, 0.5f, 0.5f);
 
 			}
 		},
 		WHITE {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glClearColor(1f, 1f, 1f, 0.5f);
+			public void setValue(GL2 gl) {
+				gl.glClearColor(1f, 1f, 1f, 0.5f);
 
 			}
 		}
@@ -217,8 +209,8 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum ClearDepth implements RenderProperty {
 		ONE {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glClearDepth(1f);
+			public void setValue(GL2 gl) {
+				gl.glClearDepth(1f);
 			}
 		}
 	}
@@ -226,8 +218,8 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum ColorMask implements RenderProperty {
 		ON {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glColorMask(true, true, true, true);  
+			public void setValue(GL2 gl) {
+				gl.glColorMask(true, true, true, true);
 			}
 		}
 	}
@@ -235,73 +227,64 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum DepthTest implements RenderProperty {
 		GL_LEQUAL {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glEnable(GL2.GL_DEPTH_TEST);
-				gl2.glDepthFunc(GL2.GL_LEQUAL);           
-			}                 
+			public void setValue(GL2 gl) {
+				gl.glEnable(GL.GL_DEPTH_TEST);
+				gl.glDepthFunc(GL.GL_LEQUAL);
+			}
 		},
 		GL_LESS {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glEnable(GL2.GL_DEPTH_TEST);
-				gl2.glDepthFunc(GL2.GL_LESS);           
+			public void setValue(GL2 gl) {
+				gl.glEnable(GL.GL_DEPTH_TEST);
+				gl.glDepthFunc(GL.GL_LESS);
 
-			}                 
+			}
 		},
 		OFF {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glDisable(GL2.GL_DEPTH_TEST);
+			public void setValue(GL2 gl) {
+				gl.glDisable(GL.GL_DEPTH_TEST);
 			}
-		};              
+		};
 	}
 
 	public enum FaceCulling implements RenderProperty {
 		BACK { // the default
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glEnable(GL2.GL_CULL_FACE);
-				gl2.glCullFace(GL2.GL_BACK);
-			}            
+			public void setValue(GL2 gl) {
+				gl.glEnable(GL.GL_CULL_FACE);
+				gl.glCullFace(GL.GL_BACK);
+			}
 		},
 		FRONT {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glEnable(GL2.GL_CULL_FACE);
-				gl2.glCullFace(GL2.GL_FRONT);
+			public void setValue(GL2 gl) {
+				gl.glEnable(GL.GL_CULL_FACE);
+				gl.glCullFace(GL.GL_FRONT);
 
-			}                
+			}
 		},
 		FRONT_AND_BACK {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glEnable(GL2.GL_CULL_FACE);
-				gl2.glCullFace(GL2.GL_FRONT_AND_BACK);
+			public void setValue(GL2 gl) {
+				gl.glEnable(GL.GL_CULL_FACE);
+				gl.glCullFace(GL.GL_FRONT_AND_BACK);
 
-			}   
+			}
 		},
 		OFF {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glDisable(GL2.GL_CULL_FACE);
+			public void setValue(GL2 gl) {
+				gl.glDisable(GL.GL_CULL_FACE);
 			}
-		};          
-	}
-
-	public enum PrimitiveRestartIndex implements RenderProperty {
-		MAX_INT {
-			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glPrimitiveRestartIndex(Integer.MAX_VALUE);
-			}
-		}
+		};
 	}
 
 	public enum SissorTest implements RenderProperty {
 		OFF {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glDisable(GL2.GL_DEPTH_TEST);
+			public void setValue(GL2 gl) {
+				gl.glDisable(GL.GL_DEPTH_TEST);
 			}
 		}
 	}
@@ -309,8 +292,8 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum StencilTest implements RenderProperty {
 		OFF {
 			@Override
-			public void setValue(GL2 gl2) {
-				gl2.glDisable(GL2.GL_DEPTH_TEST);
+			public void setValue(GL2 gl) {
+				gl.glDisable(GL.GL_DEPTH_TEST);
 			}
 		}
 	}

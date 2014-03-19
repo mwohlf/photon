@@ -2,8 +2,9 @@ package net.wohlfart.photon.render;
 
 import java.nio.ByteBuffer;
 
-import javax.media.nativewindow.util.Dimension;
 import javax.media.opengl.GL2;
+
+import net.wohlfart.photon.tools.Dimension;
 
 
 
@@ -50,8 +51,7 @@ public class FrameBufferObject implements IFrameBuffer {
     	// see: http://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code/JoglFboDepth/JoglFboDepth.java
 
     	//Dimension dim = gfxCtx.getDimension();
-    	this.dim.setWidth(dim.getWidth());
-    	this.dim.setHeight(dim.getHeight());
+    	this.dim.set(dim);
 
         // create and bind a new framebuffer
         int[] r1 = new int[1];
@@ -68,8 +68,8 @@ public class FrameBufferObject implements IFrameBuffer {
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-    	ByteBuffer fakeColorBuffer = ByteBuffer.allocateDirect(dim.getWidth() * dim.getHeight() * 4);
-    	gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA, dim.getWidth(), dim.getHeight(), 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_BYTE, fakeColorBuffer);
+    	ByteBuffer fakeColorBuffer = ByteBuffer.allocateDirect(dim.getWidthi() * dim.getHeighti() * 4);
+    	gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA, dim.getWidthi(), dim.getHeighti(), 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_BYTE, fakeColorBuffer);
     	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
 
         // create and bind a new depth buffer
@@ -81,8 +81,8 @@ public class FrameBufferObject implements IFrameBuffer {
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-        ByteBuffer fakeDepthBuffer = ByteBuffer.allocateDirect(dim.getWidth() * dim.getHeight());
-        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_DEPTH_COMPONENT, dim.getWidth(), dim.getHeight(), 0, GL2.GL_DEPTH_COMPONENT, GL2.GL_UNSIGNED_BYTE, fakeDepthBuffer);
+        ByteBuffer fakeDepthBuffer = ByteBuffer.allocateDirect(dim.getWidthi() * dim.getHeighti());
+        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_DEPTH_COMPONENT, dim.getWidthi(), dim.getHeighti(), 0, GL2.GL_DEPTH_COMPONENT, GL2.GL_UNSIGNED_BYTE, fakeDepthBuffer);
         gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
 
         //attach the textures to the framebuffer
