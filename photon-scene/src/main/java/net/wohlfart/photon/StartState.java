@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.entity.Earth;
-import net.wohlfart.photon.entity.SimpleEffect;
+import net.wohlfart.photon.entity.Skybox;
+import net.wohlfart.photon.entity.SphereEntity;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -62,20 +62,35 @@ public class StartState implements IState {
 	@Override
 	public void init() {
 
-		//	 new SphereEntity() .register(sceneGraph);
-		//	 new Skybox() .register(sceneGraph);
+		new Skybox() .register(sceneGraph);
 
-		//	 new Earth() .withPosition(10, 0, 0) .register(sceneGraph);
+		new SphereEntity()  .withPosition(10, 0, 0) .register(sceneGraph);
 
-		//	 new ProceduralCelestial() .withPosition(0, 0, -10) .withCorona(new Corona().withThinkness(2)) .register(sceneGraph);
+		// new SphereEntity()  .withPosition(20, 0, 0) .register(sceneGraph);
+
+		// new SphereEntity()  .withPosition(30, 0, 0) .register(sceneGraph);
+
+		/*
+		new Earth() .withPosition(10, 0, 0) .register(sceneGraph);
+
+		new Earth() .withPosition(20, 0, 0) .register(sceneGraph);
+
+		new Earth() .withPosition(30, 0, 0) .register(sceneGraph);
+
+		new Earth() .withPosition(40, 0, 0) .register(sceneGraph);
+
+		new Earth() .withPosition(50, 0, 0) .register(sceneGraph);
+		*/
+
+		// new ProceduralCelestial() .withPosition(0, 0, -10) .withCorona(new Corona().withThinkness(2)) .register(sceneGraph);
 
 		//	 new SimpleEffect().addEntity(new Earth().withPosition(10, 0, 0)) .register(sceneGraph)
 
 
 
-		SimpleEffect effect = new SimpleEffect();
-		effect.addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d));
-		effect.register(sceneGraph);
+	//	SimpleEffect effect = new SimpleEffect();
+	//	effect.addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d));
+	//	effect.register(sceneGraph);
 
 		//   new QuadEntity() .register(sceneGraph);
 
