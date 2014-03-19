@@ -20,10 +20,11 @@ import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.render.VertexTransform;
 import net.wohlfart.photon.resources.Resources;
+import net.wohlfart.photon.shader.IUniformValue;
+import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
-import net.wohlfart.photon.shader.UniformHandle;
-import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
+import net.wohlfart.photon.shader.TextureHandleValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.texture.TextureIdentifier;
 
@@ -54,7 +55,7 @@ public class FboRenderTarget implements IFrameBufferNode {
        // uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
     	geometry = createGeometry();
     	model2WorldMatrix.setIdentity();
-        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
+        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(model2WorldMatrix));
     }
 
     @Override
@@ -68,7 +69,7 @@ public class FboRenderTarget implements IFrameBufferNode {
 
         // rendering the quad last, maybe we need to put it in the render cache in order to be sorted...
         renderer.setRenderConfig(Resources.TEXTURE_SHADER_ID, renderConfig);
-        uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureHandleValue(frameBufferObject.getTextureHandle()));
+        uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getTextureHandle()));
         //uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
         renderer.setUniformValues(uniforms);
         renderer.drawGeometry(geometry);

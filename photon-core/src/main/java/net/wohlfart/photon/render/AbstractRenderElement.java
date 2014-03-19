@@ -7,10 +7,10 @@ import javax.vecmath.Matrix4f;
 
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
+import net.wohlfart.photon.shader.IUniformValue;
+import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
-import net.wohlfart.photon.shader.UniformHandle;
-import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 
 
 /**
@@ -39,7 +39,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected AbstractRenderElement() {
     	model2WorldMatrix.setIdentity();
-        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
+        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(model2WorldMatrix));
     }
 
     @Override

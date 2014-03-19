@@ -8,7 +8,6 @@ import java.util.Set;
 import javax.media.opengl.GL2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
-import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

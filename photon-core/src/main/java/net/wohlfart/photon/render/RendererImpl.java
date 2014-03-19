@@ -8,8 +8,8 @@ import javax.media.nativewindow.util.Dimension;
 
 import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
+import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
-import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

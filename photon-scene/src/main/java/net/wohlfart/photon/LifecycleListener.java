@@ -9,10 +9,10 @@ import javax.vecmath.Matrix4f;
 import net.wohlfart.photon.events.PoolEventBus;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.render.RendererImpl;
+import net.wohlfart.photon.shader.IUniformValue;
+import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
-import net.wohlfart.photon.shader.UniformHandle;
-import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 import net.wohlfart.photon.state.IState;
 import net.wohlfart.photon.state.StateManager;
 import net.wohlfart.photon.time.TimerImpl;
@@ -64,11 +64,11 @@ public class LifecycleListener implements ILifecycleListener {
 
         final Matrix4f modelToWorldMatrix = new Matrix4f();
         modelToWorldMatrix.setIdentity();
-        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(modelToWorldMatrix));
+        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelToWorldMatrix));
 
         final Matrix4f worldToCamMatrix = new Matrix4f();
         worldToCamMatrix.setIdentity();
-        uniforms.put(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, new UniformHandle.Matrix4fValue(worldToCamMatrix));
+        uniforms.put(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, new Matrix4fValue(worldToCamMatrix));
 
         gfxCtx.setUniformValues(uniforms);
         gfxCtx.setRenderConfig(DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
@@ -121,7 +121,7 @@ public class LifecycleListener implements ILifecycleListener {
         .withWidth(width)
         .withHeight(height)
         .build();
-        uniforms.put(ShaderParser.UNIFORM_CAM_2_CLIP_MTX, new UniformHandle.Matrix4fValue(cameraToClipMatrix));
+        uniforms.put(ShaderParser.UNIFORM_CAM_2_CLIP_MTX, new Matrix4fValue(cameraToClipMatrix));
 
         renderer.setUniformValues(uniforms);
 	}

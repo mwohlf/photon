@@ -1,0 +1,26 @@
+package net.wohlfart.photon.shader;
+
+public interface IUniformValue {
+
+	public interface IUniformHandle {
+
+		int getLocation();
+
+		String getName();
+
+		IShaderProgram getShader();
+
+	}
+
+
+    public static final IUniformValue SHADER_UNIFORM_NULL_VALUE = new NullValue();
+
+    void accept(IUniformValue.IUniformHandle handle);
+
+    static class NullValue implements IUniformValue {
+        @Override
+        public void accept(IUniformHandle handle) {
+            // do nothing
+        }
+    }
+}

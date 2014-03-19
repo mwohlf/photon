@@ -7,7 +7,7 @@ import javax.vecmath.Matrix4f;
 import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.HasSortToken;
-import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
+import net.wohlfart.photon.shader.IUniformValue;
 
 public interface IRenderer extends IGraphicContext {
 

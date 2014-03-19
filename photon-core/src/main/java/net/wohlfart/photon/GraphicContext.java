@@ -17,9 +17,9 @@ import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.shader.IShaderProgram;
+import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderProgram;
-import net.wohlfart.photon.shader.UniformHandle.IUniformValue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -93,7 +93,6 @@ public class GraphicContext implements IGraphicContext {
 		currentShader.useUniforms(uniformValues);
 	}
 
-	// this also binds the FBO
 	@Override
 	public void setFrameBuffer(IFrameBuffer frameBuffer) {
 
@@ -110,39 +109,11 @@ public class GraphicContext implements IGraphicContext {
 		}
 		assert (fboHandle >= 0);
 
-		bindFbo(gl, fboHandle);
-	}
-
-	private void bindFbo(GL2 gl, int fboHandle) {
-        // switch to rendering on our FBO, this is the render target now
+        // switch to rendering on FBO
 		gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, fboHandle);
 		gl.glViewport (0, 0, dim.getWidth(), dim.getHeight());
-
-		int error = gl.glGetError();
-		if (error != GL2.GL_NO_ERROR) {// @formatter:off
-			throw new GenericException("error after setting viewport"); // @formatter:on
-		}
-		gl.glClearColor(1.0f, 0.0f, 0.0f, 0.0f);
+		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
-
-		error = gl.glGetError();
-		if (error != GL2.GL_NO_ERROR) {// @formatter:off
-			throw new GenericException("error after clearing fbo: " + error); // @formatter:on
-		}
-
-		// unlink textures because if we dont it all is gonna fail
-        //gl.glBindTexture(GL2.GL_TEXTURE_2D, 0);
-
-	//	gl.glClearColor (1f, 0f, 0f, 0f);
-//		gl.glClear (GL2.GL_COLOR_BUFFER_BIT);
-
-				/*
-				gl.glEnable(GL2.GL_BLEND);
-				//GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-				gl.glBlendFunc(GL2.GL_ONE, GL2.GL_ONE_MINUS_SRC_ALPHA); // pre-multiplied alpha
-
-				gl.glEnable(GL2.GL_DEPTH_TEST);
-				*/
 	}
 
 
@@ -191,7 +162,6 @@ public class GraphicContext implements IGraphicContext {
 	public Dimension getDimension() {
 		return dim;
 	}
-
 
 	// keep the OpenGL stuff inside this class
 	private int getPrimitiveType(IGeometry.StreamFormat streamFormat) {
