@@ -97,9 +97,15 @@ public class UniformHandle {
         public void accept(UniformHandle handle) {
         	GL2 gl = handle.shader.getGl();
         	int slot = handle.shader.nextTextureSlot();
+        	gl.glEnable(GL2.GL_TEXTURE_2D);
         	gl.glActiveTexture(ITexture.TEXTURE_SLOTS[slot]);
         	gl.glBindTexture(GL2.GL_TEXTURE_2D, getTextureHandle(handle));
         	gl.glUniform1i(handle.location, slot);
+
+    		int error = gl.glGetError();
+    		if (error != GL2.GL_NO_ERROR) {// @formatter:off
+    			throw new ShaderException("error after accepting texture value"); // @formatter:on
+    		}
         }
 
         abstract int getTextureHandle(UniformHandle handle);
@@ -127,6 +133,7 @@ public class UniformHandle {
     	private final int textureHandle;
 
 		public TextureHandleValue(int textureHandle) {
+			assert textureHandle > -1;
     		this.textureHandle = textureHandle;
     	}
 

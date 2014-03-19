@@ -49,21 +49,9 @@ public class ShaderProgram implements IShaderProgram {
 		this.fragmentShaderCode = fragmentShaderCode;
 	}
 
-
 	@Override
 	public int getId() {
-		return 0;
-	}
-
-	@Override
-	public void bind(GL2 gl) {
-		if (programId == -1) {
-			setup(gl);
-		}
-		LOGGER.debug("binding programId '{}' ", programId);
-		gl.glUseProgram(programId);
-		this.gl = gl;
-		this.currentTextureSlot = -1;
+		return programId;
 	}
 
 	@Override
@@ -76,27 +64,37 @@ public class ShaderProgram implements IShaderProgram {
 		return ++currentTextureSlot;  // TODO: return -1 when we are out of texture slots
 	}
 
-	// delayed since the OpenGL context needs to be up in order for this to work
-	private void setup(GL2 gl2) {
-		vertexShaderId = loadShader(gl2, vertexShaderCode, GL2.GL_VERTEX_SHADER);
-		fragmentShaderId = loadShader(gl2, fragmentShaderCode, GL2.GL_FRAGMENT_SHADER);
-		linkAndValidate(gl2, vertexShaderId, fragmentShaderId);
+	@Override
+	public void bind(GL2 gl) {
+		if (programId == -1) {
+			setup(gl);
+		}
+		LOGGER.debug("binding programId '{}' ", programId);
+		gl.glUseProgram(programId);
+		this.gl = gl;
+		this.currentTextureSlot = -1; // resetting texture slot count
+	}
 
-		findUniforms(gl2);
-		findAttributes(gl2);
-		currentTextureSlot = -1;
+	// delayed since the OpenGL context needs to be up in order for this to work
+	private void setup(GL2 gl) {
+		vertexShaderId = loadShader(gl, vertexShaderCode, GL2.GL_VERTEX_SHADER);
+		fragmentShaderId = loadShader(gl, fragmentShaderCode, GL2.GL_FRAGMENT_SHADER);
+		linkAndValidate(gl, vertexShaderId, fragmentShaderId);
+
+		findUniforms(gl);
+		findAttributes(gl);
 	}
 
 
 	@Override
 	public void unbind() {
-		//       GL20.glUseProgram(0);
+		gl.glUseProgram(0);
 	}
 
 	@Override
 	public void dispose() {
 		unlink(vertexShaderId, fragmentShaderId);
-		//       GL20.glDeleteProgram(programId);
+		gl.glDeleteProgram(programId);
 	}
 
 	@Override
@@ -196,19 +194,19 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	// attach, link and validate the shaders into a shader program
-	private void linkAndValidate(GL2 gl2, int... handles) {
-		int error = gl2.glGetError();
+	private void linkAndValidate(GL2 gl, int... handles) {
+		int error = gl.glGetError();
 		if (error != GL2.GL_NO_ERROR) {// @formatter:off
 			throw new ShaderException("" + "error before linking shader, error string is '" + "" + "' \n" + "programmId is '"
 					+ programId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
 		}
-		programId = gl2.glCreateProgram();
+		programId = gl.glCreateProgram();
 		for (final int handle : handles) {
-			gl2.glAttachShader(programId, handle);
+			gl.glAttachShader(programId, handle);
 		}
-		gl2.glLinkProgram(programId);
-		gl2.glValidateProgram(programId);
-		error = gl2.glGetError();
+		gl.glLinkProgram(programId);
+		gl.glValidateProgram(programId);
+		error = gl.glGetError();
 		if (error != GL2.GL_NO_ERROR) {// @formatter:off
 			throw new ShaderException("" + "error validating shader, error string is '" + "" + "' \n" + "programmId is '"
 					+ programId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on

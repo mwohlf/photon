@@ -1,5 +1,8 @@
 package net.wohlfart.photon.render;
 
+import java.nio.ByteBuffer;
+
+import javax.media.nativewindow.util.Dimension;
 import javax.media.opengl.GL2;
 
 
@@ -16,8 +19,7 @@ public class FrameBufferObject implements IFrameBuffer {
     private int depthBufferHandle = -1;
     private int textureHandle = -1;
 
-    private int width;
-    private int height;
+    private final Dimension dim = new Dimension();
 
     public boolean isInitialzed() {
         return isInitialized;
@@ -31,95 +33,69 @@ public class FrameBufferObject implements IFrameBuffer {
     @Override
     public int getTextureHandle() {
         assert fboHandle != -1;
+        assert textureHandle != -1;
         return textureHandle;
     }
 
     @Override
     public int getDepthBufferHandle() {
         assert fboHandle != -1;
+        assert depthBufferHandle != -1;
         return depthBufferHandle;
     }
 
-    protected int getWidth() {
-        return width;
-    }
-
-    protected int getHeight() {
-        return height;
-    }
-
     @Override
-    public void setup(GL2 gl) {
+    public void setup(GL2 gl, Dimension dim) {
     	// see: https://github.com/demoscenepassivist/SocialCoding/blob/master/code_demos_jogamp/src/framework/base/BaseFrameBufferObjectRendererExecutor.java
+    	// see: http://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code/JoglFboDepth/JoglFboDepth.java
+
+    	//Dimension dim = gfxCtx.getDimension();
+    	this.dim.setWidth(dim.getWidth());
+    	this.dim.setHeight(dim.getHeight());
 
         // create and bind a new framebuffer
-        int[] result = new int[1];
-        gl.glGenFramebuffers(1, result, 0);
-        fboHandle = result[0];
+        int[] r1 = new int[1];
+        gl.glGenFramebuffers(1, r1, 0);
+        fboHandle = r1[0];
         gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, fboHandle);
 
         // create and bind and a new texture used as a color buffer
-        gl.glGenTextures(1, result, 0);
-        textureHandle = result[0];
+        int[] r2 = new int[1];
+        gl.glGenTextures(1, r2, 0);
+        textureHandle = r2[0];
         gl.glBindTexture(GL2.GL_TEXTURE_2D, textureHandle);
-        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_NEAREST);
-        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA8, width, height, 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_BYTE, null);
+    	ByteBuffer fakeColorBuffer = ByteBuffer.allocateDirect(dim.getWidth() * dim.getHeight() * 4);
+    	gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA, dim.getWidth(), dim.getHeight(), 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_BYTE, fakeColorBuffer);
+    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
 
         // create and bind a new depth buffer
-        gl.glGenTextures(1, result, 0);
-        depthBufferHandle = result[0];
+        int[] r3 = new int[1];
+        gl.glGenTextures(1, r3, 0);
+        depthBufferHandle = r3[0];
         gl.glBindTexture(GL2.GL_TEXTURE_2D, depthBufferHandle);
-        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_NEAREST);
-        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_DEPTH_COMPONENT32, width, height, 0, GL2.GL_DEPTH_COMPONENT, GL2.GL_UNSIGNED_INT, null);
+        ByteBuffer fakeDepthBuffer = ByteBuffer.allocateDirect(dim.getWidth() * dim.getHeight());
+        gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_DEPTH_COMPONENT, dim.getWidth(), dim.getHeight(), 0, GL2.GL_DEPTH_COMPONENT, GL2.GL_UNSIGNED_BYTE, fakeDepthBuffer);
+        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
+
         //attach the textures to the framebuffer
         gl.glFramebufferTexture2D(GL2.GL_FRAMEBUFFER, GL2.GL_COLOR_ATTACHMENT0, GL2.GL_TEXTURE_2D, textureHandle, 0);
         gl.glFramebufferTexture2D(GL2.GL_FRAMEBUFFER, GL2.GL_DEPTH_ATTACHMENT, GL2.GL_TEXTURE_2D, depthBufferHandle, 0);
+
+        // unbind texture
+    //    gl.glBindTexture(GL2.GL_TEXTURE_2D, 0);
+        //unbind fbo
         gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, 0);
 
         checkFrameBufferObjectCompleteness(gl);
     }
-
-    public void bind() {
-    	/*
-        GL11.glViewport (0, 0, width, height);
-        // unlink textures because if we dont it all is gonna fail
-        GL11.glBindTexture(GL11.GL_TEXTURE_2D, 0);
-        // switch to rendering on our FBO, this is the render target now
-        EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, fboHandle);
-
-        GL11.glClearColor (0f, 0f, 0f, 0f);
-        GL11.glClear (GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-		*/
-
-
-        /*
-        // clear screen and depth buffer on the FBO
-        //GL11.glClearColor (0f, 0f, 0f, 0f);
-        GL11.glClearColor (0f, 0f, 0f, 0f);
-        GL11.glClear (GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
-        // normal rendering to the FBO
-
-        GL11.glEnable(GL11.GL_BLEND);
-        //GL11.glBlendFunc(GL11.GL_SRC_ALPHA, GL11.GL_ONE_MINUS_SRC_ALPHA);
-        GL11.glBlendFunc(GL11.GL_ONE, GL11.GL_ONE_MINUS_SRC_ALPHA); // pre-multiplied alpha
-
-        GL11.glEnable(GL11.GL_DEPTH_TEST);
-        */
-    }
-
-	@Override
-	public void unbind() {
-        //EXTFramebufferObject.glBindFramebufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, 0);
-        //Dimension dim = visitor.getScreenDimension();
-        //GL11.glViewport(0, 0, dim.getWidth(), dim.getHeight());
-	}
-
 
     private void checkFrameBufferObjectCompleteness(GL2 gl) {
         int err = gl.glCheckFramebufferStatus(GL2.GL_FRAMEBUFFER);

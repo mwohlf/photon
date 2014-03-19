@@ -1,18 +1,17 @@
 package net.wohlfart.photon.render;
 
+import javax.media.nativewindow.util.Dimension;
 import javax.media.opengl.GL2;
 
 
 public interface IFrameBuffer {
 
-    int getHandle();
+	void setup(GL2 gl, Dimension dim);
 
-	public void unbind();
+    int getHandle();
 
 	int getDepthBufferHandle();
 
 	int getTextureHandle();
-
-	void setup(GL2 gl);
 
 }

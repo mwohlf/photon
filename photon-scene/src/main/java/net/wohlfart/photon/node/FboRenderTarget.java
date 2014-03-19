@@ -53,6 +53,8 @@ public class FboRenderTarget implements IFrameBufferNode {
     public FboRenderTarget() {
        // uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
     	geometry = createGeometry();
+    	model2WorldMatrix.setIdentity();
+        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
     }
 
     @Override
@@ -62,35 +64,15 @@ public class FboRenderTarget implements IFrameBufferNode {
         renderer.renderChildren(tree);
     	renderer.setFrameBuffer(null);
         // render on screen
- //       renderer.renderChildren(tree);
+        renderer.renderChildren(tree);
 
         // rendering the quad last, maybe we need to put it in the render cache in order to be sorted...
-        renderQuad(renderer);
-    }
-
-    private void renderQuad(IRenderer renderer) {
-        //visitor.setConfig(TEXTURE_SIMPLE_SHADER_ID, renderConfig);
-        //renderer.setRenderConfig(TEXTURE_RADBLUR_SHADER_ID, renderConfig);
         renderer.setRenderConfig(Resources.TEXTURE_SHADER_ID, renderConfig);
-
-      //  final FrameBufferObject frameBufferObject = getFrameBufferObject();
-        //final Map<String, ITexture.ITextureIdentifier> textures = new HashMap<>();
-
-        // TODO:
-        //textures.put(ShaderParser.TEXTURE01, frameBufferObject.getTextureHandle());
-    	//ITextureIdentifier TEXTURE_ID1 = TextureIdentifier.create("gfx/textures/texture.jpg");
-        uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
-
-        /*
-        Dimension dim = renderer.getDimension();
-        model2WorldMatrix.m00 = (float)dim.getWidth()/(float)dim.getHeight();
-        model2WorldMatrix.m11 = 1;
-        model2WorldMatrix.m22 = 1;
-        model2WorldMatrix.m32 = -2.5f; // z transform     this probably depends on the range of view...
-         */
-
+        uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureHandleValue(frameBufferObject.getTextureHandle()));
+        //uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
         renderer.setUniformValues(uniforms);
         renderer.drawGeometry(geometry);
+
     }
 
     @Override
@@ -117,7 +99,7 @@ public class FboRenderTarget implements IFrameBufferNode {
         geometry.addVertex().withPosition(-1,-1, 0).withTexture( 0, 0);
         geometry.addVertex().withPosition(+1,-1, 0).withTexture( 1, 0);
         geometry.addRectangle(0, 1, 2, 3);
-        geometry.transformVertices(VertexTransform.move(0, 0, -3));
+        geometry.transformVertices(VertexTransform.move(0, 0, -6));
         return geometry;
     }
 

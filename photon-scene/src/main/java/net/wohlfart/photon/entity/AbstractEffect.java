@@ -19,11 +19,12 @@ public abstract class AbstractEffect implements IEntity3D  {
 
     private final FboRenderTarget overlay = new FboRenderTarget();
 
+    // child entities that are affected by this effect
     private final Set<AbstractEntity3D> childEntities = new HashSet<>();
 
-    private ISceneGraph sceneGraph;
+    private ITree<IRenderNode> tree = null;
 
-    private ITree<IRenderNode> tree;
+    private ISceneGraph sceneGraph;
 
 
     @Override
@@ -44,6 +45,7 @@ public abstract class AbstractEffect implements IEntity3D  {
         assert sceneGraph != null : "need to call register before you can call unregister";
         sceneGraph.removeEntity(this);
         sceneGraph.removeRenderCommands(Collections.singleton(overlay));
+        tree = null;
     }
 
     public void addEntity(AbstractEntity3D entity) {
