@@ -49,7 +49,7 @@ public class GraphicContext implements IGraphicContext {
 
 
 	// store the current context, clear color and depth buffers and reset the shader so the new OpenGL context
-	// will be provided to the shader, called once per frame at the beginning
+	// will be provided to the shader, called once per frame at the beginning of the render run
 	public IGraphicContext init(GLAutoDrawable drawable) {
 		assert drawable != null : "drawable is null";
 		assert drawable.getGL() != null : "drawable.gl is null";
@@ -58,7 +58,7 @@ public class GraphicContext implements IGraphicContext {
 		gl = drawable.getGL().getGL2();
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 		currentShader = ShaderProgram.NULL_SHADER;
-		dim.set(drawable.getWidth(),drawable.getHeight());
+		dim.set(drawable.getWidth(), drawable.getHeight());
 		return this;
 	}
 
@@ -99,18 +99,18 @@ public class GraphicContext implements IGraphicContext {
 
 		int fboHandle = frameBuffer.getHandle();
 		if (fboHandle < 0) {
-			frameBuffer.setup(gl, dim);
+			frameBuffer.setup(gl);
 			fboHandle = frameBuffer.getHandle();
 		}
 		assert (fboHandle >= 0);
 
         // switch to rendering on FBO
 		gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, fboHandle);
-		gl.glViewport (0, 0, dim.getWidthi(), dim.getHeighti());
+		final Dimension d = frameBuffer.getDimension();
+		gl.glViewport (0, 0, d.getWidthi(), d.getHeighti());
 		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 	}
-
 
 	@Override
 	public void drawGeometry(IGeometry geometry) {

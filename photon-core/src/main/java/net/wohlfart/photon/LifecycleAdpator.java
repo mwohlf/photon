@@ -26,7 +26,6 @@ public class LifecycleAdpator implements GLEventListener {
 	@Override
 	public void display(GLAutoDrawable drawable) {
 		listener.display(gfxContext.init(drawable));
-
 	}
 
 	@Override

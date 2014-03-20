@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 public class CommandEvent implements PoolableObject, Serializable {
 	private static final long serialVersionUID = 1L;
 	protected static final Logger LOGGER = LoggerFactory.getLogger(CommandEvent.class);
-    protected static final int POOL_SIZE = 20; 
+    protected static final int POOL_SIZE = 20;
     private CommandKey key;
 
     private static final IObjectPool<CommandEvent> POOL = new ObjectPool<CommandEvent>(POOL_SIZE) {
@@ -41,7 +41,7 @@ public class CommandEvent implements PoolableObject, Serializable {
         return key;
     }
 
-    @Nullable 
+    @Nullable
     public static CommandEvent exit() {
         try {
             final CommandEvent result = POOL.borrowObject();
@@ -53,7 +53,7 @@ public class CommandEvent implements PoolableObject, Serializable {
         }
     }
 
-    @Nullable 
+    @Nullable
     public static CommandEvent dumpScene() {
         try {
             final CommandEvent result = POOL.borrowObject();
@@ -65,7 +65,7 @@ public class CommandEvent implements PoolableObject, Serializable {
         }
     }
 
-    @Nullable 
+    @Nullable
     public static CommandEvent debugRenderer() {
         try {
             final CommandEvent result = POOL.borrowObject();
@@ -83,6 +83,5 @@ public class CommandEvent implements PoolableObject, Serializable {
         DUMP_SCENE,
         DEBUG_RENDER;
     }
-
 
 }

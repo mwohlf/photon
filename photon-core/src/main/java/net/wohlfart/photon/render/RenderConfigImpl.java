@@ -11,7 +11,6 @@ import net.wohlfart.photon.tools.EnumWeights;
  */
 public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
-
 	// need to setup the weights first since they are used in the constructor...
 	private static final EnumWeights WEIGHTS = new EnumWeights(
 			Blending.class,   // opaque objects first front to back, then the transparent back to front

@@ -4,6 +4,8 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import net.wohlfart.photon.entity.Earth;
+import net.wohlfart.photon.entity.SimpleEffect;
 import net.wohlfart.photon.entity.Skybox;
 import net.wohlfart.photon.entity.SphereEntity;
 import net.wohlfart.photon.events.CommandEvent;
@@ -88,9 +90,9 @@ public class StartState implements IState {
 
 
 
-	//	SimpleEffect effect = new SimpleEffect();
-	//	effect.addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d));
-	//	effect.register(sceneGraph);
+		SimpleEffect effect = new SimpleEffect();
+		effect.addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d));
+		effect.register(sceneGraph);
 
 		//   new QuadEntity() .register(sceneGraph);
 

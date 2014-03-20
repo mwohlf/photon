@@ -32,7 +32,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected SortToken sortToken = new SortToken();
 
-    public IRenderConfig<RenderConfigImpl> renderConfig = IRenderConfig.DEFAULT;
+    protected IRenderConfig<RenderConfigImpl> renderConfig = IRenderConfig.DEFAULT;
 
     protected ShaderIdentifier shaderId = DEFAULT_SHADER_ID;
 

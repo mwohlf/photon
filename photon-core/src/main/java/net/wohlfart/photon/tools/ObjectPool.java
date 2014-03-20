@@ -32,9 +32,6 @@ public abstract class ObjectPool<T extends PoolableObject> implements IObjectPoo
 				created++;
 				return newObject();
 			} else {
-				// TODO: since we are multithreaded this is a good point to do a yield,
-				// however there seem to be some locking issues since neither a yield() nor a sleep()
-				// here did anything to get a better performance...
 				throw new OutOfResourcesException("running out of resources in " + this
 						+ " capacity is '" + capacity + "'"
 						+ " created: '" + created + "'"

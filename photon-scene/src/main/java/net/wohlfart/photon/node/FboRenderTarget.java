@@ -61,7 +61,9 @@ public class FboRenderTarget implements IFrameBufferNode {
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
         // render on framebuffer
-    	renderer.setFrameBuffer(getFrameBufferObject());
+    	frameBufferObject = getFrameBufferObject();
+    	frameBufferObject.setDimension(renderer.getDimension());
+    	renderer.setFrameBuffer(frameBufferObject);
         renderer.renderChildren(tree);
     	renderer.setFrameBuffer(null);
         // render on screen
@@ -69,7 +71,8 @@ public class FboRenderTarget implements IFrameBufferNode {
 
         // rendering the quad last, maybe we need to put it in the render cache in order to be sorted...
         renderer.setRenderConfig(Resources.TEXTURE_SHADER_ID, renderConfig);
-        uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getTextureHandle()));
+        //uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getTextureHandle()));
+        uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getDepthBufferHandle()));
         //uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
         renderer.setUniformValues(uniforms);
         renderer.drawGeometry(geometry);

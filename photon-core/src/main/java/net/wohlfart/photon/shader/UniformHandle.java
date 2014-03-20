@@ -32,8 +32,8 @@ public class UniformHandle implements IUniformValue.IUniformHandle {
 
 
     // uniform values are values that can be assigned to uniform handlers
-    // they are independent from a specific shader calling accept for a specific hanle and shader
-    // assigns them
+    // they are independent from a specific shader, calling accept for a specific handle and shader
+    // will assigns them
 
     @Override
 	public int getLocation() {

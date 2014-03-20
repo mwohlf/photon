@@ -14,11 +14,6 @@ public abstract class TextureValue implements IUniformValue {
     	gl.glActiveTexture(ITexture.TEXTURE_SLOTS[slot]);
     	gl.glBindTexture(GL2.GL_TEXTURE_2D, getTextureHandle(handle));
     	gl.glUniform1i(handle.getLocation(), slot);
-
-		int error = gl.glGetError();
-		if (error != GL2.GL_NO_ERROR) {// @formatter:off
-			throw new ShaderException("error after accepting texture value"); // @formatter:on
-		}
     }
 
     abstract int getTextureHandle(IUniformHandle handle);

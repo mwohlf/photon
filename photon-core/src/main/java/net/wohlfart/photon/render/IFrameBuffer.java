@@ -8,12 +8,14 @@ import net.wohlfart.photon.tools.Dimension;
 
 public interface IFrameBuffer {
 
-	void setup(GL2 gl, Dimension dim);
+	void setup(GL2 gl);
 
     int getHandle();
 
 	int getDepthBufferHandle();
 
 	int getTextureHandle();
+
+	Dimension getDimension();
 
 }

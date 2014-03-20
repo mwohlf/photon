@@ -22,14 +22,14 @@ public class PoolEventBus implements EventBus<PoolableObject> {
     private final ConcurrentLinkedQueue<PoolableObject> queue = new ConcurrentLinkedQueue<>();
     private final List<HandlerInfo> handlers = new CopyOnWriteArrayList<HandlerInfo>();
 
-    
+
     public void setSubscriber(Collection<Object> subscribers) {
         LOGGER.debug("register called for {}", subscribers);
         for (Object subscriber : subscribers) {
             register(subscriber);
         }
     }
-    
+
     @Override
     public void register(Object newSubscriber) {
         LOGGER.debug("register called for {}", newSubscriber);
@@ -54,7 +54,7 @@ public class PoolEventBus implements EventBus<PoolableObject> {
                     + " has @Subscribe annotation, but requires " + parameterTypes.length
                     + " arguments.  Event handler methods must require a single argument (the event).");
         }
-        
+
         if (!PoolableObject.class.isAssignableFrom(parameterTypes[0])) {
             throw new IllegalArgumentException("Method " + method + " on class " + clazz
                     + " has parameter type " + parameterTypes[0]
@@ -63,14 +63,11 @@ public class PoolEventBus implements EventBus<PoolableObject> {
 
         HandlerInfo info = new HandlerInfo(parameterTypes[0], method, subscriber);
         if (handlers.contains(info)) {
-            throw new IllegalArgumentException("Method " + method + " on class " + clazz + " is registered twice.");            
+            throw new IllegalArgumentException("Method " + method + " on class " + clazz + " is registered twice.");
         }
-        
+
         handlers.add(info);
     }
-    
-    
-    
 
     @Override
     public void unregister(Object subscriber) {
@@ -100,18 +97,18 @@ public class PoolEventBus implements EventBus<PoolableObject> {
         PoolableObject event = queue.poll();
         if (event == null) {
             LOGGER.warn("ignoring fireEvent() since no events are available, "
-                    + "use hasEvent() before calling fireEvent()"); 
+                    + "use hasEvent() before calling fireEvent()");
             return;
         }
         int invokeCount = 0;
         for (HandlerInfo handler : handlers) {
             if (handler.matchesEvent(event)) {
-                LOGGER.debug("handler found for {}, subscriber is {} on method {}", 
+                LOGGER.debug("handler found for {}, subscriber is {} on method {}",
                         new Object[] {event, handler.subscriber.getClass().getName(), handler.method.getName()});
                 handler.invoke(event);
                 invokeCount++;
             }
-        }    
+        }
         LOGGER.debug("invoked {} handler for  event {}", invokeCount, event);
         event.reset();
     }
@@ -142,7 +139,7 @@ public class PoolEventBus implements EventBus<PoolableObject> {
         boolean matchesSubscriber(Object subscriber) {
             return this.subscriber == subscriber;
         }
-        
+
         @Override
         public int hashCode() {
             final int prime = 31;
@@ -161,27 +158,27 @@ public class PoolEventBus implements EventBus<PoolableObject> {
                 return false;
             if (getClass() != object.getClass())
                 return false;
-            
+
             HandlerInfo that = (HandlerInfo) object;
-            
+
             if (eventClass == null) {
                 if (that.eventClass != null)
                     return false;
             } else if (!eventClass.equals(that.eventClass))
                 return false;
-            
+
             if (method == null) {
                 if (that.method != null)
                     return false;
             } else if (!method.equals(that.method))
                 return false;
-            
+
             if (subscriber == null) {
                 if (that.subscriber != null)
                     return false;
             } else if (!subscriber.equals(that.subscriber))
                 return false;
-            
+
             return true;
         }
 

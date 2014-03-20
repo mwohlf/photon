@@ -33,6 +33,7 @@ public interface IShaderProgram {
 
 	void dispose();
 
+	int nextTextureSlot();
 
 
 	public class NullShader implements IShaderProgram {
@@ -78,7 +79,5 @@ public interface IShaderProgram {
 		}
 
 	}
-
-	int nextTextureSlot();
 
 }

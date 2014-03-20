@@ -1,8 +1,5 @@
 package net.wohlfart.photon;
 
-
-
-// the backend independent version of GLEventListener
 public interface ILifecycleListener {
 
 	public void init(IGraphicContext gfxContext);

@@ -30,6 +30,7 @@ public class MoveEvent implements PoolableObject, Serializable {
 
     @Override
     public void reset() {
+        LOGGER.debug("reset move: " + this);
         delegate.set(new float[] {0, 0, 0});
         POOL.returnObject(this);
     }

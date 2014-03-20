@@ -36,7 +36,7 @@ public class RotateEvent  implements PoolableObject, Serializable {
     @Override
     public void reset() {
         LOGGER.debug("reset rotate: " + this);
-        // delegate.setIdentity();
+        delegate.setIdentity();
         POOL.returnObject(this);
     }
 
@@ -68,7 +68,8 @@ public class RotateEvent  implements PoolableObject, Serializable {
     }
 
     // might return null if we are out of resources
-    @Nullable static RotateEvent rotate(float rad, Vector3f axis) {
+    @Nullable
+    static RotateEvent rotate(float rad, Vector3f axis) {
         try {
             final RotateEvent result = POOL.borrowObject();
             result.delegate.setIdentity();

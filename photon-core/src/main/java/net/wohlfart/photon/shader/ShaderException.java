@@ -2,10 +2,10 @@ package net.wohlfart.photon.shader;
 
 import net.wohlfart.photon.GenericException;
 
-@SuppressWarnings("serial")
 public class ShaderException extends GenericException {
+	private static final long serialVersionUID = 1L;
 
-    ShaderException(String string) {
+	ShaderException(String string) {
         super(string);
     }
 
