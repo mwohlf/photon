@@ -52,65 +52,38 @@ public class MathTool {
 	// FIXME: remove this method
     public static void rotate(Quaternion q, float rad, Vector3f axis) {
     	q.fromAxis(new float[] {axis.x, axis.y, axis.z}, rad);
-    	/*
-        axis.normalize();
-        final double n = Math.sqrt(axis.x * axis.x + axis.y * axis.y + axis.z * axis.z);
-        final float sin = (float) (Math.sin(0.5 * rad) / n);
-        Quaternion rot = new Quaternion();
-        rot.setX(axis.x * sin);
-        rot.setY(axis.y * sin);
-        rot.setZ(axis.z * sin);
-        rot.setW((float) Math.cos(0.5 * rad));
-
-        mul(rot, q, rot);
-        rot.normalize();
-        q.setW(rot.getW());
-        q.setX(rot.getX());
-        q.setY(rot.getY());
-        q.setZ(rot.getZ());
-        */
     }
 
 
 	public static void convert(Quaternion rot, Matrix4f result) {
-
 		result.set(rot.toMatrix());
+	}
 
-		/*
-        final float xx = rot.getX() * rot.getX();
-        final float xy = rot.getX() * rot.getY();
-        final float xz = rot.getX() * rot.getZ();
-        final float xw = rot.getX() * rot.getW();
-
-        final float yy = rot.getY() * rot.getY();
-        final float yz = rot.getY() * rot.getZ();
-        final float yw = rot.getY() * rot.getW();
-
-        final float zz = rot.getZ() * rot.getZ();
-        final float zw = rot.getZ() * rot.getW();
+    public static Matrix4f convert(Vector3f move, Matrix4f mat) {
 
         // column-row syntax
-        result.m00 = 1 - 2 * (yy + zz);
-        result.m10 = 2 * (xy - zw);
-        result.m20 = 2 * (xz + yw);
-        result.m30 = 0;
+        mat.m00 = 1;
+        mat.m10 = 0;
+        mat.m20 = 0;
+        mat.m30 = move.x;
 
-        result.m01 = 2 * (xy + zw);
-        result.m11 = 1 - 2 * (xx + zz);
-        result.m21 = 2 * (yz - xw);
-        result.m31 = 0;
+        mat.m01 = 0;
+        mat.m11 = 1;
+        mat.m21 = 0;
+        mat.m31 = move.y;
 
-        result.m02 = 2 * (xz - yw);
-        result.m12 = 2 * (yz + xw);
-        result.m22 = 1 - 2 * (xx + yy);
-        result.m32 = 0;
+        mat.m02 = 0;
+        mat.m12 = 0;
+        mat.m22 = 1;
+        mat.m32 = move.z;
 
-        result.m03 = 0;
-        result.m13 = 0;
-        result.m23 = 0;
-        result.m33 = 1;
-        */
-	}
+        mat.m03 = 0;
+        mat.m13 = 0;
+        mat.m23 = 0;
+        mat.m33 = 1;
+
+        return mat;
+    }
 
 	public static float random(float min, float max) {
         return RANDOM.nextFloat() * (max - min) + min;

@@ -43,7 +43,7 @@ public interface IRenderer extends IGraphicContext {
     }
 
 
-    public interface IFrameBufferNode extends IRenderNode {
+    public interface IFrameBufferElem extends IRenderNode {
 
         FrameBufferObject getFrameBufferObject();
 

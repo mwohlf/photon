@@ -1,21 +1,18 @@
 package net.wohlfart.photon.shader;
 
-import javax.media.opengl.GL2;
-
 import net.wohlfart.photon.texture.ITexture;
 
-public abstract class TextureValue implements IUniformValue {
+public class TextureValue extends AbstractTextureValue {
 
-    @Override
-    public void accept(IUniformHandle handle) {
-    	GL2 gl = handle.getShader().getGl();
-    	int slot = handle.getShader().nextTextureSlot();
-    	gl.glEnable(GL2.GL_TEXTURE_2D);
-    	gl.glActiveTexture(ITexture.TEXTURE_SLOTS[slot]);
-    	gl.glBindTexture(GL2.GL_TEXTURE_2D, getTextureHandle(handle));
-    	gl.glUniform1i(handle.getLocation(), slot);
-    }
+	private final ITexture texture;
 
-    abstract int getTextureHandle(IUniformHandle handle);
+	public TextureValue(ITexture texture) {
+		this.texture = texture;
+	}
+
+	@Override
+	public int getTextureHandle(IUniformHandle handle) {
+		return texture.getHandle(handle.getShader().getGl());
+	}
 
 }

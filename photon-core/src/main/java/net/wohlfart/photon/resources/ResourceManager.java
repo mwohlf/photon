@@ -3,6 +3,10 @@ package net.wohlfart.photon.resources;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.wohlfart.photon.hud.txt.CharAtlasFactory;
+import net.wohlfart.photon.hud.txt.CharDataFactory;
+import net.wohlfart.photon.hud.txt.ICharAtlas;
+import net.wohlfart.photon.hud.txt.ICharData;
 import net.wohlfart.photon.shader.IShaderProgram;
 import net.wohlfart.photon.shader.ShaderFactory;
 import net.wohlfart.photon.texture.ITexture;
@@ -27,6 +31,9 @@ public class ResourceManager {
     private ResourceManager() {
         delegates.put(IShaderProgram.class, new ShaderFactory());
         delegates.put(ITexture.class, new TextureFactory());
+        final CharAtlasFactory charAtlasFactory = new CharAtlasFactory();
+        delegates.put(ICharAtlas.class, charAtlasFactory);
+        delegates.put(ICharData.class, new CharDataFactory(charAtlasFactory));
     };
 
     public static <P,K> P loadResource(Class<P> clazz, K key) {

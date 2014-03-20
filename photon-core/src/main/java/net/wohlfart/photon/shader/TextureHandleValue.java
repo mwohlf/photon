@@ -1,7 +1,7 @@
 package net.wohlfart.photon.shader;
 
 
-public class TextureHandleValue extends TextureValue {
+public class TextureHandleValue extends AbstractTextureValue {
 
 	private final int textureHandle;
 

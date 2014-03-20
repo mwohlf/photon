@@ -4,7 +4,7 @@ import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.texture.ITexture;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
-public class TextureIdentValue extends TextureValue {
+public class TextureIdentValue extends AbstractTextureValue {
 
 	private final ITextureIdentifier textureIdentifier;
 

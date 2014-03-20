@@ -15,11 +15,13 @@ import net.wohlfart.photon.events.RotateEvent;
 import net.wohlfart.photon.events.Subscribe;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
 import net.wohlfart.photon.graph.SceneGraph;
+import net.wohlfart.photon.hud.SimpleLayer;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
 import net.wohlfart.photon.state.Event;
 import net.wohlfart.photon.state.IState;
+import net.wohlfart.photon.tools.Dimension;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -67,6 +69,9 @@ public class StartState implements IState {
 		new Skybox() .register(sceneGraph);
 
 		new SphereEntity()  .withPosition(10, 0, 0) .register(sceneGraph);
+
+        new SimpleLayer(new Dimension(600, 400)) .register(sceneGraph);
+
 
 		// new SphereEntity()  .withPosition(20, 0, 0) .register(sceneGraph);
 

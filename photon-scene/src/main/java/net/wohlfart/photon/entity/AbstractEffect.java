@@ -11,13 +11,13 @@ import javax.vecmath.Vector3f;
 import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
 import net.wohlfart.photon.graph.ITree;
-import net.wohlfart.photon.node.FboRenderTarget;
+import net.wohlfart.photon.node.FrameBufferElement;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.tools.Quaternion;
 
 public abstract class AbstractEffect implements IEntity3D  {
 
-    private final FboRenderTarget overlay = new FboRenderTarget();
+    private final FrameBufferElement overlay = new FrameBufferElement();
 
     // child entities that are affected by this effect
     private final Set<AbstractEntity3D> childEntities = new HashSet<>();

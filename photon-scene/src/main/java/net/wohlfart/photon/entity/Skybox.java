@@ -15,7 +15,7 @@ import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.render.IVertexTransform;
 import net.wohlfart.photon.render.RenderConfigImpl;
-import net.wohlfart.photon.shader.ShaderIdentifier;
+import net.wohlfart.photon.resources.Resources;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureIdentValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
@@ -31,8 +31,6 @@ import net.wohlfart.photon.tools.Quaternion;
  */
 @SuppressWarnings("unused")
 public class Skybox implements IEntity3D {
-
-	public static final ShaderIdentifier SKYBOX_SHADER_ID = ShaderIdentifier.create("shader/skybox.vert", "shader/skybox.frag");
 
     private ISceneGraph sceneGraph;
 
@@ -168,7 +166,7 @@ public class Skybox implements IEntity3D {
             this.uniforms.put(ShaderParser.TEXTURE01, new TextureIdentValue(textureId));
             this.renderConfig = RenderConfigImpl.SKYBOX;
             this.zOrder = Double.POSITIVE_INFINITY;
-            this.shaderId = SKYBOX_SHADER_ID;
+            this.shaderId = Resources.SKYBOX_SHADER_ID;
         }
 
     }
