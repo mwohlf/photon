@@ -26,7 +26,7 @@ public class ProceduralCelestial extends AbstractCelestial {
 
     public ProceduralCelestial withType(CelestialType type) {
         this.type = type;
-        this.size = MathTool.random(type.minRadius, type.maxRadius);
+        this.withSize(MathTool.random(type.minRadius, type.maxRadius));
         return this;
     }
 

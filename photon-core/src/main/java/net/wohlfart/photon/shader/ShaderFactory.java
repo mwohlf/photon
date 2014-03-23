@@ -14,6 +14,12 @@ import com.google.common.io.CharStreams;
 
 public class ShaderFactory implements ResourceProducer<IShaderProgram, IShaderProgram.IShaderProgramIdentifier>{
 
+
+	@Override
+	public Class<IShaderProgram> flavour() {
+		return IShaderProgram.class;
+	}
+
 	@Override
 	public IShaderProgram produce(IShaderProgramIdentifier ident) {
 		try {

@@ -7,7 +7,6 @@ import javax.inject.Singleton;
 
 import net.wohlfart.photon.events.PoolEventBus;
 import net.wohlfart.photon.render.RendererImpl;
-import net.wohlfart.photon.resources.ResourceManager;
 import dagger.Module;
 import dagger.Provides;
 
@@ -18,11 +17,6 @@ public class CoreModule {
 	@Provides @Singleton
 	public PoolEventBus providePoolEventBus() {
 		return new PoolEventBus();
-	}
-
-	@Provides @Singleton
-	public ResourceManager provideResourceManager() {
-		return ResourceManager.INSTANCE;
 	}
 
 	@Provides

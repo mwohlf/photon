@@ -4,10 +4,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.entity.Earth;
-import net.wohlfart.photon.entity.SimpleEffect;
-import net.wohlfart.photon.entity.Skybox;
-import net.wohlfart.photon.entity.SphereEntity;
+import net.wohlfart.photon.entity.ProceduralCelestial;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -15,13 +12,12 @@ import net.wohlfart.photon.events.RotateEvent;
 import net.wohlfart.photon.events.Subscribe;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
-import net.wohlfart.photon.hud.SimpleLayer;
+import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
 import net.wohlfart.photon.state.Event;
 import net.wohlfart.photon.state.IState;
-import net.wohlfart.photon.tools.Dimension;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,11 +62,11 @@ public class StartState implements IState {
 	@Override
 	public void init() {
 
-		new Skybox() .register(sceneGraph);
+		//new Skybox() .register(sceneGraph);
 
-		new SphereEntity()  .withPosition(10, 0, 0) .register(sceneGraph);
+		//new SphereEntity()  .withPosition(10, 0, 0) .register(sceneGraph);
 
-        new SimpleLayer(new Dimension(600, 400)) .register(sceneGraph);
+        //new SimpleLayer(new Dimension(600, 400)) .register(sceneGraph);
 
 
 		// new SphereEntity()  .withPosition(20, 0, 0) .register(sceneGraph);
@@ -94,11 +90,11 @@ public class StartState implements IState {
 		//	 new SimpleEffect().addEntity(new Earth().withPosition(10, 0, 0)) .register(sceneGraph)
 
 
-
+/*
 		SimpleEffect effect = new SimpleEffect();
 		effect.addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d));
 		effect.register(sceneGraph);
-
+*/
 		//   new QuadEntity() .register(sceneGraph);
 
 
@@ -106,9 +102,13 @@ public class StartState implements IState {
 		/*
         new QuadEntity() .withPosition(new Vector3d(+15, 0, 0)).register(sceneGraph);
         new QuadEntity() .withPosition(new Vector3d(-15, 0, 0)).register(sceneGraph);
+		*/
 
-        new SphereEntity() .register(sceneGraph);
-		 */
+        new ProceduralCelestial()
+        	.withSize(5)
+        	.withPosition( 0, 0, -10d)
+        	.withCorona(new Corona().withThinkness(.1f))
+        	.register(sceneGraph);
 
 	}
 

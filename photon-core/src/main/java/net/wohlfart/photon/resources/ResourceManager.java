@@ -5,11 +5,7 @@ import java.util.Map;
 
 import net.wohlfart.photon.hud.txt.CharAtlasFactory;
 import net.wohlfart.photon.hud.txt.CharDataFactory;
-import net.wohlfart.photon.hud.txt.ICharAtlas;
-import net.wohlfart.photon.hud.txt.ICharData;
-import net.wohlfart.photon.shader.IShaderProgram;
 import net.wohlfart.photon.shader.ShaderFactory;
-import net.wohlfart.photon.texture.ITexture;
 import net.wohlfart.photon.texture.TextureFactory;
 
 
@@ -29,12 +25,16 @@ public class ResourceManager {
     private final HashMap<HashKey<?,?>, Object> resourceCache = new HashMap<>();
 
     private ResourceManager() {
-        delegates.put(IShaderProgram.class, new ShaderFactory());
-        delegates.put(ITexture.class, new TextureFactory());
+    	register(new ShaderFactory());
+    	register(new TextureFactory());
         final CharAtlasFactory charAtlasFactory = new CharAtlasFactory();
-        delegates.put(ICharAtlas.class, charAtlasFactory);
-        delegates.put(ICharData.class, new CharDataFactory(charAtlasFactory));
+    	register(charAtlasFactory);
+    	register(new CharDataFactory(charAtlasFactory));
     };
+
+    public final void register(ResourceProducer<?,?> producer) {
+    	delegates.put(producer.flavour(), producer);
+    }
 
     public static <P,K> P loadResource(Class<P> clazz, K key) {
     	return INSTANCE.load(clazz, key);

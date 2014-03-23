@@ -35,6 +35,10 @@ public class CharAtlasFactory implements ResourceProducer<ICharAtlas, FontIdenti
         assert CHARS.contains(String.valueOf(NULL_CHAR)) : "need NULL_CHAR in char sequence";
     }
 
+	@Override
+	public Class<ICharAtlas> flavour() {
+		return ICharAtlas.class;
+	}
 
     @Override
     public ICharAtlas produce(FontIdentifier identifier) {

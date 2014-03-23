@@ -10,6 +10,11 @@ import net.wohlfart.photon.resources.ResourceUriParser;
 
 public class TextureFactory implements ResourceProducer<ITexture, TextureIdentifier> {
 
+	@Override
+	public Class<ITexture> flavour() {
+		return ITexture.class;
+	}
+
     @Override
     public ITexture produce(TextureIdentifier ident) {
         final URI uri = ident.getTextureResource();

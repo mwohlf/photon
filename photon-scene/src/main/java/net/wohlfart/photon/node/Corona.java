@@ -12,7 +12,6 @@ public class Corona extends AbstractRenderElement {
 
 	public static final ShaderIdentifier TEXTURE_SHADER_ID = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
 
-
     private float planetSize;
     private float thinkness = 1;
 
