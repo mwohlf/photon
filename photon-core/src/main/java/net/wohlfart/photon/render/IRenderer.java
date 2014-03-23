@@ -42,13 +42,13 @@ public interface IRenderer extends IGraphicContext {
 
     }
 
-
+/*
     public interface IFrameBufferElem extends IRenderNode {
 
         FrameBufferObject getFrameBufferObject();
 
     }
-
+*/
 
     // display debug info during the next render run
     void setDebugMode(boolean enableDebug);

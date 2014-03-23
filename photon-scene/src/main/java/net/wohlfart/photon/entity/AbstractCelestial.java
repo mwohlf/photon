@@ -23,7 +23,7 @@ import org.slf4j.LoggerFactory;
 /*
  * this class only needs a getRenderCommands() method
  */
-public abstract class AbstractCelestial extends AbstractEntity3D  {
+public abstract class AbstractCelestial extends AbstractEntity  {
     protected static final Logger LOGGER = LoggerFactory.getLogger(AbstractCelestial.class);
 
 	public static final ShaderIdentifier TEXTURE_SHADER_ID = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");

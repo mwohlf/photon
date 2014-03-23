@@ -27,13 +27,6 @@ public class NodeSortStrategy<T extends NodeSortStrategy.HasSortToken> implement
             return 0;
         }
 
-        /*
-        @Override
-        public void setZOrder(double zOrder) {
-            // do nothing
-        }
-        */
-
         @Override
         public String toString() {
             return "NULL_SORT_TOKEN";
@@ -52,8 +45,6 @@ public class NodeSortStrategy<T extends NodeSortStrategy.HasSortToken> implement
         boolean isTranslucent();
 
         double getZOrder();
-
-        // void setZOrder(double zOrder);
 
     }
 

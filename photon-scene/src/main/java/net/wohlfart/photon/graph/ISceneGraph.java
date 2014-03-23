@@ -15,7 +15,7 @@ public interface ISceneGraph {
     /**
      * semantic element of a scene graph
      */
-    public interface IEntity3D {
+    public interface IEntity {
 
         // current position, we use a 3d vector for this, TODO: scale the objects size later
         Vector3d getPosition();
@@ -39,9 +39,9 @@ public interface ISceneGraph {
 
 
 
-    void addEntity(IEntity3D entity);
+    void addEntity(IEntity entity);
 
-    void removeEntity(IEntity3D entity);
+    void removeEntity(IEntity entity);
 
     void addRenderCommands(Collection<? extends IRenderNode> nodes);
 

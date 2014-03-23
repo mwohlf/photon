@@ -32,7 +32,7 @@ public class SceneGraph implements ISceneGraph {
     private static final Logger LOGGER = LoggerFactory.getLogger(SceneGraph.class);
 
     // we need a semantic view for calling in on action and update methods
-    protected final HashSet<IEntity3D> semanticView;
+    protected final HashSet<IEntity> semanticView;
 
     // we need a spatial view as boundingVolumeHierarchy for culling and picking
  //   protected final TreeImpl<BoundingVolumeSphere> spatialView;
@@ -57,13 +57,13 @@ public class SceneGraph implements ISceneGraph {
     }
 
     @Override
-    public void addEntity(IEntity3D entity) {
+    public void addEntity(IEntity entity) {
         assert entity != null : "entity is null";
         semanticView.add(entity);
     }
 
     @Override
-    public void removeEntity(IEntity3D entity) {
+    public void removeEntity(IEntity entity) {
         assert entity != null : "entity is null";
         semanticView.remove(entity);
     }
@@ -95,7 +95,7 @@ public class SceneGraph implements ISceneGraph {
         return renderCache.getRoot();
     }
 
-    public Set<IEntity3D> getEntities() {
+    public Set<IEntity> getEntities() {
         return semanticView;
     }
 

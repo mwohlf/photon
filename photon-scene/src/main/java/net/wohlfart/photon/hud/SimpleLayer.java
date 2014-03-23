@@ -16,10 +16,10 @@ public class SimpleLayer extends AbstractLayer<CornerConstraints> {
 
     private float time;
 
-    private final RingBufferChart<CornerConstraints> memoryChart = new RingBufferChart<CornerConstraints>(100,70);
+    private final Chart<CornerConstraints> memoryChart = new Chart<CornerConstraints>(100,70);
     private final Label<CornerConstraints> memoryLabel = new Label<CornerConstraints>("");
 
-    private final RingBufferChart<CornerConstraints> fpsChart = new RingBufferChart<CornerConstraints>(100,70);
+    private final Chart<CornerConstraints> fpsChart = new Chart<CornerConstraints>(100,70);
     private final Label<CornerConstraints> fpsLabel = new Label<CornerConstraints>("");
 
     Dimension dim = new Dimension(150, 30);

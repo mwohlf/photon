@@ -7,7 +7,7 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import net.wohlfart.photon.graph.ISceneGraph;
-import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
+import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.render.AbstractRenderElement;
 import net.wohlfart.photon.render.Geometry;
 import net.wohlfart.photon.render.IGeometry;
@@ -30,7 +30,7 @@ import net.wohlfart.photon.tools.Quaternion;
  * we need a feature to turn the skybox off on the fly...
  */
 @SuppressWarnings("unused")
-public class Skybox implements IEntity3D {
+public class Skybox implements IEntity {
 
     private ISceneGraph sceneGraph;
 

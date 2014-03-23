@@ -4,7 +4,7 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import net.wohlfart.photon.graph.ISceneGraph;
-import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
+import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.hud.layout.Container;
 import net.wohlfart.photon.hud.layout.LayoutStrategy;
 import net.wohlfart.photon.tools.Dimension;
@@ -15,7 +15,7 @@ import net.wohlfart.photon.tools.Quaternion;
  * contains the component containers
  * TODO: read the elements from a config file
  */
-public abstract class AbstractLayer<C> implements IEntity3D {
+public abstract class AbstractLayer<C> implements IEntity {
 
     private ISceneGraph sceneGraph;
 

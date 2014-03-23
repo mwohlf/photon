@@ -15,7 +15,6 @@ import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.render.IRenderer;
-import net.wohlfart.photon.render.IRenderer.IFrameBufferElem;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.render.VertexTransform;
@@ -28,7 +27,7 @@ import net.wohlfart.photon.shader.TextureHandleValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.texture.TextureIdentifier;
 
-public class FrameBufferElement implements IFrameBufferElem {
+public class FrameBufferNode implements IRenderNode {
 
 	public static final ITextureIdentifier TEXTURE_ID1 = TextureIdentifier.create("gfx/textures/texture.jpg");
 	public static final ShaderIdentifier TEXTURE_SHADER_ID = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
@@ -51,7 +50,7 @@ public class FrameBufferElement implements IFrameBufferElem {
 
     protected Dimension dim = new Dimension(600,400);
 
-    public FrameBufferElement() {
+    public FrameBufferNode() {
        // uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
     	geometry = createGeometry();
     	model2WorldMatrix.setIdentity();
@@ -84,7 +83,6 @@ public class FrameBufferElement implements IFrameBufferElem {
         return sortToken;
     }
 
-    @Override
     public FrameBufferObject getFrameBufferObject() {
         return frameBufferObject;
     }

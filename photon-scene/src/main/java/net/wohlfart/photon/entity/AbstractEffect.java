@@ -9,18 +9,18 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import net.wohlfart.photon.graph.ISceneGraph;
-import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
+import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.ITree;
-import net.wohlfart.photon.node.FrameBufferElement;
+import net.wohlfart.photon.node.FrameBufferNode;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.tools.Quaternion;
 
-public abstract class AbstractEffect implements IEntity3D  {
+public abstract class AbstractEffect implements IEntity  {
 
-    private final FrameBufferElement overlay = new FrameBufferElement();
+    private final FrameBufferNode overlay = new FrameBufferNode();
 
     // child entities that are affected by this effect
-    private final Set<AbstractEntity3D> childEntities = new HashSet<>();
+    private final Set<AbstractEntity> childEntities = new HashSet<>();
 
     private ITree<IRenderNode> tree = null;
 
@@ -32,7 +32,7 @@ public abstract class AbstractEffect implements IEntity3D  {
         this.sceneGraph = sceneGraph;
         sceneGraph.addEntity(this);
         tree = sceneGraph.createSubTree(overlay);
-        for (AbstractEntity3D entity : childEntities) {
+        for (AbstractEntity entity : childEntities) {
             entity.setup();
             for (IRenderNode command : entity.getRenderCommands()) {
                 tree.add(command);
@@ -48,7 +48,7 @@ public abstract class AbstractEffect implements IEntity3D  {
         tree = null;
     }
 
-    public void addEntity(AbstractEntity3D entity) {
+    public void addEntity(AbstractEntity entity) {
         childEntities.add(entity);
         if (tree != null) {
             entity.setup();
@@ -60,7 +60,7 @@ public abstract class AbstractEffect implements IEntity3D  {
 
     @Override
     public void update(Quaternion rot, Vector3f mov, float delta) {
-        for (AbstractEntity3D entity : childEntities) {
+        for (AbstractEntity entity : childEntities) {
             entity.update(rot, mov, delta);
         }
     }

@@ -1,7 +1,7 @@
 package net.wohlfart.photon.hud.txt;
 
 /*
- * dimension info for a single character
+ * dimension info for a single character in a char atlas
  */
 public class CharInfo {
     protected final float x;

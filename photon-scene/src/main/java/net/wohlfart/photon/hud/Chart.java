@@ -24,15 +24,15 @@ import org.slf4j.LoggerFactory;
 /**
  * @param <C> the constraints for the layout strategy of this component within its parent container
  */
-public class RingBufferChart<C> extends AbstractComponent<C> {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(RingBufferChart.class);
+public class Chart<C> extends AbstractComponent<C> {
+    protected static final Logger LOGGER = LoggerFactory.getLogger(Chart.class);
 
     private final float[] ringBuffer; // values should be in the range of 0..1
     private final int ringSize = 70;
     private int oldestIdx = 0;
 
 
-    public RingBufferChart(int width, int height) {
+    public Chart(int width, int height) {
         this.width = width;
         this.height = height;
         ringBuffer = new float[ringSize];
@@ -60,7 +60,8 @@ public class RingBufferChart<C> extends AbstractComponent<C> {
             Dimension dim = renderer.getDimension();
             geometry = createGeometry(dim);
             //model2WorldValue.set(createModelMatrix(dim, container.getLayoutManager(), model2WorldValue.get()));
-            uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(model2WorldMatrix));
+            uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX,
+            		new Matrix4fValue(createModelMatrix(dim, container.getLayoutManager(), new Matrix4f())));
             isDirty = false;
         }
 

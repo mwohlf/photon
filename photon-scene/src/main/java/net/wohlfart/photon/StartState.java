@@ -13,7 +13,7 @@ import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
 import net.wohlfart.photon.events.RotateEvent;
 import net.wohlfart.photon.events.Subscribe;
-import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
+import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.hud.SimpleLayer;
 import net.wohlfart.photon.pov.CanMoveImpl;
@@ -114,7 +114,7 @@ public class StartState implements IState {
 
 	@Override
 	public void update(float delta) {
-		Iterator<IEntity3D> iter = sceneGraph.getEntities().iterator();
+		Iterator<IEntity> iter = sceneGraph.getEntities().iterator();
 		while (iter.hasNext()) {
 			iter.next().update(rotation, movement, delta);
 		}

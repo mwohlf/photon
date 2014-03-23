@@ -37,7 +37,7 @@ public class FlowLayoutStrategy extends AbstractLayoutStrategy<FlowContraints> {
             positions.put(component, position);
             offset += component.getHeight()/600f;  // FIXME: srly?? this has to go!
         }
-        isDirty = false;        
+        isDirty = false;
     }
 
 

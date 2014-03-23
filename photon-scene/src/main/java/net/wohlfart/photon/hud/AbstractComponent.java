@@ -32,13 +32,12 @@ public abstract class AbstractComponent<C> extends AbstractRenderElement impleme
     }
 
     @Override
-    public void setParent(Container<C> container) {
-        this.container = container;
-    }
-
-    @Override
     public Container<C> getParent() {
         return container;
+    }
+
+    public void setParent(Container<C> container) {
+        this.container = container;
     }
 
 }

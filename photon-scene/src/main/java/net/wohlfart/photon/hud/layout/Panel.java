@@ -20,8 +20,8 @@ import net.wohlfart.photon.tools.MathTool;
 
 
 /**
- * @param <P> this panel's parent layout contraints
- * @param <C> this panel's children's layout contraints
+ * @param <P> this panel's parent layout constraints
+ * @param <C> this panel's children's layout constraints
  */
 public class Panel<P, C> extends Container<C> implements IComponent<P> {
 

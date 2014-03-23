@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 /**
  * simple example how to implement a Entity3D
  */
-public class Entity3DImpl extends AbstractEntity3D {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(Entity3DImpl.class);
+public class EntityImpl extends AbstractEntity {
+    protected static final Logger LOGGER = LoggerFactory.getLogger(EntityImpl.class);
 
     protected final Collection<AbstractRenderElement> renderElements = new HashSet<>();
 

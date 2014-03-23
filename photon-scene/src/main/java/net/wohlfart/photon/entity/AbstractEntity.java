@@ -7,7 +7,7 @@ import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
 import net.wohlfart.photon.graph.ISceneGraph;
-import net.wohlfart.photon.graph.ISceneGraph.IEntity3D;
+import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.render.IRenderer.IRenderElem;
 import net.wohlfart.photon.tools.MathTool;
 import net.wohlfart.photon.tools.Quaternion;
@@ -23,7 +23,7 @@ import net.wohlfart.photon.tools.Quaternion;
  *  tearDown()
  *
  */
-public abstract class AbstractEntity3D implements IEntity3D {
+public abstract class AbstractEntity implements IEntity {
 
     protected final Vector3d position = new Vector3d();
 
@@ -107,22 +107,22 @@ public abstract class AbstractEntity3D implements IEntity3D {
 
     // -- setters
 
-    public AbstractEntity3D withSize(float size) {
+    public AbstractEntity withSize(float size) {
         this.size = size;
         return this;
     }
 
-    public AbstractEntity3D withPosition(Vector3d position) {
+    public AbstractEntity withPosition(Vector3d position) {
         this.position.set(position);
         return this;
     }
 
-    public AbstractEntity3D withPosition(double x, double y, double z) {
+    public AbstractEntity withPosition(double x, double y, double z) {
         this.position.set(x, y, z);
         return this;
     }
 
-    public AbstractEntity3D withRotation(Quaternion rotation) {
+    public AbstractEntity withRotation(Quaternion rotation) {
         this.rotation.setX(rotation.getX());
         this.rotation.setY(rotation.getY());
         this.rotation.setZ(rotation.getZ());
