@@ -1,5 +1,4 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="
 		http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd
 	">
@@ -11,13 +10,9 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>photon-desktop</artifactId>
+	<packaging>jar</packaging>
 
-	<!-- 
-	
-	todo: we need to package according to:
-	http://forum.jogamp.org/Packaging-JOGL-projects-to-be-cross-platform-td4031261.html
-	
-	 -->
+	<!-- todo: we need to package according to: http://forum.jogamp.org/Packaging-JOGL-projects-to-be-cross-platform-td4031261.html -->
 
 	<dependencies>
 
@@ -29,4 +24,79 @@
 
 	</dependencies>
 
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.2</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<transformers>
+								<transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+									<mainClass>net.wohlfart.photon.DesktopStart</mainClass>
+								</transformer>
+							</transformers>
+							<minimizeJar>true</minimizeJar>
+							<artifactSet>
+								<excludes>
+									<exclude>org.jogamp.gluegen:gluegen-rt:jar</exclude>
+									<exclude>org.jogamp.jogl:jogl-all:jar</exclude>
+								</excludes>
+								<includes>
+									<include>net.wohlfart.photon:photon-core</include>
+									<include>net.wohlfart.photon:photon-scene</include>
+									<include>org.slf4j:jcl-over-slf4j</include>
+									<include>org.slf4j:slf4j-api</include>
+									<include>ch.qos.logback:logback-classic</include>
+									<include>ch.qos.logback:logback-core</include>
+									<include>com.squareup.dagger:dagger</include>
+									<include>javax.inject:javax.inject</include>
+									<include>com.squareup.dagger:dagger-compiler</include>
+									<include>com.squareup:javawriter</include>
+									<include>com.google.code.findbugs</include>
+									<include>net.sf.trove4j:trove4j</include>
+									<include>java3d:vecmath:jar</include>
+									<include>com.google.guava:guava</include>
+									<include>org.antlr:antlr4:jar</include>
+									<include>org.antlr:antlr4-runtime</include>
+									<include>org.abego.treelayout:org.abego.treelayout.core</include>
+									<include>org.antlr:antlr-runtime</include>
+									<include>org.antlr:stringtemplate</include>
+									<include>antlr:antlr</include>
+									<include>org.antlr:ST4</include>
+								</includes>
+							</artifactSet><!-- <filters> <filter> <exclude></exclude> </filter> 
+								</filters> -->
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<ant antfile="build.xml" target="attach-natives" />
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+		</plugins>
+	</build>
 </project>

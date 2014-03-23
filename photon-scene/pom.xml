@@ -28,12 +28,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>net.wohlfart.photon</groupId>
-			<artifactId>photon-scene</artifactId>
-			<version>${photon.version}</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.antlr</groupId>
 			<artifactId>antlr4</artifactId>
 			<version>${antlr.version}</version>

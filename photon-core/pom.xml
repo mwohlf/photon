@@ -4,7 +4,7 @@
     ">
 
 	<modelVersion>4.0.0</modelVersion>
-	
+
 	<parent>
 		<groupId>net.wohlfart.photon</groupId>
 		<artifactId>photon</artifactId>
@@ -36,5 +36,7 @@
 		</dependency>
 
 	</dependencies>
+
+
 
 </project>
