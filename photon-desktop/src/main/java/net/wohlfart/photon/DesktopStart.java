@@ -1,4 +1,5 @@
 package net.wohlfart.photon;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
@@ -32,14 +33,7 @@ public class DesktopStart {
 	private static final int CANVAS_HEIGHT = 600; // height of the drawable
 
 	// platform dependant drawing target, already wired with the animator loop
-	protected final OpenGlCanvas canvas;
-	// FIXME: instead of using an  own component here we shoud be able to
-	// use   public Object getUpstreamWidget(); from GLAutoDrawable here ...
-
-
-	// the application that has to implement the rendering callbacks
-	//protected final Application application;
-
+	protected final OpenGlCanvas<Component> canvas;
 
 	protected final PoolEventBus eventBus;
 
@@ -49,7 +43,7 @@ public class DesktopStart {
 
 
 	@Inject
-	public DesktopStart(LifecycleListener game, PoolEventBus eventBus, OpenGlCanvas canvas){
+	public DesktopStart(LifecycleListener game, PoolEventBus eventBus, OpenGlCanvas<Component> canvas){
 		this.game = game;
 		this.eventBus = eventBus;
 		this.canvas = canvas;
@@ -69,7 +63,7 @@ public class DesktopStart {
 				canvas.addKeyListener(new KeyListener());
 
 				frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-				frame.getContentPane().add(canvas.asComponent());
+				frame.getContentPane().add(canvas.asWidget());
 				frame.addWindowListener(new WindowListener());
 				frame.addKeyListener(new KeyListener());
 				frame.setTitle(TITLE);

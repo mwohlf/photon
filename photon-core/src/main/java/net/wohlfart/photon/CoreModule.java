@@ -1,9 +1,12 @@
 package net.wohlfart.photon;
 
 
+import java.awt.Component;
+
 import javax.inject.Singleton;
 
 import net.wohlfart.photon.events.PoolEventBus;
+import net.wohlfart.photon.render.RendererImpl;
 import net.wohlfart.photon.resources.ResourceManager;
 import dagger.Module;
 import dagger.Provides;
@@ -13,13 +16,23 @@ import dagger.Provides;
 public class CoreModule {
 
 	@Provides @Singleton
-	PoolEventBus providePoolEventBus() {
+	public PoolEventBus providePoolEventBus() {
 		return new PoolEventBus();
 	}
 
 	@Provides @Singleton
-	ResourceManager provideResourceManager() {
+	public ResourceManager provideResourceManager() {
 		return ResourceManager.INSTANCE;
+	}
+
+	@Provides
+	public OpenGlCanvas<Component> provideOpenGlCanvas() {
+		return new OpenGlCanvas<Component>();
+	}
+
+	@Provides
+	public RendererImpl providesRendererImpl() {
+		return new RendererImpl();
 	}
 
 }

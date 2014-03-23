@@ -22,15 +22,12 @@ import org.slf4j.LoggerFactory;
 public class RendererImpl implements IRenderer {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(RendererImpl.class);
 
-	protected IGraphicContext delegate;
+	protected IGraphicContext graphicContext;
 	protected volatile boolean debug;
 
-	@Inject
-	public RendererImpl() {
-	}
 
 	public void setGfxContext(IGraphicContext gfxCtx) {
-		this.delegate = gfxCtx;
+		this.graphicContext = gfxCtx;
 	}
 
     @Override
@@ -57,27 +54,27 @@ public class RendererImpl implements IRenderer {
 
 	@Override
 	public void setRenderConfig(ShaderIdentifier shaderId, IRenderConfig<RenderConfigImpl> newConfig) {
-		delegate.setRenderConfig(shaderId, newConfig);
+		graphicContext.setRenderConfig(shaderId, newConfig);
 	}
 
 	@Override
 	public void setUniformValues(Map<String, IUniformValue> uniformValues) {
-		delegate.setUniformValues(uniformValues);
+		graphicContext.setUniformValues(uniformValues);
 	}
 
 	@Override
 	public void drawGeometry(IGeometry geometry) {
-		delegate.drawGeometry(geometry);
+		graphicContext.drawGeometry(geometry);
 	}
 
 	@Override
 	public Dimension getDimension() {
-		return delegate.getDimension(); // FIXME: get rid of this method
+		return graphicContext.getDimension(); // FIXME: get rid of this method
 	}
 
 	@Override
 	public void setFrameBuffer(IFrameBuffer frameBuffer) {
-		delegate.setFrameBuffer(frameBuffer);
+		graphicContext.setFrameBuffer(frameBuffer);
 	}
 
 }

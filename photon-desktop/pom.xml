@@ -12,18 +12,15 @@
 	<artifactId>photon-desktop</artifactId>
 	<packaging>jar</packaging>
 
-	<!-- 
-	
-	todo: we need to package according to: 
+	<!-- 	
+	readme about packing JOGAMP 
 		http://forum.jogamp.org/Packaging-JOGL-projects-to-be-cross-platform-td4031261.html 
+		https://jogamp.org/wiki/index.php/JogAmp_JAR_File_Handling
 		
 	native libs can be found at:
 		http://jogamp.org/deployment/jogamp-current/archive/
-		
-		https://jogamp.org/wiki/index.php/JogAmp_JAR_File_Handling
-		
+				
 		-->
-
 	<dependencies>
 
 		<dependency>
