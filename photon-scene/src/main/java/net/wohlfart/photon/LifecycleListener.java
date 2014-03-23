@@ -1,7 +1,11 @@
 package net.wohlfart.photon;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.vecmath.Matrix4f;
@@ -34,6 +38,7 @@ public class LifecycleListener implements ILifecycleListener {
 	private final TimerImpl timer;
 	private final RendererImpl renderer;
 	private final StateManager stateManager;
+	private final PerspectiveProjectionBuilder perspectiveProjectionBuilder;
 
 	private IState currentState;
 
@@ -48,7 +53,8 @@ public class LifecycleListener implements ILifecycleListener {
 		this.timer = timer;
 		this.renderer = renderer;
 		this.stateManager = stateManager;
-		stateManager.setStartState(new StartState());
+		this.perspectiveProjectionBuilder = new PerspectiveProjectionBuilder();
+		this.stateManager.setStartState(new StartState());
 	}
 
 	/**
@@ -62,16 +68,32 @@ public class LifecycleListener implements ILifecycleListener {
 
         final Map<String, IUniformValue> uniforms = new HashMap<>();
 
+        // this will be updated by the model / render command
         final Matrix4f modelToWorldMatrix = new Matrix4f();
         modelToWorldMatrix.setIdentity();
         uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelToWorldMatrix));
 
+        // cam is static at 0/0/0
         final Matrix4f worldToCamMatrix = new Matrix4f();
         worldToCamMatrix.setIdentity();
         uniforms.put(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, new Matrix4fValue(worldToCamMatrix));
 
         gfxCtx.setUniformValues(uniforms);
         gfxCtx.setRenderConfig(DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
+
+		Properties prop = new Properties();
+		try (InputStream in = getClass().getResourceAsStream("scene.properties")) {
+			prop.load(in);
+			float fieldOfView = Float.valueOf(prop.getProperty("fieldOfView"));
+			float nearPlane = Float.valueOf(prop.getProperty("nearPlane"));
+			float farPlane = Float.valueOf(prop.getProperty("farPlane"));
+			perspectiveProjectionBuilder
+				.withFieldOfView(fieldOfView)
+				.withNearPlane(nearPlane)
+				.withFarPlane(farPlane);
+		} catch (IOException ex) {
+			LOGGER.error("cant read properties", ex);
+		}
 
 		currentState = stateManager.getCurrentState();
 	}
@@ -112,18 +134,13 @@ public class LifecycleListener implements ILifecycleListener {
 	public void reshape(IGraphicContext gfxCtx, int x, int y, int width, int height) {
 		LOGGER.info("reshape() called");
 
-        final Map<String, IUniformValue> uniforms = new HashMap<>();
-
-        final Matrix4f cameraToClipMatrix = new PerspectiveProjectionBuilder()
-        .withFieldOfView(45)
-        .withFarPlane(1000)
-        .withNearPlane(1)
-        .withWidth(width)
-        .withHeight(height)
-        .build();
-        uniforms.put(ShaderParser.UNIFORM_CAM_2_CLIP_MTX, new Matrix4fValue(cameraToClipMatrix));
-
-        renderer.setUniformValues(uniforms);
+        final Matrix4f cameraToClipMatrix = perspectiveProjectionBuilder
+        		.withWidth(width)
+        		.withHeight(height)
+        		.build();
+        renderer.setUniformValues(Collections.singletonMap(
+        		ShaderParser.UNIFORM_CAM_2_CLIP_MTX,
+        		(IUniformValue)new Matrix4fValue(cameraToClipMatrix)));
 	}
 
 	/**

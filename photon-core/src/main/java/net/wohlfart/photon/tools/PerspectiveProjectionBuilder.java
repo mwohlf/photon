@@ -12,33 +12,33 @@ import org.slf4j.LoggerFactory;
  * resolution or pixel, just the aspect ratio matters, the screen resolution is
  * used when setting the viewport e.g. glViewport(0, 0, textureWidth,
  * textureHeight);
- * 
+ *
  * - the view matrix defines the position and the direction of the camera it is
  * set once per rendering pass and defined in which direction the cam is looking
- * 
+ *
  * - the model matrix defines the position and direction of each 3D model it is
  * used to move and rotate a model in the world space around each model can set
  * its individual matrix before rendering so it is set for each model object
- * 
+ *
  * see: http://www.lwjgl.org/wiki/index.php?title=The_Quad_with_Projection,
  * _View_and_Model_matrices see:
  * http://db-in.com/blog/2011/04/cameras-on-opengl-es-2-x/ see:
  * http://www.songho.ca/opengl/gl_projectionmatrix.html
- * 
+ *
  * @return our projection matrix
  */
 public class PerspectiveProjectionBuilder {
     private static final Logger LOGGER = LoggerFactory.getLogger(PerspectiveProjectionBuilder.class);
 
     private static final float FIELD_OF_VIEW_LIMIT = 100; // << 180
-    
-    private float fieldOfView = 45f;
-	private float nearPlane = 1f;
-    private float farPlane = 1000f;
-    private float width = 600;
-    private float height = 400;
-    
-    
+
+    private float fieldOfView = -1;
+	private float nearPlane = -1;
+    private float farPlane = -1;
+    private float width = -1;
+    private float height = -1;
+
+
     public PerspectiveProjectionBuilder withFieldOfView(float fieldOfView) {
 		this.fieldOfView = fieldOfView;
 		return this;

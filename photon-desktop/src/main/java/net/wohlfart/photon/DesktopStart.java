@@ -6,7 +6,10 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Properties;
 
 import javax.inject.Inject;
 import javax.swing.JFrame;
@@ -28,10 +31,6 @@ import dagger.ObjectGraph;
 public class DesktopStart {
 	private static final Logger LOGGER = LoggerFactory.getLogger(DesktopStart.class);
 
-	private static String TITLE = "JOGL 2.0 Setup (GLCanvas)";  // window's title
-	private static final int CANVAS_WIDTH = 800;  // width of the drawable
-	private static final int CANVAS_HEIGHT = 600; // height of the drawable
-
 	// platform dependant drawing target, already wired with the animator loop
 	protected final OpenGlCanvas<Component> canvas;
 
@@ -51,14 +50,25 @@ public class DesktopStart {
 	}
 
 
-	public void start() throws InvocationTargetException, InterruptedException {
+	public void start() throws InvocationTargetException, InterruptedException, IOException {
+		Properties prop = new Properties();
+		try (InputStream in = getClass().getResourceAsStream("desktop.properties")) {
+			prop.load(in);
+			String title = prop.getProperty("title");
+			int width = Integer.valueOf(prop.getProperty("width"));
+			int height = Integer.valueOf(prop.getProperty("height"));
+			start(title, width, height);
+		}
+	}
 
+
+	public void start(final String title, final int width, final int height) throws InvocationTargetException, InterruptedException {
 		EventQueue.invokeAndWait(new Runnable() {
 
 			@Override
 			public void run() {
 
-				canvas.setPreferredSize(new Dimension(CANVAS_WIDTH, CANVAS_HEIGHT));
+				canvas.setPreferredSize(new Dimension(width, height));
 				canvas.addLifecycleListener(game);
 				canvas.addKeyListener(new KeyListener());
 
@@ -66,7 +76,7 @@ public class DesktopStart {
 				frame.getContentPane().add(canvas.asWidget());
 				frame.addWindowListener(new WindowListener());
 				frame.addKeyListener(new KeyListener());
-				frame.setTitle(TITLE);
+				frame.setTitle(title);
 				frame.pack();
 				frame.setLocationRelativeTo(null);
 				frame.setVisible(true);
@@ -182,7 +192,7 @@ public class DesktopStart {
 			final ObjectGraph objectGraph = ObjectGraph.create(new DesktopModule());
 			final DesktopStart desktop = objectGraph.get(DesktopStart.class);
 			desktop.start();
-		} catch (InvocationTargetException | InterruptedException ex) {
+		} catch (InvocationTargetException | InterruptedException | IOException ex) {
 			ex.printStackTrace();
 		}
 	}
