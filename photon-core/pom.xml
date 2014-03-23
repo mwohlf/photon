@@ -17,7 +17,7 @@
 	<properties>
 		<user.name>Michael Wohlfart michael@wohlfart.net</user.name>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jogl.version>2.0.2</jogl.version>
+		<jogl.version>2.1.4</jogl.version>
 		<natives.version>0.0.7</natives.version>
 	</properties>
 
