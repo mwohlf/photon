@@ -82,7 +82,7 @@ public class LifecycleListener implements ILifecycleListener {
         gfxCtx.setRenderConfig(DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
 
 		Properties prop = new Properties();
-		try (InputStream in = getClass().getResourceAsStream("scene.properties")) {
+		try (InputStream in = getClass().getResourceAsStream("/scene.properties")) {
 			prop.load(in);
 			float fieldOfView = Float.valueOf(prop.getProperty("fieldOfView"));
 			float nearPlane = Float.valueOf(prop.getProperty("nearPlane"));

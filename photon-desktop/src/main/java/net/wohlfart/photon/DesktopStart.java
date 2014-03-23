@@ -51,8 +51,8 @@ public class DesktopStart {
 
 
 	public void start() throws InvocationTargetException, InterruptedException, IOException {
-		Properties prop = new Properties();
-		try (InputStream in = getClass().getResourceAsStream("desktop.properties")) {
+		final Properties prop = new Properties();
+		try (InputStream in = getClass().getResourceAsStream("/desktop.properties")) {
 			prop.load(in);
 			String title = prop.getProperty("title");
 			int width = Integer.valueOf(prop.getProperty("width"));
