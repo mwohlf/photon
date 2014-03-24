@@ -4,15 +4,15 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.entity.ProceduralCelestial;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
+import net.wohlfart.photon.events.ResizeEvent;
 import net.wohlfart.photon.events.RotateEvent;
 import net.wohlfart.photon.events.Subscribe;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
-import net.wohlfart.photon.node.Corona;
+import net.wohlfart.photon.hud.SimpleLayer;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
@@ -51,64 +51,41 @@ public class StartState implements IState {
 	}
 
 	@Subscribe
-	public void shutdown(CommandEvent event) {
+	public void command(CommandEvent event) {
 		if (event.getKey() == CommandKey.DEBUG_RENDER) {
 			debugOnce = true;
-		} else if (event.getKey() == CommandKey.DEBUG_RENDER) {
-			// todo
+		} else if (event.getKey() == CommandKey.DUMP_SCENE) {
+			LOGGER.debug("scene graph:" + sceneGraph);
 		}
+	}
+
+	@Subscribe
+	public void resize(ResizeEvent resize) {
+		LOGGER.info("resize.getDimension():" + resize.getDimension());
 	}
 
 	@Override
 	public void init() {
 
-		//new Skybox() .register(sceneGraph);
+		//  --- checked ---
 
-		//new SphereEntity()  .withPosition(10, 0, 0) .register(sceneGraph);
+		//	new Skybox() .register(sceneGraph);
 
-        //new SimpleLayer(new Dimension(600, 400)) .register(sceneGraph);
-
-
-		// new SphereEntity()  .withPosition(20, 0, 0) .register(sceneGraph);
-
-		// new SphereEntity()  .withPosition(30, 0, 0) .register(sceneGraph);
-
-		/*
-		new Earth() .withPosition(10, 0, 0) .register(sceneGraph);
-
-		new Earth() .withPosition(20, 0, 0) .register(sceneGraph);
-
-		new Earth() .withPosition(30, 0, 0) .register(sceneGraph);
-
-		new Earth() .withPosition(40, 0, 0) .register(sceneGraph);
-
-		new Earth() .withPosition(50, 0, 0) .register(sceneGraph);
-		*/
-
-		// new ProceduralCelestial() .withPosition(0, 0, -10) .withCorona(new Corona().withThinkness(2)) .register(sceneGraph);
-
-		//	 new SimpleEffect().addEntity(new Earth().withPosition(10, 0, 0)) .register(sceneGraph)
+		//	new ProceduralCelestial() .withPosition(0, 0, -30) .withCorona(new Corona().withThinkness(.2f)) .register(sceneGraph);
+		//	new SphereEntity()  .withPosition(0, 0, -10) .register(sceneGraph);
+		//	new Earth() .withPosition(0, 0, -20) .register(sceneGraph);
+		//	new QuadEntity() .withPosition(new Vector3d(+15, 0, 0)).register(sceneGraph);
 
 
-/*
-		SimpleEffect effect = new SimpleEffect();
-		effect.addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d));
-		effect.register(sceneGraph);
-*/
-		//   new QuadEntity() .register(sceneGraph);
+		// --- unchecked ---
 
+		new SimpleLayer() .register(sceneGraph);
 
+		//	    new SimpleEffect().addEntity(new Earth().withPosition(10, 0, 0)) .register(sceneGraph)
 
-		/*
-        new QuadEntity() .withPosition(new Vector3d(+15, 0, 0)).register(sceneGraph);
-        new QuadEntity() .withPosition(new Vector3d(-15, 0, 0)).register(sceneGraph);
-		*/
-
-        new ProceduralCelestial()
-        	.withSize(5)
-        	.withPosition( 0, 0, -10d)
-        	.withCorona(new Corona().withThinkness(.1f))
-        	.register(sceneGraph);
+		//		SimpleEffect effect = new SimpleEffect();
+		//		effect.addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d));
+		//		effect.register(sceneGraph);
 
 	}
 

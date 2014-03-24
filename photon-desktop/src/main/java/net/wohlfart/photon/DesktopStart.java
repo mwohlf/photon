@@ -38,11 +38,11 @@ public class DesktopStart {
 
 	protected final JFrame frame;
 
-	protected final LifecycleListener game;
+	protected final Application game;
 
 
 	@Inject
-	public DesktopStart(LifecycleListener game, PoolEventBus eventBus, OpenGlCanvas<Component> canvas){
+	public DesktopStart(Application game, PoolEventBus eventBus, OpenGlCanvas<Component> canvas){
 		this.game = game;
 		this.eventBus = eventBus;
 		this.canvas = canvas;

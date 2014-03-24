@@ -27,7 +27,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 
 	public static final RenderConfigImpl BLENDING_ON = new RenderConfigImpl(
 			Blending.ON,
-			ClearColor.GREY,
+			ClearColor.BLUE,
 			ClearDepth.ONE,
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,
@@ -37,7 +37,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 
 	public static final RenderConfigImpl DEFAULT_3D = new RenderConfigImpl(
 			Blending.OFF,
-			ClearColor.GREY,
+			ClearColor.BLUE,
 			ClearDepth.ONE,
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,
@@ -47,7 +47,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 
 	public static final RenderConfigImpl SKYBOX = new RenderConfigImpl(
 			Blending.OFF,
-			ClearColor.GREY,
+			ClearColor.BLUE,
 			ClearDepth.ONE,
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,

@@ -18,7 +18,7 @@ import com.jogamp.opengl.math.Quaternion;
 public class RotateEvent  implements PoolableObject, Serializable {
     private static final long serialVersionUID = 1L;
     private static final Logger LOGGER = LoggerFactory.getLogger(RotateEvent.class);
-    private static final int POOL_SIZE = 10;
+    private static final int POOL_SIZE = 5;
 
     private static final float ROTATION_SPEED = MathTool.TWO_PI; // one rotation per sec
 

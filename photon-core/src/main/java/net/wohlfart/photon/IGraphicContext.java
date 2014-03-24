@@ -20,6 +20,6 @@ public interface IGraphicContext {
 
 	void drawGeometry(IGeometry geometry);
 
-	Dimension getDimension();
+	Dimension getScreenDimension();
 
 }

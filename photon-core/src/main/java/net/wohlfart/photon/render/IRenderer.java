@@ -8,6 +8,7 @@ import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.HasSortToken;
 import net.wohlfart.photon.shader.IUniformValue;
+import net.wohlfart.photon.tools.Dimension;
 
 public interface IRenderer extends IGraphicContext {
 
@@ -42,13 +43,8 @@ public interface IRenderer extends IGraphicContext {
 
     }
 
-/*
-    public interface IFrameBufferElem extends IRenderNode {
 
-        FrameBufferObject getFrameBufferObject();
-
-    }
-*/
+    Dimension getScreenDimension();
 
     // display debug info during the next render run
     void setDebugMode(boolean enableDebug);

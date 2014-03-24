@@ -11,8 +11,12 @@ import javax.inject.Inject;
 import javax.vecmath.Matrix4f;
 
 import net.wohlfart.photon.events.PoolEventBus;
+import net.wohlfart.photon.events.ResizeEvent;
+import net.wohlfart.photon.hud.txt.CharAtlasFactory;
+import net.wohlfart.photon.hud.txt.CharDataFactory;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.render.RendererImpl;
+import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
@@ -25,26 +29,24 @@ import net.wohlfart.photon.tools.PerspectiveProjectionBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-//
-// entry point for the application
-//
-public class LifecycleListener implements ILifecycleListener {
-	private static final Logger LOGGER = LoggerFactory.getLogger(LifecycleListener.class);
 
-    protected final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
+public class Application implements ILifecycleListener {
+	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
 
+	private final PerspectiveProjectionBuilder perspectiveProjectionBuilder = new PerspectiveProjectionBuilder();
+
+	protected final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
 
 	private final PoolEventBus eventBus;
 	private final TimerImpl timer;
 	private final RendererImpl renderer;
 	private final StateManager stateManager;
-	private final PerspectiveProjectionBuilder perspectiveProjectionBuilder;
 
 	private IState currentState;
 
 
 	@Inject
-	public LifecycleListener(
+	public Application(
 				PoolEventBus eventBus,
 			    TimerImpl timer,
 			    RendererImpl renderer,
@@ -53,7 +55,11 @@ public class LifecycleListener implements ILifecycleListener {
 		this.timer = timer;
 		this.renderer = renderer;
 		this.stateManager = stateManager;
-		this.perspectiveProjectionBuilder = new PerspectiveProjectionBuilder();
+
+        final CharAtlasFactory charAtlasFactory = new CharAtlasFactory();
+        ResourceManager.INSTANCE.register(charAtlasFactory);
+        ResourceManager.INSTANCE.register(new CharDataFactory(charAtlasFactory));
+
 		this.stateManager.setStartState(new StartState());
 	}
 
@@ -135,12 +141,14 @@ public class LifecycleListener implements ILifecycleListener {
 		LOGGER.info("reshape() called");
 
         final Matrix4f cameraToClipMatrix = perspectiveProjectionBuilder
-        		.withWidth(width)
-        		.withHeight(height)
+        		.withWidth(width - x)
+        		.withHeight(height - y)
         		.build();
         renderer.setUniformValues(Collections.singletonMap(
         		ShaderParser.UNIFORM_CAM_2_CLIP_MTX,
         		(IUniformValue)new Matrix4fValue(cameraToClipMatrix)));
+
+        eventBus.post(ResizeEvent.create(width - x, width - y));
 	}
 
 	/**

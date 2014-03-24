@@ -9,7 +9,6 @@ import net.wohlfart.photon.hud.layout.CornerLayoutStrategy;
 import net.wohlfart.photon.hud.layout.FlowContraints;
 import net.wohlfart.photon.hud.layout.FlowLayoutStrategy;
 import net.wohlfart.photon.hud.layout.Panel;
-import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.Quaternion;
 
 public class SimpleLayer extends AbstractLayer<CornerConstraints> {
@@ -22,13 +21,12 @@ public class SimpleLayer extends AbstractLayer<CornerConstraints> {
     private final Chart<CornerConstraints> fpsChart = new Chart<CornerConstraints>(100,70);
     private final Label<CornerConstraints> fpsLabel = new Label<CornerConstraints>("");
 
-    Dimension dim = new Dimension(150, 30);
-    FlowLayoutStrategy flowLayout = new FlowLayoutStrategy();
-    private final Panel<CornerConstraints, FlowContraints> panel = new Panel<CornerConstraints, FlowContraints>(dim, flowLayout);
+    private final FlowLayoutStrategy flowLayout = new FlowLayoutStrategy();
+    private final Panel<CornerConstraints, FlowContraints> panel = new Panel<CornerConstraints, FlowContraints>(flowLayout);
 
 
-    public SimpleLayer(Dimension dimension) {
-        super(dimension, new CornerLayoutStrategy());
+    public SimpleLayer() {
+        super(new CornerLayoutStrategy());
 
         panel.add(new Label<FlowContraints>("test1"));
         panel.add(new Label<FlowContraints>("test2"));

@@ -13,7 +13,7 @@ public interface ISceneGraph {
 
 
     /**
-     * semantic element of a scene graph
+     * semantic element or effect of a scene graph
      */
     public interface IEntity {
 
@@ -23,10 +23,10 @@ public interface ISceneGraph {
         // rotation of the geometry
         Quaternion getRotation();
 
-        // size, needed for culling, ray picking etc.
+        // size/radius, needed for culling, ray picking etc.
         float getSize();
 
-        // incoming update for cam moves as well as moving the object
+        // incoming update for cam moves as well as moving the object itself
         void update(Quaternion rot, Vector3f mov, float delta);
 
         // register this object to the scene graph

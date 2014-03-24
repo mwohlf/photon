@@ -7,7 +7,6 @@ import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.hud.layout.Container;
 import net.wohlfart.photon.hud.layout.LayoutStrategy;
-import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.Quaternion;
 
 
@@ -20,11 +19,10 @@ public abstract class AbstractLayer<C> implements IEntity {
     private ISceneGraph sceneGraph;
 
     protected final Container<C> container;
-    protected final Dimension dimension;
 
-    public AbstractLayer(Dimension dimension, LayoutStrategy<C> layout) {
-        this.dimension = dimension;
-        this.container = new Container<C>(dimension, layout);
+
+    public AbstractLayer(LayoutStrategy<C> layout) {
+        this.container = new Container<C>(layout);
     }
 
     public Container<C> getContainer() {

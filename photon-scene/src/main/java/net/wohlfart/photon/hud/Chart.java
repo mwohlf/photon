@@ -15,7 +15,6 @@ import net.wohlfart.photon.resources.Resources;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderParser;
-import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.MathTool;
 
 import org.slf4j.Logger;
@@ -56,12 +55,13 @@ public class Chart<C> extends AbstractComponent<C> {
             return;
         }
 
+        screenDimension = renderer.getScreenDimension();
+
         if (isDirty) {
-            Dimension dim = renderer.getDimension();
-            geometry = createGeometry(dim);
+            geometry = createGeometry();
             //model2WorldValue.set(createModelMatrix(dim, container.getLayoutManager(), model2WorldValue.get()));
             uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX,
-            		new Matrix4fValue(createModelMatrix(dim, container.getLayoutManager(), new Matrix4f())));
+            		new Matrix4fValue(createModelMatrix(container.getLayoutManager(), new Matrix4f())));
             isDirty = false;
         }
 
@@ -83,7 +83,7 @@ public class Chart<C> extends AbstractComponent<C> {
                     + ", renderConfig=" + renderConfig + "]";
     }
 
-    private Geometry createGeometry(Dimension screenDimension) {
+    private Geometry createGeometry() {
         Geometry geometry = new Geometry(VertexFormat.VERTEX_P3C0N0T0, StreamFormat.LINE_STRIP);
 
         float xScale = this.width / screenDimension.getWidth();
@@ -100,7 +100,7 @@ public class Chart<C> extends AbstractComponent<C> {
         return geometry;
     }
 
-    private Matrix4f createModelMatrix(Dimension screenDimension, LayoutStrategy<C> layoutManager, Matrix4f modelMatrix) {
+    private Matrix4f createModelMatrix(LayoutStrategy<C> layoutManager, Matrix4f modelMatrix) {
         assert(modelMatrix != null);
         float alignX = layoutManager.getLayoutAlignmentX(this); // [0..1]
         float alignY = layoutManager.getLayoutAlignmentY(this); // [0..1]

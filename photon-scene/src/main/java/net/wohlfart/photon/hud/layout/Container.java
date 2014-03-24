@@ -34,15 +34,16 @@ public class Container<C> extends AbstractRenderElement {
     private Container<?> parent;
 
 
-    public Container(Dimension dimension, LayoutStrategy<C> layoutStrategy) {
-        LOGGER.debug("creating container with dimension {}", dimension);
-        this.width = dimension.getWidth();
-        this.height = dimension.getHeight();
+    public Container(LayoutStrategy<C> layoutStrategy) {
         this.layoutManager = layoutStrategy;
     }
 
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
+    	Dimension dim = renderer.getScreenDimension();
+    	width = dim.getWidth();
+    	height = dim.getHeight();
+
         for (IComponent<C> comp : children) {
             comp.accept(renderer, tree);
         }

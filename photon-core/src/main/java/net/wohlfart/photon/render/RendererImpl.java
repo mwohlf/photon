@@ -3,8 +3,6 @@ package net.wohlfart.photon.render;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.inject.Inject;
-
 import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.shader.IUniformValue;
@@ -68,13 +66,13 @@ public class RendererImpl implements IRenderer {
 	}
 
 	@Override
-	public Dimension getDimension() {
-		return graphicContext.getDimension(); // FIXME: get rid of this method
+	public void setFrameBuffer(IFrameBuffer frameBuffer) {
+		graphicContext.setFrameBuffer(frameBuffer);
 	}
 
 	@Override
-	public void setFrameBuffer(IFrameBuffer frameBuffer) {
-		graphicContext.setFrameBuffer(frameBuffer);
+	public Dimension getScreenDimension() {
+		return graphicContext.getScreenDimension();
 	}
 
 }

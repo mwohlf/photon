@@ -3,8 +3,6 @@ package net.wohlfart.photon.resources;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.wohlfart.photon.hud.txt.CharAtlasFactory;
-import net.wohlfart.photon.hud.txt.CharDataFactory;
 import net.wohlfart.photon.shader.ShaderFactory;
 import net.wohlfart.photon.texture.TextureFactory;
 
@@ -16,9 +14,8 @@ import net.wohlfart.photon.texture.TextureFactory;
  * TODO: somehow we need to keep track which resources are loaded in the GPU's memory...
  * check if we can do some async magic here
  */
-public class ResourceManager {
-	// FIXME: remove this uglyness
-	public static final ResourceManager INSTANCE = new ResourceManager();
+public enum ResourceManager {
+	 INSTANCE;
 
     private final Map<Class<?>, ResourceProducer<?, ?>> delegates = new HashMap<>();
 
@@ -27,9 +24,6 @@ public class ResourceManager {
     private ResourceManager() {
     	register(new ShaderFactory());
     	register(new TextureFactory());
-        final CharAtlasFactory charAtlasFactory = new CharAtlasFactory();
-    	register(charAtlasFactory);
-    	register(new CharDataFactory(charAtlasFactory));
     };
 
     public final void register(ResourceProducer<?,?> producer) {

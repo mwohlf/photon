@@ -3,7 +3,6 @@ package net.wohlfart.photon.node;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.media.nativewindow.util.Dimension;
 import javax.vecmath.Matrix4f;
 
 import net.wohlfart.photon.graph.ITree;
@@ -26,6 +25,7 @@ import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureHandleValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.texture.TextureIdentifier;
+import net.wohlfart.photon.tools.Dimension;
 
 public class FrameBufferNode implements IRenderNode {
 
@@ -48,7 +48,7 @@ public class FrameBufferNode implements IRenderNode {
 
     protected double zOrder = Double.NaN;
 
-    protected Dimension dim = new Dimension(600,400);
+    protected Dimension screenDimension;
 
     public FrameBufferNode() {
        // uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
@@ -57,11 +57,15 @@ public class FrameBufferNode implements IRenderNode {
         uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(model2WorldMatrix));
     }
 
+    public void setScreenDimension(Dimension screenDimension) {
+    	this.screenDimension = screenDimension;
+    }
+
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
         // render on framebuffer
     	frameBufferObject = getFrameBufferObject();
-    	frameBufferObject.setDimension(renderer.getDimension());
+    	frameBufferObject.setDimension(screenDimension);
     	renderer.setFrameBuffer(frameBufferObject);
         renderer.renderChildren(tree);
     	renderer.setFrameBuffer(null);

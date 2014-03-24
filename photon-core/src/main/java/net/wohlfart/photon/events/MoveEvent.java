@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class MoveEvent implements PoolableObject, Serializable {
     private static final long serialVersionUID = 1L;
     protected static final Logger LOGGER = LoggerFactory.getLogger(MoveEvent.class);
-    protected static final int POOL_SIZE = 10;
+    protected static final int POOL_SIZE = 5;
     private static final float MOVE_SPEED = 50f;
     private static final float WHEEL_SENSITIVITY = 0.05f;
 

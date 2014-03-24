@@ -24,7 +24,6 @@ import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureValue;
 import net.wohlfart.photon.texture.ITexture;
-import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.MathTool;
 
 import org.slf4j.Logger;
@@ -40,8 +39,7 @@ import org.slf4j.LoggerFactory;
 public class Label<C> extends AbstractComponent<C> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(Label.class);
 
-    static final FontIdentifier SIMPLE_FONT_ID = FontIdentifier
-            .create("fonts/liberation/LiberationMono-Regular.ttf", 12f);
+    static final FontIdentifier SIMPLE_FONT_ID = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", 12f);
 
     private final FontIdentifier fontIdentifier = SIMPLE_FONT_ID;
 
@@ -70,18 +68,18 @@ public class Label<C> extends AbstractComponent<C> {
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
         assert (container != null) : "we shouldn't be rendering this object if it has no parent";
+        screenDimension = renderer.getScreenDimension();
 
         if (isDirty) {
             charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
-            Dimension dim = renderer.getDimension();
 
-            Matrix4f textModelMatrix = createModelMatrix(dim, container.getLayoutManager(), textNode.getModel2WorldMatrix());
-            textNode.setGeometry(createTextGeometry(dim));
+            Matrix4f textModelMatrix = createModelMatrix(container.getLayoutManager(), textNode.getModel2WorldMatrix());
+            textNode.setGeometry(createTextGeometry());
             //textNode.getModel2WorldMatrix().load(textModelMatrix);
             textNode.getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(textModelMatrix));
 
-            Matrix4f borderModelMatrix = createModelMatrix(dim, container.getLayoutManager(), borderNode.getModel2WorldMatrix());
-            borderNode.setGeometry(createBorderGeometry(dim));
+            Matrix4f borderModelMatrix = createModelMatrix(container.getLayoutManager(), borderNode.getModel2WorldMatrix());
+            borderNode.setGeometry(createBorderGeometry());
             //borderNode.getModel2WorldMatrix().load(borderModelMatrix);
             textNode.getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(borderModelMatrix));
 
@@ -116,7 +114,7 @@ public class Label<C> extends AbstractComponent<C> {
         }
     }
 
-    private IGeometry createTextGeometry(Dimension screenDimension) {
+    private IGeometry createTextGeometry() {
 
         ICharAtlas charAtlas = charData.getCharAtlas();
         // see: http://lwjgl.org/wiki/index.php?title=The_Quad_textured
@@ -165,7 +163,7 @@ public class Label<C> extends AbstractComponent<C> {
     }
 
 
-    private IGeometry createBorderGeometry(Dimension screenDimension) {
+    private IGeometry createBorderGeometry() {
         Geometry geometry = new Geometry(VertexFormat.VERTEX_P3C0N0T0, StreamFormat.LINE_LOOP);
 
         float z = 0.5f;       // [-1...1]
@@ -191,7 +189,7 @@ public class Label<C> extends AbstractComponent<C> {
 
 
 
-    private Matrix4f createModelMatrix(Dimension screenDimension, LayoutStrategy<C> layoutManager, Matrix4f modelMatrix) {
+    private Matrix4f createModelMatrix(LayoutStrategy<C> layoutManager, Matrix4f modelMatrix) {
         float alignX = layoutManager.getLayoutAlignmentX(this); // [0..1]
         float alignY = layoutManager.getLayoutAlignmentY(this); // [0..1]
         // origin of the subcomponents is top left

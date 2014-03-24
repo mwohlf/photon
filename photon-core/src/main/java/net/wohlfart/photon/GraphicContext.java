@@ -154,9 +154,10 @@ public class GraphicContext implements IGraphicContext {
 	}
 
 	@Override
-	public Dimension getDimension() {
+	public Dimension getScreenDimension() {
 		return dim;
 	}
+
 
 	// keep the OpenGL stuff inside this class
 	private int getPrimitiveType(IGeometry.StreamFormat streamFormat) {

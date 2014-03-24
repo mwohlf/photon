@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 public class PointEvent implements PoolableObject, Serializable {
     private static final long serialVersionUID = 1L;
     protected static final Logger LOGGER = LoggerFactory.getLogger(PointEvent.class);
-    protected static final int POOL_SIZE = 100;
+    protected static final int POOL_SIZE = 5;
 
     private int x;
     private int y;
@@ -32,7 +32,8 @@ public class PointEvent implements PoolableObject, Serializable {
         }
     };
 
-    @Nullable static PointEvent create(int screenX, int screenY, Key key) {
+    @Nullable
+    public static PointEvent create(int screenX, int screenY, Key key) {
         try {
             final PointEvent result = POOL.borrowObject();
             result.x = screenX;

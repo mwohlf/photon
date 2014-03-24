@@ -29,9 +29,10 @@ public class Panel<P, C> extends Container<C> implements IComponent<P> {
 
     private final Border borderNode = new Border();
 
+    protected Dimension screenDimension;
 
-    public Panel(Dimension dimension, LayoutStrategy<C> layoutStrategy) {
-        super(dimension, layoutStrategy);
+    public Panel(LayoutStrategy<C> layoutStrategy) {
+        super(layoutStrategy);
         isDirty = true;
     }
 
@@ -45,16 +46,15 @@ public class Panel<P, C> extends Container<C> implements IComponent<P> {
         return parent;
     }
 
-
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
         assert (parent != null) : "we shouldn't be rendering this object if it has no parent";
         super.accept(renderer, tree); // render the subcomponents in this container
+        screenDimension = renderer.getScreenDimension();
 
         if (isDirty) {
-            Dimension dim = renderer.getDimension();
-            Matrix4f borderModelMatrix = createModelMatrix(dim, parent.getLayoutManager(), borderNode.getModel2WorldMatrix());
-            borderNode.setGeometry(createBorderGeometry(dim));
+            Matrix4f borderModelMatrix = createModelMatrix(parent.getLayoutManager(), borderNode.getModel2WorldMatrix());
+            borderNode.setGeometry(createBorderGeometry());
             //borderNode.getModel2WorldMatrix().load(borderModelMatrix);
             borderNode.getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(borderModelMatrix));
             isDirty = false;
@@ -62,7 +62,7 @@ public class Panel<P, C> extends Container<C> implements IComponent<P> {
         borderNode.accept(renderer, tree);
     }
 
-    private Matrix4f createModelMatrix(Dimension screenDimension, LayoutStrategy<P> layoutManager, Matrix4f modelMatrix) {
+    private Matrix4f createModelMatrix(LayoutStrategy<P> layoutManager, Matrix4f modelMatrix) {
         float alignX = layoutManager.getLayoutAlignmentX(this); // [0..1]
         float alignY = layoutManager.getLayoutAlignmentY(this); // [0..1]
         // origin of the subcomponents is top left
@@ -72,7 +72,7 @@ public class Panel<P, C> extends Container<C> implements IComponent<P> {
     }
 
 
-    private IGeometry createBorderGeometry(Dimension screenDimension) {
+    private IGeometry createBorderGeometry() {
         Geometry geometry = new Geometry(VertexFormat.VERTEX_P3C0N0T0, StreamFormat.LINE_LOOP);
 
         float z = 0.5f;       // [-1...1]
