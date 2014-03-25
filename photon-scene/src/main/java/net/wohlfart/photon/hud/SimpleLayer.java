@@ -38,7 +38,7 @@ public class SimpleLayer extends AbstractLayer<CornerConstraints> {
         container.add(fpsChart).alignToTopLeft().withBorder(2);
         container.add(fpsLabel).alignToTopLeft().withBorder(2);
 
-        container.add(panel).alignToTopMiddle();
+    //    container.add(panel).alignToTopMiddle();
     }
 
     @Override

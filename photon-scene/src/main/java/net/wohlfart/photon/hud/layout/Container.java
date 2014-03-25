@@ -64,10 +64,12 @@ public class Container<C> extends AbstractRenderElement {
     }
 
     public float getHeight() {
+    	assert height > 0;
         return height;
     }
 
     public float getWidth() {
+    	assert width > 0;
         return width;
     }
 

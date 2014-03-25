@@ -1,5 +1,7 @@
 package net.wohlfart.photon.hud;
 
+import java.util.Collections;
+
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
@@ -38,13 +40,15 @@ public abstract class AbstractLayer<C> implements IEntity {
     public void register(ISceneGraph sceneGraph) {
         this.sceneGraph = sceneGraph;
         sceneGraph.addEntity(this);
-        sceneGraph.addRenderCommands(container.getComponents());
+        //sceneGraph.addRenderCommands(container.getComponents());
+        sceneGraph.addRenderCommands(Collections.singleton(container));
     }
 
     @Override
     public void unregister() {
         sceneGraph.removeEntity(this);
-        sceneGraph.removeRenderCommands(container.getComponents());
+        //sceneGraph.removeRenderCommands(container.getComponents());
+        sceneGraph.removeRenderCommands(Collections.singleton(container));
     }
 
     @Override

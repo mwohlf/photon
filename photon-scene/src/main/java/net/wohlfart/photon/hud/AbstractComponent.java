@@ -10,9 +10,9 @@ public abstract class AbstractComponent<C> extends AbstractRenderElement impleme
 
     protected Container<C> container; // the parent element
 
-    protected float height;
+    protected float height = 400;
 
-    protected float width;
+    protected float width = 600;
 
     protected boolean isDirty;
 

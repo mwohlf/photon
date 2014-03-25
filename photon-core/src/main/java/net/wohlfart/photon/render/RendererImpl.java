@@ -22,6 +22,7 @@ public class RendererImpl implements IRenderer {
 
 	protected IGraphicContext graphicContext;
 	protected volatile boolean debug;
+	protected volatile int inset = 0;
 
 
 	public void setGfxContext(IGraphicContext gfxCtx) {
@@ -31,22 +32,31 @@ public class RendererImpl implements IRenderer {
     @Override
     public void setDebugMode(boolean debug) {
         this.debug = debug;
+        this.inset = 0;
     }
 
     @Override
     public void renderParent(ITree<IRenderNode> tree) {
         final IRenderNode node = tree.getValue();
-        if (debug) { LOGGER.error("rendering: {}", node); }
+        if (debug) print(node);
         node.accept(this, tree);
+    }
+
+    private void print(IRenderNode node) {
+    	String string = "";
+    	for (int i = 0; i < inset; i++) {
+    		string += "  ";
+    	}
+    	LOGGER.error(string + node);
     }
 
     @Override
     public void renderChildren(ITree<IRenderNode> tree) {
         final Iterator<? extends ITree<IRenderNode>> iter = tree.getChildren();
         while (iter.hasNext()) {
-            if (debug) { LOGGER.error(" {"); }
+        	if (debug) inset++;
             renderParent(iter.next());
-            if (debug) { LOGGER.error(" }"); }
+            if (debug) inset--;
         }
     }
 
