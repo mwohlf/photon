@@ -22,7 +22,7 @@ public class SimpleLayer extends AbstractLayer<CornerConstraints> {
     private final Label<CornerConstraints> fpsLabel = new Label<CornerConstraints>("");
 
     private final FlowLayoutStrategy flowLayout = new FlowLayoutStrategy();
-    private final Panel<CornerConstraints, FlowContraints> panel = new Panel<CornerConstraints, FlowContraints>(flowLayout);
+    private final Panel<FlowContraints, CornerConstraints> panel = new Panel<>(flowLayout);
 
 
     public SimpleLayer() {

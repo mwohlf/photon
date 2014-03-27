@@ -8,7 +8,7 @@ import net.wohlfart.photon.render.RenderConfigImpl;
 // basic ui component features:  width, height layout dirty, parent, layout constraints
 public abstract class AbstractComponent<C> extends AbstractRenderElement implements IComponent<C> {
 
-    protected Container<C> container; // the parent element
+    protected Container<C> parent; // the parent element
 
     protected float height = 400;
 
@@ -33,12 +33,12 @@ public abstract class AbstractComponent<C> extends AbstractRenderElement impleme
 
     @Override
     public Container<C> getParent() {
-        return container;
+        return parent;
     }
 
     @Override
 	public void setParent(Container<C> container) {
-        this.container = container;
+        this.parent = container;
     }
 
 }

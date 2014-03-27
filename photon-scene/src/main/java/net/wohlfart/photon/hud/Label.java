@@ -67,18 +67,18 @@ public class Label<C> extends AbstractComponent<C> {
 
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
-        assert (container != null) : "we shouldn't be rendering this object if it has no parent";
+        assert (parent != null) : "we shouldn't be rendering this object if it has no parent";
         screenDimension = renderer.getScreenDimension();
 
         if (isDirty) {
             charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
 
-            Matrix4f textModelMatrix = createModelMatrix(container.getLayoutManager(), textNode.getModel2WorldMatrix());
+            Matrix4f textModelMatrix = createModelMatrix(parent.getLayoutManager(), textNode.getModel2WorldMatrix());
             textNode.setGeometry(createTextGeometry());
             //textNode.getModel2WorldMatrix().load(textModelMatrix);
             textNode.getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(textModelMatrix));
 
-            Matrix4f borderModelMatrix = createModelMatrix(container.getLayoutManager(), borderNode.getModel2WorldMatrix());
+            Matrix4f borderModelMatrix = createModelMatrix(parent.getLayoutManager(), borderNode.getModel2WorldMatrix());
             borderNode.setGeometry(createBorderGeometry());
             //borderNode.getModel2WorldMatrix().load(borderModelMatrix);
             textNode.getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(borderModelMatrix));
@@ -92,7 +92,7 @@ public class Label<C> extends AbstractComponent<C> {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + " [zOrder=" + zOrder
-                    + " container=" + container
+                    + " container=" + parent
                     + ", renderConfig=" + renderConfig + "]";
     }
 

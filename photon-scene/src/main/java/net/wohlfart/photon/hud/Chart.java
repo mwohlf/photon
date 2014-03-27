@@ -50,7 +50,7 @@ public class Chart<C> extends AbstractComponent<C> {
 
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
-        if (container == null) {
+        if (parent == null) {
             LOGGER.warn("no container for '"+ this + "' skipping double dispatch");
             return;
         }
@@ -61,7 +61,7 @@ public class Chart<C> extends AbstractComponent<C> {
             geometry = createGeometry();
             //model2WorldValue.set(createModelMatrix(dim, container.getLayoutManager(), model2WorldValue.get()));
             uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX,
-            		new Matrix4fValue(createModelMatrix(container.getLayoutManager(), new Matrix4f())));
+            		new Matrix4fValue(createModelMatrix(parent.getLayoutManager(), new Matrix4f())));
             isDirty = false;
         }
 
@@ -79,7 +79,7 @@ public class Chart<C> extends AbstractComponent<C> {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + " [zOrder=" + zOrder
-                    + " container=" + container
+                    + " container=" + parent
                     + ", renderConfig=" + renderConfig + "]";
     }
 

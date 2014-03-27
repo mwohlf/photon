@@ -17,13 +17,13 @@ import org.slf4j.LoggerFactory;
  * @param <C> the constraints for the layout strategy of this components children
 
  */
-public class Container<C> extends AbstractRenderElement {
+public class Container<P> extends AbstractRenderElement {
     protected static final Logger LOGGER = LoggerFactory.getLogger(Container.class);
 
     // the order in which the children are layout-ed and rendered is important
-    private final List<IComponent<C>> children = new ArrayList<>();
+    private final List<IComponent<P>> children = new ArrayList<>();
 
-    private final LayoutStrategy<C> layoutManager;
+    private final LayoutStrategy<P> layoutManager;
 
     protected float height;
 
@@ -31,10 +31,7 @@ public class Container<C> extends AbstractRenderElement {
 
     protected boolean isDirty;
 
-    private Container<?> parent;
-
-
-    public Container(LayoutStrategy<C> layoutStrategy) {
+    public Container(LayoutStrategy<P> layoutStrategy) {
         this.layoutManager = layoutStrategy;
     }
 
@@ -44,22 +41,17 @@ public class Container<C> extends AbstractRenderElement {
     	width = dim.getWidth();
     	height = dim.getHeight();
 
-        for (IComponent<C> comp : children) {
+        for (IComponent<P> comp : children) {
             comp.accept(renderer, tree);
         }
         renderer.renderChildren(tree);
     }
 
-    public LayoutStrategy<C> getLayoutManager() {
+    public LayoutStrategy<P> getLayoutManager() {
         return layoutManager;
     }
 
-    public Container<?> getParent() {
-        return parent;
-    }
-
-
-    public List<IComponent<C>> getComponents() {
+    public List<IComponent<P>> getComponents() {
         return children;
     }
 
@@ -73,19 +65,24 @@ public class Container<C> extends AbstractRenderElement {
         return width;
     }
 
-    public C add(IComponent<C> comp) {
+    public P add(IComponent<P> comp) {
         addComponent(children.size(), comp);
         return layoutManager.addLayoutComponent(comp);
     }
 
-    public void remove(IComponent<C> comp) {
+    public void remove(IComponent<P> comp) {
         children.remove(comp);
     }
 
-    private void addComponent(int pos, IComponent<C> component) {
+    private void addComponent(int pos, IComponent<P> component) {
         children.add(pos, component);
         component.setParent(this); // components need to know their parent
     }
+
+    // override this for subcomponents
+	public Container<?> getParent() {
+		return null;
+	}
 
     @Override
     public String toString() {

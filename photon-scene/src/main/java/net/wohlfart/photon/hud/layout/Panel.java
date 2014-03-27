@@ -23,27 +23,27 @@ import net.wohlfart.photon.tools.MathTool;
  * @param <P> this panel's parent layout constraints
  * @param <C> this panel's children's layout constraints
  */
-public class Panel<P, C> extends Container<C> implements IComponent<P> {
-
-    private Container<P> parent;
+public class Panel<P, C> extends Container<P> implements IComponent<C> {
 
     private final Border borderNode = new Border();
 
     protected Dimension screenDimension;
 
-    public Panel(LayoutStrategy<C> layoutStrategy) {
+    protected Container<C> parent; // the parent element
+
+    public Panel(LayoutStrategy<P> layoutStrategy) {
         super(layoutStrategy);
         isDirty = true;
     }
 
     @Override
-    public void setParent(Container<P> parent) {
-        this.parent = parent;
+    public Container<C> getParent() {
+        return parent;
     }
 
     @Override
-    public Container<P> getParent() {
-        return parent;
+	public void setParent(Container<C> container) {
+        this.parent = container;
     }
 
     @Override
@@ -62,7 +62,7 @@ public class Panel<P, C> extends Container<C> implements IComponent<P> {
         borderNode.accept(renderer, tree);
     }
 
-    private Matrix4f createModelMatrix(LayoutStrategy<P> layoutManager, Matrix4f modelMatrix) {
+    private Matrix4f createModelMatrix(LayoutStrategy<C> layoutManager, Matrix4f modelMatrix) {
         float alignX = layoutManager.getLayoutAlignmentX(this); // [0..1]
         float alignY = layoutManager.getLayoutAlignmentY(this); // [0..1]
         // origin of the subcomponents is top left

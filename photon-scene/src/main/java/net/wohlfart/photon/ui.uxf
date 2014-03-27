@@ -4,9 +4,9 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>20</x>
+      <x>0</x>
       <y>180</y>
-      <w>210</w>
+      <w>200</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>AbstractLayer
@@ -16,9 +16,9 @@
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>20</x>
+      <x>0</x>
       <y>20</y>
-      <w>210</w>
+      <w>200</w>
       <h>130</h>
     </coordinates>
     <panel_attributes>/IEntity/
@@ -34,7 +34,7 @@ unregister()</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>70</x>
+      <x>50</x>
       <y>120</y>
       <w>50</w>
       <h>80</h>
@@ -45,24 +45,30 @@ unregister()</panel_attributes>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>200</x>
-      <y>160</y>
-      <w>120</w>
-      <h>50</h>
+      <x>170</x>
+      <y>140</y>
+      <w>160</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;100;30</additional_attributes>
+    <panel_attributes>container
+lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;50;140;50</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>300</x>
+      <x>310</x>
       <y>180</y>
-      <w>220</w>
-      <h>30</h>
+      <w>180</w>
+      <h>140</h>
     </coordinates>
     <panel_attributes>Container
---</panel_attributes>
+--
+height
+width
+--
+add(IComponent)
+remove(IComponent)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -70,7 +76,7 @@ unregister()</panel_attributes>
     <coordinates>
       <x>310</x>
       <y>20</y>
-      <w>210</w>
+      <w>180</w>
       <h>120</h>
     </coordinates>
     <panel_attributes>AbstractRenderElement
@@ -85,12 +91,122 @@ geometry
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>380</x>
+      <x>360</x>
       <y>110</y>
       <w>50</w>
       <h>90</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>30;30;30;70</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>50</x>
+      <y>180</y>
+      <w>50</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;70</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>0</x>
+      <y>250</y>
+      <w>200</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>SimpleLayer
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>630</x>
+      <y>180</y>
+      <w>170</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>LayoutManager
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>460</x>
+      <y>150</y>
+      <w>190</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>layoutStrategy
+lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;50;170;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>460</x>
+      <y>240</y>
+      <w>190</w>
+      <h>94</h>
+    </coordinates>
+    <panel_attributes>children
+0..n
+lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;50;170;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>630</x>
+      <y>220</y>
+      <w>170</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>IComponent
+--
+getHeight()
+getWidth()
+getParent()
+setParent(Container)</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>470</x>
+      <y>370</y>
+      <w>180</w>
+      <h>140</h>
+    </coordinates>
+    <panel_attributes>Panel
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>450</x>
+      <y>290</y>
+      <w>50</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;80</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>610</x>
+      <y>290</y>
+      <w>50</w>
+      <h>100</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;80</additional_attributes>
   </element>
 </diagram>
