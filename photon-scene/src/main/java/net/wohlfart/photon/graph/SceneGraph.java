@@ -83,9 +83,9 @@ public class SceneGraph implements ISceneGraph {
     }
 
     @Override
-    public ITree<IRenderNode> createSubTree(IRenderNode effect) {
-        assert effect != null;
-        return renderCache.add(effect);
+    public ITree<IRenderNode> createSubTree(IRenderNode node) {
+        assert node != null;
+        return renderCache.add(node);
     }
 
 

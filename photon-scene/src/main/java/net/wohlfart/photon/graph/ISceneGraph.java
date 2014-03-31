@@ -47,6 +47,6 @@ public interface ISceneGraph {
 
     void removeRenderCommands(Collection<? extends IRenderNode> nodes);
 
-    ITree<IRenderNode> createSubTree(IRenderNode effect);
+    ITree<IRenderNode> createSubTree(IRenderNode node);
 
 }

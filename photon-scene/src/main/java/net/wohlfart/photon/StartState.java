@@ -4,7 +4,6 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.entity.Skybox;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -70,7 +69,7 @@ public class StartState implements IState {
 
 		//  --- checked ---
 
-			new Skybox() .register(sceneGraph);
+		//	new Skybox() .register(sceneGraph);
 
 		//	new ProceduralCelestial() .withPosition(0, 0, -30) .withCorona(new Corona().withThinkness(.2f)) .register(sceneGraph);
 		//	new SphereEntity()  .withPosition(0, 0, -10) .register(sceneGraph);

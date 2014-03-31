@@ -16,6 +16,7 @@ import net.wohlfart.photon.tools.Dimension;
 
 /**
  * this is the base component for rendering 3d objects
+ * you need at least set a geometry or override the getGeometry mehtod
  *
  * @author Michael Wohlfart
  */
@@ -57,12 +58,13 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     @Override
     public IGeometry getGeometry() {
+    	assert geometry != null;
         return geometry;
     }
 
     @Override
     public void accept(IRenderer renderer, ITree<IRenderer.IRenderNode> tree) {
-    	this.screenDimension = renderer.getScreenDimension(); // TODO: recalc uniforms and geometry...
+    	this.screenDimension = renderer.getScreenDimension();
         renderer.setRenderConfig(shaderId, renderConfig);
         renderer.setUniformValues(getUniformValues());
         renderer.drawGeometry(getGeometry());

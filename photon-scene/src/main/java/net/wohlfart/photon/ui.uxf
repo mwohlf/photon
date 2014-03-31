@@ -68,7 +68,9 @@ height
 width
 --
 add(IComponent)
-remove(IComponent)</panel_attributes>
+remove(IComponent)
+getHeight()
+getWidth()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -85,7 +87,8 @@ shaderId
 uniforms
 model2WorldMatrix
 geometry
-[...]</panel_attributes>
+--
+accept(Renderer ITree)</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -167,7 +170,7 @@ lt=&lt;&lt;&lt;-</panel_attributes>
       <w>170</w>
       <h>100</h>
     </coordinates>
-    <panel_attributes>IComponent
+    <panel_attributes>/IComponent/
 --
 getHeight()
 getWidth()
@@ -206,7 +209,7 @@ setParent(Container)</panel_attributes>
       <w>50</w>
       <h>100</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
     <additional_attributes>30;30;30;80</additional_attributes>
   </element>
 </diagram>
