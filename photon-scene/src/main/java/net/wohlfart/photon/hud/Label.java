@@ -18,17 +18,19 @@ import net.wohlfart.photon.render.Geometry;
 import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
+import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.render.IRenderer;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
+import net.wohlfart.photon.shader.TextureValue;
 import net.wohlfart.photon.tools.MathTool;
 
 public class Label extends AbstractRenderElement implements IComponent {
 
-	protected final FontIdentifier fontIdentifier = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", 12f);
+	protected final FontIdentifier fontIdentifier = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", 30f);
 
 	protected String text;
 
@@ -59,17 +61,13 @@ public class Label extends AbstractRenderElement implements IComponent {
 	}
 
 	private void refresh() {
-		shaderId = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
+		shaderId = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
+		renderConfig = IRenderConfig.BLENDING_ON;
         charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
         Matrix4f modelMatrix = createModelMatrix(container.getLayoutManager(), getModel2WorldMatrix());
         getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelMatrix));
+        getUniformValues().put(ShaderParser.TEXTURE01, new TextureValue(charData.getCharTexture()));
 		geometry = createTextGeometry();
-
-
-		//geometry = new Quad(2f);
-		// shaderId = TEXTURE_SHADER_ID;
-		// uniforms.put(ShaderParser.TEXTURE01, new TextureIdentValue(TEXTURE_ID1));
-		//renderConfig = IRenderConfig.DEFAULT_3D;
 	}
 
 	@Override
@@ -107,8 +105,8 @@ public class Label extends AbstractRenderElement implements IComponent {
 		Geometry geometry = new Geometry(VertexFormat.VERTEX_P3C0N0T2, StreamFormat.TRIANGLES);
 
 		int n = 0;
-		float screenX = 0f; // this is in pixel
-		float screenY = 0;
+		float screenX = 300f; // origin is left axis goes right
+		float screenY = -300;  // origin is top axis goes up
 
 		float atlasWidth = charAtlas.getImage().getWidth();
 		float atlasHeight = charAtlas.getImage().getHeight();
@@ -116,7 +114,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 
 		float screenWidth = screenDimension.getWidth();
 		float screenHeight = screenDimension.getHeight();
-		float z = -3f;       // [-1...1]
+		float z = -1f;       // [-1...1]
 		for (char c : text.toCharArray()) {
 			CharInfo info = charAtlas.getCharInfo(c);
 			if (info == null) {

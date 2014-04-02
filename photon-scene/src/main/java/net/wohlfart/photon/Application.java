@@ -148,7 +148,7 @@ public class Application implements ILifecycleListener {
         		ShaderParser.UNIFORM_CAM_2_CLIP_MTX,
         		(IUniformValue)new Matrix4fValue(cameraToClipMatrix)));
 
-        eventBus.post(ResizeEvent.create(width - x, width - y));
+        eventBus.post(ResizeEvent.create(width - x, height - y));
 	}
 
 	/**
