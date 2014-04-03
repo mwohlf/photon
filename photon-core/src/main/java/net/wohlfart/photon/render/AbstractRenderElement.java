@@ -11,7 +11,6 @@ import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
-import net.wohlfart.photon.tools.Dimension;
 
 
 /**
@@ -38,7 +37,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected ShaderIdentifier shaderId = DEFAULT_SHADER_ID;
 
-	protected Dimension screenDimension;
+	//protected Perspective perspective;
 
 
     protected AbstractRenderElement() {
@@ -64,7 +63,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     @Override
     public void accept(IRenderer renderer, ITree<IRenderer.IRenderNode> tree) {
-    	this.screenDimension = renderer.getScreenDimension();
+    	//this.perspective = renderer.getPerspective();
         renderer.setRenderConfig(shaderId, renderConfig);
         renderer.setUniformValues(getUniformValues());
         renderer.drawGeometry(getGeometry());

@@ -7,7 +7,7 @@ import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
-import net.wohlfart.photon.tools.Dimension;
+import net.wohlfart.photon.tools.Perspective;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,8 +81,8 @@ public class RendererImpl implements IRenderer {
 	}
 
 	@Override
-	public Dimension getScreenDimension() {
-		return graphicContext.getScreenDimension();
+	public Perspective getPerspective() {
+		return graphicContext.getPerspective();
 	}
 
 }

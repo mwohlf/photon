@@ -24,7 +24,7 @@ import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.state.IState;
 import net.wohlfart.photon.state.StateManager;
 import net.wohlfart.photon.time.TimerImpl;
-import net.wohlfart.photon.tools.PerspectiveProjectionBuilder;
+import net.wohlfart.photon.tools.Perspective;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,8 +32,6 @@ import org.slf4j.LoggerFactory;
 
 public class Application implements ILifecycleListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
-
-	private final PerspectiveProjectionBuilder perspectiveProjectionBuilder = new PerspectiveProjectionBuilder();
 
 	protected final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
 
@@ -93,12 +91,13 @@ public class Application implements ILifecycleListener {
 			float fieldOfView = Float.valueOf(prop.getProperty("fieldOfView"));
 			float nearPlane = Float.valueOf(prop.getProperty("nearPlane"));
 			float farPlane = Float.valueOf(prop.getProperty("farPlane"));
-			perspectiveProjectionBuilder
-				.withFieldOfView(fieldOfView)
-				.withNearPlane(nearPlane)
-				.withFarPlane(farPlane);
+			Perspective perspective = gfxCtx.getPerspective();
+			perspective.setFieldOfView(fieldOfView);
+			perspective.setNearPlane(nearPlane);
+			perspective.setFarPlane(farPlane);
+
 		} catch (IOException ex) {
-			LOGGER.error("cant read properties", ex);
+			LOGGER.error("cant read properties, using default values, expect more errors", ex);
 		}
 
 		currentState = stateManager.getCurrentState();
@@ -140,10 +139,12 @@ public class Application implements ILifecycleListener {
 	public void reshape(IGraphicContext gfxCtx, int x, int y, int width, int height) {
 		LOGGER.info("reshape() called");
 
-        final Matrix4f cameraToClipMatrix = perspectiveProjectionBuilder
-        		.withWidth(width - x)
-        		.withHeight(height - y)
-        		.build();
+		final Perspective perspective = gfxCtx.getPerspective();
+		perspective.setWidth(width - x);
+		perspective.setHeight(height - y);
+
+        final Matrix4f cameraToClipMatrix = perspective.getMatrix();
+
         renderer.setUniformValues(Collections.singletonMap(
         		ShaderParser.UNIFORM_CAM_2_CLIP_MTX,
         		(IUniformValue)new Matrix4fValue(cameraToClipMatrix)));

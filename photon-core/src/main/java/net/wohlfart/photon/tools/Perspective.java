@@ -27,8 +27,8 @@ import org.slf4j.LoggerFactory;
  *
  * @return our projection matrix
  */
-public class PerspectiveProjectionBuilder {
-    private static final Logger LOGGER = LoggerFactory.getLogger(PerspectiveProjectionBuilder.class);
+public class Perspective {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Perspective.class);
 
     private static final float FIELD_OF_VIEW_LIMIT = 100; // << 180
 
@@ -38,37 +38,32 @@ public class PerspectiveProjectionBuilder {
     private float width = -1;
     private float height = -1;
 
+    private final Matrix4f matrix = new Matrix4f();
+    private final Dimension dim = new Dimension();
 
-    public PerspectiveProjectionBuilder withFieldOfView(float fieldOfView) {
+
+    public void setFieldOfView(float fieldOfView) {
 		this.fieldOfView = fieldOfView;
-		return this;
 	}
 
-	public PerspectiveProjectionBuilder withNearPlane(float nearPlane) {
+	public void setNearPlane(float nearPlane) {
 		this.nearPlane = nearPlane;
-		return this;
 	}
 
-	public PerspectiveProjectionBuilder withFarPlane(float farPlane) {
+	public void setFarPlane(float farPlane) {
 		this.farPlane = farPlane;
-		return this;
 	}
 
-	public PerspectiveProjectionBuilder withWidth(float width) {
+	public void setWidth(float width) {
 		this.width = width;
-		return this;
 	}
 
-	public PerspectiveProjectionBuilder withHeight(float height) {
+	public void setHeight(float height) {
 		this.height = height;
-		return this;
 	}
 
-    // note that this matrix does not depend on the actual size of the screen
-    // but just on the aspect ratio
-    public Matrix4f build() {
-
-        final Matrix4f matrix = new Matrix4f();
+    // note that this matrix does not depend on the actual size of the screen but just on the aspect ratio
+    public Matrix4f getMatrix() {
 
         if (fieldOfView > FIELD_OF_VIEW_LIMIT) {
             LOGGER.warn("field of view must be <= {} found: '{}', resetting to {}", FIELD_OF_VIEW_LIMIT, fieldOfView, FIELD_OF_VIEW_LIMIT);
@@ -103,6 +98,11 @@ public class PerspectiveProjectionBuilder {
         matrix.m33 = 0;
 
         return matrix;
+    }
+
+    public Dimension getScreenDimension() {
+    	dim.set((int)width, (int)height);
+    	return dim;
     }
 
 }

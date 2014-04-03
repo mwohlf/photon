@@ -20,6 +20,7 @@ import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderProgram;
 import net.wohlfart.photon.tools.Dimension;
+import net.wohlfart.photon.tools.Perspective;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,7 +38,7 @@ import com.jogamp.common.nio.Buffers;
 public class GraphicContext implements IGraphicContext {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(GraphicContext.class);
 
-	private final Dimension dim = new Dimension();
+	private final Perspective perspective = new Perspective();
 
 	private final Map<String, IUniformValue> uniformValues = new HashMap<>(); // contains uniforms and textures
 
@@ -55,10 +56,10 @@ public class GraphicContext implements IGraphicContext {
 		assert drawable.getGL() != null : "drawable.gl is null";
 		assert drawable.getGL().getGL2() != null : "drawable.gl.gl2 is null";
 
+
 		gl = drawable.getGL().getGL2();
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 		currentShader = ShaderProgram.NULL_SHADER;
-		dim.set(drawable.getWidth(), drawable.getHeight());
 		return this;
 	}
 
@@ -154,8 +155,8 @@ public class GraphicContext implements IGraphicContext {
 	}
 
 	@Override
-	public Dimension getScreenDimension() {
-		return dim;
+	public Perspective getPerspective() {
+		return perspective;
 	}
 
 

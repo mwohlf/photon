@@ -26,7 +26,9 @@ import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureValue;
+import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.MathTool;
+import net.wohlfart.photon.tools.Perspective;
 
 public class Label extends AbstractRenderElement implements IComponent {
 
@@ -40,6 +42,8 @@ public class Label extends AbstractRenderElement implements IComponent {
 
 	protected ICharData charData;
 
+	protected Perspective perspective;
+
 	public Label withText(String text) {
 		this.text = text;
 		this.geometry = null;
@@ -48,7 +52,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 
 	@Override
 	public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
-    	this.screenDimension = renderer.getScreenDimension();
+    	this.perspective = renderer.getPerspective();
 		assert text != null : "need to set a text if you use Label";
         if (isDirty) {
         	refresh();
@@ -94,7 +98,7 @@ public class Label extends AbstractRenderElement implements IComponent {
         float alignX = layoutManager.getLayoutAlignmentX(this); // [0..1]
         float alignY = layoutManager.getLayoutAlignmentY(this); // [0..1]
         // origin of the subcomponents is top left
-        alignY += getHeight() / screenDimension.getHeight();
+        alignY += getHeight() / perspective.getScreenDimension().getHeight();
         // screen range: [-1 .. +1] x to the right, y upwards   z in the range of [-1..+1]
         return MathTool.convert(new Vector3f(alignX * 2f - 1f, 1f - alignY * 2f, 0f), modelMatrix);
     }
@@ -105,25 +109,34 @@ public class Label extends AbstractRenderElement implements IComponent {
 		Geometry geometry = new Geometry(VertexFormat.VERTEX_P3C0N0T2, StreamFormat.TRIANGLES);
 
 		int n = 0;
-		float screenX = 300f; // origin is left axis goes right
-		float screenY = -300;  // origin is top axis goes up
+		// center
+		final Dimension dim = perspective.getScreenDimension();
+		float screenX = dim.getWidth() / 2f;
+		float screenY = -dim.getHeight() / 2f;
 
 		float atlasWidth = charAtlas.getImage().getWidth();
 		float atlasHeight = charAtlas.getImage().getHeight();
 
 
-		float screenWidth = screenDimension.getWidth();
-		float screenHeight = screenDimension.getHeight();
-		float z = -1f;       // [-1...1]
+		float screenWidth = dim.getWidth();
+		float screenHeight = dim.getHeight();
+
+		// depends on : view angle, near frustum
+		//
+		// at -1 is the near frustum
+		float z = -2f;       // [-1...1] after cam matrix
+		// we need to calculate the z-coord for with the pixel of the texture match the screen pixel
+		// this heavily depends on the world2cam/perspective matrix consisting of near/far frustum/ angle of view
+
 		for (char c : text.toCharArray()) {
 			CharInfo info = charAtlas.getCharInfo(c);
 			if (info == null) {
 				info = charAtlas.getCharInfo(CharAtlasFactory.NULL_CHAR);
 			}
 			// the x/y coordinates must fit into a [-1 .. +1] interval for the OpenGL screen space
-			float x1 = ( screenX - info.getG()) / (screenWidth/2);
+			float x1 = ( screenX - info.getG()) / (screenWidth/2f);
 			float x2 = ( screenX + info.getWidth() - info.getG()) / (screenWidth/2f);
-			float y1 = ( screenY ) / (screenHeight/2);
+			float y1 = ( screenY ) / (screenHeight/2f);
 			float y2 = ( screenY + info.getHeight()) / (screenHeight/2f);
 
 			// texture coordinates are in the [0...1] interval
