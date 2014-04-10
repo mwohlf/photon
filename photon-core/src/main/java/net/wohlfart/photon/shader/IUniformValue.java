@@ -22,6 +22,10 @@ public interface IUniformValue {
         public void accept(IUniformHandle handle) {
             // do nothing
         }
+        @Override
+        public String toString() {
+        	return "NullValue@" + System.identityHashCode(this);
+        }
     }
 
 }

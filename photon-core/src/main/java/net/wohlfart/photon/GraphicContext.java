@@ -159,7 +159,6 @@ public class GraphicContext implements IGraphicContext {
 		return perspective;
 	}
 
-
 	// keep the OpenGL stuff inside this class
 	private int getPrimitiveType(IGeometry.StreamFormat streamFormat) {
 		switch (streamFormat) {
@@ -221,6 +220,15 @@ public class GraphicContext implements IGraphicContext {
 		} else {
 			return GL2.GL_UNSIGNED_BYTE;
 		}
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		for (Map.Entry<String, IUniformValue> entry : uniformValues.entrySet()) {
+			builder.append(entry.getKey() + ":" + entry.getValue() + " ");
+		}
+		return builder.toString();
 	}
 
 }

@@ -32,18 +32,32 @@ public class Perspective {
 
     private static final float FIELD_OF_VIEW_LIMIT = 100; // << 180
 
-    private float fieldOfView = -1;
+    // field of view in x direction
+    // in dregee [0...360] not rad this is the whole range
+    private float fieldOfViewDegree = -1;
+    private float fieldOfViewRad = -1;
+
+    // the neares visible zCoord
 	private float nearPlane = -1;
+
+	// the fares visible zCoord
     private float farPlane = -1;
+
+    // the screen width in pixel
     private float width = -1;
+
+    // the screen height in pixel
     private float height = -1;
 
     private final Matrix4f matrix = new Matrix4f();
     private final Dimension dim = new Dimension();
 
+	private float fieldOfViewPixel;
 
-    public void setFieldOfView(float fieldOfView) {
-		this.fieldOfView = fieldOfView;
+
+    public void setFieldOfViewDegreeX(float fieldOfView) {
+		this.fieldOfViewDegree = fieldOfView;
+        this.fieldOfViewRad = (float)((Math.PI) / 360f) * (fieldOfViewDegree);
 	}
 
 	public void setNearPlane(float nearPlane) {
@@ -62,20 +76,56 @@ public class Perspective {
 		this.height = height;
 	}
 
+	// return a z value that is transformed into -1 after all the matrices are applied
+	public float getZValue() {
+        final float frustumLength = farPlane - nearPlane;
+        final float aspectRatio = getAspectRatio();
+
+        final float zScale = ((farPlane + nearPlane) / frustumLength);
+        final float xScale = 1f / (float) Math.tan(fieldOfViewRad / 2f);
+        final float yScale = xScale * aspectRatio;
+
+        final float w = -(2f * nearPlane * farPlane / frustumLength);
+        // resolve to Z:
+        // -1 = Z * -zScale + w
+        // --> Z = (-1 - w) / -zScale
+        float result = (1 + w) / zScale;
+        //result *= yScale;
+        return -1;
+	}
+
+	public float getAspectRatio() {
+		return width / height;
+	}
+
+	public float getFieldOfViewPixel() {
+		return width;
+	}
+
+	public float getNearPlane() {
+		return nearPlane;
+	}
+
+    public Dimension getScreenDimension() {
+    	dim.set((int)width, (int)height);
+    	return dim;
+    }
+
+    // http://unspecified.wordpress.com/2012/06/21/calculating-the-gluperspective-matrix-and-other-opengl-matrix-maths/
     // note that this matrix does not depend on the actual size of the screen but just on the aspect ratio
     public Matrix4f getMatrix() {
 
-        if (fieldOfView > FIELD_OF_VIEW_LIMIT) {
-            LOGGER.warn("field of view must be <= {} found: '{}', resetting to {}", FIELD_OF_VIEW_LIMIT, fieldOfView, FIELD_OF_VIEW_LIMIT);
+        if (fieldOfViewDegree > FIELD_OF_VIEW_LIMIT) {
+            LOGGER.warn("field of view must be <= {} found: '{}', resetting to {}", FIELD_OF_VIEW_LIMIT, fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
         }
-        fieldOfView = Math.min(fieldOfView, FIELD_OF_VIEW_LIMIT);
-
+        fieldOfViewDegree = Math.min(fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
+        fieldOfViewRad = (float) ((2f * Math.PI) / 360f) * fieldOfViewDegree;
 
         final float frustumLength = farPlane - nearPlane;
         final float aspectRatio = width / height;
-        final float yScale = 1f / (float) Math.tan(((2d * Math.PI) / 360f) * (fieldOfView / 2f));
-        final float xScale = yScale / aspectRatio;
-        final float zScale = -((farPlane + nearPlane) / frustumLength);
+        final float xScale = 1f / (float) Math.tan(fieldOfViewRad / 2f);
+        final float yScale = xScale * aspectRatio;
+        final float zScale = ((farPlane + nearPlane) / frustumLength);
 
         matrix.m00 = xScale;
         matrix.m01 = 0;
@@ -89,7 +139,7 @@ public class Perspective {
 
         matrix.m20 = 0;
         matrix.m21 = 0;
-        matrix.m22 = zScale;
+        matrix.m22 = -zScale;
         matrix.m23 = -1;
 
         matrix.m30 = 0;
@@ -98,11 +148,6 @@ public class Perspective {
         matrix.m33 = 0;
 
         return matrix;
-    }
-
-    public Dimension getScreenDimension() {
-    	dim.set((int)width, (int)height);
-    	return dim;
     }
 
 }

@@ -37,8 +37,6 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected ShaderIdentifier shaderId = DEFAULT_SHADER_ID;
 
-	//protected Perspective perspective;
-
 
     protected AbstractRenderElement() {
     	model2WorldMatrix.setIdentity();
@@ -63,7 +61,6 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     @Override
     public void accept(IRenderer renderer, ITree<IRenderer.IRenderNode> tree) {
-    	//this.perspective = renderer.getPerspective();
         renderer.setRenderConfig(shaderId, renderConfig);
         renderer.setUniformValues(getUniformValues());
         renderer.drawGeometry(getGeometry());

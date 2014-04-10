@@ -92,7 +92,7 @@ public class Application implements ILifecycleListener {
 			float nearPlane = Float.valueOf(prop.getProperty("nearPlane"));
 			float farPlane = Float.valueOf(prop.getProperty("farPlane"));
 			Perspective perspective = gfxCtx.getPerspective();
-			perspective.setFieldOfView(fieldOfView);
+			perspective.setFieldOfViewDegreeX(fieldOfView);
 			perspective.setNearPlane(nearPlane);
 			perspective.setFarPlane(farPlane);
 
