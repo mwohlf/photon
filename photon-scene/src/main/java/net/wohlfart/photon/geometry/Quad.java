@@ -16,10 +16,10 @@ public class Quad extends Geometry {
 	private void setupBufferData() {
         final float l = length / 2f;
 
-	    addVertex().withPosition(+l,+l, 0).withTexture( 1, 0);
-	    addVertex().withPosition(-l,+l, 0).withTexture( 0, 0);
-	    addVertex().withPosition(-l,-l, 0).withTexture( 0, 1);
-	    addVertex().withPosition(+l,-l, 0).withTexture( 1, 1);
+	    currentVertex.withPosition(+l,+l, 0).withTexture( 1, 0);
+	    currentVertex.withPosition(-l,+l, 0).withTexture( 0, 0);
+	    currentVertex.withPosition(-l,-l, 0).withTexture( 0, 1);
+	    currentVertex.withPosition(+l,-l, 0).withTexture( 1, 1);
 	    //addRectangle(3,2,1,0);
 	    addRectangle(0,1,2,3);
 	    transformVertices(VertexTransform.move(0,0,-10f));

@@ -13,7 +13,7 @@ import net.wohlfart.photon.render.IGeometry;
  * Icosphere class.
  * see: http://blog.andreaskahler.com/2009/06/creating-icosphere-mesh-in-code.html
  */
-public class Icosphere extends Geometry { 
+public class Icosphere extends Geometry {
 
     // FIXME: remove this
     private float radius = 1;
@@ -128,7 +128,7 @@ public class Icosphere extends Geometry {
 
     private void setupBufferData() {
         for (Vector3f vector : vertices) {
-            addVertex().withPosition(vector.x, vector.y, vector.z);
+            currentVertex.withPosition(vector.x, vector.y, vector.z);
         }
 
         switch (getStreamFormat()) {
@@ -136,26 +136,26 @@ public class Icosphere extends Geometry {
             // every 6 indices build a single triangle plane
             for (int i=0; i < indices.size(); i = i +6) {
                 addTriangle(
-                        indices.get(i + 0), 
-                        indices.get(i + 2), 
+                        indices.get(i + 0),
+                        indices.get(i + 2),
                         indices.get(i + 4));
             }
             break;
         case LINES:
             for (int i=0; i < indices.size(); i = i +2) {
-                addLine(indices.get(i + 0), 
+                addLine(indices.get(i + 0),
                         indices.get(i + 1));
-            }          
-            break;           
+            }
+            break;
         case LINE_LOOP:
         case LINE_STRIP:
         default:
-            throw new IllegalStateException("we don't support '" + getStreamFormat() 
-                    + "' as stream format in " + this.getClass().getSimpleName());           
+            throw new IllegalStateException("we don't support '" + getStreamFormat()
+                    + "' as stream format in " + this.getClass().getSimpleName());
         }
     }
 
-    private void normalize() {
+	private void normalize() {
         for (final Vector3f vec : vertices) {
             final float l = vec.length();
             vec.scale(radius / l);

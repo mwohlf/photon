@@ -109,7 +109,7 @@ public class Sphere extends Geometry {
     }
     
     private void addVertexData(VertexData vertex) { 
-        Vertex v = addVertex();
+        Vertex v = currentVertex;
         VertexFormat format = getVertexFormat();
         if (format.positionSize() == 3) {
             v.withPosition(vertex.getXYZ()[0], vertex.getXYZ()[1],vertex.getXYZ()[2]);

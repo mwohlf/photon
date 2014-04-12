@@ -1,10 +1,5 @@
 package net.wohlfart.photon.render;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
-
 import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.shader.IShaderProgram;
@@ -123,33 +118,5 @@ public interface IGeometry {
 
     // this should replace the rest of the methods...
 	void draw(IShaderProgram currentShader, GL2ES2 gl);
-
-
-
-    int getHandle();
-
-    void setHandle(int vaoHandle);
-
-    StreamFormat getStreamFormat();
-
-    int getIndicesCount();
-
-    int getVerticesCount();
-
-    boolean isIndexed();
-
-
-    VertexFormat getVertexFormat();
-
-
-    FloatBuffer createVertexFloatBuffer();
-
-
-    ByteBuffer createIndexByteBuffer();
-
-    ShortBuffer createIndexShortBuffer();
-
-    IntBuffer createIndexIntBuffer();
-
 
 }

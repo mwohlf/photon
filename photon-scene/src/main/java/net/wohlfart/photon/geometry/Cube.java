@@ -21,15 +21,15 @@ public class Cube extends Geometry {
     private void setupBufferData() {
         final float l = length / 2f;
 
-        addVertex().withPosition(+l, +l, +l);
-        addVertex().withPosition(-l, +l, +l);
-        addVertex().withPosition(-l, -l, +l);
-        addVertex().withPosition(+l, -l, +l);
+        currentVertex.withPosition(+l, +l, +l);
+        currentVertex.withPosition(-l, +l, +l);
+        currentVertex.withPosition(-l, -l, +l);
+        currentVertex.withPosition(+l, -l, +l);
 
-        addVertex().withPosition(+l, +l, -l);
-        addVertex().withPosition(-l, +l, -l);
-        addVertex().withPosition(-l, -l, -l);
-        addVertex().withPosition(+l, -l, -l);
+        currentVertex.withPosition(+l, +l, -l);
+        currentVertex.withPosition(-l, +l, -l);
+        currentVertex.withPosition(-l, -l, -l);
+        currentVertex.withPosition(+l, -l, -l);
 
         addLine(0, 1);
         addLine(1, 2);

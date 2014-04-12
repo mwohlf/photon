@@ -44,7 +44,7 @@ public class Tetrahedron extends Geometry { // @formatter:on
     private void setupBufferData() {
         List<Vector3f> vertices = createVertices();
         for (Vector3f vector : vertices) {
-            addVertex().withPosition(vector.x, vector.y, vector.z);
+            currentVertex.withPosition(vector.x, vector.y, vector.z);
         }
         
         switch (getStreamFormat()) {
