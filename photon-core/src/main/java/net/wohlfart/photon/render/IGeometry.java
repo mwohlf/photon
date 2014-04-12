@@ -5,6 +5,10 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+import javax.media.opengl.GL2ES2;
+
+import net.wohlfart.photon.shader.IShaderProgram;
+
 
 /**
  * see:  http://stackoverflow.com/questions/166356/what-are-some-best-practices-for-opengl-coding-esp-w-r-t-object-orientation
@@ -117,6 +121,10 @@ public interface IGeometry {
         TRIANGLES,    // 0-1-2, 3-4-5, 6-7-8
     }
 
+    // this should replace the rest of the methods...
+	void draw(IShaderProgram currentShader, GL2ES2 gl);
+
+
 
     int getHandle();
 
@@ -142,5 +150,6 @@ public interface IGeometry {
     ShortBuffer createIndexShortBuffer();
 
     IntBuffer createIndexIntBuffer();
+
 
 }

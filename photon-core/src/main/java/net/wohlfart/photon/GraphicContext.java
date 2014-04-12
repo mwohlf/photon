@@ -1,9 +1,5 @@
 package net.wohlfart.photon;
 
-import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import java.nio.IntBuffer;
-import java.nio.ShortBuffer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +21,6 @@ import net.wohlfart.photon.tools.Perspective;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.jogamp.common.nio.Buffers;
 
 
 /**
@@ -117,111 +111,12 @@ public class GraphicContext implements IGraphicContext {
 
 	@Override
 	public void drawGeometry(IGeometry geometry) {
-
-		int vaoHandle = geometry.getHandle();
-		/*
-		if (vaoHandle != -1) {
-			gl.glBindVertexArray(vaoHandle);
-		} else {
-			int[] vaoID = new int[1];
-			gl.glGenVertexArrays(1, vaoID, 0);  // FIXME: can we move this into geometry?
-			vaoHandle = vaoID[0];
-
-			gl.glBindVertexArray(vaoHandle);
-			geometry.setHandle(vaoHandle);
-			*/
-			createAndBindVboHandle(geometry);
-			currentShader.useAttributes(geometry.getVertexFormat());
-
-			if (geometry.isIndexed()) {
-				// render with an index buffer
-				createAndBindIdxBufferHandle(geometry);
-			}
-		//}
-
-		final int primitiveType = getPrimitiveType(geometry.getStreamFormat());
-		if (geometry.isIndexed()) {
-			gl.glDrawElements( // see: http://www.opengl.org/wiki/GlDrawElements
-					primitiveType, // mode: primitive type see: http://www.opengl.org/wiki/Primitive
-					geometry.getIndicesCount(), // indicesCount
-					getIndexElemSize(geometry), // indexElemSize
-					0); // indexOffset
-		} else {
-			// render plain vertices without indices
-			gl.glDrawArrays(primitiveType, // mode: primitive type see: http://www.opengl.org/wiki/Primitive
-					0, geometry.getVerticesCount());
-		}
-
-		// unbind
-		//gl.glBindVertexArray(0);
+		geometry.draw(currentShader, gl);
 	}
 
 	@Override
 	public Perspective getPerspective() {
 		return perspective;
-	}
-
-	// keep the OpenGL stuff inside this class
-	private int getPrimitiveType(IGeometry.StreamFormat streamFormat) {
-		switch (streamFormat) {
-		case LINES:
-			return GL2.GL_LINES;
-		case LINE_STRIP:
-			return GL2.GL_LINE_STRIP;
-		case LINE_LOOP:
-			return GL2.GL_LINE_LOOP;
-		case TRIANGLES:
-			return GL2.GL_TRIANGLES;
-		default:
-			throw new IllegalArgumentException("unknown stream format: " + streamFormat);
-		}
-	}
-
-	private int createAndBindVboHandle(IGeometry geometry) {
-		final FloatBuffer verticesBuffer = geometry.createVertexFloatBuffer();
-		final long size = verticesBuffer.capacity();
-		int handle = createAndBindBuffer(GL2.GL_ARRAY_BUFFER);
-		gl.glBufferData(GL2.GL_ARRAY_BUFFER, size  * Buffers.SIZEOF_FLOAT, verticesBuffer, GL2.GL_STATIC_DRAW);
-		return handle;
-	}
-
-	// move to the geometry class
-	// see: http://stackoverflow.com/questions/6172308/opengl-java-vbo
-	private int createAndBindIdxBufferHandle(IGeometry geometry) {
-		int indicesCount = geometry.getIndicesCount();
-		final int idxBufferHandle = createAndBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER);
-		if (indicesCount > Short.MAX_VALUE) {
-			final IntBuffer indicesBuffer = geometry.createIndexIntBuffer();
-			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_INT, indicesBuffer, GL2.GL_STATIC_DRAW);
-			return idxBufferHandle;
-		} else if (indicesCount > Byte.MAX_VALUE) {
-			final ShortBuffer indicesBuffer = geometry.createIndexShortBuffer();
-			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_SHORT, indicesBuffer, GL2.GL_STATIC_DRAW);
-			return idxBufferHandle;
-		} else {
-			final ByteBuffer indicesBuffer = geometry.createIndexByteBuffer();
-			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_BYTE, indicesBuffer, GL2.GL_STATIC_DRAW);
-			return idxBufferHandle;
-		}
-	}
-
-	private int createAndBindBuffer(int type) {
-		int[] handle = new int[1];
-		gl.glGenBuffers(1, handle, 0);
-		gl.glBindBuffer(type, handle[0]);
-		return handle[0];
-	}
-
-	// FIXME: move this method to the geometry class
-	private int getIndexElemSize(IGeometry geometry) {
-		int indicesCount = geometry.getIndicesCount();
-		if (indicesCount > Short.MAX_VALUE) {
-			return GL2.GL_UNSIGNED_INT;
-		} else if (indicesCount > Byte.MAX_VALUE) {
-			return GL2.GL_UNSIGNED_SHORT;
-		} else {
-			return GL2.GL_UNSIGNED_BYTE;
-		}
 	}
 
 	@Override

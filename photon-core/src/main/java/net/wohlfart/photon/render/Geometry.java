@@ -11,6 +11,13 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
+import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
+
+import net.wohlfart.photon.shader.IShaderProgram;
+
+import com.jogamp.common.nio.Buffers;
+
 
 public class Geometry implements IGeometry {
 
@@ -25,7 +32,7 @@ public class Geometry implements IGeometry {
 
     // the last vertex position, reused for performance not part of the state
     // this is basically just a pointer to the end of the vertexData
-    protected final transient Vertex currentVertex; 
+    protected final transient Vertex currentVertex;
 
     public class Vertex {
 
@@ -71,6 +78,82 @@ public class Geometry implements IGeometry {
     }
 
     @Override
+    public void draw(IShaderProgram shader, GL2ES2 gl) {
+
+		createAndBindVboHandle(gl);
+		shader.useAttributes(getVertexFormat());
+
+		if (isIndexed()) {
+			// render with an index buffer
+			createAndBindIdxBufferHandle(gl);
+		}
+
+		final int primitiveType = getPrimitiveType(getStreamFormat());
+		if (isIndexed()) {
+			gl.glDrawElements( // see: http://www.opengl.org/wiki/GlDrawElements
+					primitiveType, // mode: primitive type see: http://www.opengl.org/wiki/Primitive
+					getIndicesCount(), // indicesCount
+					getIndexElemSize(), // indexElemSize
+					0); // indexOffset
+		} else {
+			// render plain vertices without indices
+			gl.glDrawArrays(primitiveType, // mode: primitive type see: http://www.opengl.org/wiki/Primitive
+					0, getVerticesCount());
+		}
+
+    }
+
+
+
+	private int createAndBindVboHandle(GL2ES2 gl) {
+		final FloatBuffer verticesBuffer = createVertexFloatBuffer();
+		final long size = verticesBuffer.capacity();
+		int handle = createAndBindBuffer(GL2.GL_ARRAY_BUFFER, gl);
+		gl.glBufferData(GL2.GL_ARRAY_BUFFER, size  * Buffers.SIZEOF_FLOAT, verticesBuffer, GL2.GL_STATIC_DRAW);
+		return handle;
+	}
+
+	// move to the geometry class
+	// see: http://stackoverflow.com/questions/6172308/opengl-java-vbo
+	private int createAndBindIdxBufferHandle(GL2ES2 gl) {
+		int indicesCount = getIndicesCount();
+		final int idxBufferHandle = createAndBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, gl);
+		if (indicesCount > Short.MAX_VALUE) {
+			final IntBuffer indicesBuffer = createIndexIntBuffer();
+			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_INT, indicesBuffer, GL2.GL_STATIC_DRAW);
+			return idxBufferHandle;
+		} else if (indicesCount > Byte.MAX_VALUE) {
+			final ShortBuffer indicesBuffer = createIndexShortBuffer();
+			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_SHORT, indicesBuffer, GL2.GL_STATIC_DRAW);
+			return idxBufferHandle;
+		} else {
+			final ByteBuffer indicesBuffer = createIndexByteBuffer();
+			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_BYTE, indicesBuffer, GL2.GL_STATIC_DRAW);
+			return idxBufferHandle;
+		}
+	}
+
+	private int createAndBindBuffer(int type, GL2ES2 gl) {
+		int[] handle = new int[1];
+		gl.glGenBuffers(1, handle, 0);
+		gl.glBindBuffer(type, handle[0]);
+		return handle[0];
+	}
+
+	// FIXME: move this method to the geometry class
+	private int getIndexElemSize() {
+		int indicesCount = getIndicesCount();
+		if (indicesCount > Short.MAX_VALUE) {
+			return GL2.GL_UNSIGNED_INT;
+		} else if (indicesCount > Byte.MAX_VALUE) {
+			return GL2.GL_UNSIGNED_SHORT;
+		} else {
+			return GL2.GL_UNSIGNED_BYTE;
+		}
+	}
+
+
+    @Override
     public int getIndicesCount() {
         return indices.size();
     }
@@ -106,6 +189,21 @@ public class Geometry implements IGeometry {
         this.handle = handle;
     }
 
+	// keep the OpenGL stuff inside this class
+	private int getPrimitiveType(IGeometry.StreamFormat streamFormat) {
+		switch (streamFormat) {
+		case LINES:
+			return GL2.GL_LINES;
+		case LINE_STRIP:
+			return GL2.GL_LINE_STRIP;
+		case LINE_LOOP:
+			return GL2.GL_LINE_LOOP;
+		case TRIANGLES:
+			return GL2.GL_TRIANGLES;
+		default:
+			throw new IllegalArgumentException("unknown stream format: " + streamFormat);
+		}
+	}
 
 
 
