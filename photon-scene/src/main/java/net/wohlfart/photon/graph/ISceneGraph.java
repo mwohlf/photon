@@ -17,6 +17,15 @@ public interface ISceneGraph {
      */
     public interface IEntity {
 
+        // register this object to the scene graph
+        void register(ISceneGraph graph);
+
+        // incoming update for cam moves as well as moving the object itself
+        void update(Quaternion rot, Vector3f mov, float delta);
+
+        // remove from the scene graph
+        void unregister();
+
         // current position, we use a 3d vector for this, TODO: scale the objects size later
         Vector3d getPosition();
 
@@ -25,15 +34,6 @@ public interface ISceneGraph {
 
         // size/radius, needed for culling, ray picking etc.
         float getSize();
-
-        // incoming update for cam moves as well as moving the object itself
-        void update(Quaternion rot, Vector3f mov, float delta);
-
-        // register this object to the scene graph
-        void register(ISceneGraph graph);
-
-        // remove from the scene graph
-        void unregister();
 
     }
 

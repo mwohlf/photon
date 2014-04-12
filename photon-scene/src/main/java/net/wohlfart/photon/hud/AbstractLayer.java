@@ -52,17 +52,17 @@ public abstract class AbstractLayer implements IEntity {
 
     @Override
     public Vector3d getPosition() {
-        throw new IllegalAccessError("getPosition not supported");
+        throw new IllegalAccessError("getPosition not supported, a layer covers the whole visible screen");
     }
 
     @Override
     public Quaternion getRotation() {
-        throw new IllegalAccessError("getRotation not supported");
+        throw new IllegalAccessError("getRotation not supported, a layer is not rotated");
     }
 
     @Override
     public float getSize() {
-        throw new IllegalAccessError("getSize not supported");
+        throw new IllegalAccessError("getSize not supported, a layr covers the whole screen");
     }
 
 }

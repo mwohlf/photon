@@ -1,6 +1,6 @@
 package net.wohlfart.photon.render;
 
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.render.RenderConfigImpl.Blending;
 import net.wohlfart.photon.render.RenderConfigImpl.ClearColor;
@@ -58,7 +58,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 	public static final RenderConfigImpl NULL_CONFIG = new RenderConfigImpl();
 
 
-    public T updateValues(GL2 gl, T oldState);
+    public T updateValues(GL2ES2 gl, T oldState);
 
     // FIXME: remove this method
     public boolean isTranslucent();

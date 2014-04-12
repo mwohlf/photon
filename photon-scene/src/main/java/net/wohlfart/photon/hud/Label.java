@@ -29,7 +29,7 @@ import net.wohlfart.photon.tools.Perspective;
 
 public class Label extends AbstractRenderElement implements IComponent {
 
-	protected final float fontSize = 50f;
+	protected final float fontSize = 30f;
 
 	protected final FontIdentifier fontIdentifier = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", fontSize);
 
@@ -107,7 +107,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 		float fovPixel = perspective.getScreenDimension().getHeight();
 		float z = perspective.getNearPlane();
 
-		// x column, incoming: 0...dim.x outgoing: -1 ... +1
+		// x column, incoming: 0...dim.y outgoing: -1 ... +1
 		dest.m00 = 0.5f / fovPixel;
 		dest.m01 = 0;
 		dest.m02 = 0;

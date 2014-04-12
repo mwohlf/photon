@@ -1,6 +1,7 @@
 package net.wohlfart.photon.shader;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL3;
 import javax.media.opengl.GL4;
 
@@ -13,15 +14,15 @@ public class AttributeHandle {
 
     private final String name;
     private final int location;
-    
+
     private final int typeSize;
     @SuppressWarnings("unused")
     private final int typeId;
-    
+
     @SuppressWarnings("unused")
     private String type;
     private int attributeSize; // in floats
-    
+
 
     AttributeHandle(int shaderProgramId, String name, int typeSize, int typeId, int location) {
         this.shaderProgramId = shaderProgramId;
@@ -35,8 +36,8 @@ public class AttributeHandle {
     public int getAttributeSize() {
         return attributeSize;
     }
-    
-    public void enable(GL2 gl, int size, int stride, int offset) {
+
+    public void enable(GL2ES2 gl, int size, int stride, int offset) {
         gl.glEnableVertexAttribArray(location);
         gl.glVertexAttribPointer(location, size, GL2.GL_FLOAT, false, stride, offset);
     }
@@ -44,7 +45,7 @@ public class AttributeHandle {
     /**
      * disable the vertex attribute and set a default null value
      */
-    public void disable(GL2 gl) {
+    public void disable(GL2ES2 gl) {
         gl.glDisableVertexAttribArray(location);
         switch (attributeSize) {
         case 1:
@@ -66,8 +67,8 @@ public class AttributeHandle {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " [shaderProgramId=" + shaderProgramId 
-                + ", name=" + name 
+        return this.getClass().getSimpleName() + " [shaderProgramId=" + shaderProgramId
+                + ", name=" + name
                 + ", location=" + location + "]";
     }
 
@@ -94,35 +95,35 @@ public class AttributeHandle {
             type = "GL_FLOAT_MAT2";
             attributeSize = 2;
             break;
-        case GL2.GL_FLOAT_MAT3: 
+        case GL2.GL_FLOAT_MAT3:
             type = "GL_FLOAT_MAT3";
             attributeSize = 3;
             break;
-        case GL2.GL_FLOAT_MAT4: 
+        case GL2.GL_FLOAT_MAT4:
             type = "GL_FLOAT_MAT4";
             attributeSize = 4;
             break;
-        case GL2.GL_FLOAT_MAT2x3: 
+        case GL2.GL_FLOAT_MAT2x3:
             type = "GL_FLOAT_MAT2x3";
             attributeSize = 6;
             break;
-        case GL2.GL_FLOAT_MAT2x4: 
+        case GL2.GL_FLOAT_MAT2x4:
             type = "GL_FLOAT_MAT2x4";
             attributeSize = 8;
             break;
-        case GL2.GL_FLOAT_MAT3x2: 
+        case GL2.GL_FLOAT_MAT3x2:
             type = "GL_FLOAT_MAT3x2";
             attributeSize = 6;
             break;
-        case GL2.GL_FLOAT_MAT3x4: 
+        case GL2.GL_FLOAT_MAT3x4:
             type = "GL_FLOAT_MAT3x4";
             attributeSize = 12;
             break;
-        case GL2.GL_FLOAT_MAT4x2: 
+        case GL2.GL_FLOAT_MAT4x2:
             type = "GL_FLOAT_MAT4x2";
             attributeSize = 8;
             break;
-        case GL2.GL_FLOAT_MAT4x3: 
+        case GL2.GL_FLOAT_MAT4x3:
             type = "GL_FLOAT_MAT4x3";
             attributeSize = 12;
             break;
@@ -134,27 +135,27 @@ public class AttributeHandle {
             type = "GL_INT_VEC2";
             attributeSize = 2;
             break;
-        case GL2.GL_INT_VEC3: 
+        case GL2.GL_INT_VEC3:
             type = "GL_INT_VEC3";
             attributeSize = 3;
             break;
-        case GL2.GL_INT_VEC4: 
+        case GL2.GL_INT_VEC4:
             type = "GL_INT_VEC4";
             attributeSize = 4;
             break;
-        case GL2.GL_UNSIGNED_INT: 
+        case GL2.GL_UNSIGNED_INT:
             type = "GL_UNSIGNED_INT";
             attributeSize = 1;
             break;
-        case GL3.GL_UNSIGNED_INT_VEC2: 
+        case GL3.GL_UNSIGNED_INT_VEC2:
             type = "GL_UNSIGNED_INT_VEC2";
             attributeSize = 2;
             break;
-        case GL3.GL_UNSIGNED_INT_VEC3: 
+        case GL3.GL_UNSIGNED_INT_VEC3:
             type = "GL_UNSIGNED_INT_VEC3";
             attributeSize = 3;
             break;
-        case GL3.GL_UNSIGNED_INT_VEC4: 
+        case GL3.GL_UNSIGNED_INT_VEC4:
             type = "GL_UNSIGNED_INT_VEC4";
             attributeSize = 4;
             break;
@@ -162,47 +163,47 @@ public class AttributeHandle {
             type = "GL_DOUBLE";
             attributeSize = 2;
             break;
-        case GL4.GL_DOUBLE_VEC2: 
+        case GL4.GL_DOUBLE_VEC2:
             type = "GL_DOUBLE_VEC2";
             attributeSize = 4;
             break;
-        case GL4.GL_DOUBLE_VEC3: 
+        case GL4.GL_DOUBLE_VEC3:
             type = "GL_DOUBLE_VEC3";
             attributeSize = 6;
             break;
-        case GL4.GL_DOUBLE_VEC4: 
+        case GL4.GL_DOUBLE_VEC4:
             type = "GL_DOUBLE_VEC4";
             attributeSize = 8;
             break;
-        case GL4.GL_DOUBLE_MAT2: 
+        case GL4.GL_DOUBLE_MAT2:
             type = "GL_DOUBLE_MAT2";
             attributeSize = 4;
             break;
-        case GL4.GL_DOUBLE_MAT3: 
+        case GL4.GL_DOUBLE_MAT3:
             type = "GL_DOUBLE_MAT3";
             attributeSize = 6;
             break;
-        case GL4.GL_DOUBLE_MAT4: 
+        case GL4.GL_DOUBLE_MAT4:
             type = "GL_DOUBLE_MAT4";
             attributeSize = 8;
             break;
-        case GL4.GL_DOUBLE_MAT2x3: 
+        case GL4.GL_DOUBLE_MAT2x3:
             type = "GL_DOUBLE_MAT2x3";
             attributeSize = 12;
             break;
-        case GL4.GL_DOUBLE_MAT2x4: 
+        case GL4.GL_DOUBLE_MAT2x4:
             type = "GL_DOUBLE_MAT2x4";
             attributeSize = 16;
             break;
-        case GL4.GL_DOUBLE_MAT3x2: 
+        case GL4.GL_DOUBLE_MAT3x2:
             type = "GL_DOUBLE_MAT3x2";
             attributeSize = 12;
             break;
-        case GL4.GL_DOUBLE_MAT3x4: 
+        case GL4.GL_DOUBLE_MAT3x4:
             type = "GL_DOUBLE_MAT3x4";
             attributeSize = 24;
             break;
-        case GL4.GL_DOUBLE_MAT4x2: 
+        case GL4.GL_DOUBLE_MAT4x2:
             type = "GL_DOUBLE_MAT4x2";
             attributeSize = 16;
             break;

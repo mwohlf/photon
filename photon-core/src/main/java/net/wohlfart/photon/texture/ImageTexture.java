@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 
 import com.jogamp.common.nio.Buffers;
 
@@ -41,7 +42,7 @@ public class ImageTexture implements ITexture {
     }
 
     @Override
-    public int getHandle(GL2 gl) {
+    public int getHandle(GL2ES2 gl) {
         if (textureId == -1) {
             setup(gl);
         }
@@ -56,7 +57,7 @@ public class ImageTexture implements ITexture {
         return height;
     }
 
-    private void setup(GL2 gl) {
+    private void setup(GL2ES2 gl) {
         // see: http://lwjgl.org/wiki/index.php?title=The_Quad_textured
     	int[] iBuff = new int[1];
         gl.glGenTextures(1, iBuff, 0);

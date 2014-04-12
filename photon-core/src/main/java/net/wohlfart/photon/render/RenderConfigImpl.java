@@ -1,7 +1,7 @@
 package net.wohlfart.photon.render;
 
 import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.tools.EnumWeights;
 
@@ -105,7 +105,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	}
 
 	@Override
-	public RenderConfigImpl updateValues(GL2 gl, RenderConfigImpl that) {
+	public RenderConfigImpl updateValues(GL2ES2 gl, RenderConfigImpl that) {
 		if (that.blending != this.blending) {
 			blending.setValue(gl);
 		}
@@ -155,20 +155,20 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	interface RenderProperty {
 		// implementations get called with the old property value
-		void setValue(GL2 gl);
+		void setValue(GL2ES2 gl);
 	}
 
 
 	public enum Blending implements RenderProperty {
 		OFF {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glDisable(GL.GL_BLEND);
 			}
 		},
 		ON {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glEnable(GL.GL_BLEND);
 				gl.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 			}
@@ -178,27 +178,27 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum ClearColor implements RenderProperty {
 		BLACK {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glClearColor(0f, 0f, 0f, 0.5f);
 			}
 		},
 		GREY {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glClearColor(0.5f, 0.5f, 0.5f, 0.5f);
 
 			}
 		},
 		BLUE {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glClearColor(0.0f, 0.0f, 0.5f, 0.5f);
 
 			}
 		},
 		WHITE {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glClearColor(1f, 1f, 1f, 0.5f);
 
 			}
@@ -208,7 +208,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum ClearDepth implements RenderProperty {
 		ONE {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glClearDepth(1f);
 			}
 		}
@@ -217,7 +217,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum ColorMask implements RenderProperty {
 		ON {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glColorMask(true, true, true, true);
 			}
 		}
@@ -226,14 +226,14 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum DepthTest implements RenderProperty {
 		GL_LEQUAL {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glEnable(GL.GL_DEPTH_TEST);
 				gl.glDepthFunc(GL.GL_LEQUAL);
 			}
 		},
 		GL_LESS {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glEnable(GL.GL_DEPTH_TEST);
 				gl.glDepthFunc(GL.GL_LESS);
 
@@ -241,7 +241,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		},
 		OFF {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glDisable(GL.GL_DEPTH_TEST);
 			}
 		};
@@ -250,14 +250,14 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum FaceCulling implements RenderProperty {
 		BACK { // the default
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glEnable(GL.GL_CULL_FACE);
 				gl.glCullFace(GL.GL_BACK);
 			}
 		},
 		FRONT {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glEnable(GL.GL_CULL_FACE);
 				gl.glCullFace(GL.GL_FRONT);
 
@@ -265,7 +265,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		},
 		FRONT_AND_BACK {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glEnable(GL.GL_CULL_FACE);
 				gl.glCullFace(GL.GL_FRONT_AND_BACK);
 
@@ -273,7 +273,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		},
 		OFF {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glDisable(GL.GL_CULL_FACE);
 			}
 		};
@@ -282,7 +282,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum SissorTest implements RenderProperty {
 		OFF {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glDisable(GL.GL_DEPTH_TEST);
 			}
 		}
@@ -291,7 +291,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	public enum StencilTest implements RenderProperty {
 		OFF {
 			@Override
-			public void setValue(GL2 gl) {
+			public void setValue(GL2ES2 gl) {
 				gl.glDisable(GL.GL_DEPTH_TEST);
 			}
 		}

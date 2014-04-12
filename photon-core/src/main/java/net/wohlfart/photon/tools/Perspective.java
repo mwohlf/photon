@@ -81,20 +81,7 @@ public class Perspective {
 
 	// return a z value that is transformed into -1 after all the matrices are applied
 	public float getZValue() {
-        final float frustumLength = farPlane - nearPlane;
-        final float aspectRatio = getAspectRatio();
-
-        final float zScale = ((farPlane + nearPlane) / frustumLength);
-        final float xScale = 1f / (float) Math.tan(fieldOfViewRad / 2f);
-        final float yScale = xScale * aspectRatio;
-
-        final float w = -(2f * nearPlane * farPlane / frustumLength);
-        // resolve to Z:
-        // -1 = Z * -zScale + w
-        // --> Z = (-1 - w) / -zScale
-        float result = (1 + w) / zScale;
-        //result *= yScale;
-        return -1;
+        return -nearPlane;
 	}
 
 	public float getAspectRatio() {

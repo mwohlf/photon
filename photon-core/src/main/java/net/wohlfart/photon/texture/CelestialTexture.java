@@ -5,6 +5,7 @@ import java.nio.IntBuffer;
 import java.util.Random;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 import javax.vecmath.Vector3f;
 
 import com.jogamp.common.nio.Buffers;
@@ -53,14 +54,14 @@ public class CelestialTexture implements ITexture {
     }
 
     @Override
-    public int getHandle(GL2 gl) {
+    public int getHandle(GL2ES2 gl) {
         if (textureId == -1) {
             setup(gl);
         }
         return textureId;
     }
 
-    private void setup(GL2 gl) {
+    private void setup(GL2ES2 gl) {
         // Create a new texture object in memory and bind it
     	int[] iBuff = new int[1];
         gl.glGenTextures(1, iBuff, 0);

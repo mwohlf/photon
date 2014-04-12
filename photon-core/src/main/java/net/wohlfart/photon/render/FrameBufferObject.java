@@ -3,6 +3,7 @@ package net.wohlfart.photon.render;
 import java.nio.ByteBuffer;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.tools.Dimension;
 
@@ -46,7 +47,7 @@ public class FrameBufferObject implements IFrameBuffer {
 	}
 
     @Override
-    public void setup(GL2 gl) {
+    public void setup(GL2ES2 gl) {
     	// see: https://github.com/demoscenepassivist/SocialCoding/blob/master/code_demos_jogamp/src/framework/base/BaseFrameBufferObjectRendererExecutor.java
     	// see: http://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code/JoglFboDepth/JoglFboDepth.java
 
@@ -69,7 +70,7 @@ public class FrameBufferObject implements IFrameBuffer {
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
     	ByteBuffer fakeColorBuffer = ByteBuffer.allocateDirect(dim.getWidthi() * dim.getHeighti() * 4);
     	gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA, dim.getWidthi(), dim.getHeighti(), 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_BYTE, fakeColorBuffer);
-    	gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
+    	//gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
 
         // create and bind a new depth buffer
         gl.glGenTextures(1, arr, 0);
@@ -81,7 +82,7 @@ public class FrameBufferObject implements IFrameBuffer {
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
         ByteBuffer fakeDepthBuffer = ByteBuffer.allocateDirect(dim.getWidthi() * dim.getHeighti());
         gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_DEPTH_COMPONENT, dim.getWidthi(), dim.getHeighti(), 0, GL2.GL_DEPTH_COMPONENT, GL2.GL_UNSIGNED_BYTE, fakeDepthBuffer);
-        gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
+        //gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_REPLACE);
 
         //attach the textures to the framebuffer
         gl.glFramebufferTexture2D(GL2.GL_FRAMEBUFFER, GL2.GL_COLOR_ATTACHMENT0, GL2.GL_TEXTURE_2D, textureHandle, 0);
@@ -93,8 +94,8 @@ public class FrameBufferObject implements IFrameBuffer {
         checkFrameBufferObjectCompleteness(gl);
     }
 
-    private void checkFrameBufferObjectCompleteness(GL2 gl) {
-        int err = gl.glCheckFramebufferStatus(GL2.GL_FRAMEBUFFER);
+    private void checkFrameBufferObjectCompleteness(GL2ES2 gl) {
+        int err = gl.glCheckFramebufferStatus(GL2ES2.GL_FRAMEBUFFER);
         switch(err) {
             case GL2.GL_FRAMEBUFFER_COMPLETE:
             	// everything is fine

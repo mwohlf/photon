@@ -3,7 +3,7 @@ package net.wohlfart.photon.shader;
 import java.net.URI;
 import java.util.Map;
 
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 
@@ -21,9 +21,9 @@ public interface IShaderProgram {
 	int getId();
 
 	// set the gl context from the current run
-	void bind(GL2 gl);
+	void bind(GL2ES2 gl);
 
-	GL2 getGl();
+	GL2ES2 getGl();
 
 	void useUniforms(Map<String, IUniformValue> uniformValues);
 
@@ -44,12 +44,12 @@ public interface IShaderProgram {
 		}
 
 		@Override
-		public void bind(GL2 gl) {
+		public void bind(GL2ES2 gl) {
 			// do nothing
 		}
 
 		@Override
-		public GL2 getGl() {
+		public GL2ES2 getGl() {
 			return null;
 		}
 

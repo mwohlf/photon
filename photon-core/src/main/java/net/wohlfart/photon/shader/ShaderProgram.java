@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 
@@ -39,7 +39,7 @@ public class ShaderProgram implements IShaderProgram {
 
 	// the current GLContext this is only valid for the current render run
 	// and needs to be refreshed on each bind() call
-	private GL2 gl;
+	private GL2ES2 gl;
 
 	private int currentTextureSlot;
 
@@ -54,7 +54,7 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	@Override
-	public GL2 getGl() {
+	public GL2ES2 getGl() {
 		return gl;
 	}
 
@@ -64,7 +64,7 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	@Override
-	public void bind(GL2 gl) {
+	public void bind(GL2ES2 gl) {
 		if (programId == -1) {
 			setup(gl);
 		}
@@ -75,9 +75,9 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	// delayed since the OpenGL context needs to be up in order for this to work
-	private void setup(GL2 gl) {
-		vertexShaderId = loadShader(gl, vertexShaderCode, GL2.GL_VERTEX_SHADER);
-		fragmentShaderId = loadShader(gl, fragmentShaderCode, GL2.GL_FRAGMENT_SHADER);
+	private void setup(GL2ES2 gl) {
+		vertexShaderId = loadShader(gl, vertexShaderCode, GL2ES2.GL_VERTEX_SHADER);
+		fragmentShaderId = loadShader(gl, fragmentShaderCode, GL2ES2.GL_FRAGMENT_SHADER);
 		linkAndValidate(gl, vertexShaderId, fragmentShaderId);
 
 		findUniforms(gl);
@@ -176,7 +176,7 @@ public class ShaderProgram implements IShaderProgram {
 		uniformValue.accept(currentHandle);
 	}
 
-	private int loadShader(GL2 gl, final String code, int shaderType) {
+	private int loadShader(GL2ES2 gl, final String code, int shaderType) {
 		LOGGER.debug("loading shader from '{}' type is '{}'", code, shaderType);
 		int shader = 0;
 
@@ -193,9 +193,9 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	// attach, link and validate the shaders into a shader program
-	private void linkAndValidate(GL2 gl, int... handles) {
+	private void linkAndValidate(GL2ES2 gl, int... handles) {
 		int error = gl.glGetError();
-		if (error != GL2.GL_NO_ERROR) {// @formatter:off
+		if (error != GL2ES2.GL_NO_ERROR) {// @formatter:off
 			throw new ShaderException("" + "error before linking shader, error string is '" + "" + "' \n" + "programmId is '"
 					+ programId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
 		}
@@ -206,7 +206,7 @@ public class ShaderProgram implements IShaderProgram {
 		gl.glLinkProgram(programId);
 		gl.glValidateProgram(programId);
 		error = gl.glGetError();
-		if (error != GL2.GL_NO_ERROR) {// @formatter:off
+		if (error != GL2ES2.GL_NO_ERROR) {// @formatter:off
 			throw new ShaderException("" + "error validating shader, error string is '" + "" + "' \n" + "programmId is '"
 					+ programId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
 		}
@@ -214,14 +214,14 @@ public class ShaderProgram implements IShaderProgram {
 
 	// see: http://www.guyford.co.uk/showpage.php?id=50&page=How_to_setup_and_load_GLSL_Shaders_in_JOGL_2.0
 	// see: http://jogamp.org/wiki/index.php/How_to_write_cross_GLProfile_compatible_shader_using_JOGL
-	private void findUniforms(GL2 gl) {
+	private void findUniforms(GL2ES2 gl) {
 
 		final int[] iBuff = new int[1];
 
-		gl.glGetProgramiv(programId, GL2.GL_ACTIVE_UNIFORMS, iBuff, 0);
+		gl.glGetProgramiv(programId, GL2ES2.GL_ACTIVE_UNIFORMS, iBuff, 0);
 		final int len = iBuff[0];
 
-		gl.glGetProgramiv(programId, GL2.GL_ACTIVE_UNIFORM_MAX_LENGTH, iBuff, 0);
+		gl.glGetProgramiv(programId, GL2ES2.GL_ACTIVE_UNIFORM_MAX_LENGTH, iBuff, 0);
 		final int strLen = iBuff[0];
 
 		final byte[] nameBuffer = new byte[strLen];
@@ -238,14 +238,14 @@ public class ShaderProgram implements IShaderProgram {
 		}
 	}
 
-	private void findAttributes(GL2 gl2) {
+	private void findAttributes(GL2ES2 gl2) {
 		// see: http://forum.jogamp.org/getActiveAttrib-name-offset-equals-or-exceeds-array-length-td4028207.html
 
 		final int[] iBuff = new int[1];
-		gl2.glGetProgramiv(programId, GL2.GL_ACTIVE_ATTRIBUTES, iBuff, 0);
+		gl2.glGetProgramiv(programId, GL2ES2.GL_ACTIVE_ATTRIBUTES, iBuff, 0);
 		final int len = iBuff[0];
 
-		gl2.glGetProgramiv(programId, GL2.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, iBuff, 0);
+		gl2.glGetProgramiv(programId, GL2ES2.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, iBuff, 0);
 		final int strLen = iBuff[0];
 
 		final byte[] nameBuffer = new byte[strLen];
@@ -263,12 +263,12 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	// TODO: compare shader attribute sizes with size from handler
-	private void setupAttribute(GL2 gl2, String attributeName, int attributeSize, int stride, int offset) {
+	private void setupAttribute(GL2ES2 gl, String attributeName, int attributeSize, int stride, int offset) {
 		AttributeHandle currentHandle = getVertexAttributeHandle(attributeName);
 		if (attributeSize > 0) {
 			if (currentHandle != null)  {
 				if (attributeSize == currentHandle.getAttributeSize()) {
-					currentHandle.enable(gl2, attributeSize, stride, offset);
+					currentHandle.enable(gl, attributeSize, stride, offset);
 				} else {
 					LOGGER.info("attribute '{}' has different size in shader '{}' ({} != {})",
 							new Object[] {attributeName, this, attributeSize, currentHandle.getAttributeSize()});
@@ -279,7 +279,7 @@ public class ShaderProgram implements IShaderProgram {
 			}
 		} else {
 			if (currentHandle != null)  {
-				currentHandle.disable(gl2);
+				currentHandle.disable(gl);
 			}
 		}
 	}

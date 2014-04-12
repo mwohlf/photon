@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
 
 import net.wohlfart.photon.render.IFrameBuffer;
@@ -33,6 +34,8 @@ import com.jogamp.common.nio.Buffers;
  *
  * - need to be initialized with the drawable from the GLEventListener callback (init/display/reshape)
  *
+ * see: https://jogamp.org/wiki/index.php/Maven_And_Android
+ *
  * @author Michael Wohlfart
  */
 public class GraphicContext implements IGraphicContext {
@@ -46,7 +49,7 @@ public class GraphicContext implements IGraphicContext {
 
 	private IShaderProgram currentShader = ShaderProgram.NULL_SHADER;
 
-	private GL2 gl;
+	private GL2ES2 gl;
 
 
 	// store the current context, clear color and depth buffers and reset the shader so the new OpenGL context
@@ -54,8 +57,7 @@ public class GraphicContext implements IGraphicContext {
 	public IGraphicContext init(GLAutoDrawable drawable) {
 		assert drawable != null : "drawable is null";
 		assert drawable.getGL() != null : "drawable.gl is null";
-		assert drawable.getGL().getGL2() != null : "drawable.gl.gl2 is null";
-
+		assert drawable.getGL().getGL2ES2() != null : "drawable.gl.gl2 is null";
 
 		gl = drawable.getGL().getGL2();
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
@@ -117,7 +119,7 @@ public class GraphicContext implements IGraphicContext {
 	public void drawGeometry(IGeometry geometry) {
 
 		int vaoHandle = geometry.getHandle();
-
+		/*
 		if (vaoHandle != -1) {
 			gl.glBindVertexArray(vaoHandle);
 		} else {
@@ -127,7 +129,7 @@ public class GraphicContext implements IGraphicContext {
 
 			gl.glBindVertexArray(vaoHandle);
 			geometry.setHandle(vaoHandle);
-
+			*/
 			createAndBindVboHandle(geometry);
 			currentShader.useAttributes(geometry.getVertexFormat());
 
@@ -135,7 +137,7 @@ public class GraphicContext implements IGraphicContext {
 				// render with an index buffer
 				createAndBindIdxBufferHandle(geometry);
 			}
-		}
+		//}
 
 		final int primitiveType = getPrimitiveType(geometry.getStreamFormat());
 		if (geometry.isIndexed()) {
@@ -151,7 +153,7 @@ public class GraphicContext implements IGraphicContext {
 		}
 
 		// unbind
-		gl.glBindVertexArray(0);
+		//gl.glBindVertexArray(0);
 	}
 
 	@Override
