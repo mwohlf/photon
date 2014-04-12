@@ -22,8 +22,9 @@ import org.slf4j.LoggerFactory;
  *
  * see: http://www.lwjgl.org/wiki/index.php?title=The_Quad_with_Projection,
  * _View_and_Model_matrices see:
- * http://db-in.com/blog/2011/04/cameras-on-opengl-es-2-x/ see:
+ * http://db-in.com/blog/2011/04/cameras-on-opengl-es-2-x/
  * http://www.songho.ca/opengl/gl_projectionmatrix.html
+ * http://unspecified.wordpress.com/2012/06/21/calculating-the-gluperspective-matrix-and-other-opengl-matrix-maths/
  *
  * @return our projection matrix
  */
@@ -32,7 +33,7 @@ public class Perspective {
 
     private static final float FIELD_OF_VIEW_LIMIT = 100; // << 180
 
-    // field of view in x direction
+    // field of view in y direction
     // in dregee [0...360] not rad this is the whole range
     private float fieldOfViewDegree = -1;
     private float fieldOfViewRad = -1;
@@ -52,27 +53,29 @@ public class Perspective {
     private final Matrix4f matrix = new Matrix4f();
     private final Dimension dim = new Dimension();
 
-	private float fieldOfViewPixel;
 
-
-    public void setFieldOfViewDegreeX(float fieldOfView) {
+	// field of view in y direction in degree
+	// the height covers the field of view
+    public void setFieldOfViewDegree(float fieldOfView) {
 		this.fieldOfViewDegree = fieldOfView;
         this.fieldOfViewRad = (float)((Math.PI) / 360f) * (fieldOfViewDegree);
 	}
 
 	public void setNearPlane(float nearPlane) {
+		assert nearPlane > 0;
 		this.nearPlane = nearPlane;
 	}
 
 	public void setFarPlane(float farPlane) {
+		assert nearPlane > 0;
 		this.farPlane = farPlane;
 	}
 
-	public void setWidth(float width) {
+	public void setScreenWidth(float width) {
 		this.width = width;
 	}
 
-	public void setHeight(float height) {
+	public void setScreenHeight(float height) {
 		this.height = height;
 	}
 
@@ -95,7 +98,7 @@ public class Perspective {
 	}
 
 	public float getAspectRatio() {
-		return width / height;
+		return height/width;
 	}
 
 	public float getFieldOfViewPixel() {
@@ -114,6 +117,8 @@ public class Perspective {
     // http://unspecified.wordpress.com/2012/06/21/calculating-the-gluperspective-matrix-and-other-opengl-matrix-maths/
     // note that this matrix does not depend on the actual size of the screen but just on the aspect ratio
     public Matrix4f getMatrix() {
+    	assert nearPlane > 0;
+    	assert farPlane > 0;
 
         if (fieldOfViewDegree > FIELD_OF_VIEW_LIMIT) {
             LOGGER.warn("field of view must be <= {} found: '{}', resetting to {}", FIELD_OF_VIEW_LIMIT, fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
@@ -121,11 +126,10 @@ public class Perspective {
         fieldOfViewDegree = Math.min(fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
         fieldOfViewRad = (float) ((2f * Math.PI) / 360f) * fieldOfViewDegree;
 
-        final float frustumLength = farPlane - nearPlane;
+        final float frustumLength = nearPlane - farPlane;
         final float aspectRatio = width / height;
-        final float xScale = 1f / (float) Math.tan(fieldOfViewRad / 2f);
-        final float yScale = xScale * aspectRatio;
-        final float zScale = ((farPlane + nearPlane) / frustumLength);
+        final float yScale = 1f / (float) Math.tan(fieldOfViewRad / 2f);
+        final float xScale = yScale / aspectRatio;
 
         matrix.m00 = xScale;
         matrix.m01 = 0;
@@ -139,12 +143,12 @@ public class Perspective {
 
         matrix.m20 = 0;
         matrix.m21 = 0;
-        matrix.m22 = -zScale;
+        matrix.m22 = (farPlane+nearPlane)/frustumLength;
         matrix.m23 = -1;
 
         matrix.m30 = 0;
         matrix.m31 = 0;
-        matrix.m32 = -(2f * nearPlane * farPlane / frustumLength);
+        matrix.m32 = 2f*farPlane*nearPlane/frustumLength;
         matrix.m33 = 0;
 
         return matrix;

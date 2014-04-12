@@ -92,7 +92,7 @@ public class Application implements ILifecycleListener {
 			float nearPlane = Float.valueOf(prop.getProperty("nearPlane"));
 			float farPlane = Float.valueOf(prop.getProperty("farPlane"));
 			Perspective perspective = gfxCtx.getPerspective();
-			perspective.setFieldOfViewDegreeX(fieldOfView);
+			perspective.setFieldOfViewDegree(fieldOfView);
 			perspective.setNearPlane(nearPlane);
 			perspective.setFarPlane(farPlane);
 
@@ -140,8 +140,8 @@ public class Application implements ILifecycleListener {
 		LOGGER.info("reshape() called");
 
 		final Perspective perspective = gfxCtx.getPerspective();
-		perspective.setWidth(width - x);
-		perspective.setHeight(height - y);
+		perspective.setScreenWidth(width - x);
+		perspective.setScreenHeight(height - y);
 
         final Matrix4f cameraToClipMatrix = perspective.getMatrix();
 

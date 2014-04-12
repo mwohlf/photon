@@ -14,6 +14,7 @@ public class Matrix4fValue implements IUniformValue {
     @Override
     public void accept(IUniformHandle handle) {
         assert (matrix != null) : "Uniform '" + handle.getName() + "' is empty";
+
          float[] modelview = {
         		matrix.m00, matrix.m01, matrix.m02, matrix.m03,
         		matrix.m10, matrix.m11, matrix.m12, matrix.m13,

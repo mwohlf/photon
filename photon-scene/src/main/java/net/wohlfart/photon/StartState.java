@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import net.wohlfart.photon.entity.CubeEntity;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -76,6 +77,14 @@ public class StartState implements IState {
 		//	new Earth() .withPosition(0, 0, -20) .register(sceneGraph);
 		//	new QuadEntity() .withPosition(new Vector3d(+15, 0, 0)).register(sceneGraph);
 
+		// side length is .5 adding .25 makes the side visible
+		// new CubeEntity(0.5f).withPosition(0,0.2,-1.25).register(sceneGraph);
+
+		new CubeEntity(1).withPosition(0.2,0,-1.5f).register(sceneGraph);
+		//new CubeEntity(1).withPosition(0,0,-3f).register(sceneGraph);
+		//new CubeEntity(1).withPosition(0,0,-4f).register(sceneGraph);
+		//new CubeEntity(1).withPosition(0,0,-5f).register(sceneGraph);
+		//new CubeEntity(1).withPosition(0,0,-6f).register(sceneGraph);
 
 		// --- unchecked ---
 

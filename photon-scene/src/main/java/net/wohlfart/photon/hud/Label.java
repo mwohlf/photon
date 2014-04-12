@@ -25,12 +25,11 @@ import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureValue;
-import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.Perspective;
 
 public class Label extends AbstractRenderElement implements IComponent {
 
-	protected final float fontSize = 12f;
+	protected final float fontSize = 50f;
 
 	protected final FontIdentifier fontIdentifier = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", fontSize);
 
@@ -44,7 +43,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 
 	protected Perspective perspective;
 
-	private float height;
+	private float height; // height might be more than fontSize, letters like 'g' add extra to the "normal" height
 
 	private float width;
 
@@ -60,7 +59,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 		assert text != null : "need to set a text if you use Label";
 		if (isDirty) {
 			refresh();
-			isDirty = false;
+	//		isDirty = false; TODO
 		}
 		renderer.setRenderConfig(shaderId, renderConfig);
 		renderer.setUniformValues(getUniformValues());
@@ -100,28 +99,23 @@ public class Label extends AbstractRenderElement implements IComponent {
 		return container;
 	}
 
+	// this matrix...
+	// - does not depend on the aspect ratio since the aspect ration will be applied in the perspective matrix
+	// - does not depend onthe z coord of the labe since the label should always be in the near frustum plane
+	// - more x-screen-pixel means a smaller label
 	private Matrix4f createModelMatrix(LayoutStrategy<?> layoutManager, Matrix4f dest) {
-		//float alignX = layoutManager.getLayoutAlignmentX(this); // [0..1]
-		//float alignY = layoutManager.getLayoutAlignmentY(this); // [0..1]
-		// origin of the subcomponents is top left
-		// alignY += getHeight() / perspective.getScreenDimension().getHeight();
-		// screen range: [-1 .. +1] x to the right, y upwards   z in the range of [-1..+1]
-		// return MathTool.convert(new Vector3f(alignX * 2f - 1f, 1f - alignY * 2f, 0f), modelMatrix);
-
-
-		Dimension dim = perspective.getScreenDimension();
-		float pixel = Math.max(dim.getWidth(), dim.getHeight());
+		float fovPixel = perspective.getScreenDimension().getHeight();
 		float z = perspective.getNearPlane();
-		float aspect = perspective.getAspectRatio();
 
-		// x column, inoming: 0...dim.x outgoing: -1 ... +1
-		dest.m00 = 1 / dim.getHeight();
+		// x column, incoming: 0...dim.x outgoing: -1 ... +1
+		dest.m00 = 0.5f / fovPixel;
 		dest.m01 = 0;
 		dest.m02 = 0;
 		dest.m03 = 0;
 
+		// y column
 		dest.m10 = 0;
-		dest.m11 = 1 / dim.getHeight();
+		dest.m11 = 0.5f / fovPixel;
 		dest.m12 = 0;
 		dest.m13 = 0;
 
@@ -130,9 +124,9 @@ public class Label extends AbstractRenderElement implements IComponent {
 		dest.m22 = 0;
 		dest.m23 = 0;
 
-		dest.m30 = -0.3f;
-		dest.m31 = +0.3f;
-		dest.m32 = -z; // fix at the near frustum
+		dest.m30 = 0;
+		dest.m31 = 0;
+		dest.m32 = -z; // label is fixed at the near frustum
 		dest.m33 = 1f; // need to be non zero so the next matrix can do a move
 
 		return dest;

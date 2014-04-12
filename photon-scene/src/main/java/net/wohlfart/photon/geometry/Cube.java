@@ -2,11 +2,10 @@ package net.wohlfart.photon.geometry;
 
 import net.wohlfart.photon.render.Geometry;
 import net.wohlfart.photon.render.IGeometry;
-import net.wohlfart.photon.render.VertexTransform;
 
 public class Cube extends Geometry {
 
-    private float length;
+    private final float length;
 
 	public Cube() {
         this(5);
@@ -32,7 +31,7 @@ public class Cube extends Geometry {
         addVertex().withPosition(-l, -l, -l);
         addVertex().withPosition(+l, -l, -l);
 
-        addLine(0, 1); 
+        addLine(0, 1);
         addLine(1, 2);
         addLine(2, 3);
         addLine(3, 0);
@@ -46,8 +45,6 @@ public class Cube extends Geometry {
         addLine(5, 6);
         addLine(6, 7);
         addLine(7, 4);
-
-        transformVertices(VertexTransform.move(0, 0, -15));    
     }
-	
+
 }
