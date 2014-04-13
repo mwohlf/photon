@@ -48,7 +48,7 @@ public abstract class AbstractEffect implements IEntity  {
         tree = null;
     }
 
-    public void addEntity(AbstractEntity entity) {
+    public AbstractEffect addEntity(AbstractEntity entity) {
         childEntities.add(entity);
         if (tree != null) {
             entity.setup();
@@ -56,6 +56,7 @@ public abstract class AbstractEffect implements IEntity  {
                 tree.add(command);
             }
         }
+        return this;
     }
 
     @Override

@@ -57,14 +57,11 @@ public class FrameBufferNode implements IRenderNode {
         uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(model2WorldMatrix));
     }
 
-    public void setScreenDimension(Dimension screenDimension) {
-    	this.screenDimension = screenDimension;
-    }
-
     @Override
     public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
         // render on framebuffer
     	frameBufferObject = getFrameBufferObject();
+    	screenDimension = renderer.getPerspective().getScreenDimension();
     	frameBufferObject.setDimension(screenDimension);
     	renderer.setFrameBuffer(frameBufferObject);
         renderer.renderChildren(tree);

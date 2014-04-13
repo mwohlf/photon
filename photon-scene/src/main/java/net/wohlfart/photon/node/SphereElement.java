@@ -21,6 +21,7 @@ public class SphereElement extends AbstractRenderElement {
 	public static SphereElement createGrid() {
 		SphereElement elem = new SphereElement();
 		elem.geometry = new Sphere(4, 2);
+		elem.renderConfig = IRenderConfig.DEFAULT_3D;
 		return elem;
 	}
 

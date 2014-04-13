@@ -27,7 +27,8 @@ public class Geometry implements IGeometry {
 	protected final TIntList indices;
 	protected final StreamFormat streamFormat;
 
-	protected int handle = -1;
+	protected int vboHandle = -1;
+	protected int iboHandle = -1;
 
 
 	// the last vertex position, reused for performance not part of the state
@@ -83,50 +84,53 @@ public class Geometry implements IGeometry {
 	@Override
 	public void draw(IShaderProgram shader, GL2ES2 gl) {
 
-		createAndBindVboHandle(gl);
+		bindVboHandle(gl);
 		shader.useAttributes(vertexFormat);
-
-		final int primitiveType = getPrimitiveType(streamFormat);
 
 		if (indices.size() > 0) {
 			// render with an index buffer
-			createAndBindIdxBufferHandle(gl);
+			bindIdxBufferHandle(gl);
 			gl.glDrawElements( // see: http://www.opengl.org/wiki/GlDrawElements
-					primitiveType, // mode: primitive type see: http://www.opengl.org/wiki/Primitive
+					getPrimitiveType(streamFormat), // mode: primitive type see: http://www.opengl.org/wiki/Primitive
 					indices.size(), // indicesCount
 					getIndexElemSize(), // indexElemSize
 					0); // indexOffset
 		} else {
 			// render plain vertices without indices
-			gl.glDrawArrays(primitiveType, // mode: primitive type see: http://www.opengl.org/wiki/Primitive
+			gl.glDrawArrays(
+					getPrimitiveType(streamFormat), // mode: primitive type see: http://www.opengl.org/wiki/Primitive
 					0, getVerticesCount());
 		}
 
 	}
 
-	private int createAndBindVboHandle(GL2ES2 gl) {
-		final FloatBuffer verticesBuffer = createVertexFloatBuffer();
-		final long size = verticesBuffer.capacity();
-		int handle = createAndBindBuffer(GL2.GL_ARRAY_BUFFER, gl);
-		gl.glBufferData(GL2.GL_ARRAY_BUFFER, size  * Buffers.SIZEOF_FLOAT, verticesBuffer, GL2.GL_STATIC_DRAW);
-		return handle;
+	private void bindVboHandle(GL2ES2 gl) {
+		if (vboHandle > -1) {
+			gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, vboHandle);
+		} else {
+			final FloatBuffer verticesBuffer = createVertexFloatBuffer();
+			final long size = verticesBuffer.capacity();
+			vboHandle = createAndBindBuffer(GL2.GL_ARRAY_BUFFER, gl);
+			gl.glBufferData(GL2.GL_ARRAY_BUFFER, size  * Buffers.SIZEOF_FLOAT, verticesBuffer, GL2.GL_STATIC_DRAW);
+		}
 	}
 
-	private int createAndBindIdxBufferHandle(GL2ES2 gl) {
-		int indicesCount = indices.size();
-		final int idxBufferHandle = createAndBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, gl);
-		if (indicesCount > Short.MAX_VALUE) {
-			final IntBuffer indicesBuffer = createIndexIntBuffer();
-			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_INT, indicesBuffer, GL2.GL_STATIC_DRAW);
-			return idxBufferHandle;
-		} else if (indicesCount > Byte.MAX_VALUE) {
-			final ShortBuffer indicesBuffer = createIndexShortBuffer();
-			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_SHORT, indicesBuffer, GL2.GL_STATIC_DRAW);
-			return idxBufferHandle;
+	private void bindIdxBufferHandle(GL2ES2 gl) {
+		if (iboHandle > -1) {
+			gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, iboHandle);
 		} else {
-			final ByteBuffer indicesBuffer = createIndexByteBuffer();
-			gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_BYTE, indicesBuffer, GL2.GL_STATIC_DRAW);
-			return idxBufferHandle;
+			int indicesCount = indices.size();
+			iboHandle = createAndBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, gl);
+			if (indicesCount > Short.MAX_VALUE) {
+				final IntBuffer indicesBuffer = createIndexIntBuffer();
+				gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_INT, indicesBuffer, GL2.GL_STATIC_DRAW);
+			} else if (indicesCount > Byte.MAX_VALUE) {
+				final ShortBuffer indicesBuffer = createIndexShortBuffer();
+				gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_SHORT, indicesBuffer, GL2.GL_STATIC_DRAW);
+			} else {
+				final ByteBuffer indicesBuffer = createIndexByteBuffer();
+				gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_BYTE, indicesBuffer, GL2.GL_STATIC_DRAW);
+			}
 		}
 	}
 
@@ -248,17 +252,17 @@ public class Geometry implements IGeometry {
 		return indicesBuffer;
 	}
 
-    public Vertex addVertex() {
-        return currentVertex;
-    }
+	public Vertex addVertex() {
+		return currentVertex;
+	}
 
-    public StreamFormat getStreamFormat() {
-        return streamFormat;
-    }
+	public StreamFormat getStreamFormat() {
+		return streamFormat;
+	}
 
-    public VertexFormat getVertexFormat() {
-        return vertexFormat;
-    }
+	public VertexFormat getVertexFormat() {
+		return vertexFormat;
+	}
 
 	private ByteBuffer createByteBuffer(int size) {
 		return ByteBuffer.allocateDirect(size).order(ByteOrder.nativeOrder());
