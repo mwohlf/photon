@@ -68,6 +68,7 @@ public class SceneGraph implements ISceneGraph {
         semanticView.remove(entity);
     }
 
+    // add a set of render commands to the renderCache
     @Override
     public void addRenderCommands(Collection<? extends IRenderNode> nodes) {
         assert nodes != null;
@@ -76,19 +77,20 @@ public class SceneGraph implements ISceneGraph {
         }
     }
 
+    // add a single render command and return the created render node
+    // this might be needed if we want to add subnodes
+    @Override
+    public ITree<IRenderNode> addRenderCommand(IRenderNode node) {
+        assert node != null;
+        return renderCache.add(node);
+    }
+
+    // remove render nodes and their subnodes
     @Override
     public void removeRenderCommands(Collection<? extends IRenderNode> nodes) {
         assert nodes != null;
         renderCache.removeAll(nodes);
     }
-
-    @Override
-    public ITree<IRenderNode> createSubTree(IRenderNode node) {
-        assert node != null;
-        return renderCache.add(node);
-    }
-
-
 
     public ITree<IRenderNode> getRenderCache() {
         renderCache.reOrder();

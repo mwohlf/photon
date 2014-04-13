@@ -11,6 +11,7 @@ import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.hud.layout.IComponent;
 import net.wohlfart.photon.hud.layout.IContainer;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
+import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.Quaternion;
 
 
@@ -19,30 +20,32 @@ import net.wohlfart.photon.tools.Quaternion;
  *
  * TODO: read the elements from a config file
  */
-public abstract class AbstractLayer implements IEntity {
+public abstract class AbstractLayer implements IEntity, IScreenSizeListener {
+
+    protected final Set<IContainer<?>> containers = new HashSet<>();
+
+    protected final Dimension screenDimension = new Dimension();
 
 	protected ISceneGraph sceneGraph;
-    protected final Set<IContainer<?>> containers = new HashSet<>();
+
 
     @Override
     public void register(ISceneGraph sceneGraph) {
         this.sceneGraph = sceneGraph;
         sceneGraph.addEntity(this);
         for (IContainer<?> container : containers) {
-        	addComponents(container, sceneGraph.createSubTree(container));
+        	container.setScreenDimension(screenDimension);
+        	addComponents(container, sceneGraph.addRenderCommand(container));
         }
     }
 
-    private void addComponents(IContainer<?> parent, ITree<IRenderNode> tree) {
-        for (IComponent component : parent.getComponents()) {
-        	if (component instanceof IContainer) {
-        		IContainer<?> container = (IContainer<?>)component;
-        		addComponents(container, tree.add(container));
-        	} else {
-        		tree.add(component);
-        	}
+    @Override
+    public void setScreenDimension(Dimension dimension) {
+    	this.screenDimension.set(dimension);
+        for (IContainer<?> container : containers) {
+        	container.setScreenDimension(dimension);
         }
-	}
+    }
 
 	@Override
     public void unregister() {
@@ -64,5 +67,16 @@ public abstract class AbstractLayer implements IEntity {
     public float getSize() {
         throw new IllegalAccessError("getSize not supported, a layr covers the whole screen");
     }
+
+    private void addComponents(IContainer<?> parent, ITree<IRenderNode> tree) {
+        for (IComponent component : parent.getComponents()) {
+        	if (component instanceof IContainer) {
+        		IContainer<?> container = (IContainer<?>)component;
+        		addComponents(container, tree.add(container));
+        	} else {
+        		tree.add(component);
+        	}
+        }
+	}
 
 }

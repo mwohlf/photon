@@ -24,10 +24,10 @@ public interface IComponent extends IRenderNode {
 
     };
 
-    // needed by the layout manager,
-    // FIXME: this should be in screen scale (0f-1f) so we don't need to divide by srceen size...
+    // height in pixel
     public float getHeight();
 
+    // width in pixel
     public float getWidth();
 
     public void setParent(IContainer<? extends LayoutConstraints> container);

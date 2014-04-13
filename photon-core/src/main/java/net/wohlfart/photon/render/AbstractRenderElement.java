@@ -21,13 +21,13 @@ import net.wohlfart.photon.shader.ShaderParser;
  */
 public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
-	public static final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
+	protected static final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
 
     protected final Map<String, IUniformValue> uniforms = new HashMap<>();
 
     protected final Matrix4f model2WorldMatrix =  new Matrix4f();
 
-    protected double zOrder = Double.NaN; // provided by the sort token
+    protected double zOrder = Double.NaN; // provided via the sort token
 
     protected IGeometry geometry;
 

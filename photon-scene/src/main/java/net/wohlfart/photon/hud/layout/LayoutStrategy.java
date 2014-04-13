@@ -1,8 +1,10 @@
 package net.wohlfart.photon.hud.layout;
 
+import net.wohlfart.photon.hud.IScreenSizeListener;
 
 
-public interface LayoutStrategy<C> {
+
+public interface LayoutStrategy<C> extends IScreenSizeListener {
 
     // returning the constraints that can be manipulated
     C addLayoutComponent(IComponent comp);
@@ -21,5 +23,7 @@ public interface LayoutStrategy<C> {
 
     // [0..1]
     float getLayoutHeight(IComponent target);
+
+	boolean isDirty();
 
 }

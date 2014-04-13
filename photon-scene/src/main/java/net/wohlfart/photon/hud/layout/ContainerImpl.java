@@ -8,6 +8,7 @@ import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
 import net.wohlfart.photon.render.IRenderer;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
+import net.wohlfart.photon.tools.Dimension;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,6 +33,7 @@ public class ContainerImpl<C extends LayoutConstraints> implements IContainer<C>
     protected boolean isDirty;
 
 
+
     public ContainerImpl(LayoutStrategy<C> layoutStrategy) {
         this.layoutManager = layoutStrategy;
     }
@@ -51,7 +53,13 @@ public class ContainerImpl<C extends LayoutConstraints> implements IContainer<C>
         renderer.renderChildren(tree);
     }
 
-    public LayoutStrategy<C> getLayoutManager() {
+    @Override
+    public void setScreenDimension(Dimension screenDimension) {
+    	layoutManager.setScreenDimension(screenDimension);
+    }
+
+    @Override
+	public LayoutStrategy<C> getLayoutManager() {
         return layoutManager;
     }
 

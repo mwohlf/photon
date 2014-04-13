@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.Position;
 
 public abstract class AbstractLayoutStrategy<C> implements LayoutStrategy<C>  {
@@ -13,6 +14,8 @@ public abstract class AbstractLayoutStrategy<C> implements LayoutStrategy<C>  {
 
     // the components mapped to their positions
     protected final Map<IComponent, Position> positions = new HashMap<>();
+
+    protected final Dimension screenDimension = new Dimension();
 
     // set to true if layout needs to be recalculated
     protected boolean isDirty = true;
@@ -42,9 +45,17 @@ public abstract class AbstractLayoutStrategy<C> implements LayoutStrategy<C>  {
         isDirty = true;
     }
 
+
+	@Override
+	public void setScreenDimension(Dimension screenDimension) {
+		this.screenDimension.set(screenDimension);
+        isDirty = true;
+	}
+
     protected Position getPosition(IComponent comp) {
     	if (isDirty) {
     		calculatePositions();
+            isDirty = false;
     	}
     	assert positions.containsKey(comp) : "position was not calcualted for component, check the calculatePositions method " + comp;
     	return positions.get(comp);

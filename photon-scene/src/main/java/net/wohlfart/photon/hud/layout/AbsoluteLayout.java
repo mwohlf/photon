@@ -7,8 +7,16 @@ import net.wohlfart.photon.tools.Position;
 
 public class AbsoluteLayout extends AbstractLayoutStrategy<AbsoluteLayout.AbsoluteLayoutConstraint> {
 
+	public static class AbsoluteLayoutConstraint extends LayoutConstraints {
+		private final Position pos = new Position();
 
-	public class AbsoluteLayoutConstraint extends LayoutConstraints {
+		public void setX(float x) {
+			pos.setX(x);
+		}
+
+		public void setY(float y) {
+			pos.setY(y);
+		}
 
 	}
 
@@ -16,13 +24,14 @@ public class AbsoluteLayout extends AbstractLayoutStrategy<AbsoluteLayout.Absolu
 	void calculatePositions() {
 		positions.clear(); // FIXME: try not to recreate positions all the time
 		for (Map.Entry<IComponent, AbsoluteLayoutConstraint> entry : components.entrySet()) {
+			AbsoluteLayoutConstraint constraint = entry.getValue();
 			Position pos = positions.get(entry.getKey());
 			if (pos == null) {
 				pos = new Position();
 				positions.put(entry.getKey(), pos);
 			}
-			pos.setX(0);
-			pos.setY(0);
+			pos.setX(constraint.pos.getX());
+			pos.setY(constraint.pos.getY());
 		}
 		isDirty = false;
 	}
@@ -40,6 +49,11 @@ public class AbsoluteLayout extends AbstractLayoutStrategy<AbsoluteLayout.Absolu
 	@Override
 	AbsoluteLayoutConstraint createConstraint(IComponent comp) {
 		return new AbsoluteLayoutConstraint();
+	}
+
+	@Override
+	public boolean isDirty() {
+		return isDirty;
 	}
 
 }

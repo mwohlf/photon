@@ -31,7 +31,7 @@ public abstract class AbstractEffect implements IEntity  {
     public void register(ISceneGraph sceneGraph) {
         this.sceneGraph = sceneGraph;
         sceneGraph.addEntity(this);
-        tree = sceneGraph.createSubTree(overlay);
+        tree = sceneGraph.addRenderCommand(overlay);
         for (AbstractEntity entity : childEntities) {
             entity.setup();
             for (IRenderNode command : entity.getRenderCommands()) {

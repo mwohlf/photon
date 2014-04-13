@@ -45,7 +45,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 
 	private float height; // height might be more than fontSize, letters like 'g' add extra to the "normal" height
 
-	private float width;
+	private float width; // width of the whole string
 
 	public Label withText(String text) {
 		this.text = text;
@@ -57,10 +57,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 	public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
 		this.perspective = renderer.getPerspective();
 		assert text != null : "need to set a text if you use Label";
-		if (isDirty) {
-			refresh();
-	//		isDirty = false; TODO
-		}
+		refresh();
 		renderer.setRenderConfig(shaderId, renderConfig);
 		renderer.setUniformValues(getUniformValues());
 		renderer.drawGeometry(getGeometry());
@@ -68,15 +65,16 @@ public class Label extends AbstractRenderElement implements IComponent {
 	}
 
 	private void refresh() {
-		shaderId = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
-		renderConfig = IRenderConfig.BLENDING_ON;
-		charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
-		geometry = createTextGeometry();
-
-		getUniformValues().put(ShaderParser.TEXTURE01, new TextureValue(charData.getCharTexture()));
-
-		Matrix4f modelMatrix = createModelMatrix(container.getLayoutManager(), getModel2WorldMatrix());
-		getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelMatrix));
+		LayoutStrategy<? extends LayoutConstraints> layoutManager = container.getLayoutManager();
+		if (layoutManager.isDirty() || this.isDirty) {
+			shaderId = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
+			renderConfig = IRenderConfig.BLENDING_ON;
+			charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
+			geometry = createTextGeometry();
+			getUniformValues().put(ShaderParser.TEXTURE01, new TextureValue(charData.getCharTexture()));
+			Matrix4f modelMatrix = createModelMatrix(layoutManager, getModel2WorldMatrix());
+			getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelMatrix));
+		}
 	}
 
 	@Override
@@ -101,11 +99,12 @@ public class Label extends AbstractRenderElement implements IComponent {
 
 	// this matrix...
 	// - does not depend on the aspect ratio since the aspect ration will be applied in the perspective matrix
-	// - does not depend onthe z coord of the labe since the label should always be in the near frustum plane
+	// - does not depend on the z coordinate of the label since the label should always be in the near frustum plane
 	// - more x-screen-pixel means a smaller label
 	private Matrix4f createModelMatrix(LayoutStrategy<?> layoutManager, Matrix4f dest) {
 		float fovPixel = perspective.getScreenDimension().getHeight();
 		float z = perspective.getNearPlane();
+		float aspect = perspective.getAspectRatio();
 
 		// x column, incoming: 0...dim.y outgoing: -1 ... +1
 		dest.m00 = 0.5f / fovPixel;
@@ -124,8 +123,8 @@ public class Label extends AbstractRenderElement implements IComponent {
 		dest.m22 = 0;
 		dest.m23 = 0;
 
-		dest.m30 = 0;
-		dest.m31 = 0;
+		dest.m30 = layoutManager.getLayoutAlignmentX(this) / aspect;
+		dest.m31 = layoutManager.getLayoutAlignmentY(this);
 		dest.m32 = -z; // label is fixed at the near frustum
 		dest.m33 = 1f; // need to be non zero so the next matrix can do a move
 
