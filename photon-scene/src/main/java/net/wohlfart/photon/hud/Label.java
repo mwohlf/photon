@@ -29,7 +29,7 @@ import net.wohlfart.photon.tools.Perspective;
 
 public class Label extends AbstractRenderElement implements IComponent {
 
-	protected final float fontSize = 30f;
+	protected final float fontSize = 20f;
 
 	protected final FontIdentifier fontIdentifier = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", fontSize);
 
@@ -97,24 +97,27 @@ public class Label extends AbstractRenderElement implements IComponent {
 		return container;
 	}
 
+	// todo: move this method into the layout manager
 	// this matrix...
 	// - does not depend on the aspect ratio since the aspect ration will be applied in the perspective matrix
 	// - does not depend on the z coordinate of the label since the label should always be in the near frustum plane
 	// - more x-screen-pixel means a smaller label
 	private Matrix4f createModelMatrix(LayoutStrategy<?> layoutManager, Matrix4f dest) {
 		float fovPixel = perspective.getScreenDimension().getHeight();
-		float z = perspective.getNearPlane();
+		//float z = perspective.getNearPlane();
+		//float z = perspective.getMatrix().m22;
+		Matrix4f m = perspective.getMatrix();
 		float aspect = perspective.getAspectRatio();
 
 		// x column, incoming: 0...dim.y outgoing: -1 ... +1
-		dest.m00 = 0.5f / fovPixel;
+		dest.m00 = 1f / fovPixel;
 		dest.m01 = 0;
 		dest.m02 = 0;
 		dest.m03 = 0;
 
 		// y column
 		dest.m10 = 0;
-		dest.m11 = 0.5f / fovPixel;
+		dest.m11 = 1f / fovPixel;
 		dest.m12 = 0;
 		dest.m13 = 0;
 
@@ -125,7 +128,8 @@ public class Label extends AbstractRenderElement implements IComponent {
 
 		dest.m30 = layoutManager.getLayoutAlignmentX(this) / aspect;
 		dest.m31 = layoutManager.getLayoutAlignmentY(this);
-		dest.m32 = -z; // label is fixed at the near frustum
+		// TODO: how to we deduct this value?
+		dest.m32 = -1.21f;
 		dest.m33 = 1f; // need to be non zero so the next matrix can do a move
 
 		return dest;

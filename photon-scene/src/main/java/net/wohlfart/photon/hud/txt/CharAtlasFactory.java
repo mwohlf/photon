@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 public class CharAtlasFactory implements ResourceProducer<ICharAtlas, FontIdentifier> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(CharAtlasFactory.class);
 
-    public static final FontIdentifier DEFAULT_FONT_ID = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", 12f);
+    public static final FontIdentifier DEFAULT_FONT_ID = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", 20f);
 
     public static final char NULL_CHAR = '_';
     private static final String CHARS = " abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789;:,._-#+?!\"()";
