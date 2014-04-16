@@ -1,7 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="
-		http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd
-	">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="   http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd  ">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.wohlfart.photon</groupId>
@@ -12,6 +10,9 @@
 	<packaging>pom</packaging>
 
 	<properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
 		<photon.version>0.0.1-SNAPSHOT</photon.version>
 		<antlr.version>4.0</antlr.version>
 		<junit.version>4.11</junit.version>
@@ -22,14 +23,15 @@
 		<trove4j.version>3.0.3</trove4j.version>
 		<jsr305.version>2.0.3</jsr305.version>
 		<dagger.version>1.2.1</dagger.version>
-		<caliper.version>0.5-rc1</caliper.version>
+		<caliper.version>0.5-rc1</caliper.version>		
 	</properties>
 
 	<modules>
 		<module>photon-core</module>
 		<module>photon-scene</module>
 		<module>photon-desktop</module>
-	</modules>
+        <module>photon-android</module>
+  </modules>
 
 	<dependencies>
 
@@ -137,8 +139,6 @@
 
 		<plugins>
 		
-		
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
