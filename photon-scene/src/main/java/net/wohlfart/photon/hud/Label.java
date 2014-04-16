@@ -29,7 +29,7 @@ import net.wohlfart.photon.tools.Perspective;
 
 public class Label extends AbstractRenderElement implements IComponent {
 
-	protected final float fontSize = 20f;
+	protected final float fontSize = 12f;
 
 	protected final FontIdentifier fontIdentifier = FontIdentifier.create("fonts/liberation/LiberationMono-Regular.ttf", fontSize);
 
@@ -108,6 +108,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 		//float z = perspective.getMatrix().m22;
 		Matrix4f m = perspective.getMatrix();
 		float aspect = perspective.getAspectRatio();
+		float fieldOfViewRad = perspective.getFieldOfViewRad();
 
 		// x column, incoming: 0...dim.y outgoing: -1 ... +1
 		dest.m00 = 1f / fovPixel;
@@ -129,7 +130,11 @@ public class Label extends AbstractRenderElement implements IComponent {
 		dest.m30 = layoutManager.getLayoutAlignmentX(this) / aspect;
 		dest.m31 = layoutManager.getLayoutAlignmentY(this);
 		// TODO: how to we deduct this value?
-		dest.m32 = -1.21f;
+
+		// dest.m32 = -1.870f; // 30 degree
+		// dest.m32 = -2.09f;  // 35
+		dest.m32 = -1.21f; // 45 degree
+		// dest.m32 = -1f; // 53 degree
 		dest.m33 = 1f; // need to be non zero so the next matrix can do a move
 
 		return dest;

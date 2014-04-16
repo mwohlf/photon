@@ -61,6 +61,11 @@ public class Perspective {
         this.fieldOfViewRad = (float)((Math.PI) / 360f) * (fieldOfViewDegree);
 	}
 
+
+	public float getFieldOfViewRad() {
+		return fieldOfViewRad;
+	}
+
 	public void setNearPlane(float nearPlane) {
 		assert nearPlane > 0;
 		this.nearPlane = nearPlane;
