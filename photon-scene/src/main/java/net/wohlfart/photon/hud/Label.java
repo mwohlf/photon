@@ -128,8 +128,8 @@ public class Label extends AbstractRenderElement implements IComponent {
 		dest.m22 = 0;
 		dest.m23 = 0;
 
-		dest.m30 = 0; //layoutManager.getLayoutAlignmentX(this) / aspect;
-		dest.m31 = 0; //layoutManager.getLayoutAlignmentY(this);
+		dest.m30 = layoutManager.getLayoutAlignmentX(this)/screenScale / aspect;
+		dest.m31 = layoutManager.getLayoutAlignmentY(this)/screenScale;
 		dest.m32 = -1;
 		dest.m33 = 1f; // need to be non zero so the next matrix can do a move
 
