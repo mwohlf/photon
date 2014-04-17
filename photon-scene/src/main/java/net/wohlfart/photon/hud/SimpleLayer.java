@@ -20,8 +20,8 @@ public class SimpleLayer extends AbstractLayer {
     private void setup() {
     	ContainerImpl<AbsoluteLayoutConstraint> container = new ContainerImpl<>(new AbsoluteLayout());
     	AbsoluteLayoutConstraint constraints = container.addChild(new Label().withText("hello world"));
-    	constraints.setX(-0.5f);
-    	constraints.setY(-0.5f);
+    	constraints.setX(0);
+    	constraints.setY(0);
     	containers.add(container);
     }
 

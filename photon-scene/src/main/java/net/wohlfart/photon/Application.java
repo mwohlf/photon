@@ -88,13 +88,15 @@ public class Application implements ILifecycleListener {
 		Properties prop = new Properties();
 		try (InputStream in = getClass().getResourceAsStream("/scene.properties")) {
 			prop.load(in);
-			float fieldOfView = Float.valueOf(prop.getProperty("fieldOfView"));
+			float fieldOfViewDegree = Float.valueOf(prop.getProperty("fieldOfViewDegree"));
 			float nearPlane = Float.valueOf(prop.getProperty("nearPlane"));
 			float farPlane = Float.valueOf(prop.getProperty("farPlane"));
+			float scaleFactor = Float.valueOf(prop.getProperty("scaleFactor"));
 			Perspective perspective = gfxCtx.getPerspective();
-			perspective.setFieldOfViewDegree(fieldOfView);
+			perspective.setFieldOfViewDegree(fieldOfViewDegree);
 			perspective.setNearPlane(nearPlane);
 			perspective.setFarPlane(farPlane);
+			perspective.setScaleFactor(scaleFactor);
 
 		} catch (IOException ex) {
 			LOGGER.error("cant read properties, using default values, expect more errors", ex);

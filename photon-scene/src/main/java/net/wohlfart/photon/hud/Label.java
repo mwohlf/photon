@@ -103,22 +103,23 @@ public class Label extends AbstractRenderElement implements IComponent {
 	// - does not depend on the z coordinate of the label since the label should always be in the near frustum plane
 	// - more x-screen-pixel means a smaller label
 	private Matrix4f createModelMatrix(LayoutStrategy<?> layoutManager, Matrix4f dest) {
-		float fovPixel = perspective.getScreenDimension().getHeight();
 		//float z = perspective.getNearPlane();
 		//float z = perspective.getMatrix().m22;
 		Matrix4f m = perspective.getMatrix();
 		float aspect = perspective.getAspectRatio();
-		float fieldOfViewRad = perspective.getFieldOfViewRad();
+		float screenScale = perspective.getScreenScale();
+		//float nearPlane = perspective.getNearPlane();
+		float fovPixel = perspective.getFieldOfViewPixel();
 
 		// x column, incoming: 0...dim.y outgoing: -1 ... +1
-		dest.m00 = 1f / fovPixel;
+		dest.m00 = 2f/screenScale/fovPixel;
 		dest.m01 = 0;
 		dest.m02 = 0;
 		dest.m03 = 0;
 
 		// y column
 		dest.m10 = 0;
-		dest.m11 = 1f / fovPixel;
+		dest.m11 = 2f/screenScale/fovPixel;
 		dest.m12 = 0;
 		dest.m13 = 0;
 
@@ -127,14 +128,9 @@ public class Label extends AbstractRenderElement implements IComponent {
 		dest.m22 = 0;
 		dest.m23 = 0;
 
-		dest.m30 = layoutManager.getLayoutAlignmentX(this) / aspect;
-		dest.m31 = layoutManager.getLayoutAlignmentY(this);
-		// TODO: how to we deduct this value?
-
-		// dest.m32 = -1.870f; // 30 degree
-		// dest.m32 = -2.09f;  // 35
-		dest.m32 = -1.21f; // 45 degree
-		// dest.m32 = -1f; // 53 degree
+		dest.m30 = 0; //layoutManager.getLayoutAlignmentX(this) / aspect;
+		dest.m31 = 0; //layoutManager.getLayoutAlignmentY(this);
+		dest.m32 = -1;
 		dest.m33 = 1f; // need to be non zero so the next matrix can do a move
 
 		return dest;

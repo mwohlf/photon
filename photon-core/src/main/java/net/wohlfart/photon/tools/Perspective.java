@@ -35,44 +35,41 @@ public class Perspective {
 
     // field of view in y direction
     // in dregee [0...360] not rad this is the whole range
-    private float fieldOfViewDegree = -1;
-    private float fieldOfViewRad = -1;
+    private float fieldOfViewDegree = Float.NaN;
+    private float fieldOfViewRad = Float.NaN;
 
     // the neares visible zCoord
-	private float nearPlane = -1;
+	private float nearPlane = Float.NaN;
 
 	// the fares visible zCoord
-    private float farPlane = -1;
+    private float farPlane = Float.NaN;
 
     // the screen width in pixel
-    private float width = -1;
+    private float width = Float.NaN;
 
     // the screen height in pixel
-    private float height = -1;
+    private float height = Float.NaN;
 
     private final Matrix4f matrix = new Matrix4f();
     private final Dimension dim = new Dimension();
 
+	private float scaleFactor;
+
 
 	// field of view in y direction in degree
 	// the height covers the field of view
-    public void setFieldOfViewDegree(float fieldOfView) {
-		this.fieldOfViewDegree = fieldOfView;
-        this.fieldOfViewRad = (float)((Math.PI) / 360f) * (fieldOfViewDegree);
-	}
-
-
-	public float getFieldOfViewRad() {
-		return fieldOfViewRad;
+    public void setFieldOfViewDegree(float fieldOfViewDegree) {
+		this.fieldOfViewDegree = fieldOfViewDegree;
+        this.fieldOfViewRad = (float)((Math.PI * 2) / 360f) * (fieldOfViewDegree);
 	}
 
 	public void setNearPlane(float nearPlane) {
+		assert nearPlane != Float.NaN;
 		assert nearPlane > 0;
 		this.nearPlane = nearPlane;
 	}
 
 	public void setFarPlane(float farPlane) {
-		assert nearPlane > 0;
 		this.farPlane = farPlane;
 	}
 
@@ -84,6 +81,15 @@ public class Perspective {
 		this.height = height;
 	}
 
+	public void setScaleFactor(float scaleFactor) {
+		this.scaleFactor = scaleFactor;
+	}
+
+
+	public float getFieldOfViewRad() {
+		return fieldOfViewRad;
+	}
+
 	// return a z value that is transformed into -1 after all the matrices are applied
 	public float getZValue() {
         return -nearPlane;
@@ -91,10 +97,6 @@ public class Perspective {
 
 	public float getAspectRatio() {
 		return height/width;
-	}
-
-	public float getFieldOfViewPixel() {
-		return width;
 	}
 
 	public float getNearPlane() {
@@ -106,11 +108,25 @@ public class Perspective {
     	return dim;
     }
 
+	public float getFieldOfViewPixel() {
+		return height;
+	}
+
+    public float getScreenScale() {
+    	assert fieldOfViewRad != Float.NaN;
+    	assert fieldOfViewRad > 0;
+    	return (float)(scaleFactor * Math.tan(Math.PI/8f) / Math.tan(fieldOfViewRad/2));
+    }
+
     // http://unspecified.wordpress.com/2012/06/21/calculating-the-gluperspective-matrix-and-other-opengl-matrix-maths/
     // note that this matrix does not depend on the actual size of the screen but just on the aspect ratio
     public Matrix4f getMatrix() {
-    	assert nearPlane > 0;
-    	assert farPlane > 0;
+		assert farPlane != Float.NaN;
+		assert nearPlane != Float.NaN;
+		assert fieldOfViewDegree != Float.NaN;
+		assert fieldOfViewRad != Float.NaN;
+		assert width != Float.NaN;
+		assert height != Float.NaN;
 
         if (fieldOfViewDegree > FIELD_OF_VIEW_LIMIT) {
             LOGGER.warn("field of view must be <= {} found: '{}', resetting to {}", FIELD_OF_VIEW_LIMIT, fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
