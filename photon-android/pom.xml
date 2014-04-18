@@ -16,7 +16,8 @@
 	<packaging>apk</packaging>
 
 	<properties>
-		<jogamp.version>2.0.2</jogamp.version>	
+		<jogamp.version>2.0.2</jogamp.version>
+		<android.sdk.path>/opt/android-sdk-linux/</android.sdk.path>
 	</properties>
 
 	<dependencies>
@@ -42,7 +43,7 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>1.6_r2</version>
+			<version>2.2.1</version>
 			<scope>provided</scope>
 		</dependency>
 
@@ -83,16 +84,17 @@
 		<finalName>${project.artifactId}</finalName>
 
 		<pluginManagement>
-		
+
 			<plugins>
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 					<artifactId>android-maven-plugin</artifactId>
-					<version>3.5.0</version>
+					<version>3.8.0</version>
 					<extensions>true</extensions>
 				</plugin>
 
-				<!-- Mark certain plugins as ignored in Eclipse. Has no effect on the build. -->
+				<!-- Mark certain plugins as ignored in Eclipse. Has no effect on the 
+					build. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -111,6 +113,25 @@
 										<versionRange>[2.6,)</versionRange>
 										<goals>
 											<goal>unpack</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											com.jayway.maven.plugins.android.generation2
+										</groupId>
+										<artifactId>
+											android-maven-plugin
+										</artifactId>
+										<versionRange>
+											[3.8.0,)
+										</versionRange>
+										<goals>
+											<goal>consume-aar</goal>
 										</goals>
 									</pluginExecutionFilter>
 									<action>
