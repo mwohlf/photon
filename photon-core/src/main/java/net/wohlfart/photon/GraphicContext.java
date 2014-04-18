@@ -37,7 +37,7 @@ public class GraphicContext implements IGraphicContext {
 
 	private final Perspective perspective = new Perspective();
 
-	private final Map<String, IUniformValue> uniformValues = new HashMap<>(); // contains uniforms and textures
+	private final Map<String, IUniformValue> uniformValues = new HashMap<String, IUniformValue>(); // contains uniforms and textures
 
 	private RenderConfigImpl currentConfig = RenderConfigImpl.NULL_CONFIG;
 

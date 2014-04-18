@@ -1,5 +1,6 @@
 package net.wohlfart.photon;
 
+
 public interface ILifecycleListener {
 
 	public void init(IGraphicContext gfxContext);

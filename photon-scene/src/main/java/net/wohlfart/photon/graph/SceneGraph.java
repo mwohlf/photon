@@ -43,7 +43,7 @@ public class SceneGraph implements ISceneGraph {
 
     public SceneGraph() {
         this.renderCache = new RenderCache();
-        this.semanticView = new HashSet<>();
+        this.semanticView = new HashSet<IEntity>();
  //     this.spatialView = new TreeImpl<>(new BoundingVolumeSphere(new Vector3d(), 0));
         LOGGER.info("init done");
     }

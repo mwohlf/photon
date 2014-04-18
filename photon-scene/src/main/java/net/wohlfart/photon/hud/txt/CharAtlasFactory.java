@@ -7,6 +7,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.font.LineMetrics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.InputStream;
 
 import net.wohlfart.photon.GenericException;
@@ -43,12 +44,22 @@ public class CharAtlasFactory implements ResourceProducer<ICharAtlas, FontIdenti
     @Override
     public ICharAtlas produce(FontIdentifier identifier) {
         LOGGER.debug("creating CharATlas for identifier '{}'", identifier);
-        try (final InputStream inputStream = ResourceTool.openStream(identifier.getFontResource())) {
+        InputStream inputStream = null;
+        try {
+        	inputStream = ResourceTool.openStream(identifier.getFontResource());
             Font font = Font.createFont(Font.TRUETYPE_FONT, inputStream);
             font = font.deriveFont(identifier.getPoints()); // size
             return createCharacterAtlas(font);
         } catch (Exception ex) {
             throw new GenericException("can't create font from file '" + identifier.getFontResource() + "'", ex);
+        } finally {
+        	if (inputStream != null) {
+        		try {
+					inputStream.close();
+				} catch (IOException ex) {
+		            throw new GenericException("close input stream", ex);
+				}
+        	}
         }
     }
 

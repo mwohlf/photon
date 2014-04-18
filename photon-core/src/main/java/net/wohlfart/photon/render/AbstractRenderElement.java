@@ -23,7 +23,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
 	protected static final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
 
-    protected final Map<String, IUniformValue> uniforms = new HashMap<>();
+    protected final Map<String, IUniformValue> uniforms = new HashMap<String, IUniformValue>();
 
     protected final Matrix4f model2WorldMatrix =  new Matrix4f();
 

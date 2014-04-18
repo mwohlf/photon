@@ -22,7 +22,7 @@ import net.wohlfart.photon.tools.Quaternion;
  */
 public abstract class AbstractLayer implements IEntity, IScreenSizeListener {
 
-    protected final Set<IContainer<?>> containers = new HashSet<>();
+    protected final Set<IContainer<?>> containers = new HashSet<IContainer<?>>();
 
     protected final Dimension screenDimension = new Dimension();
 

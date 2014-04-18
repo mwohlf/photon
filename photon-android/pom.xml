@@ -39,7 +39,6 @@
 			</exclusions>
 		</dependency>
 
-
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
@@ -84,6 +83,7 @@
 		<finalName>${project.artifactId}</finalName>
 
 		<pluginManagement>
+		
 			<plugins>
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
@@ -92,8 +92,7 @@
 					<extensions>true</extensions>
 				</plugin>
 
-				<!-- Mark certain plugins as ignored in Eclipse. Has no effect on the 
-					build. -->
+				<!-- Mark certain plugins as ignored in Eclipse. Has no effect on the build. -->
 				<plugin>
 					<groupId>org.eclipse.m2e</groupId>
 					<artifactId>lifecycle-mapping</artifactId>
@@ -133,7 +132,6 @@
 				in the APK for use. Then, it's necessary to unpack assets from the JOGL jar 
 				file into the "assets" directory. This directory is then processed by the 
 				Android Maven plugin, as expected. -->
-
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -141,7 +139,6 @@
 				<executions>
 
 					<!-- Unpack the JOGL natives -->
-
 					<execution>
 						<id>unpack-jogl-natives</id>
 						<phase>generate-resources</phase>
@@ -166,7 +163,6 @@
 					<!-- Unpack the JOGL assets -->
 					<!-- In other words, copy anything from the jar file that isn't a class 
 						file -->
-
 					<execution>
 						<id>unpack-jogl-assets</id>
 						<phase>generate-resources</phase>
@@ -215,7 +211,6 @@
 			<!-- Next, because there have been files unpacked to non-standard locations, 
 				it's necessary to tell the "clean" plugin to delete the unpacked files (for 
 				the sake of keeping things tidy). -->
-
 			<plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>2.5</version>
@@ -234,7 +229,6 @@
 						<!-- Note that if you don't use the "assets" directory for anything 
 							else in your project, you can probably just delete the whole thing, rather 
 							than picking things carefully in the manner shown here. -->
-
 						<fileset>
 							<directory>${project.basedir}/assets</directory>
 							<includes>
@@ -258,7 +252,6 @@
 				to exclude the jar files matching the given patterns from the inclusion process. 
 				This saves roughly 4mb of redundant files from being included in the final 
 				APK, at the time of writing. -->
-
 			<plugin>
 				<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 				<artifactId>android-maven-plugin</artifactId>

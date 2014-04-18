@@ -45,18 +45,18 @@ public class Application implements ILifecycleListener {
 
 	@Inject
 	public Application(
-				PoolEventBus eventBus,
-			    TimerImpl timer,
-			    RendererImpl renderer,
-			    StateManager stateManager) {
+			PoolEventBus eventBus,
+			TimerImpl timer,
+			RendererImpl renderer,
+			StateManager stateManager) {
 		this.eventBus = eventBus;
 		this.timer = timer;
 		this.renderer = renderer;
 		this.stateManager = stateManager;
 
-        final CharAtlasFactory charAtlasFactory = new CharAtlasFactory();
-        ResourceManager.INSTANCE.register(charAtlasFactory);
-        ResourceManager.INSTANCE.register(new CharDataFactory(charAtlasFactory));
+		final CharAtlasFactory charAtlasFactory = new CharAtlasFactory();
+		ResourceManager.INSTANCE.register(charAtlasFactory);
+		ResourceManager.INSTANCE.register(new CharDataFactory(charAtlasFactory));
 
 		this.stateManager.setStartState(new StartState());
 	}
@@ -70,23 +70,25 @@ public class Application implements ILifecycleListener {
 		LOGGER.info("init() called: " + renderer + " " + timer + " " + eventBus);
 		renderer.setGfxContext(gfxCtx);
 
-        final Map<String, IUniformValue> uniforms = new HashMap<>();
+		final Map<String, IUniformValue> uniforms = new HashMap<String, IUniformValue>();
 
-        // this will be updated by the model / render command
-        final Matrix4f modelToWorldMatrix = new Matrix4f();
-        modelToWorldMatrix.setIdentity();
-        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelToWorldMatrix));
+		// this will be updated by the model / render command
+		final Matrix4f modelToWorldMatrix = new Matrix4f();
+		modelToWorldMatrix.setIdentity();
+		uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelToWorldMatrix));
 
-        // cam is static at 0/0/0
-        final Matrix4f worldToCamMatrix = new Matrix4f();
-        worldToCamMatrix.setIdentity();
-        uniforms.put(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, new Matrix4fValue(worldToCamMatrix));
+		// cam is static at 0/0/0
+		final Matrix4f worldToCamMatrix = new Matrix4f();
+		worldToCamMatrix.setIdentity();
+		uniforms.put(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, new Matrix4fValue(worldToCamMatrix));
 
-        gfxCtx.setUniformValues(uniforms);
-        gfxCtx.setRenderConfig(DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
+		gfxCtx.setUniformValues(uniforms);
+		gfxCtx.setRenderConfig(DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
 
 		Properties prop = new Properties();
-		try (InputStream in = getClass().getResourceAsStream("/scene.properties")) {
+		InputStream in = null;
+		try {
+			in = getClass().getResourceAsStream("/scene.properties");
 			prop.load(in);
 			float fieldOfViewDegree = Float.valueOf(prop.getProperty("fieldOfViewDegree"));
 			float nearPlane = Float.valueOf(prop.getProperty("nearPlane"));
@@ -100,6 +102,14 @@ public class Application implements ILifecycleListener {
 
 		} catch (IOException ex) {
 			LOGGER.error("cant read properties, using default values, expect more errors", ex);
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException ex) {
+					LOGGER.error("error closing stream", ex);
+				}
+			}
 		}
 
 		currentState = stateManager.getCurrentState();
@@ -145,13 +155,13 @@ public class Application implements ILifecycleListener {
 		perspective.setScreenWidth(width - x);
 		perspective.setScreenHeight(height - y);
 
-        final Matrix4f cameraToClipMatrix = perspective.getMatrix();
+		final Matrix4f cameraToClipMatrix = perspective.getMatrix();
 
-        renderer.setUniformValues(Collections.singletonMap(
-        		ShaderParser.UNIFORM_CAM_2_CLIP_MTX,
-        		(IUniformValue)new Matrix4fValue(cameraToClipMatrix)));
+		renderer.setUniformValues(Collections.singletonMap(
+				ShaderParser.UNIFORM_CAM_2_CLIP_MTX,
+				(IUniformValue)new Matrix4fValue(cameraToClipMatrix)));
 
-        eventBus.post(ResizeEvent.create(width - x, height - y));
+		eventBus.post(ResizeEvent.create(width - x, height - y));
 	}
 
 	/**

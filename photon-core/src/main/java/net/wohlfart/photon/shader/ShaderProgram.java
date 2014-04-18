@@ -34,8 +34,8 @@ public class ShaderProgram implements IShaderProgram {
 
 	private int programId = -1;
 
-	private final Map<String, UniformHandle> uniforms = new HashMap<>();
-	private final Map<String, AttributeHandle> attributes = new HashMap<>();
+	private final Map<String, UniformHandle> uniforms = new HashMap<String, UniformHandle>();
+	private final Map<String, AttributeHandle> attributes = new HashMap<String, AttributeHandle>();
 
 	// the current GLContext this is only valid for the current render run
 	// and needs to be refreshed on each bind() call

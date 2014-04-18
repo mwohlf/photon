@@ -14,7 +14,7 @@ import org.slf4j.LoggerFactory;
 public class EntityImpl extends AbstractEntity {
     protected static final Logger LOGGER = LoggerFactory.getLogger(EntityImpl.class);
 
-    protected final Collection<AbstractRenderElement> renderElements = new HashSet<>();
+    protected final Collection<AbstractRenderElement> renderElements = new HashSet<AbstractRenderElement>();
 
 
     @Override

@@ -20,7 +20,7 @@ public abstract class AbstractEffect implements IEntity  {
     private final FrameBufferNode overlay = new FrameBufferNode();
 
     // child entities that are affected by this effect
-    private final Set<AbstractEntity> childEntities = new HashSet<>();
+    private final Set<AbstractEntity> childEntities = new HashSet<AbstractEntity>();
 
     private ITree<IRenderNode> tree = null;
 

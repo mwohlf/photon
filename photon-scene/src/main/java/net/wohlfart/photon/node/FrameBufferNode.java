@@ -40,7 +40,7 @@ public class FrameBufferNode implements IRenderNode {
 
     protected ISortToken sortToken = new SortToken();
 
-    protected final Map<String, IUniformValue> uniforms = new HashMap<>();
+    protected final Map<String, IUniformValue> uniforms = new HashMap<String, IUniformValue>();
 
     protected IGeometry geometry; // = new Quad(2); //createGeometry();
 

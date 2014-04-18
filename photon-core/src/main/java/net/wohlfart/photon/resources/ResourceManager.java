@@ -17,9 +17,9 @@ import net.wohlfart.photon.texture.TextureFactory;
 public enum ResourceManager {
 	 INSTANCE;
 
-    private final Map<Class<?>, ResourceProducer<?, ?>> delegates = new HashMap<>();
+    private final Map<Class<?>, ResourceProducer<?, ?>> delegates = new HashMap<Class<?>, ResourceProducer<?, ?>>();
 
-    private final HashMap<HashKey<?,?>, Object> resourceCache = new HashMap<>();
+    private final HashMap<HashKey<?,?>, Object> resourceCache = new HashMap<HashKey<?,?>, Object>();
 
     private ResourceManager() {
     	register(new ShaderFactory());

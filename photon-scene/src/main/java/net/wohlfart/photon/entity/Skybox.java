@@ -36,7 +36,7 @@ public class Skybox implements IEntity {
 
     protected final Quaternion rotation = new Quaternion();
 
-    private final Collection<Skybox.Side> sides = new ArrayList<>(6);
+    private final Collection<Skybox.Side> sides = new ArrayList<Skybox.Side>(6);
 
     private static final String BLUE_1024 = "skybox/blue-nebula";
     private static final String GREEN_1024 = "skybox/green-nebula-stars";

@@ -19,12 +19,11 @@ public class TextureFactory implements ResourceProducer<ITexture, TextureIdentif
     public ITexture produce(TextureIdentifier ident) {
         final URI uri = ident.getTextureResource();
         try {
-            switch (uri.getScheme()) {
-            case ResourceTool.FILE_SCHEME:
+            if (ResourceTool.FILE_SCHEME.equals(uri.getScheme())) {
             	return createFilebasedTexture(uri);
-            case ResourceTool.PROC_SCHEME:
+            } else if (ResourceTool.PROC_SCHEME.equals(uri.getScheme())) {
                 return createProcedualTexture(uri);
-            default:
+            } else {
                 throw new IllegalStateException("unknown scheme: '" + uri.getScheme()
                         + "' identifier is: '" + uri + "'");
             }

@@ -29,7 +29,7 @@ public abstract class AbstractCelestial extends AbstractEntity  {
 	public static final ShaderIdentifier TEXTURE_SHADER_ID = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
 
 
-    protected final Collection<AbstractRenderElement> renderCommands = new HashSet<>();
+    protected final Collection<AbstractRenderElement> renderCommands = new HashSet<AbstractRenderElement>();
 
 	private Corona corona;
 

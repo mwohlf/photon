@@ -10,10 +10,10 @@ import net.wohlfart.photon.tools.Position;
 public abstract class AbstractLayoutStrategy<C> implements LayoutStrategy<C>  {
 
     // the components mapped to their constraints
-    protected final Map<IComponent, C> components = new LinkedHashMap<>();
+    protected final Map<IComponent, C> components = new LinkedHashMap<IComponent, C>();
 
     // the components mapped to their positions
-    protected final Map<IComponent, Position> positions = new HashMap<>();
+    protected final Map<IComponent, Position> positions = new HashMap<IComponent, Position>();
 
     protected final Dimension screenDimension = new Dimension();
 
