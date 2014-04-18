@@ -16,7 +16,6 @@
 	<packaging>apk</packaging>
 
 	<properties>
-		<jogamp.version>2.0.2</jogamp.version>
 		<android.sdk.path>/opt/android-sdk-linux/</android.sdk.path>
 	</properties>
 
@@ -31,13 +30,37 @@
 				and therefore will be added as a transitive dependency of this project. However, 
 				this is an Android package and wants to use the Android JOGL package. Obviously, 
 				it's not possible to use both, so this exclusion tells Maven that the dependency 
-				introduced by jp4da-core on JOGL should be ignored. -->
+				introduced by photon-scene on JOGL should be ignored. -->
 			<exclusions>
 				<exclusion>
 					<groupId>org.jogamp.jogl</groupId>
 					<artifactId>jogl-all</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.jogamp.gluegen</groupId>
+					<artifactId>gluegen-rt-main</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.jogamp.jogl</groupId>
+					<artifactId>jogl-all-main</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.squareup.dagger</groupId>
+					<artifactId>dagger-compiler</artifactId>
+				</exclusion>
 			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.tony19</groupId>
+			<artifactId>logback-android-core</artifactId>
+			<version>1.1.1-2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.tony19</groupId>
+			<artifactId>logback-android-classic</artifactId>
+			<version>1.1.1-2</version>
 		</dependency>
 
 		<dependency>
@@ -51,14 +74,14 @@
 		<dependency>
 			<groupId>org.jogamp.gluegen</groupId>
 			<artifactId>gluegen-rt-android</artifactId>
-			<version>${jogamp.version}</version>
+			<version>${jogl.version}</version>
 		</dependency>
 
 		<!-- Depend on the correct natives for Android -->
 		<dependency>
 			<groupId>org.jogamp.gluegen</groupId>
 			<artifactId>gluegen-rt</artifactId>
-			<version>${jogamp.version}</version>
+			<version>${jogl.version}</version>
 			<classifier>natives-android-armv6</classifier>
 		</dependency>
 
@@ -66,14 +89,14 @@
 		<dependency>
 			<groupId>org.jogamp.jogl</groupId>
 			<artifactId>jogl-all-android</artifactId>
-			<version>${jogamp.version}</version>
+			<version>${jogl.version}</version>
 		</dependency>
 
 		<!-- Depend on the correct natives for Android -->
 		<dependency>
 			<groupId>org.jogamp.jogl</groupId>
 			<artifactId>jogl-all</artifactId>
-			<version>${jogamp.version}</version>
+			<version>${jogl.version}</version>
 			<classifier>natives-android-armv6</classifier>
 			<scope>runtime</scope>
 		</dependency>
@@ -89,7 +112,7 @@
 				<plugin>
 					<groupId>com.jayway.maven.plugins.android.generation2</groupId>
 					<artifactId>android-maven-plugin</artifactId>
-					<version>3.8.0</version>
+					<version>3.8.2</version>
 					<extensions>true</extensions>
 				</plugin>
 

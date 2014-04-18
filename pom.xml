@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="   http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd  ">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="   http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd  ">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>net.wohlfart.photon</groupId>
@@ -10,11 +11,13 @@
 	<packaging>pom</packaging>
 
 	<properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<user.name>Michael Wohlfart michael@wohlfart.net</user.name>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<photon.version>0.0.1-SNAPSHOT</photon.version>
-		<antlr.version>4.0</antlr.version>
+		<jogl.version>2.1.4</jogl.version>
+
 		<junit.version>4.11</junit.version>
 		<org.slf4j.version>1.7.5</org.slf4j.version>
 		<java3d.version>1.3.1</java3d.version>
@@ -23,15 +26,16 @@
 		<trove4j.version>3.0.3</trove4j.version>
 		<jsr305.version>2.0.3</jsr305.version>
 		<dagger.version>1.2.1</dagger.version>
-		<caliper.version>0.5-rc1</caliper.version>		
+		<caliper.version>0.5-rc1</caliper.version>
+
 	</properties>
 
 	<modules>
 		<module>photon-core</module>
 		<module>photon-scene</module>
 		<module>photon-desktop</module>
-        <module>photon-android</module>
-  </modules>
+		<module>photon-android</module>
+	</modules>
 
 	<dependencies>
 
@@ -55,23 +59,11 @@
 
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${org.slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${org.slf4j.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
-		</dependency>
-
-
+		
 		<!-- dependency injection -->
 
 		<dependency>
@@ -85,12 +77,6 @@
 			<artifactId>dagger-compiler</artifactId>
 			<version>${dagger.version}</version>
 			<optional>true</optional>
-		</dependency>
-
-		<dependency>
-			<groupId>com.google.code.findbugs</groupId>
-			<artifactId>jsr305</artifactId>
-			<version>${jsr305.version}</version>
 		</dependency>
 
 		<!-- tools and stuff -->
@@ -113,12 +99,6 @@
 			<version>${guava.version}</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.antlr</groupId>
-			<artifactId>antlr4</artifactId>
-			<version>${antlr.version}</version>
-		</dependency>
-
 	</dependencies>
 
 	<repositories>
@@ -138,14 +118,14 @@
 	<build>
 
 		<plugins>
-		
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.6</source>
+					<target>1.6</target>
 				</configuration>
 			</plugin>
 

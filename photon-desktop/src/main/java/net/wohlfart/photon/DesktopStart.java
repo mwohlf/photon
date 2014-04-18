@@ -52,12 +52,18 @@ public class DesktopStart {
 
 	public void start() throws InvocationTargetException, InterruptedException, IOException {
 		final Properties prop = new Properties();
-		try (InputStream in = getClass().getResourceAsStream("/desktop.properties")) {
+		InputStream in = null;
+		try {
+			in = getClass().getResourceAsStream("/desktop.properties");
 			prop.load(in);
 			String title = prop.getProperty("title");
 			int width = Integer.valueOf(prop.getProperty("width"));
 			int height = Integer.valueOf(prop.getProperty("height"));
 			start(title, width, height);
+		} finally {
+			if (in != null) {
+				in.close();
+			}
 		}
 	}
 
@@ -192,7 +198,7 @@ public class DesktopStart {
 			final ObjectGraph objectGraph = ObjectGraph.create(new DesktopModule());
 			final DesktopStart desktop = objectGraph.get(DesktopStart.class);
 			desktop.start();
-		} catch (InvocationTargetException | InterruptedException | IOException ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}

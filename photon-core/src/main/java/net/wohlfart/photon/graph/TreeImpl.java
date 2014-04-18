@@ -81,7 +81,6 @@ class TreeImpl<T> implements ITree<T> {
         return parent;
     }
 
-    @SuppressWarnings("unchecked")
     protected void add(T... values) {
         addAll(Arrays.asList(values));
     }
