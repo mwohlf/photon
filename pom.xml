@@ -54,6 +54,13 @@
 			<scope>test</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>${jsr305.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
 
 		<!-- logging -->
 
@@ -63,7 +70,7 @@
 			<version>${org.slf4j.version}</version>
 		</dependency>
 
-		
+
 		<!-- dependency injection -->
 
 		<dependency>
