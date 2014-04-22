@@ -5,8 +5,8 @@ import javax.media.opengl.GLCapabilities;
 import javax.media.opengl.GLProfile;
 
 import jogamp.newt.driver.android.NewtBaseActivity;
-import net.wohlfart.photon.SceneApplication;
 import net.wohlfart.photon.LifecycleAdpator;
+import net.wohlfart.photon.SceneApplication;
 import net.wohlfart.photon.events.PoolEventBus;
 import net.wohlfart.photon.render.RendererImpl;
 import net.wohlfart.photon.state.StateManager;
@@ -26,17 +26,16 @@ import com.jogamp.opengl.util.Animator;
 public class PhotonActivity extends NewtBaseActivity {
 
 	@Inject
-	private PoolEventBus eventBus;
+	public PoolEventBus eventBus;
 
 	@Inject
-	private TimerImpl timer;
+	public TimerImpl timer;
 
 	@Inject
-	private RendererImpl renderer;
+	public RendererImpl renderer;
 
 	@Inject
-	private StateManager stateManager;
-
+	public StateManager stateManager;
 
 	@Override
 	public void onCreate(Bundle state){

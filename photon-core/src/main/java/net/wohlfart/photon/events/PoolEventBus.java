@@ -15,7 +15,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-
 public class PoolEventBus implements EventBus<PoolableObject> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(PoolEventBus.class);
     private final ConcurrentLinkedQueue<PoolableObject> queue = new ConcurrentLinkedQueue<PoolableObject>();
