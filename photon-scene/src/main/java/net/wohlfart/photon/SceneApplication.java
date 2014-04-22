@@ -30,8 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class Application implements ILifecycleListener {
-	private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
+public class SceneApplication implements ILifecycleListener {
+	private static final Logger LOGGER = LoggerFactory.getLogger(SceneApplication.class);
 
 	protected final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
 
@@ -44,7 +44,7 @@ public class Application implements ILifecycleListener {
 
 
 	@Inject
-	public Application(
+	public SceneApplication(
 			PoolEventBus eventBus,
 			TimerImpl timer,
 			RendererImpl renderer,

@@ -8,7 +8,7 @@ import dagger.Provides;
 
 @Module(
 	includes = {CoreModule.class},
-	injects=Application.class,
+	injects=SceneApplication.class,
 	library=true)
 public class SceneModule {
 
