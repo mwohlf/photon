@@ -8,6 +8,7 @@ import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.shader.ShaderIdentifier;
 
+// see: http://www.gamasutra.com/view/feature/131393/a_realtime_procedural_universe_.php?print=1
 public class Corona extends AbstractRenderElement {
 
 	public static final ShaderIdentifier TEXTURE_SHADER_ID = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
