@@ -7,6 +7,8 @@ public class ShaderParser {
     private final TemplateParser delegate;
 
     // ----- these are the constants that should be used in the java code -----
+    public static final String MAX_VERTEX_LIGHT_COUNT = "maxVertexLightCount";
+    public static final Integer MAX_VERTEX_LIGHT_COUNT_VALUE = 10;
 
     // strings to access the vertex attributes in the shaders
     public static final String VERTEX_POSITION = "in_Position";
@@ -27,7 +29,11 @@ public class ShaderParser {
 
 
 
-    // ----- this are the constants that should be used in the shader code, wrapped in $$ -----
+    // ----- this are the constants that should be used in the shader code, wrapped in ${} -----
+    public static final HashMap<String, String> CONSTANTS = new HashMap<String, String>();
+    {
+    	CONSTANTS.put(MAX_VERTEX_LIGHT_COUNT, Integer.toString(MAX_VERTEX_LIGHT_COUNT_VALUE));
+    }
 
     // common vertex attribute names used in the shader code
     // and their mapping to the strings used in java code
@@ -65,7 +71,7 @@ public class ShaderParser {
 
     @SuppressWarnings("unchecked")
     public String render() {
-        setKeyValuePairs(VERTEX_ATTRIBUTES, UNIFORMS, TEXTURES);
+        setKeyValuePairs(VERTEX_ATTRIBUTES, UNIFORMS, TEXTURES, CONSTANTS);
         return delegate.render();
     }
 

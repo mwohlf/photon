@@ -6,6 +6,7 @@ import java.util.Collection;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
+import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.render.AbstractRenderElement;
@@ -15,7 +16,6 @@ import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.render.IVertexTransform;
 import net.wohlfart.photon.render.RenderConfigImpl;
-import net.wohlfart.photon.resources.Resources;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureIdentValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
@@ -166,7 +166,7 @@ public class Skybox implements IEntity {
             this.uniforms.put(ShaderParser.TEXTURE01, new TextureIdentValue(textureId));
             this.renderConfig = RenderConfigImpl.SKYBOX;
             this.zOrder = Double.POSITIVE_INFINITY;
-            this.shaderId = Resources.SKYBOX_SHADER_ID;
+            this.shaderId = ShaderIdent.SKYBOX_SHADER_ID;
         }
 
     }

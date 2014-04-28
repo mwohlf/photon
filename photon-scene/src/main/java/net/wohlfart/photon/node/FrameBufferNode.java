@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.vecmath.Matrix4f;
 
+import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
 import net.wohlfart.photon.render.FrameBufferObject;
@@ -17,7 +18,6 @@ import net.wohlfart.photon.render.IRenderer;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.render.VertexTransform;
-import net.wohlfart.photon.resources.Resources;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.Matrix4fValue;
 import net.wohlfart.photon.shader.ShaderIdentifier;
@@ -70,7 +70,7 @@ public class FrameBufferNode implements IRenderNode {
         renderer.renderChildren(tree);
 
         // rendering the quad last, maybe we need to put it in the render cache in order to be sorted...
-        renderer.setRenderConfig(Resources.TEXTURE_SHADER_ID, renderConfig);
+        renderer.setRenderConfig(ShaderIdent.TEXTURE_SHADER_ID, renderConfig);
         //uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getTextureHandle()));
         uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getDepthBufferHandle()));
         //uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));

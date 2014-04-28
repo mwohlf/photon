@@ -2,6 +2,7 @@ package net.wohlfart.photon.hud;
 
 import javax.vecmath.Matrix4f;
 
+import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.hud.layout.IComponent;
 import net.wohlfart.photon.hud.layout.IContainer;
@@ -50,6 +51,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 	public Label withText(String text) {
 		this.text = text;
 		this.geometry = null;
+		this.shaderId = ShaderIdent.DEFAULT_SHADER_ID;
 		return this;
 	}
 

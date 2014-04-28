@@ -11,17 +11,17 @@ public class ShaderIdentifier implements IShaderProgramIdentifier {
     private final URI vertexShaderResource;
     private final URI fragmentShaderResource;
 
-    public static final ShaderIdentifier create(String vertexShaderResource, String frgamentShaderResource) {
+    public static final ShaderIdentifier create(String vertexShaderResource, String fragmentShaderResource) {
         try {
             return new ShaderIdentifier(
                     new URI(ResourceTool.FILE_SCHEME + ":///" + vertexShaderResource),
-                    new URI(ResourceTool.FILE_SCHEME + ":///" + frgamentShaderResource));
+                    new URI(ResourceTool.FILE_SCHEME + ":///" + fragmentShaderResource));
         } catch (URISyntaxException ex) {
             throw new IllegalStateException("can't resolve URL", ex);
         }
     }
 
-    private ShaderIdentifier(URI vertexShaderResource, URI frgamentShaderResource) {
+    protected ShaderIdentifier(URI vertexShaderResource, URI frgamentShaderResource) {
         assert vertexShaderResource != null;
         assert frgamentShaderResource != null;
         this.vertexShaderResource = vertexShaderResource;

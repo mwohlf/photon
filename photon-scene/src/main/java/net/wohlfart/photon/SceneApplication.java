@@ -19,7 +19,6 @@ import net.wohlfart.photon.render.RendererImpl;
 import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.Matrix4fValue;
-import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.state.IState;
 import net.wohlfart.photon.state.StateManager;
@@ -32,8 +31,6 @@ import org.slf4j.LoggerFactory;
 
 public class SceneApplication implements ILifecycleListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(SceneApplication.class);
-
-	protected final ShaderIdentifier DEFAULT_SHADER_ID = ShaderIdentifier.create("shader/default.vert", "shader/default.frag");
 
 	private final PoolEventBus eventBus;
 	private final TimerImpl timer;
@@ -83,7 +80,7 @@ public class SceneApplication implements ILifecycleListener {
 		uniforms.put(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, new Matrix4fValue(worldToCamMatrix));
 
 		gfxCtx.setUniformValues(uniforms);
-		gfxCtx.setRenderConfig(DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
+		gfxCtx.setRenderConfig(ShaderIdent.DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
 
 		Properties prop = new Properties();
 		InputStream in = null;

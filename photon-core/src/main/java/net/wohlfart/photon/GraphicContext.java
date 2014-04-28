@@ -13,8 +13,8 @@ import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.shader.IShaderProgram;
+import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 import net.wohlfart.photon.shader.IUniformValue;
-import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderProgram;
 import net.wohlfart.photon.tools.Dimension;
 import net.wohlfart.photon.tools.Perspective;
@@ -65,7 +65,7 @@ public class GraphicContext implements IGraphicContext {
 	// this also calls the bind method with the current OpenGl context on the shader if the shader is new
 	// this is the only way to let the shader know the current OpenGL context
 	@Override
-	public void setRenderConfig(ShaderIdentifier newShaderId, IRenderConfig<RenderConfigImpl> newConfig) {
+	public void setRenderConfig(IShaderProgramIdentifier newShaderId, IRenderConfig<RenderConfigImpl> newConfig) {
 		IShaderProgram newShader = ResourceManager.loadResource(IShaderProgram.class, newShaderId);
 		if (!currentConfig.equals(newConfig)) {
 			// no need to update the state if it didn't change

@@ -5,8 +5,8 @@ import java.util.Map;
 
 import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
+import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 import net.wohlfart.photon.shader.IUniformValue;
-import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.tools.Perspective;
 
 import org.slf4j.Logger;
@@ -59,7 +59,7 @@ public class RendererImpl implements IRenderer {
     }
 
 	@Override
-	public void setRenderConfig(ShaderIdentifier shaderId, IRenderConfig<RenderConfigImpl> newConfig) {
+	public void setRenderConfig(IShaderProgramIdentifier shaderId, IRenderConfig<RenderConfigImpl> newConfig) {
 		graphicContext.setRenderConfig(shaderId, newConfig);
 	}
 

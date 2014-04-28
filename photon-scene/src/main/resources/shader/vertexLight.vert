@@ -17,7 +17,7 @@ in vec3 ${position};    // vertex position in model space
 in vec3 ${normal};      // the normal for the current vertex
 in vec2 ${texture};     // the texture position of the vertex
 
-uniform VertexLight lights[10];
+uniform VertexLight lights[${maxVertexLightCount}];
 uniform Material material;
 
 uniform mat4 modelToWorldMatrix;
@@ -49,7 +49,7 @@ void main(void) {
     pass_TextureCoord = in_Texture;
 
     pass_Light = vec4(0,0,0,0);
-    for (int index = 0; index < 2; index++) {
+    for (int index = 0; index < ${maxVertexLightCount}; index++) {
        vec3 lightPos = lights[index].position;
        vec3 vertexPos = vec3(modelToWorldMatrix * vec4(${position}, 1.0));
        vec3 lightVector = normalize(lights[index].position - vertexPos);
