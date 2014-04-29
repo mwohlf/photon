@@ -20,7 +20,6 @@ import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.render.VertexTransform;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.Matrix4fValue;
-import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureHandleValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
@@ -30,8 +29,6 @@ import net.wohlfart.photon.tools.Dimension;
 public class FrameBufferNode implements IRenderNode {
 
 	public static final ITextureIdentifier TEXTURE_ID1 = TextureIdentifier.create("gfx/textures/texture.jpg");
-	public static final ShaderIdentifier TEXTURE_SHADER_ID = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
-
 
     protected FrameBufferObject frameBufferObject = new FrameBufferObject();
 

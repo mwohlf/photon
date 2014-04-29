@@ -1,17 +1,15 @@
 package net.wohlfart.photon.node;
 
+import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.geometry.Sphere;
 import net.wohlfart.photon.render.AbstractRenderElement;
 import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.render.IRenderConfig;
-import net.wohlfart.photon.shader.ShaderIdentifier;
 
 // see: http://www.gamasutra.com/view/feature/131393/a_realtime_procedural_universe_.php?print=1
 public class Corona extends AbstractRenderElement {
-
-	public static final ShaderIdentifier TEXTURE_SHADER_ID = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
 
     private float planetSize;
     private float thinkness = 1;
@@ -19,7 +17,7 @@ public class Corona extends AbstractRenderElement {
 
     public Corona() {
         renderConfig = IRenderConfig.DEFAULT_3D;
-        shaderId = TEXTURE_SHADER_ID;
+        shaderId = ShaderIdent.DEFAULT_SHADER_ID;
     }
 
     @Override // lazy create the geometry since we don't know the size in the constructor

@@ -8,9 +8,9 @@ import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 
 public enum ShaderIdent implements IShaderProgramIdentifier {
 	DEFAULT_SHADER_ID("shader/default.vert", "shader/default.frag"),
-	SIMPLE_SHADER_ID("shader/simple/vertex.glsl", "shader/simple/fragment.glsl"),
 	SKYBOX_SHADER_ID("shader/skybox.vert", "shader/skybox.frag"),
 	TEXTURE_SHADER_ID("shader/texture.vert", "shader/texture.frag"),
+	VERTEX_LIGHT_SHADER("shader/vertexLight.vert", "shader/vertexLight.frag"),
 	;
 
 	private final URI vertexShaderResource;
