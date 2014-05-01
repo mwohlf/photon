@@ -107,7 +107,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 	private Matrix4f createModelMatrix(LayoutStrategy<?> layoutManager, Matrix4f dest) {
 		//float z = perspective.getNearPlane();
 		//float z = perspective.getMatrix().m22;
-		Matrix4f m = perspective.getMatrix();
+		Matrix4f m = perspective.getPerspectiveMatrix();
 		float aspect = perspective.getAspectRatio();
 		float screenScale = perspective.getScreenScale();
 		//float nearPlane = perspective.getNearPlane();

@@ -27,7 +27,7 @@ public class PerspectiveTest {
 		assertEquals(200f/300f, aspect, 0.005f);
 		assertEquals(2.414f, screenScale, 0.005f);
 
-		matrix = perspective.getMatrix();
+		matrix = perspective.getPerspectiveMatrix();
 		check(new Vector4f(0.0f, 0.0f, -1f, 1.0f), new Vector4f(
 				0.0f * screenScale * aspect,
 				0.0f * screenScale * 1,
@@ -56,7 +56,7 @@ public class PerspectiveTest {
 
 		assertEquals(200f/300f, aspect, 0.005f);
 
-		matrix = perspective.getMatrix();
+		matrix = perspective.getPerspectiveMatrix();
 		check(new Vector4f(0.0f, 0.0f, -1f, 1.0f), new Vector4f(
 				0.0f * screenScale * aspect,
 				0.0f * screenScale * 1,
@@ -87,7 +87,7 @@ public class PerspectiveTest {
 		assertEquals(200f/300f, aspect, 0.005f);
 		assertEquals(2.144f, screenScale, 0.005f);
 
-		matrix = perspective.getMatrix();
+		matrix = perspective.getPerspectiveMatrix();
 		check(new Vector4f(0.0f, 0.0f, -1f, 1.0f), new Vector4f(
 				0.0f * screenScale * aspect,
 				0.0f * screenScale * 1,

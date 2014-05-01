@@ -152,7 +152,7 @@ public class SceneApplication implements ILifecycleListener {
 		perspective.setScreenWidth(width - x);
 		perspective.setScreenHeight(height - y);
 
-		final Matrix4f cameraToClipMatrix = perspective.getMatrix();
+		final Matrix4f cameraToClipMatrix = perspective.getPerspectiveMatrix();
 
 		renderer.setUniformValues(Collections.singletonMap(
 				ShaderParser.UNIFORM_CAM_2_CLIP_MTX,

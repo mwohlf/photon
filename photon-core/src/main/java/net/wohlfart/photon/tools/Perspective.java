@@ -1,5 +1,6 @@
 package net.wohlfart.photon.tools;
 
+import javax.vecmath.Matrix3f;
 import javax.vecmath.Matrix4f;
 
 import org.slf4j.Logger;
@@ -29,60 +30,71 @@ import org.slf4j.LoggerFactory;
  * @return our projection matrix
  */
 public class Perspective {
-    private static final Logger LOGGER = LoggerFactory.getLogger(Perspective.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Perspective.class);
 
-    private static final float FIELD_OF_VIEW_LIMIT = 100; // << 180
+	private static final float FIELD_OF_VIEW_LIMIT = 100; // << 180
 
-    // field of view in y direction
-    // in dregee [0...360] not rad this is the whole range
-    private float fieldOfViewDegree = Float.NaN;
-    private float fieldOfViewRad = Float.NaN;
+	boolean isDirty = true;
 
-    // the neares visible zCoord
+	// field of view in y direction
+	// in dregee [0...360] not rad this is the whole range
+	private float fieldOfViewDegree = Float.NaN;
+	private float fieldOfViewRad = Float.NaN;
+
+	// the neares visible zCoord
 	private float nearPlane = Float.NaN;
 
 	// the fares visible zCoord
-    private float farPlane = Float.NaN;
+	private float farPlane = Float.NaN;
 
-    // the screen width in pixel
-    private float width = Float.NaN;
+	// the screen width in pixel
+	private float width = Float.NaN;
 
-    // the screen height in pixel
-    private float height = Float.NaN;
+	// the screen height in pixel
+	private float height = Float.NaN;
 
-    private final Matrix4f matrix = new Matrix4f();
-    private final Dimension dim = new Dimension();
+	private final Matrix4f perspectiveMatrix = new Matrix4f();
+	private final Matrix3f normalMatrix = new Matrix3f();
+
+	private final Dimension dim = new Dimension();
 
 	private float scaleFactor;
-
+	private float screenScale;
 
 	// field of view in y direction in degree
 	// the height covers the field of view
-    public void setFieldOfViewDegree(float fieldOfViewDegree) {
-		this.fieldOfViewDegree = fieldOfViewDegree;
-        this.fieldOfViewRad = (float)((Math.PI * 2) / 360f) * (fieldOfViewDegree);
+	public void setFieldOfViewDegree(float fieldOfViewDegree) {
+		if (fieldOfViewDegree > FIELD_OF_VIEW_LIMIT) {
+			LOGGER.warn("field of view must be <= {} found: '{}', resetting to {}", FIELD_OF_VIEW_LIMIT, fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
+		}
+		this.fieldOfViewDegree = Math.min(fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
+		this.fieldOfViewRad = (float) ((2f * Math.PI) / 360f) * this.fieldOfViewDegree;
+		isDirty = true;
 	}
 
 	public void setNearPlane(float nearPlane) {
-		assert nearPlane != Float.NaN;
-		assert nearPlane > 0;
 		this.nearPlane = nearPlane;
+		isDirty = true;
 	}
 
 	public void setFarPlane(float farPlane) {
 		this.farPlane = farPlane;
+		isDirty = true;
 	}
 
 	public void setScreenWidth(float width) {
 		this.width = width;
+		isDirty = true;
 	}
 
 	public void setScreenHeight(float height) {
 		this.height = height;
+		isDirty = true;
 	}
 
 	public void setScaleFactor(float scaleFactor) {
 		this.scaleFactor = scaleFactor;
+		isDirty = true;
 	}
 
 
@@ -92,7 +104,7 @@ public class Perspective {
 
 	// return a z value that is transformed into -1 after all the matrices are applied
 	public float getZValue() {
-        return -nearPlane;
+		return -nearPlane;
 	}
 
 	public float getAspectRatio() {
@@ -103,63 +115,90 @@ public class Perspective {
 		return nearPlane;
 	}
 
-    public Dimension getScreenDimension() {
-    	dim.set((int)width, (int)height);
-    	return dim;
-    }
+	public Dimension getScreenDimension() {
+		lazyRecalculate();
+		return dim;
+	}
 
 	public float getFieldOfViewPixel() {
 		return height;
 	}
 
-    public float getScreenScale() {
-    	assert fieldOfViewRad != Float.NaN;
-    	assert fieldOfViewRad > 0;
-    	return (float)(scaleFactor * Math.tan(Math.PI/8f) / Math.tan(fieldOfViewRad/2));
-    }
+	public float getScreenScale() {
+		lazyRecalculate();
+		return screenScale;
+	}
 
-    // http://unspecified.wordpress.com/2012/06/21/calculating-the-gluperspective-matrix-and-other-opengl-matrix-maths/
-    // note that this matrix does not depend on the actual size of the screen but just on the aspect ratio
-    public Matrix4f getMatrix() {
+	// http://unspecified.wordpress.com/2012/06/21/calculating-the-gluperspective-matrix-and-other-opengl-matrix-maths/
+	// note that this matrix does not depend on the actual size of the screen but just on the aspect ratio
+	public Matrix4f getPerspectiveMatrix() {
+		lazyRecalculate();
+		return perspectiveMatrix;
+	}
+
+	public Matrix3f getNormalMatrix() {
+		lazyRecalculate();
+		return normalMatrix;
+	}
+
+
+	private void lazyRecalculate() {
 		assert farPlane != Float.NaN;
 		assert nearPlane != Float.NaN;
 		assert fieldOfViewDegree != Float.NaN;
 		assert fieldOfViewRad != Float.NaN;
 		assert width != Float.NaN;
 		assert height != Float.NaN;
+		assert scaleFactor != Float.NaN;
 
-        if (fieldOfViewDegree > FIELD_OF_VIEW_LIMIT) {
-            LOGGER.warn("field of view must be <= {} found: '{}', resetting to {}", FIELD_OF_VIEW_LIMIT, fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
-        }
-        fieldOfViewDegree = Math.min(fieldOfViewDegree, FIELD_OF_VIEW_LIMIT);
-        fieldOfViewRad = (float) ((2f * Math.PI) / 360f) * fieldOfViewDegree;
+		if (!isDirty) {
+			return;
+		}
+    	dim.set((int)width, (int)height);
+    	screenScale = (float)(scaleFactor * Math.tan(Math.PI/8f) / Math.tan(fieldOfViewRad/2));
 
-        final float frustumLength = nearPlane - farPlane;
-        final float aspectRatio = width / height;
-        final float yScale = 1f / (float) Math.tan(fieldOfViewRad / 2f);
-        final float xScale = yScale / aspectRatio;
+		final float frustumLength = nearPlane - farPlane;
+		final float aspectRatio = width / height;
+		final float yScale = 1f / (float) Math.tan(fieldOfViewRad / 2f);
+		final float xScale = yScale / aspectRatio;
 
-        matrix.m00 = xScale;
-        matrix.m01 = 0;
-        matrix.m02 = 0;
-        matrix.m03 = 0;
+		perspectiveMatrix.m00 = xScale;
+		perspectiveMatrix.m01 = 0;
+		perspectiveMatrix.m02 = 0;
+		perspectiveMatrix.m03 = 0;
 
-        matrix.m10 = 0;
-        matrix.m11 = yScale;
-        matrix.m12 = 0;
-        matrix.m13 = 0;
+		perspectiveMatrix.m10 = 0;
+		perspectiveMatrix.m11 = yScale;
+		perspectiveMatrix.m12 = 0;
+		perspectiveMatrix.m13 = 0;
 
-        matrix.m20 = 0;
-        matrix.m21 = 0;
-        matrix.m22 = (farPlane+nearPlane)/frustumLength;
-        matrix.m23 = -1;
+		perspectiveMatrix.m20 = 0;
+		perspectiveMatrix.m21 = 0;
+		perspectiveMatrix.m22 = (farPlane+nearPlane)/frustumLength;
+		perspectiveMatrix.m23 = -1;
 
-        matrix.m30 = 0;
-        matrix.m31 = 0;
-        matrix.m32 = 2f*farPlane*nearPlane/frustumLength;
-        matrix.m33 = 0;
+		perspectiveMatrix.m30 = 0;
+		perspectiveMatrix.m31 = 0;
+		perspectiveMatrix.m32 = 2f*farPlane*nearPlane/frustumLength;
+		perspectiveMatrix.m33 = 0;
 
-        return matrix;
-    }
+
+        normalMatrix.m00 = perspectiveMatrix.m00;
+        normalMatrix.m01 = perspectiveMatrix.m01;
+        normalMatrix.m02 = perspectiveMatrix.m02;
+
+        normalMatrix.m10 = perspectiveMatrix.m10;
+        normalMatrix.m11 = perspectiveMatrix.m11;
+        normalMatrix.m12 = perspectiveMatrix.m12;
+
+        normalMatrix.m20 = perspectiveMatrix.m20;
+        normalMatrix.m21 = perspectiveMatrix.m21;
+        normalMatrix.m22 = perspectiveMatrix.m22;
+
+        normalMatrix.invert(normalMatrix);
+        normalMatrix.transpose(normalMatrix);
+
+        isDirty = false;
+	}
 
 }
