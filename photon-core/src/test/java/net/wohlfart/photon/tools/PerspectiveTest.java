@@ -13,7 +13,7 @@ public class PerspectiveTest {
 	float Pi_eighth = (float) Math.PI/8f;
 
 	@Test
-	public void smoke45Test() {
+	public void perspective45Test() {
 		Perspective perspective = new Perspective();
 		perspective.setFarPlane(1000f);
 		perspective.setNearPlane(1f);
@@ -43,7 +43,7 @@ public class PerspectiveTest {
 	}
 
 	@Test
-	public void smoke90Test() {
+	public void perspective90Test() {
 		Perspective perspective = new Perspective();
 		perspective.setFarPlane(1000f);
 		perspective.setNearPlane(1f);
@@ -73,7 +73,7 @@ public class PerspectiveTest {
 
 
 	@Test
-	public void smoke50Test() {
+	public void perspective50Test() {
 		Perspective perspective = new Perspective();
 		perspective.setFarPlane(1000f);
 		perspective.setNearPlane(1f);
@@ -121,6 +121,6 @@ public class PerspectiveTest {
 		assertEquals(expected.z, actual.z, 0.005f);
 		assertEquals(expected.x, actual.x, 0.005f);
 		assertEquals(expected.y, actual.y, 0.005f);
-		assertEquals(expected.w, actual.w, 0.005f); // no idea why this is 2
+		assertEquals(expected.w, actual.w, 0.005f);
 	}
 }

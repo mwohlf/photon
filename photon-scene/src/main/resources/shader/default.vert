@@ -6,6 +6,8 @@ uniform mat4 modelToWorldMatrix;     // modelMatrix
 uniform mat4 worldToCameraMatrix;    // viewMatrix
 uniform mat4 cameraToClipMatrix;     // projectionMatrix
 
+
+// see: http://www.lighthouse3d.com/tutorials/glsl-core-tutorial/vertex-shader/
 void main(void) {
 
     // step 1: rotate then move the object to its position in the world
@@ -15,6 +17,7 @@ void main(void) {
     vec4 cameraPos = worldToCameraMatrix * worldPos;
 
     // step 3: project the object from 3D cam space into 2D view
+    // the homogenous coordinates of the output vertex’s position
     gl_Position = cameraToClipMatrix * cameraPos;
     
 }

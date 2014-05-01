@@ -25,15 +25,15 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected final Matrix4f model2WorldMatrix =  new Matrix4f();
 
-    protected double zOrder = Double.NaN; // provided via the sort token
+    protected IShaderProgramIdentifier shaderId;
 
     protected IGeometry geometry;
 
-    protected IShaderProgramIdentifier shaderId;
+    protected IRenderConfig<RenderConfigImpl> renderConfig = IRenderConfig.DEFAULT;
+
+    protected double zOrder = Double.NaN; // provided via the sort token
 
     protected SortToken sortToken = new SortToken();
-
-    protected IRenderConfig<RenderConfigImpl> renderConfig = IRenderConfig.DEFAULT;
 
 
     protected AbstractRenderElement() {

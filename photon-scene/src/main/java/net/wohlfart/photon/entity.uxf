@@ -23,9 +23,9 @@ update(Quaternion, Vector3f, float)</panel_attributes>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>80</x>
-      <y>310</y>
+      <y>450</y>
       <w>210</w>
-      <h>50</h>
+      <h>120</h>
     </coordinates>
     <panel_attributes>/AbstractEffect/
 --
@@ -36,24 +36,31 @@ addEntity(AbstractEntity)</panel_attributes>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>80</x>
-      <y>180</y>
+      <y>240</y>
       <w>210</w>
-      <h>100</h>
+      <h>190</h>
     </coordinates>
     <panel_attributes>/AbstractEntity/
 --
-setup()
-getRenderComands()
-destroy()</panel_attributes>
+position
+rotation
+sceneGraph
+size
+zOrder
+lod
+--
+*/setup()/*
+*/getRenderComands()/*
+*/destroy()/*</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>80</x>
-      <y>400</y>
+      <y>590</y>
       <w>210</w>
-      <h>50</h>
+      <h>70</h>
     </coordinates>
     <panel_attributes>/AbstractLayer/
 --
@@ -63,26 +70,15 @@ getContainer()</panel_attributes>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>420</x>
-      <y>20</y>
+      <x>80</x>
+      <y>180</y>
       <w>210</w>
-      <h>30</h>
+      <h>40</h>
     </coordinates>
-    <panel_attributes>Skybox
+    <panel_attributes>*Skybox*
 --
 </panel_attributes>
     <additional_attributes/>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>260</x>
-      <y>10</y>
-      <w>180</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;160;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -101,10 +97,10 @@ getContainer()</panel_attributes>
       <x>0</x>
       <y>120</y>
       <w>100</w>
-      <h>230</h>
+      <h>160</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;210;80;210</additional_attributes>
+    <additional_attributes>30;30;30;140;80;140</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -112,27 +108,38 @@ getContainer()</panel_attributes>
       <x>0</x>
       <y>120</y>
       <w>100</w>
-      <h>320</h>
+      <h>370</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;300;80;300</additional_attributes>
+    <additional_attributes>30;30;30;350;80;350</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>0</x>
+      <y>120</y>
+      <w>100</w>
+      <h>510</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;490;80;490</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>260</x>
-      <y>380</y>
-      <w>120</w>
+      <y>570</y>
+      <w>100</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;100;30</additional_attributes>
+    <additional_attributes>30;30;80;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>360</x>
-      <y>390</y>
+      <x>340</x>
+      <y>590</y>
       <w>210</w>
       <h>30</h>
     </coordinates>
@@ -144,23 +151,232 @@ getContainer()</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>260</x>
-      <y>410</y>
-      <w>120</w>
+      <y>610</y>
+      <w>100</w>
       <h>50</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;100;30</additional_attributes>
+    <additional_attributes>30;30;80;30</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Class</type>
     <coordinates>
-      <x>360</x>
-      <y>430</y>
+      <x>340</x>
+      <y>630</y>
       <w>210</w>
       <h>30</h>
     </coordinates>
     <panel_attributes>Dimension
 --</panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Note</type>
+    <coordinates>
+      <x>340</x>
+      <y>30</y>
+      <w>360</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>*Semantic SceneGraph Object*
+Position is Vector3d, the update() 
+implementation is responsible for recalculating 
+the components positions register(), unregister() 
+should implements adding and removing from 
+and to the SceneGraph
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>260</x>
+      <y>170</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+m1=0..6</panel_attributes>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>340</x>
+      <y>180</y>
+      <w>110</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*Side*
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>260</x>
+      <y>40</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes/>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>490</x>
+      <y>180</y>
+      <w>210</w>
+      <h>160</h>
+    </coordinates>
+    <panel_attributes>/AbstractRenderElement/
+--
+uniforms
+model2WorldMatrix
+shaderId
+geometry
+renderConfig
+zOrder
+sortToken
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>420</x>
+      <y>170</y>
+      <w>90</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>70;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>260</x>
+      <y>450</y>
+      <w>150</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+overlay
+</panel_attributes>
+    <additional_attributes>30;50;90;50;130;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>390</x>
+      <y>520</y>
+      <w>210</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>ITree&lt;IRenderNode&gt;
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>260</x>
+      <y>370</y>
+      <w>144</w>
+      <h>110</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+childEntities
+</panel_attributes>
+    <additional_attributes>30;90;80;90;80;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>390</x>
+      <y>480</y>
+      <w>210</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>FrameBufferNode
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>20</x>
+      <y>20</y>
+      <w>150</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+overlay
+</panel_attributes>
+    <additional_attributes>30;50;90;50;130;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>260</x>
+      <y>490</y>
+      <w>150</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-
+tree
+</panel_attributes>
+    <additional_attributes>30;50;130;50</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>390</x>
+      <y>360</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*EntityImpl*
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>260</x>
+      <y>270</y>
+      <w>150</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;80;30;80;100;130;100</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>680</x>
+      <y>640</y>
+      <w>210</w>
+      <h>30</h>
+    </coordinates>
+    <panel_attributes>IRenderNode
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>670</x>
+      <y>220</y>
+      <w>130</w>
+      <h>440</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>110;420;110;30;30;30</additional_attributes>
   </element>
 </diagram>

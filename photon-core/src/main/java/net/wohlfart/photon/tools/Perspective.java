@@ -155,7 +155,7 @@ public class Perspective {
 			return;
 		}
     	dim.set((int)width, (int)height);
-    	screenScale = (float)(scaleFactor * Math.tan(Math.PI/8f) / Math.tan(fieldOfViewRad/2));
+    	screenScale = (float)(scaleFactor * Math.tan(Math.PI/8f) / Math.tan(fieldOfViewRad/2f));
 
 		final float frustumLength = nearPlane - farPlane;
 		final float aspectRatio = width / height;

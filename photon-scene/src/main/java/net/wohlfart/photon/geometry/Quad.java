@@ -15,7 +15,8 @@ public class Quad extends Geometry {
 
 	private void setupBufferData() {
         final float l = length / 2f;
-
+        // TODO: use a triangle fan here for performance
+        // see: https://www.opengl.org/discussion_boards/showthread.php/147120-point-sprites-vs-quads
 	    currentVertex.withPosition(+l,+l, 0).withTexture( 1, 0);
 	    currentVertex.withPosition(-l,+l, 0).withTexture( 0, 0);
 	    currentVertex.withPosition(-l,-l, 0).withTexture( 0, 1);
