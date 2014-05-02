@@ -23,7 +23,7 @@
 
 		<dependency>
 			<groupId>net.wohlfart.photon</groupId>
-			<artifactId>photon-scene</artifactId>
+			<artifactId>photon-main</artifactId>
 			<version>${photon.version}</version>
 
 			<!-- The photon-scene project depends on jogl-all in order to type-check/compile, 

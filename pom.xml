@@ -32,7 +32,7 @@
 
 	<modules>
 		<module>photon-core</module>
-		<module>photon-scene</module>
+		<module>photon-main</module>
 		<module>photon-desktop</module>
 		<module>photon-android</module>
 	</modules>

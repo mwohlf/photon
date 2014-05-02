@@ -20,7 +20,7 @@
 
 		<dependency>
 			<groupId>net.wohlfart.photon</groupId>
-			<artifactId>photon-scene</artifactId>
+			<artifactId>photon-main</artifactId>
 			<version>${photon.version}</version>
 		</dependency>
 

@@ -11,7 +11,7 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>photon-scene</artifactId>
+	<artifactId>photon-main</artifactId>
 	<packaging>jar</packaging>
 
 	<properties>
