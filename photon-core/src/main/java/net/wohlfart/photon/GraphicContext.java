@@ -3,6 +3,7 @@ package net.wohlfart.photon;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GLAutoDrawable;
@@ -55,12 +56,12 @@ public class GraphicContext implements IGraphicContext {
 		assert drawable != null : "drawable is null";
 		assert drawable.getGL() != null : "drawable.gl is null";
 		assert drawable.getGL().getGL2ES2() != null : "drawable.gl.gl2es2 is null";
+
 		gl = drawable.getGL().getGL2ES2();
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 		currentShader = ShaderProgram.NULL_SHADER;
 		return this;
 	}
-
 
 	// setup shader and state for the next render run
 	// shader and state are not changed in they have already been set in the previous run
@@ -127,6 +128,16 @@ public class GraphicContext implements IGraphicContext {
 		for (Map.Entry<String, IUniformValue> entry : uniformValues.entrySet()) {
 			builder.append(entry.getKey() + ":" + entry.getValue() + " ");
 		}
+		builder.append(readGlInfo());
+		return builder.toString();
+	}
+
+	// TODO: print this and more info somewhere at startup instead of hiding here
+	private String readGlInfo() {
+		StringBuilder builder = new StringBuilder();
+		float[] pointSizeRange = new float[2];
+		gl.glGetFloatv(GL.GL_ALIASED_POINT_SIZE_RANGE, pointSizeRange, 0);
+		builder.append("GL.GL_ALIASED_POINT_SIZE_RANGE: '" + pointSizeRange[0] + "' - '" + pointSizeRange[1] + "'");
 		return builder.toString();
 	}
 

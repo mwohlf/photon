@@ -194,7 +194,7 @@ public class DesktopStart {
 
 	public static void main(String[] args) {
 		try {
-			logBootInfo();
+			logJavaInfo();
 			final ObjectGraph objectGraph = ObjectGraph.create(new DesktopModule());
 			final DesktopStart desktop = objectGraph.get(DesktopStart.class);
 			desktop.start();
@@ -204,8 +204,8 @@ public class DesktopStart {
 	}
 
 
-	private static void logBootInfo() {
-		logBootInfo(
+	private static void logJavaInfo() {
+		logJavaInfo(
 				"java.version",
 				"java.vendor",
 				"java.vm.version",
@@ -214,7 +214,7 @@ public class DesktopStart {
 				);
 	}
 
-	private static void logBootInfo(String... strings) {
+	private static void logJavaInfo(String... strings) {
 		for (String string : strings) {
 			LOGGER.info(string + ": " + System.getProperty(string));
 		}

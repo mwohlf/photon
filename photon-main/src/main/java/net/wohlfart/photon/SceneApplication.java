@@ -112,7 +112,6 @@ public class SceneApplication implements ILifecycleListener {
 		currentState = stateManager.getCurrentState();
 	}
 
-
 	/**
 	 * Called back by the animator to perform rendering.
 	 */
