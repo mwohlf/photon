@@ -1,7 +1,9 @@
 package net.wohlfart.photon.render;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2GL3;
 
 import net.wohlfart.photon.tools.EnumWeights;
 
@@ -15,6 +17,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	private static final EnumWeights WEIGHTS = new EnumWeights(
 			Blending.class,   // opaque objects first front to back, then the transparent back to front
 			DepthTest.class,
+			PointSprite.class,
 			// probably never change:
 			ColorMask.class,
 			SissorTest.class,
@@ -28,19 +31,21 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	private final Blending blending;
 
-	private final ClearColor clearColor;
-
-	private final ClearDepth clearDepth;
-
-	private final ColorMask colorMask;
-
 	private final DepthTest depthTest;
 
-	private final FaceCulling faceCulling;
+	private final PointSprite pointSprite;
+
+	private final ColorMask colorMask;
 
 	private final SissorTest scissorTest;
 
 	private final StencilTest stencilTest;
+
+	private final ClearDepth clearDepth;
+
+	private final ClearColor clearColor;
+
+	private final FaceCulling faceCulling;
 
 
 	private final int hash;
@@ -48,19 +53,21 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	RenderConfigImpl() {
 		this.blending = null;
-		this.clearColor = null;
-		this.clearDepth = null;
-		this.colorMask = null;
 		this.depthTest = null;
-		this.faceCulling = null;
+		this.pointSprite = null;
+		this.colorMask = null;
 		this.scissorTest = null;
 		this.stencilTest = null;
+		this.clearDepth = null;
+		this.clearColor = null;
+		this.faceCulling = null;
 		hash = Integer.MIN_VALUE;
 	}
 
 	RenderConfigImpl(
 			Blending blending,
 			ClearColor clearColor,
+			PointSprite pointSprite,
 			ClearDepth clearDepth,
 			ColorMask colorMask,
 			DepthTest depthTest,
@@ -70,6 +77,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 		this.blending = blending;
 		this.clearColor = clearColor;
+		this.pointSprite = pointSprite;
 		this.clearDepth = clearDepth;
 		this.colorMask = colorMask;
 		this.depthTest = depthTest;
@@ -111,6 +119,9 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		}
 		if (that.clearColor != this.clearColor) {
 			clearColor.setValue(gl);
+		}
+		if (that.pointSprite != this.pointSprite) {
+			pointSprite.setValue(gl);
 		}
 		if (that.clearDepth != this.clearDepth) {
 			clearDepth.setValue(gl);
@@ -221,6 +232,24 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 				gl.glColorMask(true, true, true, true);
 			}
 		}
+	}
+
+	public enum PointSprite implements RenderProperty {
+		SIZE_FROM_SHADER {
+			@Override
+			public void setValue(GL2ES2 gl) {
+		           gl.glEnable(GL2ES1.GL_POINT_SPRITE);
+		           gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+			}
+		},
+		OFF {
+			@Override
+			public void setValue(GL2ES2 gl) {
+		           gl.glDisable(GL2ES1.GL_POINT_SPRITE);
+		           gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+			}
+		}
+
 	}
 
 	public enum DepthTest implements RenderProperty {

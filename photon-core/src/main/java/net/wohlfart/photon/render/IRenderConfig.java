@@ -8,6 +8,7 @@ import net.wohlfart.photon.render.RenderConfigImpl.ClearDepth;
 import net.wohlfart.photon.render.RenderConfigImpl.ColorMask;
 import net.wohlfart.photon.render.RenderConfigImpl.DepthTest;
 import net.wohlfart.photon.render.RenderConfigImpl.FaceCulling;
+import net.wohlfart.photon.render.RenderConfigImpl.PointSprite;
 import net.wohlfart.photon.render.RenderConfigImpl.SissorTest;
 import net.wohlfart.photon.render.RenderConfigImpl.StencilTest;
 
@@ -18,6 +19,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 	public static final RenderConfigImpl DEFAULT = new RenderConfigImpl(
 			Blending.OFF,
 			ClearColor.BLUE,
+			PointSprite.OFF,
 			ClearDepth.ONE,
 			ColorMask.ON,
 			DepthTest.OFF,
@@ -28,6 +30,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 	public static final RenderConfigImpl BLENDING_ON = new RenderConfigImpl(
 			Blending.ON,
 			ClearColor.BLUE,
+			PointSprite.OFF,
 			ClearDepth.ONE,
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,
@@ -38,6 +41,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 	public static final RenderConfigImpl DEFAULT_3D = new RenderConfigImpl(
 			Blending.OFF,
 			ClearColor.BLUE,
+			PointSprite.OFF,
 			ClearDepth.ONE,
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,
@@ -45,9 +49,21 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			SissorTest.OFF,
 			StencilTest.OFF);
 
+	public static final RenderConfigImpl SPRITE_CLOUD = new RenderConfigImpl(
+			Blending.OFF,
+			ClearColor.BLUE,
+			PointSprite.SIZE_FROM_SHADER,
+			ClearDepth.ONE,
+			ColorMask.ON,
+			DepthTest.GL_LEQUAL,
+			FaceCulling.BACK,
+			SissorTest.OFF,
+			StencilTest.OFF);
+
 	public static final RenderConfigImpl SKYBOX = new RenderConfigImpl(
 			Blending.OFF,
 			ClearColor.BLUE,
+			PointSprite.OFF,
 			ClearDepth.ONE,
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,

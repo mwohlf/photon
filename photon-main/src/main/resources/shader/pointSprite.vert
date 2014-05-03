@@ -25,7 +25,7 @@ void main(void) {
     gl_Position = cameraToClipMatrix * cameraPos;
    
     //gl_PointSize = ${pointSize};
-	gl_PointSize = 16.0;
+	gl_PointSize = 20.0;
 
     // passColor = ${color};
     passColor = vec4(1.0, 1.0, 1.0, 1.0);

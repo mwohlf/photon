@@ -3,10 +3,7 @@ package net.wohlfart.photon.entity;
 import java.util.Collections;
 import java.util.Set;
 
-import javax.media.opengl.GL2;
-import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL2ES2;
-import javax.media.opengl.GL2GL3;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
 
@@ -113,14 +110,10 @@ public class SpriteCloud implements IEntity {
 		@Override
 		public void draw(IShaderProgram shader, GL2ES2 gl) {
 			//gl.glEnable(GLES2.GL_POINT_SIZE);
-			((GL2)gl).glPointParameteri(GL2.GL_POINT_SPRITE_COORD_ORIGIN, GL2.GL_LOWER_LEFT);
+			//((GL2)gl).glPointParameteri(GL2.GL_POINT_SPRITE_COORD_ORIGIN, GL2.GL_LOWER_LEFT);
 
-            gl.glEnable(GL2ES1.GL_POINT_SPRITE);
-            gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
-            gl.glDisable(GL2.GL_BLEND);
-    		gl.glDisable(GL2.GL_DEPTH_TEST );
-			//gl.glEnable(GL2GL3.GL_PROGRAM_POINT_SIZE);
-			((GL2ES1)gl).glPointSize(1f);
+           // gl.glEnable(GL2ES1.GL_POINT_SPRITE);
+           // gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
 			super.draw(shader, gl);
 		}
 
@@ -135,7 +128,7 @@ public class SpriteCloud implements IEntity {
     		uniforms.put(ShaderParser.TEXTURE01, new TextureIdentValue(TEXTURE_ID1));
     		uniforms.put(ShaderParser.UNIFORM_POINT_SIZE, new FloatValue(3f));
     		geometry = new SpriteGeometry();
-    		renderConfig = IRenderConfig.DEFAULT;
+    		renderConfig = IRenderConfig.DEFAULT_3D;
     	}
 
 		@Override
