@@ -128,7 +128,7 @@ public class SpriteCloud implements IEntity {
     		uniforms.put(ShaderParser.TEXTURE01, new TextureIdentValue(TEXTURE_ID1));
     		uniforms.put(ShaderParser.UNIFORM_POINT_SIZE, new FloatValue(3f));
     		geometry = new SpriteGeometry();
-    		renderConfig = IRenderConfig.DEFAULT_3D;
+    		renderConfig = IRenderConfig.SPRITE_CLOUD;
     	}
 
 		@Override

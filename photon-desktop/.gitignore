@@ -1,2 +1,8 @@
 /target
 /.apt_generated
+/dependency-reduced-pom.xml
+/.settings
+/.classpath
+/.factorypath
+/.project
+/.gitignore
