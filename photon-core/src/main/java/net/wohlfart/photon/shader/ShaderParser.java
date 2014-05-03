@@ -21,6 +21,7 @@ public class ShaderParser {
     public static final String UNIFORM_WORLD_2_CAM_MTX = "worldToCameraMatrix";
     public static final String UNIFORM_CAM_2_CLIP_MTX = "cameraToClipMatrix";
     public static final String UNIFORM_NORMAL_MTX = "normalMatrix";
+    public static final String UNIFORM_POINT_SIZE = "pointSize";
 
     public static final String TEXTURE01 = "texture01";
     public static final String TEXTURE02 = "texture02";
@@ -53,6 +54,7 @@ public class ShaderParser {
         UNIFORMS.put("worldToCameraMatrix", UNIFORM_WORLD_2_CAM_MTX);
         UNIFORMS.put("cameraToClipMatrix", UNIFORM_CAM_2_CLIP_MTX);
         UNIFORMS.put("normalMatrix", UNIFORM_NORMAL_MTX);
+        UNIFORMS.put("pointSize", UNIFORM_POINT_SIZE);
     }
 
 
@@ -72,7 +74,7 @@ public class ShaderParser {
     @SuppressWarnings("unchecked")
     public String render() {
         setKeyValuePairs(VERTEX_ATTRIBUTES, UNIFORMS, TEXTURES, CONSTANTS);
-        return delegate.render();
+        return doRender();
     }
 
     private void setKeyValuePairs(HashMap<String, String>... hashMaps) {
@@ -81,6 +83,11 @@ public class ShaderParser {
                 delegate.add(entry.getKey(), entry.getValue());
             }
         }
+    }
+
+    private String doRender() {
+    	String result = delegate.render();
+    	return result;
     }
 
 }

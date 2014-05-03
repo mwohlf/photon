@@ -63,7 +63,7 @@ public enum ResourceManager {
 
         HashKey(Class<R> clazz, K key) {
             assert clazz != null;
-            assert key != null;
+            assert key != null : "unable to load " + clazz + " since key is null";
             this.clazz = clazz;
             this.key = key;
         }

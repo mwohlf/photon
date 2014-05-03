@@ -1,14 +1,10 @@
 package net.wohlfart.photon.graph;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Set;
 
 import javax.annotation.CheckReturnValue;
@@ -31,12 +27,11 @@ class TreeImpl<T> implements ITree<T> {
 
     protected final List<TreeImpl<T>> children; // never null, size 0 for a leaf node
 
-    // there is only one instance per tree in the root node,
-    // each child has a link to the parent's removeValues
+    // there is only one instance per tree structure in the root node,
+    // each child has a link to the root's removeValues
     private final Set<T> removeValues;
 
-
-    // for testing only so far
+    // exactly one instance per node, handles the remove values before returning a child element
     private final ChildIterator iterator = new ChildIterator();
 
 
@@ -77,21 +72,6 @@ class TreeImpl<T> implements ITree<T> {
         return value;
     }
 
-    protected TreeImpl<T> getParent() {
-        return parent;
-    }
-
-    protected void add(T... values) {
-        addAll(Arrays.asList(values));
-    }
-
-    protected void addAll(Collection<T> values) {
-        for (T value : values) {
-            add(value);
-        }
-    }
-
-    // override this method to customize the add behavior
     @Override
     @CheckReturnValue(when=When.NEVER)
     public TreeImpl<T> add(T value) {
@@ -112,15 +92,7 @@ class TreeImpl<T> implements ITree<T> {
         removeValues.add(value);
     }
 
-    // creates a new tree iterator instance from the root node
-    protected Iterator<T> createPreOrderTreeIterator() {
-        if (this.parent != null) {
-            return this.parent.createPreOrderTreeIterator();
-        }
-        return new PreOrderTreeIterator<T>(this);
-    }
-
-    class ChildIterator extends UnmodifiableIterator<TreeImpl<T>> {
+    private class ChildIterator extends UnmodifiableIterator<TreeImpl<T>> {
         private int index = 0;
 
         @Override
@@ -144,35 +116,5 @@ class TreeImpl<T> implements ITree<T> {
         }
 
     };
-
-
-    // TODO: this iterator does not handle the removes!
-    private class PreOrderTreeIterator<U> extends UnmodifiableIterator<U> {
-        private final Deque<TreeImpl<U>> serializedTrees;
-
-        private PreOrderTreeIterator(TreeImpl<U> tree) {
-            this.serializedTrees = new ArrayDeque<TreeImpl<U>>();
-            serializedTrees.addLast(tree);
-        }
-
-        @Override
-        public boolean hasNext() {
-            return !(serializedTrees.isEmpty());
-        }
-
-        @Override
-        public U next() throws NoSuchElementException {
-            TreeImpl<U> tree = serializedTrees.getLast(); // throws NSEE
-            serializedTrees.removeLast();
-            //if (tree.children != null) {
-                int size = tree.children.size();
-                for (int i = size -1; i >= 0; i--) {
-                    serializedTrees.addLast(tree.children.get(i));
-                }
-            //}
-            return tree.getValue();
-        }
-    }
-
 
 }

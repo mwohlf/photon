@@ -34,6 +34,8 @@ public class Skybox implements IEntity {
 
     private ISceneGraph sceneGraph;
 
+    protected final Vector3d position = new Vector3d();
+
     protected final Quaternion rotation = new Quaternion();
 
     private final Collection<Skybox.Side> sides = new ArrayList<Skybox.Side>(6);
@@ -106,8 +108,7 @@ public class Skybox implements IEntity {
 
     @Override
     public void update(Quaternion rot, Vector3f mov, float delta) {
-        //Quaternion.mul(rot, rotation, rotation); // order is important, here: add rot to rotation
-    	Quaternion r = new Quaternion(rot);
+    	Quaternion r = new Quaternion(rot); // FIXME: optimize
     	r.mult(rotation);
     	rotation.setX(r.getX());
     	rotation.setY(r.getY());
@@ -121,17 +122,17 @@ public class Skybox implements IEntity {
 
     @Override
     public Vector3d getPosition() {
-        throw new IllegalAccessError("getPosition not supported for Skybox");
+        return position;
     }
 
     @Override
     public Quaternion getRotation() {
-        throw new IllegalAccessError("getRotation not supported for Skybox");
+        return rotation;
     }
 
     @Override
     public float getSize() {
-        throw new IllegalAccessError("getSize not supported for Skybox");
+        return Float.POSITIVE_INFINITY;
     }
 
     private IGeometry createGeometry(final Quaternion rotation, final Vector3f translation, float dist) {

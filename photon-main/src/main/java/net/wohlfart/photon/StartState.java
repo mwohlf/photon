@@ -5,25 +5,18 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.inject.Inject;
-import javax.vecmath.Vector3d;
 
-import net.wohlfart.photon.entity.CubeEntity;
-import net.wohlfart.photon.entity.Earth;
-import net.wohlfart.photon.entity.ProceduralCelestial;
-import net.wohlfart.photon.entity.QuadEntity;
-import net.wohlfart.photon.entity.Skybox;
-import net.wohlfart.photon.entity.SphereEntity;
+import net.wohlfart.photon.entity.SpriteCloud;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
 import net.wohlfart.photon.events.ResizeEvent;
 import net.wohlfart.photon.events.RotateEvent;
 import net.wohlfart.photon.events.Subscribe;
+import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.hud.IScreenSizeListener;
-import net.wohlfart.photon.hud.SimpleLayer;
-import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
@@ -38,7 +31,7 @@ import org.slf4j.LoggerFactory;
 public class StartState implements IState {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(StartState.class);
 
-	protected final SceneGraph sceneGraph = new SceneGraph();
+	protected final ISceneGraph sceneGraph = new SceneGraph();
 
 	protected final Collection<IScreenSizeListener> resizables = new HashSet<IScreenSizeListener>();
 
@@ -85,29 +78,24 @@ public class StartState implements IState {
 	@Override
 	public void init() {
 
-		//  --- checked ---
-
-		new Skybox() .register(sceneGraph);
-
-		new ProceduralCelestial() .withPosition(0, 0, -30) .withCorona(new Corona().withThinkness(.2f)) .register(sceneGraph);
-
-		new SphereEntity()  .withPosition(0, 0, -10) .register(sceneGraph);
-		new Earth() .withPosition(0, 0, -20) .register(sceneGraph);
-		new QuadEntity() .withPosition(new Vector3d(+15, 0, 0)).register(sceneGraph);
-
-		// side length is .5 adding .25 makes the side visible
-		// new CubeEntity(0.5f).withPosition(0,0.2,-1.25).register(sceneGraph);
-
-		new CubeEntity(1).withPosition(0,0,-1).register(sceneGraph);
-		new CubeEntity(1).withPosition(0,0,-2).register(sceneGraph);
-		new CubeEntity(1).withPosition(0,0,-3f).register(sceneGraph);
-		new CubeEntity(1).withPosition(0,0,-4f).register(sceneGraph);
-		new CubeEntity(1).withPosition(0,0,-5f).register(sceneGraph);
-		new CubeEntity(1).withPosition(0,0,-6f).register(sceneGraph);
+		sceneGraph.setup(/*
+				new Skybox(),
+				new ProceduralCelestial().withPosition(0, 0, -30).withCorona(new Corona().withThinkness(.2f)),
+				new SphereEntity().withPosition(0, 0, -10),
+				new Earth().withPosition(0, 0, -20),
+				new QuadEntity().withPosition(new Vector3d(+15, 0, 0)),
+				new CubeEntity(1).withPosition(0,0,-1),
+				new CubeEntity(1).withPosition(0,0,-2),
+				new CubeEntity(1).withPosition(0,0,-3f),
+				new CubeEntity(1).withPosition(0,0,-4f),
+				new CubeEntity(1).withPosition(0,0,-5f),
+				new CubeEntity(1).withPosition(0,0,-6f),
+				new SimpleLayer(),  */
+				new SpriteCloud()
+		);
 
 		// --- unchecked ---
 
-		new SimpleLayer() .register(sceneGraph);
 
 		//			    new SimpleEffect().addEntity(new Earth().withPosition(10, 0, 0)) .register(sceneGraph);
 
@@ -129,7 +117,6 @@ public class StartState implements IState {
 
 	@Override
 	public void render(IRenderer renderer) {
-
 		if (debugOnce) {
 			renderer.setDebugMode(true);
 			renderer.renderParent(sceneGraph.getRenderCache());

@@ -5,7 +5,7 @@
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>20</x>
-      <y>10</y>
+      <y>0</y>
       <w>270</w>
       <h>140</h>
     </coordinates>
@@ -23,7 +23,7 @@ update(Quaternion, Vector3f, float)</panel_attributes>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>80</x>
-      <y>450</y>
+      <y>490</y>
       <w>210</w>
       <h>120</h>
     </coordinates>
@@ -36,7 +36,7 @@ addEntity(AbstractEntity)</panel_attributes>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>80</x>
-      <y>240</y>
+      <y>280</y>
       <w>210</w>
       <h>190</h>
     </coordinates>
@@ -58,7 +58,7 @@ lod
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>80</x>
-      <y>590</y>
+      <y>630</y>
       <w>210</w>
       <h>70</h>
     </coordinates>
@@ -71,7 +71,7 @@ getContainer()</panel_attributes>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>80</x>
-      <y>180</y>
+      <y>220</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -84,68 +84,45 @@ getContainer()</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
-      <y>120</y>
+      <y>110</y>
       <w>100</w>
-      <h>100</h>
+      <h>150</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;80;80;80</additional_attributes>
+    <additional_attributes>30;30;30;130;80;130</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
-      <y>120</y>
+      <y>110</y>
       <w>100</w>
-      <h>160</h>
+      <h>210</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;140;80;140</additional_attributes>
+    <additional_attributes>30;30;30;190;80;190</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
-      <y>120</y>
+      <y>110</y>
       <w>100</w>
-      <h>370</h>
+      <h>420</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;350;80;350</additional_attributes>
+    <additional_attributes>30;30;30;400;80;400</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>0</x>
-      <y>120</y>
+      <y>110</y>
       <w>100</w>
-      <h>510</h>
+      <h>560</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;30;490;80;490</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
-      <x>260</x>
-      <y>570</y>
-      <w>100</w>
-      <h>50</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>30;30;80;30</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Class</type>
-    <coordinates>
-      <x>340</x>
-      <y>590</y>
-      <w>210</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>LayoutStrategy
---</panel_attributes>
-    <additional_attributes/>
+    <additional_attributes>30;30;30;540;80;540</additional_attributes>
   </element>
   <element>
     <type>com.umlet.element.Relation</type>
@@ -166,6 +143,29 @@ getContainer()</panel_attributes>
       <w>210</w>
       <h>30</h>
     </coordinates>
+    <panel_attributes>LayoutStrategy
+--</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>260</x>
+      <y>650</y>
+      <w>100</w>
+      <h>50</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;80;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>340</x>
+      <y>670</y>
+      <w>210</w>
+      <h>30</h>
+    </coordinates>
     <panel_attributes>Dimension
 --</panel_attributes>
     <additional_attributes/>
@@ -174,7 +174,7 @@ getContainer()</panel_attributes>
     <type>com.umlet.element.Note</type>
     <coordinates>
       <x>340</x>
-      <y>30</y>
+      <y>20</y>
       <w>360</w>
       <h>120</h>
     </coordinates>
@@ -192,7 +192,7 @@ and to the SceneGraph
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>260</x>
-      <y>170</y>
+      <y>210</y>
       <w>100</w>
       <h>50</h>
     </coordinates>
@@ -204,7 +204,7 @@ m1=0..6</panel_attributes>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>340</x>
-      <y>180</y>
+      <y>220</y>
       <w>110</w>
       <h>40</h>
     </coordinates>
@@ -217,7 +217,7 @@ m1=0..6</panel_attributes>
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>260</x>
-      <y>40</y>
+      <y>30</y>
       <w>100</w>
       <h>50</h>
     </coordinates>
@@ -228,7 +228,7 @@ m1=0..6</panel_attributes>
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>490</x>
-      <y>180</y>
+      <y>220</y>
       <w>210</w>
       <h>160</h>
     </coordinates>
@@ -249,7 +249,7 @@ sortToken
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>420</x>
-      <y>170</y>
+      <y>210</y>
       <w>90</w>
       <h>50</h>
     </coordinates>
@@ -260,7 +260,7 @@ sortToken
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>260</x>
-      <y>450</y>
+      <y>490</y>
       <w>150</w>
       <h>70</h>
     </coordinates>
@@ -273,7 +273,7 @@ overlay
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>390</x>
-      <y>520</y>
+      <y>560</y>
       <w>210</w>
       <h>30</h>
     </coordinates>
@@ -285,7 +285,7 @@ overlay
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>260</x>
-      <y>370</y>
+      <y>410</y>
       <w>144</w>
       <h>110</h>
     </coordinates>
@@ -298,7 +298,7 @@ childEntities
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>390</x>
-      <y>480</y>
+      <y>520</y>
       <w>210</w>
       <h>30</h>
     </coordinates>
@@ -309,21 +309,8 @@ childEntities
   <element>
     <type>com.umlet.element.Relation</type>
     <coordinates>
-      <x>20</x>
-      <y>20</y>
-      <w>150</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-
-overlay
-</panel_attributes>
-    <additional_attributes>30;50;90;50;130;50</additional_attributes>
-  </element>
-  <element>
-    <type>com.umlet.element.Relation</type>
-    <coordinates>
       <x>260</x>
-      <y>490</y>
+      <y>530</y>
       <w>150</w>
       <h>70</h>
     </coordinates>
@@ -336,7 +323,7 @@ tree
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>390</x>
-      <y>360</y>
+      <y>400</y>
       <w>210</w>
       <h>40</h>
     </coordinates>
@@ -349,7 +336,7 @@ tree
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>260</x>
-      <y>270</y>
+      <y>310</y>
       <w>150</w>
       <h>120</h>
     </coordinates>
@@ -360,7 +347,7 @@ tree
     <type>com.umlet.element.Class</type>
     <coordinates>
       <x>680</x>
-      <y>640</y>
+      <y>680</y>
       <w>210</w>
       <h>30</h>
     </coordinates>
@@ -372,11 +359,35 @@ tree
     <type>com.umlet.element.Relation</type>
     <coordinates>
       <x>670</x>
-      <y>220</y>
+      <y>260</y>
       <w>130</w>
       <h>440</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;-</panel_attributes>
     <additional_attributes>110;420;110;30;30;30</additional_attributes>
+  </element>
+  <element>
+    <type>com.umlet.element.Class</type>
+    <coordinates>
+      <x>80</x>
+      <y>160</y>
+      <w>210</w>
+      <h>40</h>
+    </coordinates>
+    <panel_attributes>*SpriteCloud*
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <type>com.umlet.element.Relation</type>
+    <coordinates>
+      <x>0</x>
+      <y>110</y>
+      <w>100</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>30;30;30;70;80;70</additional_attributes>
   </element>
 </diagram>

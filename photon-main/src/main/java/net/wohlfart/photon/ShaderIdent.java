@@ -11,6 +11,7 @@ public enum ShaderIdent implements IShaderProgramIdentifier {
 	SKYBOX_SHADER_ID("shader/skybox.vert", "shader/skybox.frag"),
 	TEXTURE_SHADER_ID("shader/texture.vert", "shader/texture.frag"),
 	VERTEX_LIGHT_SHADER("shader/vertexLight.vert", "shader/vertexLight.frag"),
+	POINT_SPRITE_SHADER("shader/pointSprite.vert", "shader/pointSprite.frag"),
 	;
 
 	private final URI vertexShaderResource;

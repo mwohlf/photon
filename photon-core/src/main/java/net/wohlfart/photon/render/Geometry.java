@@ -12,7 +12,9 @@ import java.nio.IntBuffer;
 import java.nio.ShortBuffer;
 
 import javax.media.opengl.GL2;
+import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL2ES2;
+import javax.media.opengl.GL2GL3;
 
 import net.wohlfart.photon.shader.IShaderProgram;
 
@@ -47,7 +49,7 @@ public class Geometry implements IGeometry {
 		}
 
 		public Vertex withColor(float... color) {
-			assert (color.length == vertexFormat.colorSize());
+			assert (color.length == vertexFormat.colorSize()) : "the color elem count doesn't match what is configured in the vertex format";
 			assert (vertexData.size() % vertexFormat.getTotalSize() == vertexFormat.positionSize()): ""
 			+ "you need to add a position before you can add a color";
 			vertexData.add(color);
@@ -63,7 +65,7 @@ public class Geometry implements IGeometry {
 		}
 
 		public Vertex withTexture(float... texture) {
-			assert (texture.length == vertexFormat.textureSize());
+			assert (texture.length == vertexFormat.textureSize()) : "the texture coord count doesn't match what is configured in the vertex format";
 			assert (vertexData.size() % vertexFormat.getTotalSize() == vertexFormat.positionSize() + vertexFormat.colorSize() + vertexFormat.normalSize()) : ""
 			+ "you need to add a normal before you can add a texture";
 			vertexData.add(texture);
@@ -87,6 +89,13 @@ public class Geometry implements IGeometry {
 		bindVboHandle(gl);
 		shader.useAttributes(vertexFormat);
 
+		if (gl.isGL2GL3()) {
+            gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+        }
+		if (gl.isGL2ES1()) {
+            gl.glEnable(GL2ES1.GL_POINT_SPRITE);
+        }
+
 		if (indices.size() > 0) {
 			// render with an index buffer
 			bindIdxBufferHandle(gl);
@@ -99,7 +108,8 @@ public class Geometry implements IGeometry {
 			// render plain vertices without indices
 			gl.glDrawArrays(
 					getPrimitiveType(streamFormat), // mode: primitive type see: http://www.opengl.org/wiki/Primitive
-					0, getVerticesCount());
+					0,  // offset
+					getVerticesCount());
 		}
 
 	}
@@ -153,13 +163,15 @@ public class Geometry implements IGeometry {
 	}
 
 	private int getVerticesCount() {
-		assert ((vertexData.size() % vertexFormat.getTotalSize()) == 0);
+		assert ((vertexData.size() % vertexFormat.getTotalSize()) == 0) : "the last vertex is not complete";
 		return vertexData.size() / vertexFormat.getTotalSize();
 	}
 
 	// keep the OpenGL stuff inside this class
 	private int getPrimitiveType(IGeometry.StreamFormat streamFormat) {
 		switch (streamFormat) {
+		case POINTS:
+			return GL2.GL_POINTS;
 		case LINES:
 			return GL2.GL_LINES;
 		case LINE_STRIP:

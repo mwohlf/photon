@@ -38,8 +38,8 @@ public class ShaderFactory implements ResourceProducer<IShaderProgram, IShaderPr
     private String readShaderCode(URI uri) throws IOException {
 		final InputStream inputStream = ResourceTool.openStream(uri);
         final String string = CharStreams.toString(new InputStreamReader(inputStream, Charsets.UTF_8));
-        final ShaderParser stringTemplate = new ShaderParser(string);
-        return stringTemplate.render();
+        final ShaderParser shaderParser = new ShaderParser(string);
+        return shaderParser.render();
     }
 
 }

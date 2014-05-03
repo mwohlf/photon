@@ -10,7 +10,6 @@ import net.wohlfart.photon.render.RendererImpl;
 import dagger.Module;
 import dagger.Provides;
 
-
 @Module(library=true)
 public class CoreModule {
 

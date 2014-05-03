@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * the core of the whole engine,
  *  - this object stores the scene,
  *  - creates/ extracts rendering commands to create a render cache
- *  - decides which objesct are visibale at all
+ *  - decides which objects are visible
  *  - fires up the renderer
  *
  * some interesting readings about scene graphs:
@@ -78,7 +78,7 @@ public class SceneGraph implements ISceneGraph {
     }
 
     // add a single render command and return the created render node
-    // this might be needed if we want to add subnodes
+    // this might be needed if we want to add subnodes to an effect
     @Override
     public ITree<IRenderNode> addRenderCommand(IRenderNode node) {
         assert node != null;
@@ -92,14 +92,25 @@ public class SceneGraph implements ISceneGraph {
         renderCache.removeAll(nodes);
     }
 
+    @Override
     public ITree<IRenderNode> getRenderCache() {
         renderCache.reOrder();
         return renderCache.getRoot();
     }
 
+    @Override
     public Set<IEntity> getEntities() {
         return semanticView;
     }
+
+
+	@Override
+	public void setup(IEntity... entities) {
+		for (IEntity entity : entities) {
+			entity.register(this);
+		}
+	}
+
 
     protected StringBuilder dumpNode(String inset, StringBuilder builder, ITree<IRenderNode> renderNode) {
         builder.append(inset);

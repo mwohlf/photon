@@ -1,6 +1,7 @@
 package net.wohlfart.photon.graph;
 
 import java.util.Collection;
+import java.util.Set;
 
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
@@ -38,6 +39,7 @@ public interface ISceneGraph {
     }
 
 
+    void setup(IEntity... entities);
 
     void addEntity(IEntity entity);
 
@@ -48,5 +50,10 @@ public interface ISceneGraph {
     void removeRenderCommands(Collection<? extends IRenderNode> nodes);
 
     ITree<IRenderNode> addRenderCommand(IRenderNode node);
+
+    // the core method to start the rendering
+	ITree<IRenderNode> getRenderCache();
+
+	Set<IEntity> getEntities();
 
 }

@@ -53,12 +53,13 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     @Override
     public IGeometry getGeometry() {
-    	assert geometry != null;
+    	assert geometry != null : "need to set a geometry";
         return geometry;
     }
 
     @Override
     public void accept(IRenderer renderer, ITree<IRenderer.IRenderNode> tree) {
+    	assert shaderId != null : "need to set a shader id";
         renderer.setRenderConfig(shaderId, renderConfig);
         renderer.setUniformValues(getUniformValues());
         renderer.drawGeometry(getGeometry());

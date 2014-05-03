@@ -177,7 +177,7 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	private int loadShader(GL2ES2 gl, final String code, int shaderType) {
-		LOGGER.debug("loading shader from '{}' type is '{}'", code, shaderType);
+		LOGGER.debug("loading shader, type is '{}'", shaderType);
 		int shader = 0;
 
 
@@ -187,9 +187,24 @@ public class ShaderProgram implements IShaderProgram {
 		}
 		gl.glShaderSource(shader, 1, new String[] { code }, (int[]) null, 0);
 		gl.glCompileShader(shader);
-
-		// TODO: check compile status
+		checkCompileStatus(gl, shader);
 		return shader;
+	}
+
+	private void checkCompileStatus(GL2ES2 gl, int shader) {
+		int[] compiled = new int[1];
+		gl.glGetShaderiv(shader, GL2ES2.GL_COMPILE_STATUS, compiled, 0);
+		if (compiled[0]!=0) {
+			LOGGER.info("shader compiled, shader id was '{}'", shader);
+		} else {
+			int[] logLength = new int[1];
+			gl.glGetShaderiv(shader, GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
+
+			byte[] log = new byte[logLength[0]];
+			gl.glGetShaderInfoLog(shader, logLength[0], (int[])null, 0, log, 0);
+
+			throw new IllegalStateException(new String(log));
+		}
 	}
 
 	// attach, link and validate the shaders into a shader program

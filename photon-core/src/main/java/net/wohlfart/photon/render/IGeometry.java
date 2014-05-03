@@ -109,6 +109,8 @@ public interface IGeometry {
     }
 
     public enum StreamFormat {
+    	POINTS,		  // see: http://www.opengl.org/wiki/Primitive
+
         LINES,        // 0-1, 2-3, 4-5
         LINE_STRIP,   // 0-1-2-3-4-5
         LINE_LOOP,    // 0-1-2-3-4-5-0

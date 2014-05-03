@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  * - need to be initialized with the drawable from the GLEventListener callback (init/display/reshape)
  *
  * see: https://jogamp.org/wiki/index.php/Maven_And_Android
- *
+ * shader examples: https://code.google.com/p/sravan-work/source/browse/#svn%2Ftrunk%2FOpenGL%20ES2%2Fes2LightingPerVertex%2Fsrc%2Fes2
  * @author Michael Wohlfart
  */
 public class GraphicContext implements IGraphicContext {
@@ -43,17 +43,19 @@ public class GraphicContext implements IGraphicContext {
 
 	private IShaderProgram currentShader = ShaderProgram.NULL_SHADER;
 
+	// see: http://forum.jogamp.org/What-profile-to-choose-td3575514.html
 	private GL2ES2 gl;
 
 
+	// see: https://code.google.com/p/jmonkeyengine/source/browse/branches/experimental/engine/src/jogl/com/jme3/renderer/jogl/JoglRenderer.java?spec=svn11058&r=11058
+	// for startup tests
 	// store the current context, clear color and depth buffers and reset the shader so the new OpenGL context
 	// will be provided to the shader, called once per frame at the beginning of the render run
 	public IGraphicContext init(GLAutoDrawable drawable) {
 		assert drawable != null : "drawable is null";
 		assert drawable.getGL() != null : "drawable.gl is null";
-		assert drawable.getGL().getGL2ES2() != null : "drawable.gl.gl2 is null";
-
-		gl = drawable.getGL().getGL2();
+		assert drawable.getGL().getGL2ES2() != null : "drawable.gl.gl2es2 is null";
+		gl = drawable.getGL().getGL2ES2();
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 		currentShader = ShaderProgram.NULL_SHADER;
 		return this;
