@@ -143,13 +143,13 @@ public class Perspective {
 
 
 	private void lazyRecalculate() {
-		assert farPlane != Float.NaN;
-		assert nearPlane != Float.NaN;
-		assert fieldOfViewDegree != Float.NaN;
-		assert fieldOfViewRad != Float.NaN;
-		assert width != Float.NaN;
-		assert height != Float.NaN;
-		assert scaleFactor != Float.NaN;
+		assert !Float.isNaN(farPlane);
+		assert !Float.isNaN(nearPlane);
+		assert !Float.isNaN(fieldOfViewDegree);
+		assert !Float.isNaN(fieldOfViewRad);
+		assert !Float.isNaN(width);
+		assert !Float.isNaN(height);
+		assert !Float.isNaN(scaleFactor);
 
 		if (!isDirty) {
 			return;

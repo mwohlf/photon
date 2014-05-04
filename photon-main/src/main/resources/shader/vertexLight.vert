@@ -14,8 +14,8 @@ struct Material {
 };
 
 in vec3 ${position};    // vertex position in model space
-in vec3 ${normal};      // the normal for the current vertex
 in vec2 ${texture};     // the texture position of the vertex
+in vec3 ${normal};      // the normal for the current vertex
 
 uniform VertexLight lights[${maxVertexLightCount}];
 uniform Material material;

@@ -4,7 +4,7 @@ public interface IUniformValue {
 
 	public interface IUniformHandle {
 
-		int getLocation();
+		int getLocation(); // the uniform location inside the shader
 
 		String getName();
 

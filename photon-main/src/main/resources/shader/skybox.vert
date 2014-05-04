@@ -23,7 +23,7 @@ void main(void) {
     // step 3: project the object from 3D cam space into 2D view
     gl_Position = cameraToClipMatrix * cameraPos;
 
-    // this is the trick to be able to render the skybox last 
+    // using w as z-coord is the trick to be able to render the skybox last 
     // without running into trouble with z coords
     gl_Position = gl_Position.xyww;
     
