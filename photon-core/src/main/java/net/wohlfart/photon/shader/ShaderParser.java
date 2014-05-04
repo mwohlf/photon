@@ -10,6 +10,9 @@ public class ShaderParser {
     public static final String MAX_VERTEX_LIGHT_COUNT = "maxVertexLightCount";
     public static final Integer MAX_VERTEX_LIGHT_COUNT_VALUE = 10;
 
+    public static final String MAX_FRAGMENT_LIGHT_COUNT = "maxFragmentLightCount";
+    public static final Integer MAX_FRAGMENT_LIGHT_COUNT_VALUE = 3;
+
     // strings to access the vertex attributes in the shaders
     public static final String VERTEX_POSITION = "in_Position";
     public static final String VERTEX_COLOR = "in_Color";
@@ -34,6 +37,7 @@ public class ShaderParser {
     public static final HashMap<String, String> CONSTANTS = new HashMap<String, String>();
     {
     	CONSTANTS.put(MAX_VERTEX_LIGHT_COUNT, Integer.toString(MAX_VERTEX_LIGHT_COUNT_VALUE));
+    	CONSTANTS.put(MAX_FRAGMENT_LIGHT_COUNT, Integer.toString(MAX_FRAGMENT_LIGHT_COUNT_VALUE));
     }
 
     // common vertex attribute names used in the shader code

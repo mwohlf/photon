@@ -6,7 +6,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.entity.SpriteCloud;
+import net.wohlfart.photon.entity.SphereEntity;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -90,8 +90,9 @@ public class StartState implements IState {
 				new CubeEntity(1).withPosition(0,0,-4f),
 				new CubeEntity(1).withPosition(0,0,-5f),
 				new CubeEntity(1).withPosition(0,0,-6f),
-				new SimpleLayer(),  */
-				new SpriteCloud()
+				new SimpleLayer(),
+				new SpriteCloud() */
+				new SphereEntity().withPosition(0, 0, -10)
 		);
 
 		// --- unchecked ---

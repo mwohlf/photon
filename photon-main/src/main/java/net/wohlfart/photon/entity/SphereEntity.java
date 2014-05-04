@@ -6,7 +6,8 @@ public class SphereEntity extends EntityImpl {
 
 	@Override
 	public void setup() {
-		renderElements.add(SphereElement.createSolid());
+		SphereElement elem = SphereElement.createSolid();
+		renderElements.add(elem);
 	}
 
 }

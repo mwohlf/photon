@@ -34,8 +34,8 @@ public class ShaderProgram implements IShaderProgram {
 
 	private int programId = -1;
 
-	private final Map<String, UniformHandle> uniforms = new HashMap<String, UniformHandle>();
-	private final Map<String, AttributeHandle> attributes = new HashMap<String, AttributeHandle>();
+	private final Map<String, UniformHandle> uniformHandles = new HashMap<String, UniformHandle>();
+	private final Map<String, AttributeHandle> attributeHandles = new HashMap<String, AttributeHandle>();
 
 	// the current GLContext this is only valid for the current render run
 	// and needs to be refreshed on each bind() call
@@ -146,19 +146,19 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	private UniformHandle getUniformHandle(String string) {
-		return uniforms.get(string);
+		return uniformHandles.get(string);
 	};
 
 	private Set<String> getUniformHandleNames() {
-		return uniforms.keySet();
+		return uniformHandles.keySet();
 	}
 
 	private AttributeHandle getVertexAttributeHandle(String string) {
-		return attributes.get(string);
+		return attributeHandles.get(string);
 	}
 
 	private Set<String> getVertexAttributeHandleNames() {
-		return attributes.keySet();
+		return attributeHandles.keySet();
 	}
 
 	private void setUniform(String uniformName, IUniformValue uniformValue) {
@@ -248,7 +248,7 @@ public class ShaderProgram implements IShaderProgram {
 			String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
 			int location = gl.glGetUniformLocation(programId, name);
 			UniformHandle handle = new UniformHandle(this, name, location);
-			uniforms.put(name, handle);
+			uniformHandles.put(name, handle);
 			LOGGER.info("created uniform handle: " + handle);
 		}
 	}
@@ -272,7 +272,7 @@ public class ShaderProgram implements IShaderProgram {
 			String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
 			int location = gl2.glGetAttribLocation(programId, name);
 			AttributeHandle handle = new AttributeHandle(this.programId, name, sizeBuffer[0], typeBuffer[0], location);
-			attributes.put(name, handle);
+			attributeHandles.put(name, handle);
 			LOGGER.info("created attribute handle: " + handle);
 		}
 	}
