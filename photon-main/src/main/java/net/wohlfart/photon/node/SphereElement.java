@@ -28,8 +28,8 @@ public class SphereElement extends AbstractRenderElement {
 	public static SphereElement createSolid() {
 		SphereElement elem = new SphereElement();
 		elem.geometry = new Sphere(4, 6, IGeometry.VertexFormat.VERTEX_P3C0N0T2, IGeometry.StreamFormat.TRIANGLES);
-		elem.shaderId = ShaderIdent.TEXTURE_SHADER_ID;
-		elem.uniforms.put(ShaderParser.TEXTURE01, new TextureIdentValue(TEXTURE_ID1));
+		elem.shaderId = ShaderIdent.VERTEX_LIGHT_SHADER;
+		elem.uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, TEXTURE_ID1));
 		elem.renderConfig = IRenderConfig.DEFAULT_3D;
 		return elem;
 	}

@@ -6,14 +6,16 @@ import javax.vecmath.Matrix4f;
 
 public class Matrix4fValue implements IUniformValue {
     private final Matrix4f matrix;
+	private final String name;
 
-    public Matrix4fValue(Matrix4f matrix) {
+    public Matrix4fValue(String name, Matrix4f matrix) {
+    	this.name = name;
         this.matrix = matrix;
     }
 
     @Override
-    public void accept(IUniformHandle handle) {
-        assert (matrix != null) : "Uniform '" + handle.getName() + "' is empty";
+    public void accept(IShaderProgram shader) {
+        assert (matrix != null) : "Uniform '" + shader.getUniformLocation(name) + "' is empty";
 
          float[] modelview = {
         		matrix.m00, matrix.m01, matrix.m02, matrix.m03,
@@ -21,7 +23,7 @@ public class Matrix4fValue implements IUniformValue {
         		matrix.m20, matrix.m21, matrix.m22, matrix.m23,
         		matrix.m30, matrix.m31, matrix.m32, matrix.m33,
         		};
-         handle.getShader().getGl().glUniformMatrix4fv(handle.getLocation(), 1, false, modelview, 0);
+         shader.getGl().glUniformMatrix4fv(shader.getUniformLocation(name), 1, false, modelview, 0);
     }
 
     @Override

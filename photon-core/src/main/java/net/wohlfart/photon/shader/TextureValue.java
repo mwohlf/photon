@@ -5,14 +5,22 @@ import net.wohlfart.photon.texture.ITexture;
 public class TextureValue extends AbstractTextureValue {
 
 	private final ITexture texture;
+	private final String name;
 
-	public TextureValue(ITexture texture) {
+	public TextureValue(String name, ITexture texture) {
+		this.name = name;
 		this.texture = texture;
 	}
 
 	@Override
-	public int getTextureHandle(IUniformHandle handle) {
-		return texture.getHandle(handle.getShader().getGl());
+	public int getTextureHandle(IShaderProgram shader) {
+		return texture.getHandle(shader.getGl());
+	}
+
+	@Override
+	int getLocation(IShaderProgram shader) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

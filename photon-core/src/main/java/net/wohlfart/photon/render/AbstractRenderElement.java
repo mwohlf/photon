@@ -1,7 +1,7 @@
 package net.wohlfart.photon.render;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
+import java.util.HashSet;
 
 import javax.vecmath.Matrix4f;
 
@@ -21,7 +21,7 @@ import net.wohlfart.photon.shader.ShaderParser;
  */
 public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
-    protected final Map<String, IUniformValue> uniforms = new HashMap<String, IUniformValue>();
+    protected final Collection<IUniformValue> uniforms = new HashSet<IUniformValue>();
 
     protected final Matrix4f model2WorldMatrix =  new Matrix4f();
 
@@ -38,7 +38,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected AbstractRenderElement() {
     	model2WorldMatrix.setIdentity();
-        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(model2WorldMatrix));
+        uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, model2WorldMatrix));
     }
 
     @Override
@@ -72,7 +72,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
     }
 
     @Override
-    public Map<String, IUniformValue> getUniformValues() {
+    public Collection<IUniformValue> getUniformValues() {
         return uniforms;
     }
 

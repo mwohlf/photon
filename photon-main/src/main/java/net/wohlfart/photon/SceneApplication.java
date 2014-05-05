@@ -2,9 +2,9 @@ package net.wohlfart.photon;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -67,17 +67,17 @@ public class SceneApplication implements ILifecycleListener {
 		LOGGER.info("init() called: " + renderer + " " + timer + " " + eventBus);
 		renderer.setGfxContext(gfxCtx);
 
-		final Map<String, IUniformValue> uniforms = new HashMap<String, IUniformValue>();
+		final Collection<IUniformValue> uniforms = new HashSet<IUniformValue>();
 
 		// this will be updated by the model / render command
 		final Matrix4f modelToWorldMatrix = new Matrix4f();
 		modelToWorldMatrix.setIdentity();
-		uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelToWorldMatrix));
+		uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, modelToWorldMatrix));
 
 		// cam is static at 0/0/0
 		final Matrix4f worldToCamMatrix = new Matrix4f();
 		worldToCamMatrix.setIdentity();
-		uniforms.put(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, new Matrix4fValue(worldToCamMatrix));
+		uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, worldToCamMatrix));
 
 		gfxCtx.setUniformValues(uniforms);
 		gfxCtx.setRenderConfig(ShaderIdent.DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
@@ -153,9 +153,8 @@ public class SceneApplication implements ILifecycleListener {
 
 		final Matrix4f cameraToClipMatrix = perspective.getPerspectiveMatrix();
 
-		renderer.setUniformValues(Collections.singletonMap(
-				ShaderParser.UNIFORM_CAM_2_CLIP_MTX,
-				(IUniformValue)new Matrix4fValue(cameraToClipMatrix)));
+		renderer.setUniformValues(Collections.singleton(
+				(IUniformValue)new Matrix4fValue(ShaderParser.UNIFORM_CAM_2_CLIP_MTX,cameraToClipMatrix)));
 
 		eventBus.post(ResizeEvent.create(width - x, height - y));
 	}

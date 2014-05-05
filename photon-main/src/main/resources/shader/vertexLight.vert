@@ -4,14 +4,14 @@ struct VertexLight {
   vec3  position;
   float attenuation;
   vec3  color;
-  vec3  diffuse;
+  vec4  diffuse;
 };
 
 struct Material {
-  vec3 ambient;
-  vec4 diffuse;
   vec3 specular;
   float shininess;
+  vec3 ambient;
+  vec4 diffuse;
 };
 
 in vec3 ${position};    // vertex position in model space

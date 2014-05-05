@@ -1,6 +1,6 @@
 package net.wohlfart.photon;
 
-import java.util.Map;
+import java.util.Collection;
 
 import net.wohlfart.photon.render.IFrameBuffer;
 import net.wohlfart.photon.render.IGeometry;
@@ -16,7 +16,7 @@ public interface IGraphicContext {
 
 	void setRenderConfig(IShaderProgramIdentifier shaderId, IRenderConfig<RenderConfigImpl> newConfig);
 
-	void setUniformValues(Map<String, IUniformValue> uniformValues);
+	void setUniformValues(Collection<IUniformValue> uniformValues);
 
 	void drawGeometry(IGeometry geometry);
 

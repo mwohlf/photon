@@ -26,7 +26,7 @@ public class VertexLightValue implements IUniformValue {
 	}
 
 	@Override
-	public void accept(IUniformHandle handle) {
+	public void accept(IShaderProgram shader) {
         // handle.getShader().getGl().glUniformMatrix4fv(handle.getLocation(), 1, false, modelview, 0);
 		// TODO
 	}

@@ -1,6 +1,7 @@
 package net.wohlfart.photon.shader;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -8,6 +9,7 @@ import java.util.Set;
 import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
+import net.wohlfart.photon.shader.IUniformValue.NullValue;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +36,11 @@ public class ShaderProgram implements IShaderProgram {
 
 	private int programId = -1;
 
-	private final Map<String, UniformHandle> uniformHandles = new HashMap<String, UniformHandle>();
+	// mapping the uniform name to value and location
+	private final Map<String, IUniformValue> uniformValues = new HashMap<String, IUniformValue>();
+	private final Map<String, Integer> uniformLocations = new HashMap<String, Integer>();
+
+
 	private final Map<String, AttributeHandle> attributeHandles = new HashMap<String, AttributeHandle>();
 
 	// the current GLContext this is only valid for the current render run
@@ -128,11 +134,15 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	@Override
-	public void useUniforms(Map<String, IUniformValue> uniformValues) {
-		for (String uniformName : getUniformHandleNames()) {
-			IUniformValue uniformValue = uniformValues.get(uniformName);
-			setUniform(uniformName, uniformValue);
+	public void useUniforms(Collection<IUniformValue> uniformValues) {
+		for (IUniformValue uniformValue : uniformValues) {
+			uniformValue.accept(this);
 		}
+	}
+
+	@Override
+	public int getUniformLocation(String name) {
+		return uniformLocations.get(name);
 	}
 
 	protected void unlink(int... handles) {
@@ -145,35 +155,12 @@ public class ShaderProgram implements IShaderProgram {
 		}
 	}
 
-	private UniformHandle getUniformHandle(String string) {
-		return uniformHandles.get(string);
-	};
-
-	private Set<String> getUniformHandleNames() {
-		return uniformHandles.keySet();
-	}
-
 	private AttributeHandle getVertexAttributeHandle(String string) {
 		return attributeHandles.get(string);
 	}
 
 	private Set<String> getVertexAttributeHandleNames() {
 		return attributeHandles.keySet();
-	}
-
-	private void setUniform(String uniformName, IUniformValue uniformValue) {
-		UniformHandle currentHandle = getUniformHandle(uniformName);
-		if (currentHandle == null) {
-			LOGGER.error("uniform for '{}' can't be found in shader {}, skipping this uniform", uniformName, this);
-			return;
-		}
-
-		if (uniformValue == null) {
-			LOGGER.error("uniform or texture value for '{}' can't be found", uniformName);
-			return;
-		}
-
-		uniformValue.accept(currentHandle);
 	}
 
 	private int loadShader(GL2ES2 gl, final String code, int shaderType) {
@@ -246,10 +233,10 @@ public class ShaderProgram implements IShaderProgram {
 		for (int i = 0; i < len; ++i) {
 			gl.glGetActiveUniform(programId, i, strLen, nameLenBuffer, 0, sizeBuffer, 0, typeBuffer, 0, nameBuffer, 0);
 			String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
+			uniformValues.put(name, new NullValue());
 			int location = gl.glGetUniformLocation(programId, name);
-			UniformHandle handle = new UniformHandle(this, name, location);
-			uniformHandles.put(name, handle);
-			LOGGER.info("created uniform handle: " + handle);
+			uniformLocations.put(name, location);
+			LOGGER.info("found uniform name: " + name);
 		}
 	}
 

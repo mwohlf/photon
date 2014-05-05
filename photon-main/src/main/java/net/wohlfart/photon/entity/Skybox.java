@@ -164,7 +164,7 @@ public class Skybox implements IEntity {
 
         public Side(IGeometry geometry, ITextureIdentifier textureId) {
             this.geometry = geometry;
-            this.uniforms.put(ShaderParser.TEXTURE01, new TextureIdentValue(textureId));
+            this.uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, textureId));
             this.renderConfig = RenderConfigImpl.SKYBOX;
             this.zOrder = Double.POSITIVE_INFINITY;
             this.shaderId = ShaderIdent.SKYBOX_SHADER_ID;

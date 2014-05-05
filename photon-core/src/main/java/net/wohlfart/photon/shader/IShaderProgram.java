@@ -1,7 +1,7 @@
 package net.wohlfart.photon.shader;
 
 import java.net.URI;
-import java.util.Map;
+import java.util.Collection;
 
 import javax.media.opengl.GL2ES2;
 
@@ -25,7 +25,9 @@ public interface IShaderProgram {
 
 	GL2ES2 getGl();
 
-	void useUniforms(Map<String, IUniformValue> uniformValues);
+	void useUniforms(Collection<IUniformValue> uniformValues);
+
+	int getUniformLocation(String name);
 
 	void useAttributes(VertexFormat vertexFormat);
 
@@ -64,8 +66,13 @@ public interface IShaderProgram {
 		}
 
 		@Override
-		public void useUniforms(Map<String, IUniformValue> uniformValues) {
+		public void useUniforms(Collection<IUniformValue> uniformValues) {
 			// do nothing
+		}
+
+		@Override
+		public int getUniformLocation(String name) {
+			return -1;
 		}
 
 		@Override

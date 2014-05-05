@@ -1,6 +1,6 @@
 package net.wohlfart.photon.render;
 
-import java.util.Map;
+import java.util.Collection;
 
 import javax.vecmath.Matrix4f;
 
@@ -29,7 +29,7 @@ public interface IRenderer extends IGraphicContext {
     public interface IRenderElem extends IRenderNode {
 
         // the shader uniforms
-        Map<String, IUniformValue> getUniformValues();
+        Collection<IUniformValue> getUniformValues();
 
         // contains the vertex attributes, in some cases we return subclasses of IGeometry
         IGeometry getGeometry();

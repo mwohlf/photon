@@ -15,7 +15,7 @@ public class FragmentLightValue implements IUniformValue {
 	}
 
 	@Override
-	public void accept(IUniformHandle handle) {
+	public void accept(IShaderProgram shader) {
 		// TODO Auto-generated method stub
 
 	}

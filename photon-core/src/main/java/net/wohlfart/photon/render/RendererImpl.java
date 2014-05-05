@@ -1,7 +1,7 @@
 package net.wohlfart.photon.render;
 
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.Map;
 
 import net.wohlfart.photon.IGraphicContext;
 import net.wohlfart.photon.graph.ITree;
@@ -64,7 +64,7 @@ public class RendererImpl implements IRenderer {
 	}
 
 	@Override
-	public void setUniformValues(Map<String, IUniformValue> uniformValues) {
+	public void setUniformValues(Collection<IUniformValue> uniformValues) {
 		graphicContext.setUniformValues(uniformValues);
 	}
 

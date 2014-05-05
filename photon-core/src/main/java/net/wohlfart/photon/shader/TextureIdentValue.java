@@ -7,15 +7,23 @@ import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 public class TextureIdentValue extends AbstractTextureValue {
 
 	private final ITextureIdentifier textureIdentifier;
+	private final String name;
 
-	public TextureIdentValue(ITextureIdentifier textureIdentifier) {
+	public TextureIdentValue(String name, ITextureIdentifier textureIdentifier) {
+		this.name = name;
 		this.textureIdentifier = textureIdentifier;
 	}
 
 	@Override
-	public int getTextureHandle(IUniformHandle handle) {
+	public int getTextureHandle(IShaderProgram shader) {
 		ITexture texture = ResourceManager.loadResource(ITexture.class, textureIdentifier);
-		return texture.getHandle(handle.getShader().getGl());
+		return texture.getHandle(shader.getGl());
+	}
+
+	@Override
+	int getLocation(IShaderProgram shader) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 
 }

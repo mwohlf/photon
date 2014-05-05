@@ -3,15 +3,17 @@ package net.wohlfart.photon.shader;
 
 public class FloatValue implements IUniformValue {
     private final Float value;
+    private final String name;
 
-    public FloatValue(float value) {
+    public FloatValue(String name, float value) {
+    	this.name = name;
         this.value = value;
     }
 
 	@Override
-	public void accept(IUniformHandle handle) {
-        assert (value != null) : "Uniform '" + handle.getName() + "' is empty";
-        handle.getShader().getGl().glUniform1f(handle.getLocation(), value);
+	public void accept(IShaderProgram shader) {
+        assert (value != null) : "Uniform '" + name + "' is empty";
+        shader.getGl().glUniform1f(shader.getUniformLocation(name), value);
 	}
 
 }

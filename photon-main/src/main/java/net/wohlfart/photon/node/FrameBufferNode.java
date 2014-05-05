@@ -1,7 +1,7 @@
 package net.wohlfart.photon.node;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Collection;
+import java.util.HashSet;
 
 import javax.vecmath.Matrix4f;
 
@@ -37,7 +37,7 @@ public class FrameBufferNode implements IRenderNode {
 
     protected ISortToken sortToken = new SortToken();
 
-    protected final Map<String, IUniformValue> uniforms = new HashMap<String, IUniformValue>();
+    protected final Collection<IUniformValue> uniforms = new HashSet<IUniformValue>();
 
     protected IGeometry geometry; // = new Quad(2); //createGeometry();
 
@@ -51,7 +51,7 @@ public class FrameBufferNode implements IRenderNode {
        // uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
     	geometry = createGeometry();
     	model2WorldMatrix.setIdentity();
-        uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(model2WorldMatrix));
+        uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, model2WorldMatrix));
     }
 
     @Override
@@ -69,7 +69,7 @@ public class FrameBufferNode implements IRenderNode {
         // rendering the quad last, maybe we need to put it in the render cache in order to be sorted...
         renderer.setRenderConfig(ShaderIdent.TEXTURE_SHADER_ID, renderConfig);
         //uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getTextureHandle()));
-        uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getDepthBufferHandle()));
+        uniforms.add(new TextureHandleValue(ShaderParser.TEXTURE01, frameBufferObject.getDepthBufferHandle()));
         //uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
         renderer.setUniformValues(uniforms);
         renderer.drawGeometry(geometry);

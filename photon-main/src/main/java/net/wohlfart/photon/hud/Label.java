@@ -73,9 +73,9 @@ public class Label extends AbstractRenderElement implements IComponent {
 			renderConfig = IRenderConfig.BLENDING_ON;
 			charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
 			geometry = createTextGeometry();
-			getUniformValues().put(ShaderParser.TEXTURE01, new TextureValue(charData.getCharTexture()));
+			getUniformValues().add(new TextureValue(ShaderParser.TEXTURE01, charData.getCharTexture()));
 			Matrix4f modelMatrix = createModelMatrix(layoutManager, getModel2WorldMatrix());
-			getUniformValues().put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new Matrix4fValue(modelMatrix));
+			getUniformValues().add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, modelMatrix));
 		}
 	}
 
