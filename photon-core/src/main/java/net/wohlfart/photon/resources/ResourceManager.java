@@ -6,6 +6,9 @@ import java.util.Map;
 import net.wohlfart.photon.shader.ShaderFactory;
 import net.wohlfart.photon.texture.TextureFactory;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 /**
  * responsible for caching the resources,
@@ -15,7 +18,9 @@ import net.wohlfart.photon.texture.TextureFactory;
  * check if we can do some async magic here
  */
 public enum ResourceManager {
-	 INSTANCE;
+	INSTANCE;
+
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ResourceManager.class);
 
     private final Map<Class<?>, ResourceProducer<?, ?>> delegates = new HashMap<Class<?>, ResourceProducer<?, ?>>();
 
@@ -40,9 +45,11 @@ public enum ResourceManager {
         HashKey<R, K> lookup = new HashKey<R,K>(clazz, key);
         R result = clazz.cast(resourceCache.get(lookup));
         if (result != null) {
+        	LOGGER.debug("returning cached resource for '{}'", key);
             return result;
         }
 
+    	LOGGER.debug("using producer to create resource for '{}'", key);
         ResourceProducer<R,K> producer = (ResourceProducer<R,K>) delegates.get(clazz);
         if (producer == null) {
             throw new ResourceException("no delegate found to load class of type " + clazz);

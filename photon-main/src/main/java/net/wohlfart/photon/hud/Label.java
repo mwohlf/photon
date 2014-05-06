@@ -23,7 +23,6 @@ import net.wohlfart.photon.render.IRenderer;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.shader.Matrix4fValue;
-import net.wohlfart.photon.shader.ShaderIdentifier;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureValue;
 import net.wohlfart.photon.tools.Perspective;
@@ -69,7 +68,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 	private void refresh() {
 		LayoutStrategy<? extends LayoutConstraints> layoutManager = container.getLayoutManager();
 		if (layoutManager.isDirty() || this.isDirty) {
-			shaderId = ShaderIdentifier.create("shader/texture.vert", "shader/texture.frag");
+			shaderId = ShaderIdent.TEXTURE_SHADER_ID;
 			renderConfig = IRenderConfig.BLENDING_ON;
 			charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
 			geometry = createTextGeometry();

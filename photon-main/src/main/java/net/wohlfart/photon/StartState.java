@@ -6,8 +6,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.entity.CubeEntity;
-import net.wohlfart.photon.entity.Earth;
+import net.wohlfart.photon.entity.SpriteCloud;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -79,23 +78,21 @@ public class StartState implements IState {
 	@Override
 	public void init() {
 
-		sceneGraph.setup( /*
-				new Skybox(),
-				new ProceduralCelestial().withPosition(0, 0, -30).withCorona(new Corona().withThinkness(.2f)),
-				new SphereEntity().withPosition(0, 0, -10),
-				new QuadEntity().withPosition(new Vector3d(+15, 0, 0)),
-				new CubeEntity(1).withPosition(0,0,-2),
-				new CubeEntity(1).withPosition(0,0,-3f),
-				new CubeEntity(1).withPosition(0,0,-4f),
-				new CubeEntity(1).withPosition(0,0,-5f),
-				new CubeEntity(1).withPosition(0,0,-6f),
-				new SimpleLayer(),
-				new SphereEntity().withPosition(0, 0, -10) */
-
-				new Earth().withPosition(0, 0, -20),
-			//	new SpriteCloud(),
-				new CubeEntity(1).withPosition(0,0,-1)
-
+		sceneGraph.setup(
+			//	new Skybox()
+			//	new ProceduralCelestial().withPosition(0, 0, -30).withCorona(new Corona().withThinkness(.2f)),
+			//	new SphereEntity().withPosition(0, 0, -10),
+			//	new QuadEntity().withPosition(new Vector3d(+15, 0, 0))
+			//	new CubeEntity(1).withPosition(0,0,-2),
+			//	new CubeEntity(1).withPosition(0,0,-3f),
+			//	new CubeEntity(1).withPosition(0,0,-4f),
+			//	new CubeEntity(1).withPosition(0,0,-5f),
+			//	new CubeEntity(1).withPosition(0,0,-6f),
+			//	new SimpleLayer(),
+			//	new SphereEntity().withPosition(0, 0, -10)
+			//	new Earth().withPosition(0, 0, -20)
+				new SpriteCloud()
+			//	new CubeEntity(1).withPosition(0,0,-1)
 		);
 
 		// --- unchecked ---

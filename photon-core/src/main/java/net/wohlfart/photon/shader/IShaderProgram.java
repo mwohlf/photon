@@ -27,7 +27,7 @@ public interface IShaderProgram {
 
 	void useUniforms(Collection<IUniformValue> uniformValues);
 
-	int getUniformLocation(String name);
+	Integer getUniformLocation(String name);
 
 	void useAttributes(VertexFormat vertexFormat);
 
@@ -71,8 +71,8 @@ public interface IShaderProgram {
 		}
 
 		@Override
-		public int getUniformLocation(String name) {
-			return -1;
+		public Integer getUniformLocation(String name) {
+			return null;
 		}
 
 		@Override

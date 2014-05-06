@@ -7,8 +7,8 @@ import net.wohlfart.photon.hud.txt.ICharAtlas.IFontIdentifier;
 import net.wohlfart.photon.resources.ResourceTool;
 
 public class FontIdentifier implements IFontIdentifier {
-    private URI fontResource;
-    private float points;
+    private final URI fontResource;
+    private final float points;
 
     public static FontIdentifier create(String path, float points) {
         try {
@@ -18,7 +18,7 @@ public class FontIdentifier implements IFontIdentifier {
             throw new IllegalStateException("can't resolve URL", ex);
         }
     }
-  
+
     private FontIdentifier(URI fontResource, float points) {
         this.fontResource = fontResource;
         this.points = points;
@@ -33,5 +33,11 @@ public class FontIdentifier implements IFontIdentifier {
     public float getPoints() {
         return points;
     }
+
+	@Override
+	public String toString() {
+		return "FontIdentifier [fontResource=" + fontResource
+				+ ", points=" + points + "]";
+	}
 
 }

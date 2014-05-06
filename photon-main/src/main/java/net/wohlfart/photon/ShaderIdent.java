@@ -36,4 +36,10 @@ public enum ShaderIdent implements IShaderProgramIdentifier {
 		return fragmentShaderResource;
 	}
 
+	@Override
+	public String toString() {
+		return "ShaderIdent [vertexShaderResource=" + vertexShaderResource
+				+ ", fragmentShaderResource=" + fragmentShaderResource + "]";
+	}
+
 }

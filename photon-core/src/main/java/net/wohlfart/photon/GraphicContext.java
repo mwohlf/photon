@@ -64,7 +64,7 @@ public class GraphicContext implements IGraphicContext {
 	}
 
 	// setup shader and state for the next render run
-	// shader and state are not changed in they have already been set in the previous run
+	// shader and state are not changed if they have already been set in the previous run
 	// this also calls the bind method with the current OpenGl context on the shader if the shader is new
 	// this is the only way to let the shader know the current OpenGL context
 	@Override
@@ -81,13 +81,14 @@ public class GraphicContext implements IGraphicContext {
 		}
 	}
 
-	// configure the shader uniforms and textures
+	// configure the shader's uniforms and textures
 	@Override
 	public void setUniformValues(Collection<IUniformValue> newUniformValues) {
 		uniformValues.addAll(newUniformValues);
 		currentShader.useUniforms(uniformValues);
 	}
 
+	// set or unset a framebuff as rendering target
 	@Override
 	public void setFrameBuffer(IFrameBuffer frameBuffer) {
 

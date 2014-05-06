@@ -75,4 +75,10 @@ public class TextureIdentifier implements ITextureIdentifier {
         return true;
     }
 
+	@Override
+	public String toString() {
+		return "TextureIdentifier [textureResource=" + textureResource
+				+ "]";
+	}
+
 }

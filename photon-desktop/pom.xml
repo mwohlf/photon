@@ -49,7 +49,7 @@
 	<build>
 
 		<plugins>
-
+<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>exec-maven-plugin</artifactId>
@@ -66,8 +66,9 @@
 					</execution>
 				</executions>
 			</plugin>
+-->
 
-
+<!-- minimizeJar doesn't work with dagger it seems
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-shade-plugin</artifactId>
@@ -85,12 +86,12 @@
 									<mainClass>net.wohlfart.photon.DesktopStart</mainClass>
 								</transformer>
 							</transformers>
-							<minimizeJar>false</minimizeJar> <!-- true doesn't work with dagger -->
+							<minimizeJar>false</minimizeJar>
 							<filters>
 								<filter>
 									<artifact>*:*</artifact>
 									<excludes>
-										<exclude>*.dll</exclude> <!-- we need to put them in subdirs for jogamp -->
+										<exclude>*.dll</exclude>
 										<exclude>*.so</exclude>
 										<exclude>*.jnilib</exclude>
 									</excludes>
@@ -100,6 +101,7 @@
 					</execution>
 				</executions>
 			</plugin>
+			-->
 
 		</plugins>
 

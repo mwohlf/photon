@@ -10,6 +10,7 @@ import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.shader.IUniformValue.NullValue;
+import net.wohlfart.photon.texture.ITexture;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +67,10 @@ public class ShaderProgram implements IShaderProgram {
 
 	@Override
 	public int nextTextureSlot() {
-		return ++currentTextureSlot;  // TODO: return -1 when we are out of texture slots
+		assert ITexture.TEXTURE_SLOTS.length > currentTextureSlot: "running out of texture slots";
+		currentTextureSlot += 1;
+		LOGGER.debug("returning next texture slot which is '{}' ", currentTextureSlot);
+		return currentTextureSlot;  // TODO: return -1 when we are out of texture slots
 	}
 
 	@Override
@@ -77,6 +81,7 @@ public class ShaderProgram implements IShaderProgram {
 		LOGGER.debug("binding programId '{}' ", programId);
 		gl.glUseProgram(programId);
 		this.gl = gl;
+		LOGGER.debug("resetting texture slot from '{}' to '-1'", currentTextureSlot);
 		this.currentTextureSlot = -1; // resetting texture slot count
 	}
 
@@ -141,7 +146,7 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	@Override
-	public int getUniformLocation(String name) {
+	public Integer getUniformLocation(String name) {
 		return uniformLocations.get(name);
 	}
 

@@ -11,7 +11,7 @@ public class ShaderIdentifier implements IShaderProgramIdentifier {
     private final URI vertexShaderResource;
     private final URI fragmentShaderResource;
 
-    public static final ShaderIdentifier create(String vertexShaderResource, String fragmentShaderResource) {
+    private static final ShaderIdentifier create(String vertexShaderResource, String fragmentShaderResource) {
         try {
             return new ShaderIdentifier(
                     new URI(ResourceTool.FILE_SCHEME + ":///" + vertexShaderResource),
@@ -21,7 +21,7 @@ public class ShaderIdentifier implements IShaderProgramIdentifier {
         }
     }
 
-    protected ShaderIdentifier(URI vertexShaderResource, URI frgamentShaderResource) {
+    private ShaderIdentifier(URI vertexShaderResource, URI frgamentShaderResource) {
         assert vertexShaderResource != null;
         assert frgamentShaderResource != null;
         this.vertexShaderResource = vertexShaderResource;
