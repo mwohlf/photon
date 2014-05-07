@@ -76,9 +76,10 @@ public class ShaderProgram implements IShaderProgram {
 	@Override
 	public void bind(GL2ES2 gl) {
 		if (programId == -1) {
+			LOGGER.debug("not binding the shader since programId is -1");
 			setup(gl);
 		}
-		LOGGER.debug("binding programId '{}' ", programId);
+		LOGGER.debug("binding shaderProgramId '{}' ", programId);
 		gl.glUseProgram(programId);
 		this.gl = gl;
 		LOGGER.debug("resetting texture slot from '{}' to '-1'", currentTextureSlot);

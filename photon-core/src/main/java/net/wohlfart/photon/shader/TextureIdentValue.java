@@ -6,12 +6,17 @@ import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
 public class TextureIdentValue extends AbstractTextureValue {
 
-	private final ITextureIdentifier textureIdentifier;
 	private final String name;
+	private final ITextureIdentifier textureIdentifier;
 
 	public TextureIdentValue(String name, ITextureIdentifier textureIdentifier) {
 		this.name = name;
 		this.textureIdentifier = textureIdentifier;
+	}
+
+	@Override
+	public String getKey() {
+		return name;
 	}
 
 	@Override

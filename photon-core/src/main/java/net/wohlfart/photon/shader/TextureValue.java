@@ -4,12 +4,17 @@ import net.wohlfart.photon.texture.ITexture;
 
 public class TextureValue extends AbstractTextureValue {
 
-	private final ITexture texture;
 	private final String name;
+	private final ITexture texture;
 
 	public TextureValue(String name, ITexture texture) {
 		this.name = name;
 		this.texture = texture;
+	}
+
+	@Override
+	public String getKey() {
+		return name;
 	}
 
 	@Override

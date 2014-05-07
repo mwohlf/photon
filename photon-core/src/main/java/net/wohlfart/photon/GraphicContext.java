@@ -1,7 +1,8 @@
 package net.wohlfart.photon;
 
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
@@ -38,7 +39,7 @@ public class GraphicContext implements IGraphicContext {
 
 	private final Perspective perspective = new Perspective();
 
-	private final Collection<IUniformValue> uniformValues = new HashSet<IUniformValue>(); // contains uniforms and textures
+	private final Map<String, IUniformValue> uniformValues = new HashMap<String, IUniformValue>(); // contains uniforms and textures
 
 	private RenderConfigImpl currentConfig = RenderConfigImpl.NULL_CONFIG;
 
@@ -84,8 +85,10 @@ public class GraphicContext implements IGraphicContext {
 	// configure the shader's uniforms and textures
 	@Override
 	public void setUniformValues(Collection<IUniformValue> newUniformValues) {
-		uniformValues.addAll(newUniformValues);
-		currentShader.useUniforms(uniformValues);
+		for (IUniformValue uniformValue : newUniformValues) {
+			uniformValues.put(uniformValue.getKey(), uniformValue);
+		}
+		currentShader.useUniforms(uniformValues.values());
 	}
 
 	// set or unset a framebuff as rendering target
@@ -126,7 +129,7 @@ public class GraphicContext implements IGraphicContext {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		for (IUniformValue entry : uniformValues) {
+		for (Map.Entry<String, IUniformValue> entry : uniformValues.entrySet()) {
 			builder.append(" " + entry);
 		}
 		builder.append(readGlInfo());

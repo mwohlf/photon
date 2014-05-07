@@ -110,10 +110,10 @@ public class SpriteCloud implements IEntity {
 		}
 
 		private void setupBufferData() {
-	        currentVertex.withPosition(+0.5f, +0.5f, -1.5f);
-	        currentVertex.withPosition(-0.5f, +0.5f, -1.5f);
-	        currentVertex.withPosition(-0.5f, -0.5f, -1.5f);
-	        currentVertex.withPosition(+0.5f, -0.5f, -1.5f);
+	        currentVertex.withPosition(+0.5f, +0.5f, -1.1f);
+	        currentVertex.withPosition(-0.5f, +0.5f, -1.1f);
+	        currentVertex.withPosition(-0.5f, -0.5f, -1.1f);
+	        currentVertex.withPosition(+0.5f, -0.5f, -1.1f);
 		}
 
     }

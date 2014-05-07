@@ -8,8 +8,13 @@ public class TextureHandleValue extends AbstractTextureValue {
 
 	public TextureHandleValue(String name, int textureHandle) {
 		assert textureHandle > -1;
-		this.textureHandle = textureHandle;
 		this.name = name;
+		this.textureHandle = textureHandle;
+	}
+
+	@Override
+	public String getKey() {
+		return name;
 	}
 
 	@Override
@@ -18,7 +23,7 @@ public class TextureHandleValue extends AbstractTextureValue {
 	}
 
 	@Override
-	int getLocation(IShaderProgram shader) {
+	public int getLocation(IShaderProgram shader) {
 		// TODO Auto-generated method stub
 		return 0;
 	}

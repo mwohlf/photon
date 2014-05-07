@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 public class FloatValue implements IUniformValue {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(FloatValue.class);
 
-
     private final Float value;
     private final String name;
 
@@ -15,6 +14,11 @@ public class FloatValue implements IUniformValue {
     	this.name = name;
         this.value = value;
     }
+
+	@Override
+	public String getKey() {
+		return name;
+	}
 
 	@Override
 	public void accept(IShaderProgram shader) {
