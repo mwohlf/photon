@@ -80,6 +80,7 @@ public class GraphicContext implements IGraphicContext {
 			currentShader = newShader;
 			currentShader.bind(gl);
 		}
+		currentShader.reset();
 	}
 
 	// configure the shader's uniforms and textures

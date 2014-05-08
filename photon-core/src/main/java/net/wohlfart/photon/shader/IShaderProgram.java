@@ -7,6 +7,7 @@ import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 
+// TODO: reduce methods
 public interface IShaderProgram {
 
 
@@ -34,6 +35,8 @@ public interface IShaderProgram {
 	void unbind();
 
 	void dispose();
+
+	void reset();
 
 	int nextTextureSlot();
 
@@ -83,6 +86,12 @@ public interface IShaderProgram {
 		@Override
 		public int nextTextureSlot() {
 			return -1;
+		}
+
+		@Override
+		public void reset() {
+			// TODO Auto-generated method stub
+
 		}
 
 	}

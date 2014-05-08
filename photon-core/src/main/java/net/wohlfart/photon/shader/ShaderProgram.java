@@ -74,6 +74,12 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	@Override
+	public void reset() {
+		LOGGER.debug("resetting texture slot from '{}' to '-1'", currentTextureSlot);
+		this.currentTextureSlot = -1; // resetting texture slot count
+	}
+
+	@Override
 	public void bind(GL2ES2 gl) {
 		if (programId == -1) {
 			LOGGER.debug("not binding the shader since programId is -1");
@@ -82,8 +88,6 @@ public class ShaderProgram implements IShaderProgram {
 		LOGGER.debug("binding shaderProgramId '{}' ", programId);
 		gl.glUseProgram(programId);
 		this.gl = gl;
-		LOGGER.debug("resetting texture slot from '{}' to '-1'", currentTextureSlot);
-		this.currentTextureSlot = -1; // resetting texture slot count
 	}
 
 	// delayed since the OpenGL context needs to be up in order for this to work
