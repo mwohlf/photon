@@ -9,7 +9,6 @@ import java.util.Set;
 import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
-import net.wohlfart.photon.shader.IUniformValue.NullValue;
 import net.wohlfart.photon.texture.ITexture;
 
 import org.slf4j.Logger;
@@ -243,7 +242,7 @@ public class ShaderProgram implements IShaderProgram {
 		for (int i = 0; i < len; ++i) {
 			gl.glGetActiveUniform(programId, i, strLen, nameLenBuffer, 0, sizeBuffer, 0, typeBuffer, 0, nameBuffer, 0);
 			String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
-			uniformValues.put(name, new NullValue());
+			uniformValues.put(name, IUniformValue.UNIFORM_NULL_VALUE);
 			int location = gl.glGetUniformLocation(programId, name);
 			uniformLocations.put(name, location);
 			LOGGER.info("found uniform name: " + name);
