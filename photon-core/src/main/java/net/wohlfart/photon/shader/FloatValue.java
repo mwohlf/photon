@@ -23,11 +23,11 @@ public class FloatValue implements IUniformValue {
 	@Override
 	public void accept(IShaderProgram shader) {
         assert (value != null) : "Uniform '" + name + "' is empty";
-        Integer location = shader.getUniformLocation(name);
+        final Integer location = shader.getUniformLocation(name);
         if (location != null) {
             shader.getGl().glUniform1f(location, value);
         } else {
-        	LOGGER.info("no location found for '{}' value was '{}'", name, value);
+        	LOGGER.debug("no location found for '{}' value was '{}', shaderId is '{}'", name, value, shader.getId());
         }
 	}
 

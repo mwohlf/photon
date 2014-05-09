@@ -71,7 +71,7 @@ public class FrameBufferNode implements IRenderNode {
         //uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getTextureHandle()));
         uniforms.add(new TextureHandleValue(ShaderParser.TEXTURE01, frameBufferObject.getDepthBufferHandle()));
         //uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
-        renderer.setUniformValues(uniforms);
+        renderer.addUniformValues(uniforms);
         renderer.drawGeometry(geometry);
 
     }

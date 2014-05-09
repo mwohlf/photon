@@ -43,7 +43,7 @@ public class GraphicContext implements IGraphicContext {
 
 	private RenderConfigImpl currentConfig = RenderConfigImpl.NULL_CONFIG;
 
-	private IShaderProgram currentShader = ShaderProgram.NULL_SHADER;
+	private IShaderProgram currentShader = IShaderProgram.NULL_SHADER;
 
 	// see: http://forum.jogamp.org/What-profile-to-choose-td3575514.html
 	private GL2ES2 gl;
@@ -69,23 +69,26 @@ public class GraphicContext implements IGraphicContext {
 	// this also calls the bind method with the current OpenGl context on the shader if the shader is new
 	// this is the only way to let the shader know the current OpenGL context
 	@Override
-	public void setRenderConfig(IShaderProgramIdentifier newShaderId, IRenderConfig<RenderConfigImpl> newConfig) {
-		IShaderProgram newShader = ResourceManager.loadResource(IShaderProgram.class, newShaderId);
+	public void setRenderConfig(IShaderProgramIdentifier newShaderIdent, IRenderConfig<RenderConfigImpl> newConfig) {
+		IShaderProgram newShader = ResourceManager.loadResource(IShaderProgram.class, newShaderIdent);
+		// no need to update the state if it didn't change
 		if (!currentConfig.equals(newConfig)) {
-			// no need to update the state if it didn't change
 			currentConfig = newConfig.updateValues(gl, currentConfig);
 		}
 		if (!currentShader.equals(newShader)) {
+			LOGGER.debug("switching shaders '{}' -> '{}'", currentShader.getId(), newShader.getId());
 			currentShader.unbind();
 			currentShader = newShader;
 			currentShader.bind(gl);
+		} else {
+			LOGGER.debug("not switching shaders, shader id is still the same '{}'", currentShader.getId());
 		}
 		currentShader.reset();
 	}
 
 	// configure the shader's uniforms and textures
 	@Override
-	public void setUniformValues(Collection<IUniformValue> newUniformValues) {
+	public void addUniformValues(Collection<IUniformValue> newUniformValues) {
 		for (IUniformValue uniformValue : newUniformValues) {
 			uniformValues.put(uniformValue.getKey(), uniformValue);
 		}

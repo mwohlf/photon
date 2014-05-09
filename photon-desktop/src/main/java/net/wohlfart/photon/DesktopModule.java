@@ -1,19 +1,45 @@
 package net.wohlfart.photon;
 
+import java.awt.Component;
+
+import javax.inject.Singleton;
+
+import net.wohlfart.photon.events.PoolEventBus;
+import net.wohlfart.photon.render.RendererImpl;
+import net.wohlfart.photon.time.ClockImpl;
+import net.wohlfart.photon.time.TimerImpl;
 import dagger.Module;
+import dagger.Provides;
 
 
 @Module(
-	includes = {CoreModule.class, SceneModule.class},
 	injects = {DesktopStart.class},
 	library = false
 )
 public class DesktopModule {
 
-	// this module contains desktop specific view and input objects
-
-
 	// a nice intro to dagger:
 	// http://musingsofaprogrammingaddict.blogspot.de/2012/11/dagger-new-java-dependency-injection.html
+	private final ClockImpl clockImpl = new ClockImpl();
+
+	@Provides @Singleton
+	public PoolEventBus providePoolEventBus() {
+		return new PoolEventBus();
+	}
+
+	@Provides
+	public OpenGlCanvas<Component> provideOpenGlCanvas() {
+		return new OpenGlCanvas<Component>();
+	}
+
+	@Provides
+	public RendererImpl providesRendererImpl() {
+		return new RendererImpl();
+	}
+
+	@Provides
+	TimerImpl provideTimer() {
+		return new TimerImpl(clockImpl);
+	}
 
 }

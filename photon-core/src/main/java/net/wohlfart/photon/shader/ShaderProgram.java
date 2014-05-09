@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.media.opengl.GL2ES2;
 
@@ -21,25 +20,21 @@ import com.jogamp.common.nio.Buffers;
  *
  * see: https://github.com/mattdesl/lwjgl-basics/blob/master/src/mdesl/graphics/glutils/ShaderProgram.java
  *
- * TODO: use ShaderUtil to check for errors
  */
 public class ShaderProgram implements IShaderProgram {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(ShaderProgram.class);
 
-	public static final IShaderProgram NULL_SHADER = new IShaderProgram.NullShader();
-
-	private final String vertexShaderCode;
-	private final String fragmentShaderCode;
+	private int shaderId = -1;
 
 	private int vertexShaderId = -1;
 	private int fragmentShaderId = -1;
 
-	private int programId = -1;
+	private final String vertexShaderCode;
+	private final String fragmentShaderCode;
 
 	// mapping the uniform name to value and location
 	private final Map<String, IUniformValue> uniformValues = new HashMap<String, IUniformValue>();
 	private final Map<String, Integer> uniformLocations = new HashMap<String, Integer>();
-
 
 	private final Map<String, AttributeHandle> attributeHandles = new HashMap<String, AttributeHandle>();
 
@@ -56,7 +51,7 @@ public class ShaderProgram implements IShaderProgram {
 
 	@Override
 	public int getId() {
-		return programId;
+		return shaderId;
 	}
 
 	@Override
@@ -74,18 +69,18 @@ public class ShaderProgram implements IShaderProgram {
 
 	@Override
 	public void reset() {
-		LOGGER.debug("resetting texture slot from '{}' to '-1'", currentTextureSlot);
+		LOGGER.debug("resetting texture slot from '{}' to '-1' ins shader '{}'", currentTextureSlot, shaderId);
 		this.currentTextureSlot = -1; // resetting texture slot count
 	}
 
 	@Override
 	public void bind(GL2ES2 gl) {
-		if (programId == -1) {
+		if (shaderId == -1) {
 			LOGGER.debug("not binding the shader since programId is -1");
 			setup(gl);
 		}
-		LOGGER.debug("binding shaderProgramId '{}' ", programId);
-		gl.glUseProgram(programId);
+		LOGGER.debug("binding shaderProgramId '{}' ", shaderId);
+		gl.glUseProgram(shaderId);
 		this.gl = gl;
 	}
 
@@ -95,6 +90,7 @@ public class ShaderProgram implements IShaderProgram {
 		fragmentShaderId = loadShader(gl, fragmentShaderCode, GL2ES2.GL_FRAGMENT_SHADER);
 		linkAndValidate(gl, vertexShaderId, fragmentShaderId);
 
+		LOGGER.info("shader validated, shader id was '{}', now checking uniforms and attributes", shaderId);
 		findUniforms(gl);
 		findAttributes(gl);
 	}
@@ -108,14 +104,14 @@ public class ShaderProgram implements IShaderProgram {
 	@Override
 	public void dispose() {
 		unlink(vertexShaderId, fragmentShaderId);
-		gl.glDeleteProgram(programId);
+		gl.glDeleteProgram(shaderId);
 	}
 
 	@Override
 	public String toString() {
 		return this.getClass().getSimpleName() + " [vertexShaderId=" + vertexShaderId
 				+ ", fragmentShaderId=" + fragmentShaderId
-				+ ", programId=" + programId + "]";
+				+ ", programId=" + shaderId + "]";
 	}
 
 	@Override
@@ -157,46 +153,35 @@ public class ShaderProgram implements IShaderProgram {
 	protected void unlink(int... handles) {
 		gl.glUseProgram(0);
 		for (final int handle : handles) {
-			gl.glDetachShader(programId, handle);
+			gl.glDetachShader(shaderId, handle);
 		}
 		for (final int handle : handles) {
 			gl.glDeleteShader(handle);
 		}
 	}
 
-	private AttributeHandle getVertexAttributeHandle(String string) {
-		return attributeHandles.get(string);
-	}
-
-	private Set<String> getVertexAttributeHandleNames() {
-		return attributeHandles.keySet();
-	}
-
 	private int loadShader(GL2ES2 gl, final String code, int shaderType) {
 		LOGGER.debug("loading shader, type is '{}'", shaderType);
-		int shader = 0;
 
-
-		shader = gl.glCreateShader(shaderType);
+		int shader = gl.glCreateShader(shaderType);
 		if (shader == 0) {
 			throw new ShaderException("glCreateShader returned 0");
 		}
 		gl.glShaderSource(shader, 1, new String[] { code }, (int[]) null, 0);
 		gl.glCompileShader(shader);
-		checkCompileStatus(gl, shader);
+		checkCompileStatus(gl, shader); // throws illegal state exception
+		LOGGER.info("shader compiled, shader id was '{}', type is '{}'", shader, shaderType);
 		return shader;
 	}
 
 	private void checkCompileStatus(GL2ES2 gl, int shader) {
-		int[] compiled = new int[1];
+		final int[] compiled = new int[1];
 		gl.glGetShaderiv(shader, GL2ES2.GL_COMPILE_STATUS, compiled, 0);
-		if (compiled[0]!=0) {
-			LOGGER.info("shader compiled, shader id was '{}'", shader);
-		} else {
-			int[] logLength = new int[1];
+		if (compiled[0] == 0) {
+			final int[] logLength = new int[1];
 			gl.glGetShaderiv(shader, GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
-			byte[] log = new byte[logLength[0]];
+			final byte[] log = new byte[logLength[0]];
 			gl.glGetShaderInfoLog(shader, logLength[0], (int[])null, 0, log, 0);
 
 			throw new IllegalStateException(new String(log));
@@ -208,18 +193,18 @@ public class ShaderProgram implements IShaderProgram {
 		int error = gl.glGetError();
 		if (error != GL2ES2.GL_NO_ERROR) {// @formatter:off
 			throw new ShaderException("" + "error before linking shader, error string is '" + "" + "' \n" + "programmId is '"
-					+ programId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
+					+ shaderId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
 		}
-		programId = gl.glCreateProgram();
+		shaderId = gl.glCreateProgram();
 		for (final int handle : handles) {
-			gl.glAttachShader(programId, handle);
+			gl.glAttachShader(shaderId, handle);
 		}
-		gl.glLinkProgram(programId);
-		gl.glValidateProgram(programId);
+		gl.glLinkProgram(shaderId);
+		gl.glValidateProgram(shaderId);
 		error = gl.glGetError();
 		if (error != GL2ES2.GL_NO_ERROR) {// @formatter:off
 			throw new ShaderException("" + "error validating shader, error string is '" + "" + "' \n" + "programmId is '"
-					+ programId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
+					+ shaderId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
 		}
 	}
 
@@ -229,10 +214,10 @@ public class ShaderProgram implements IShaderProgram {
 
 		final int[] iBuff = new int[1];
 
-		gl.glGetProgramiv(programId, GL2ES2.GL_ACTIVE_UNIFORMS, iBuff, 0);
+		gl.glGetProgramiv(shaderId, GL2ES2.GL_ACTIVE_UNIFORMS, iBuff, 0);
 		final int len = iBuff[0];
 
-		gl.glGetProgramiv(programId, GL2ES2.GL_ACTIVE_UNIFORM_MAX_LENGTH, iBuff, 0);
+		gl.glGetProgramiv(shaderId, GL2ES2.GL_ACTIVE_UNIFORM_MAX_LENGTH, iBuff, 0);
 		final int strLen = iBuff[0];
 
 		final byte[] nameBuffer = new byte[strLen];
@@ -240,12 +225,12 @@ public class ShaderProgram implements IShaderProgram {
 		final int[] typeBuffer = new int[1];
 		final int[] nameLenBuffer = new int[1];
 		for (int i = 0; i < len; ++i) {
-			gl.glGetActiveUniform(programId, i, strLen, nameLenBuffer, 0, sizeBuffer, 0, typeBuffer, 0, nameBuffer, 0);
-			String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
+			gl.glGetActiveUniform(shaderId, i, strLen, nameLenBuffer, 0, sizeBuffer, 0, typeBuffer, 0, nameBuffer, 0);
+			final String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
+			final int location = gl.glGetUniformLocation(shaderId, name);
 			uniformValues.put(name, IUniformValue.UNIFORM_NULL_VALUE);
-			int location = gl.glGetUniformLocation(programId, name);
 			uniformLocations.put(name, location);
-			LOGGER.info("found uniform name: " + name);
+			LOGGER.info("found uniform name: '{}'", name);
 		}
 	}
 
@@ -253,10 +238,10 @@ public class ShaderProgram implements IShaderProgram {
 		// see: http://forum.jogamp.org/getActiveAttrib-name-offset-equals-or-exceeds-array-length-td4028207.html
 
 		final int[] iBuff = new int[1];
-		gl2.glGetProgramiv(programId, GL2ES2.GL_ACTIVE_ATTRIBUTES, iBuff, 0);
+		gl2.glGetProgramiv(shaderId, GL2ES2.GL_ACTIVE_ATTRIBUTES, iBuff, 0);
 		final int len = iBuff[0];
 
-		gl2.glGetProgramiv(programId, GL2ES2.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, iBuff, 0);
+		gl2.glGetProgramiv(shaderId, GL2ES2.GL_ACTIVE_ATTRIBUTE_MAX_LENGTH, iBuff, 0);
 		final int strLen = iBuff[0];
 
 		final byte[] nameBuffer = new byte[strLen];
@@ -264,18 +249,17 @@ public class ShaderProgram implements IShaderProgram {
 		final int[] typeBuffer = new int[1];
 		final int[] nameLenBuffer = new int[1];
 		for (int i = 0; i < len; ++i) {
-			gl2.glGetActiveAttrib(programId, i, strLen, nameLenBuffer, 0, sizeBuffer, 0, typeBuffer, 0, nameBuffer, 0);
-			String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
-			int location = gl2.glGetAttribLocation(programId, name);
-			AttributeHandle handle = new AttributeHandle(this.programId, name, sizeBuffer[0], typeBuffer[0], location);
+			gl2.glGetActiveAttrib(shaderId, i, strLen, nameLenBuffer, 0, sizeBuffer, 0, typeBuffer, 0, nameBuffer, 0);
+			final String name = new String(Arrays.copyOfRange(nameBuffer, 0, nameLenBuffer[0]));
+			final int location = gl2.glGetAttribLocation(shaderId, name);
+			final AttributeHandle handle = new AttributeHandle(this.shaderId, name, sizeBuffer[0], typeBuffer[0], location);
 			attributeHandles.put(name, handle);
-			LOGGER.info("created attribute handle: " + handle);
+			LOGGER.info("created attribute handle: '{}'", handle);
 		}
 	}
 
-	// TODO: compare shader attribute sizes with size from handler
 	private void setupAttribute(GL2ES2 gl, String attributeName, int attributeSize, int stride, int offset) {
-		AttributeHandle currentHandle = getVertexAttributeHandle(attributeName);
+		AttributeHandle currentHandle = attributeHandles.get(attributeName);
 		if (attributeSize > 0) {
 			if (currentHandle != null)  {
 				if (attributeSize == currentHandle.getAttributeSize()) {
@@ -286,7 +270,7 @@ public class ShaderProgram implements IShaderProgram {
 				}
 			} else {
 				LOGGER.info("attribute '{}' not found in shader '{}', available attribute names are {}",
-						attributeName, this, getVertexAttributeHandleNames());
+						attributeName, this, attributeHandles.keySet());
 			}
 		} else {
 			if (currentHandle != null)  {

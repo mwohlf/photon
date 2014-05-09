@@ -41,7 +41,7 @@ public interface IShaderProgram {
 	int nextTextureSlot();
 
 
-	public class NullShader implements IShaderProgram {
+	public static final IShaderProgram NULL_SHADER = new IShaderProgram() {
 
 		@Override
 		public int getId() {
@@ -94,6 +94,6 @@ public interface IShaderProgram {
 
 		}
 
-	}
+	};
 
 }

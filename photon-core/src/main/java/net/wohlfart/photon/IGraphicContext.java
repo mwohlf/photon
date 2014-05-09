@@ -14,9 +14,9 @@ public interface IGraphicContext {
 
 	void setFrameBuffer(IFrameBuffer frameBuffer);
 
-	void setRenderConfig(IShaderProgramIdentifier shaderId, IRenderConfig<RenderConfigImpl> newConfig);
+	void setRenderConfig(IShaderProgramIdentifier shaderIdent, IRenderConfig<RenderConfigImpl> newConfig);
 
-	void setUniformValues(Collection<IUniformValue> uniformValues);
+	void addUniformValues(Collection<IUniformValue> uniformValues);
 
 	void drawGeometry(IGeometry geometry);
 

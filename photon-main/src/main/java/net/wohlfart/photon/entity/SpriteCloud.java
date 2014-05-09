@@ -26,9 +26,12 @@ import net.wohlfart.photon.texture.TextureIdentifier;
 import net.wohlfart.photon.tools.MathTool;
 import net.wohlfart.photon.tools.Quaternion;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 // see: http://stackoverflow.com/questions/17397724/point-sprites-for-particle-system
-@SuppressWarnings("unused")
 public class SpriteCloud implements IEntity {
+	protected static final Logger LOGGER = LoggerFactory.getLogger(SpriteCloud.class);
 
 	public static final ITextureIdentifier TEXTURE_ID1 = TextureIdentifier.create("gfx/textures/texture.jpg");
 
@@ -123,9 +126,9 @@ public class SpriteCloud implements IEntity {
 
     	SpriteSet() {
     		super();
-    		shaderId = ShaderIdent.POINT_SPRITE_SHADER;
+    		shaderIdent = ShaderIdent.POINT_SPRITE_SHADER;
     		uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, TEXTURE_ID1));
-    		uniforms.add(new FloatValue(ShaderParser.UNIFORM_POINT_SIZE, 3f));
+    		uniforms.add(new FloatValue(ShaderParser.UNIFORM_POINT_SIZE, 30f));
     		geometry = new SpriteGeometry();
     		renderConfig = IRenderConfig.SPRITE_CLOUD;
     	}
@@ -137,8 +140,9 @@ public class SpriteCloud implements IEntity {
 
 		@Override
 		public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
-	        renderer.setRenderConfig(shaderId, renderConfig);
-	        renderer.setUniformValues(getUniformValues());
+			LOGGER.debug("setting shaderIdent '{}'", shaderIdent);
+	        renderer.setRenderConfig(shaderIdent, renderConfig);
+	        renderer.addUniformValues(getUniformValues());
 	        renderer.drawGeometry(getGeometry());
 		}
 

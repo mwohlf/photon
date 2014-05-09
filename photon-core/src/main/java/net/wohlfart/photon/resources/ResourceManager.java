@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
  * loading or creating is delegated to the factories
  *
  * TODO: somehow we need to keep track which resources are loaded in the GPU's memory...
- * check if we can do some async magic here
+ * also check if we can do some async magic here
  */
 public enum ResourceManager {
-	INSTANCE;
+	INSTANCE; // todo: remove the singleton
 
 	protected static final Logger LOGGER = LoggerFactory.getLogger(ResourceManager.class);
 

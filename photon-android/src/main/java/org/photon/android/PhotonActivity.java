@@ -6,7 +6,7 @@ import javax.media.opengl.GLProfile;
 
 import jogamp.newt.driver.android.NewtBaseActivity;
 import net.wohlfart.photon.LifecycleAdpator;
-import net.wohlfart.photon.SceneApplication;
+import net.wohlfart.photon.MainApplication;
 import net.wohlfart.photon.events.PoolEventBus;
 import net.wohlfart.photon.render.RendererImpl;
 import net.wohlfart.photon.state.StateManager;
@@ -50,7 +50,7 @@ public class PhotonActivity extends NewtBaseActivity {
 
 		this.setContentView(this.getWindow(), window);
 
-		final SceneApplication example = new SceneApplication(eventBus, timer, renderer, stateManager);
+		final MainApplication example = new MainApplication(eventBus, timer, renderer, stateManager);
 
 		window.addGLEventListener(new LifecycleAdpator(example));
 

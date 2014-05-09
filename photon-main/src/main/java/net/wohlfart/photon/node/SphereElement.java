@@ -21,14 +21,14 @@ public class SphereElement extends AbstractRenderElement {
 		SphereElement elem = new SphereElement();
 		elem.geometry = new Sphere(4, 2);
 		elem.renderConfig = IRenderConfig.DEFAULT_3D;
-		elem.shaderId = ShaderIdent.DEFAULT_SHADER_ID;
+		elem.shaderIdent = ShaderIdent.DEFAULT_SHADER_ID;
 		return elem;
 	}
 
 	public static SphereElement createSolid() {
 		SphereElement elem = new SphereElement();
 		elem.geometry = new Sphere(4, 6, IGeometry.VertexFormat.VERTEX_P3C0N0T2, IGeometry.StreamFormat.TRIANGLES);
-		elem.shaderId = ShaderIdent.VERTEX_LIGHT_SHADER;
+		elem.shaderIdent = ShaderIdent.VERTEX_LIGHT_SHADER;
 		elem.uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, TEXTURE_ID1));
 		elem.renderConfig = IRenderConfig.DEFAULT_3D;
 		return elem;

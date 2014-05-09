@@ -17,7 +17,7 @@ public class Corona extends AbstractRenderElement {
 
     public Corona() {
         renderConfig = IRenderConfig.DEFAULT_3D;
-        shaderId = ShaderIdent.DEFAULT_SHADER_ID;
+        shaderIdent = ShaderIdent.DEFAULT_SHADER_ID;
     }
 
     @Override // lazy create the geometry since we don't know the size in the constructor

@@ -4,7 +4,7 @@ in vec3 ${position};
 in vec2 ${texture};
 // in vec4 ${color};
 
-// uniform float ${pointSize};
+uniform float ${pointSize};
 uniform mat4 modelToWorldMatrix;     // modelMatrix
 uniform mat4 worldToCameraMatrix;    // viewMatrix
 uniform mat4 cameraToClipMatrix;     // projectionMatrix
@@ -24,8 +24,7 @@ void main(void) {
     // the homogeneous coordinates of the output vertex’s position
     gl_Position = cameraToClipMatrix * cameraPos;
    
-    //gl_PointSize = ${pointSize};
-	gl_PointSize = 20.0;
+    gl_PointSize = ${pointSize};
 
     // passColor = ${color};
     passColor = vec4(1.0, 1.0, 1.0, 1.0);

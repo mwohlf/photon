@@ -64,8 +64,8 @@ public class RendererImpl implements IRenderer {
 	}
 
 	@Override
-	public void setUniformValues(Collection<IUniformValue> uniformValues) {
-		graphicContext.setUniformValues(uniformValues);
+	public void addUniformValues(Collection<IUniformValue> uniformValues) {
+		graphicContext.addUniformValues(uniformValues);
 	}
 
 	@Override

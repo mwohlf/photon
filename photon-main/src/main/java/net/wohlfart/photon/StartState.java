@@ -6,8 +6,8 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import net.wohlfart.photon.entity.ProceduralCelestial;
-import net.wohlfart.photon.entity.Skybox;
+import net.wohlfart.photon.entity.Earth;
+import net.wohlfart.photon.entity.SpriteCloud;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -18,7 +18,6 @@ import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.hud.IScreenSizeListener;
-import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
@@ -80,22 +79,22 @@ public class StartState implements IState {
 	@Override
 	public void init() {
 
-		sceneGraph.setup(
+		sceneGraph.setup( new IEntity[] { /*
 				new Skybox(),
-				new ProceduralCelestial().withPosition(0, 0, -30).withCorona(new Corona().withThinkness(.2f))
-			//	new SphereEntity().withPosition(0, 0, -10),
-			//	new QuadEntity().withPosition(new Vector3d(+15, 0, 0))
-			//	new CubeEntity(1).withPosition(0,0,-2),
-			//	new CubeEntity(1).withPosition(0,0,-3f),
-			//	new CubeEntity(1).withPosition(0,0,-4f),
-			//	new CubeEntity(1).withPosition(0,0,-5f),
-			//	new CubeEntity(1).withPosition(0,0,-6f),
-			//	new SimpleLayer(),
-			//	new SphereEntity().withPosition(0, 0, -10),
-			//	new Earth().withPosition(0, 0, -20),
-			//	new SpriteCloud()
-			//	new CubeEntity(1).withPosition(0,0,-1)
-		);
+				new ProceduralCelestial().withPosition(0, 0, -30).withCorona(new Corona().withThinkness(.2f)),
+				new SphereEntity().withPosition(0, 0, -10),
+				new QuadEntity().withPosition(new Vector3d(+15, 0, 0)),
+				new CubeEntity(1).withPosition(0,0,-2),
+				new CubeEntity(1).withPosition(0,0,-3f),
+				new CubeEntity(1).withPosition(0,0,-4f),
+				new CubeEntity(1).withPosition(0,0,-5f),
+				new CubeEntity(1).withPosition(0,0,-6f),
+				new SimpleLayer(),
+				new SphereEntity().withPosition(0, 0, -10), */
+				new Earth().withPosition(0, 0, -20),
+				new SpriteCloud(),
+			//	new CubeEntity(1).withPosition(0,0,-1),
+		});
 
 		// --- unchecked ---
 

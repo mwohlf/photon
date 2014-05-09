@@ -18,7 +18,7 @@ public class CubeElement extends AbstractRenderElement {
 		CubeElement elem = new CubeElement();
 		elem.geometry = new Cube(side);
 		elem.renderConfig = IRenderConfig.DEFAULT_3D;
-		elem.shaderId = ShaderIdent.DEFAULT_SHADER_ID;
+		elem.shaderIdent = ShaderIdent.DEFAULT_SHADER_ID;
 		return elem;
 	}
 

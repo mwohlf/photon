@@ -167,7 +167,7 @@ public class Skybox implements IEntity {
             this.uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, textureId));
             this.renderConfig = RenderConfigImpl.SKYBOX;
             this.zOrder = Double.POSITIVE_INFINITY;
-            this.shaderId = ShaderIdent.SKYBOX_SHADER_ID;
+            this.shaderIdent = ShaderIdent.SKYBOX_SHADER_ID;
         }
 
     }

@@ -87,7 +87,7 @@ public abstract class AbstractCelestial extends AbstractEntity  {
             geometry = g;
             renderConfig = IRenderConfig.DEFAULT_3D;
             uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, texture));
-            shaderId = ShaderIdent.TEXTURE_SHADER_ID;
+            shaderIdent = ShaderIdent.TEXTURE_SHADER_ID;
         }
 
         @Override

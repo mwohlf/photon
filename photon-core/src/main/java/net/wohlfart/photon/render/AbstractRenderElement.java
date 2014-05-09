@@ -25,11 +25,11 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected final Matrix4f model2WorldMatrix =  new Matrix4f();
 
-    protected IShaderProgramIdentifier shaderId;
-
-    protected IGeometry geometry;
+    protected IShaderProgramIdentifier shaderIdent;
 
     protected IRenderConfig<RenderConfigImpl> renderConfig = IRenderConfig.DEFAULT;
+
+    protected IGeometry geometry;
 
     protected double zOrder = Double.NaN; // provided via the sort token
 
@@ -59,9 +59,9 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     @Override
     public void accept(IRenderer renderer, ITree<IRenderer.IRenderNode> tree) {
-    	assert shaderId != null : "need to set a shader id";
-        renderer.setRenderConfig(shaderId, renderConfig);
-        renderer.setUniformValues(getUniformValues());
+    	assert shaderIdent != null : "need to set a shader id";
+        renderer.setRenderConfig(shaderIdent, renderConfig);
+        renderer.addUniformValues(getUniformValues());
         renderer.drawGeometry(getGeometry());
         renderer.renderChildren(tree);
     }

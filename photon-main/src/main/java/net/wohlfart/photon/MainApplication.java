@@ -29,8 +29,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-public class SceneApplication implements ILifecycleListener {
-	private static final Logger LOGGER = LoggerFactory.getLogger(SceneApplication.class);
+public class MainApplication implements ILifecycleListener {
+	private static final Logger LOGGER = LoggerFactory.getLogger(MainApplication.class);
 
 	private final PoolEventBus eventBus;
 	private final TimerImpl timer;
@@ -41,7 +41,7 @@ public class SceneApplication implements ILifecycleListener {
 
 
 	@Inject
-	public SceneApplication(
+	public MainApplication(
 			PoolEventBus eventBus,
 			TimerImpl timer,
 			RendererImpl renderer,
@@ -79,7 +79,7 @@ public class SceneApplication implements ILifecycleListener {
 		worldToCamMatrix.setIdentity();
 		uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, worldToCamMatrix));
 
-		gfxCtx.setUniformValues(uniforms);
+		gfxCtx.addUniformValues(uniforms);
 		gfxCtx.setRenderConfig(ShaderIdent.DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
 
 		Properties prop = new Properties();
@@ -153,7 +153,7 @@ public class SceneApplication implements ILifecycleListener {
 
 		final Matrix4f cameraToClipMatrix = perspective.getPerspectiveMatrix();
 
-		renderer.setUniformValues(Collections.singleton(
+		renderer.addUniformValues(Collections.singleton(
 				(IUniformValue)new Matrix4fValue(ShaderParser.UNIFORM_CAM_2_CLIP_MTX,cameraToClipMatrix)));
 
 		eventBus.post(ResizeEvent.create(width - x, height - y));
