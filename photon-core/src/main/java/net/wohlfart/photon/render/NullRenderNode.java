@@ -1,8 +1,8 @@
 package net.wohlfart.photon.render;
 
+import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
-import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 
 public class NullRenderNode implements IRenderNode {
@@ -20,7 +20,7 @@ public class NullRenderNode implements IRenderNode {
 
     @Override
     public ISortToken getSortToken() {
-        return NodeSortStrategy.NULL_SORT_TOKEN;
+        return NodeSortStrategy.ZERO_SORT_TOKEN;
     }
 
     @Override

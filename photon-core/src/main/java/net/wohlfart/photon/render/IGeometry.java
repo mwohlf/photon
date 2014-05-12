@@ -29,6 +29,13 @@ import net.wohlfart.photon.shader.IShaderProgram;
  */
 public interface IGeometry {
 
+	public static final IGeometry NULL_GEOMETRY = new IGeometry() {
+		@Override
+		public void draw(IShaderProgram currentShader, GL2ES2 gl) {
+			// do nothing
+		}
+	};
+
     public enum VertexFormat {
 
         VERTEX_P2C0N0T0(2, 0, 0, 0),

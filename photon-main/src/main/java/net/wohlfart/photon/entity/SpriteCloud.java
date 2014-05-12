@@ -11,6 +11,7 @@ import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.ITree;
+import net.wohlfart.photon.graph.NodeSortStrategy;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
 import net.wohlfart.photon.render.AbstractRenderElement;
 import net.wohlfart.photon.render.Geometry;
@@ -41,9 +42,7 @@ public class SpriteCloud implements IEntity {
 
     protected final Quaternion rotation = new Quaternion();
 
-    protected final SortToken sortToken = new SortToken();
-
-	private final Set<SpriteSet> sprites;
+    protected final Set<SpriteSet> sprites;
 
     public SpriteCloud() {
     	sprites = Collections.singleton(new SpriteSet());
@@ -85,7 +84,6 @@ public class SpriteCloud implements IEntity {
             m.m31 = (float) position.y;
             m.m32 = (float) position.z;
             m.m33 = 1;
-            // spriteSet.setZOrder(zOrder);
         }
 
 	}
@@ -126,6 +124,7 @@ public class SpriteCloud implements IEntity {
 
     	SpriteSet() {
     		super();
+    		sortToken = NodeSortStrategy.ZERO_SORT_TOKEN;
     		shaderIdent = ShaderIdent.POINT_SPRITE_SHADER;
     		uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, TEXTURE_ID1));
     		uniforms.add(new FloatValue(ShaderParser.UNIFORM_POINT_SIZE, 30f));
@@ -145,21 +144,6 @@ public class SpriteCloud implements IEntity {
 	        renderer.addUniformValues(getUniformValues());
 	        renderer.drawGeometry(getGeometry());
 		}
-
-    }
-
-
-    public class SortToken implements ISortToken {
-
-        @Override
-        public boolean isTranslucent() {
-            return false;
-        }
-
-        @Override
-        public double getZOrder() {
-            return Double.POSITIVE_INFINITY;
-        }
 
     }
 

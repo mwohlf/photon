@@ -33,7 +33,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected double zOrder = Double.NaN; // provided via the sort token
 
-    protected SortToken sortToken = new SortToken();
+    protected ISortToken sortToken = new SortToken();
 
 
     protected AbstractRenderElement() {

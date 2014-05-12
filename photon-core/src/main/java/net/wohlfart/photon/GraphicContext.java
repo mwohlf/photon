@@ -89,6 +89,7 @@ public class GraphicContext implements IGraphicContext {
 	// configure the shader's uniforms and textures
 	@Override
 	public void addUniformValues(Collection<IUniformValue> newUniformValues) {
+		assert newUniformValues!= null : "uniforma values must not be null, use an empty collection instead";
 		for (IUniformValue uniformValue : newUniformValues) {
 			uniformValues.put(uniformValue.getKey(), uniformValue);
 		}
