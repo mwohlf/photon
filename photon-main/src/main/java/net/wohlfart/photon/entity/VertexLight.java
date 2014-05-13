@@ -1,6 +1,5 @@
 package net.wohlfart.photon.entity;
 
-import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -9,6 +8,7 @@ import java.util.Set;
 import javax.vecmath.Matrix4f;
 import javax.vecmath.Vector3d;
 import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
 
 import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
@@ -41,6 +41,15 @@ public class VertexLight implements IEntity {
 	protected final Matrix4f model2WorldMatrix = new Matrix4f();
 
 	protected final Set<LightElement> lights;
+
+
+	protected final VertexLightValue vertexLightValue = new VertexLightValue(
+    		0f,  // attenuation
+    		new Vector3f((float) position.x, (float) position.y, (float) position.z),
+    		new Vector4f(1f,1f,1f,1f), // color
+    		new Vector3f(1f,1f,1f)     // diffuse light
+    		);
+
 
 	public VertexLight() {
 		lights = Collections.singleton(new LightElement());
@@ -81,6 +90,8 @@ public class VertexLight implements IEntity {
 		model2WorldMatrix.m31 = (float) position.y;
 		model2WorldMatrix.m32 = (float) position.z;
 		model2WorldMatrix.m33 = 1;
+
+		vertexLightValue.setPosition((float) position.x, (float) position.y, (float) position.z);
 	}
 
     protected class LightElement implements IRenderer.IRenderElem {
@@ -89,12 +100,7 @@ public class VertexLight implements IEntity {
 
     	LightElement() {
             uniforms.add(new Model2WorldMatrixValue(model2WorldMatrix));
-            uniforms.add(new VertexLightValue(
-            		0f,
-            		new Vector3f((float) position.x, (float) position.y, (float) position.z),
-            		Color.WHITE,
-            		new Vector3f(1f,1f,1f)
-            		));
+            uniforms.add(vertexLightValue);
 
     	}
 

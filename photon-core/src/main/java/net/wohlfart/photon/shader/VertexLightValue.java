@@ -1,8 +1,7 @@
 package net.wohlfart.photon.shader;
 
-import java.awt.Color;
-
 import javax.vecmath.Vector3f;
+import javax.vecmath.Vector4f;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +12,13 @@ public class VertexLightValue implements IUniformValue {
 	private final String name;
 	private final float attenuation;
 	private final Vector3f position;
-	private final Color color;
+	private final Vector4f color;
 	private final Vector3f diffuse;
 
 	public VertexLightValue(
 			float attenuation,
 			Vector3f position,
-			Color color,
+			Vector4f color,
 			Vector3f diffuse) {
 		this.name = ShaderParser.VERTEX_LIGHT;
 		this.attenuation = attenuation;
@@ -57,7 +56,7 @@ public class VertexLightValue implements IUniformValue {
 		location = shader.getUniformLocation(name + "[" + index + "].color");
 		if (location != null) {
 			LOGGER.debug("setting color: {}", color);
-			shader.getGl().glUniform4f(location, color.getRed()/255f, color.getGreen()/255f, color.getBlue()/255f, color.getAlpha()/255f);
+			shader.getGl().glUniform4f(location, color.x, color.y, color.z, color.w);
 		} else {
 			LOGGER.debug("color not found");
 		}
@@ -73,6 +72,12 @@ public class VertexLightValue implements IUniformValue {
 
 		// handle.getShader().getGl().glUniformMatrix4fv(handle.getLocation(), 1, false, modelview, 0);
 		// TODO
+	}
+
+	public void setPosition(float x, float y, float z) {
+		position.x = x;
+		position.y = y;
+		position.z = z;
 	}
 
 }

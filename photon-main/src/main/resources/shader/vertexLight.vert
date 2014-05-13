@@ -49,7 +49,7 @@ void main(void) {
     // one of the textures that are bound
     passTextureCoord = ${texture};
 
-    passLight = vec4(0,0,0,0);
+    passLight = vec4(0.1, 0.1, 0.1, 0);
     for (int index = 0; index < ${maxVertexLightCount}; index++) {
        vec3 lightPos = vertexLight[index].position;
        vec3 vertexPos = vec3(modelToWorldMatrix * vec4(${position}, 1.0));
@@ -59,12 +59,12 @@ void main(void) {
        float diffuse = max(dot(passNormal, lightVector), 0.0);
 
        // Attenuate the light based on distance.
-       float distance = max(length(vertexLight[index].position - vertexPos), 0.0);
+       float distance = max(vertexLight[index].position - length(vertexPos ), 0.0);
 
-       diffuse = diffuse * (1.0 / (1.0 + (vertexLight[index].attenuation * distance * distance)));
+       //diffuse = diffuse * (1.0 / (1.0 + (vertexLight[index].attenuation * distance * distance)));
 
 
-       //diffuse = 0.5; // for testing only
+       //diffuse = 5; // for testing only
 
        // Multiply the color by the illumination level. It will be interpolated across the triangle.
        passLight = passLight + vertexLight[index].diffuse * diffuse;
