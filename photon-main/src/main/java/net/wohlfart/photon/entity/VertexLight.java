@@ -90,7 +90,7 @@ public class VertexLight implements IEntity {
     	LightElement() {
             uniforms.add(new Model2WorldMatrixValue(model2WorldMatrix));
             uniforms.add(new VertexLightValue(
-            		1f,
+            		0f,
             		new Vector3f((float) position.x, (float) position.y, (float) position.z),
             		Color.WHITE,
             		new Vector3f(1f,1f,1f)

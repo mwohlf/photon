@@ -34,4 +34,13 @@ public class SphereElement extends AbstractRenderElement {
 		return elem;
 	}
 
+	public static SphereElement createSolidWithNormals() {
+		SphereElement elem = new SphereElement();
+		elem.geometry = new Sphere(4, 6, IGeometry.VertexFormat.VERTEX_P3C0N3T2, IGeometry.StreamFormat.TRIANGLES);
+		elem.shaderIdent = ShaderIdent.VERTEX_LIGHT_SHADER;
+		elem.uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, TEXTURE_ID1));
+		elem.renderConfig = IRenderConfig.DEFAULT_3D;
+		return elem;
+	}
+
 }

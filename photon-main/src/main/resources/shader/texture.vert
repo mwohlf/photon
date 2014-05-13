@@ -7,7 +7,7 @@ uniform mat4 modelToWorldMatrix;     // modelMatrix
 uniform mat4 worldToCameraMatrix;    // viewMatrix
 uniform mat4 cameraToClipMatrix;     // projectionMatrix
 
-out vec2 pass_TextureCoord;
+out vec2 passTextureCoord;
 
 void main(void) {
 
@@ -20,6 +20,6 @@ void main(void) {
     // step 3: project the object from 3D cam space into 2D view
     gl_Position = cameraToClipMatrix * cameraPos;
 
-    pass_TextureCoord = ${texture};
+    passTextureCoord = ${texture};
     
 }

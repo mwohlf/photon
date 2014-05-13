@@ -8,7 +8,7 @@ public class ShaderParser {
 
     // ----- these are the constants that should be used in the java code -----
     public static final String MAX_VERTEX_LIGHT_COUNT = "maxVertexLightCount";
-    public static final Integer MAX_VERTEX_LIGHT_COUNT_VALUE = 10;
+    public static final Integer MAX_VERTEX_LIGHT_COUNT_VALUE = 1;
 
     public static final String MAX_FRAGMENT_LIGHT_COUNT = "maxFragmentLightCount";
     public static final Integer MAX_FRAGMENT_LIGHT_COUNT_VALUE = 3;

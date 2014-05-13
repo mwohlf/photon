@@ -2,10 +2,10 @@
 
 uniform sampler2D texture01;
 
-in vec2 pass_TextureCoord;
+in vec2 passTextureCoord;
 
 out vec4 fragColor;
 
 void main(void) {
-    fragColor = texture(texture01, pass_TextureCoord);
+    fragColor = texture(texture01, passTextureCoord);
 }

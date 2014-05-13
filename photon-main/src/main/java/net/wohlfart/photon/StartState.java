@@ -5,16 +5,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.inject.Inject;
-import javax.vecmath.Vector3d;
 
-import net.wohlfart.photon.entity.CubeEntity;
-import net.wohlfart.photon.entity.Earth;
-import net.wohlfart.photon.entity.ProceduralCelestial;
-import net.wohlfart.photon.entity.QuadEntity;
-import net.wohlfart.photon.entity.SimpleEffect;
-import net.wohlfart.photon.entity.Skybox;
 import net.wohlfart.photon.entity.SphereEntity;
-import net.wohlfart.photon.entity.SpriteCloud;
 import net.wohlfart.photon.entity.VertexLight;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
@@ -26,8 +18,6 @@ import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.hud.IScreenSizeListener;
-import net.wohlfart.photon.hud.SimpleLayer;
-import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
@@ -90,6 +80,7 @@ public class StartState implements IState {
 	public void init() {
 
 		sceneGraph.setup( new IEntity[] {
+				/*
 				new Skybox(),
 				new ProceduralCelestial().withPosition(10, 0, -30).withCorona(new Corona().withThinkness(.2f)),
 				new SphereEntity().withPosition(-10, 0, -10),
@@ -100,12 +91,13 @@ public class StartState implements IState {
 				new CubeEntity(1).withPosition(-5,0,-5f),
 				new CubeEntity(1).withPosition(7,0,-6f),
 				new SimpleLayer(),
-				new SphereEntity().withPosition(0, 10, -10),
 				new Earth().withPosition(0, -10, -20),
 				new SpriteCloud(),
 				new CubeEntity(1).withPosition(22,20,-1),
 				new SimpleEffect().addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d)),
-				new VertexLight().withPosition(0,50,0),
+				*/
+				new VertexLight().withPosition(0, 0, 0),
+				new SphereEntity().withPosition(0, 0, -17),
 		});
 	}
 

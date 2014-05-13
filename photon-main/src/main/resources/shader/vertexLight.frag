@@ -13,5 +13,8 @@ in vec3 passPosition;
 out vec4 fragColor;
 
 void main(void) {
-    fragColor = texture(texture01, passTextureCoord) * passLight;
+    // fragColor = texture(texture01, passTextureCoord) * passLight;
+    
+        fragColor = texture(texture01, passTextureCoord);
+    
 }

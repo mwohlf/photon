@@ -53,7 +53,7 @@ void main(void) {
     for (int index = 0; index < ${maxVertexLightCount}; index++) {
        vec3 lightPos = vertexLight[index].position;
        vec3 vertexPos = vec3(modelToWorldMatrix * vec4(${position}, 1.0));
-       vec3 lightVector = normalize(vertexLight[index].position - vertexPos);
+       vec3 lightVector = normalize(lightPos - vertexPos);
 
        // the dot product of the light vector and vertex normal is a indication for the amount of light on the surface
        float diffuse = max(dot(passNormal, lightVector), 0.0);
@@ -68,6 +68,8 @@ void main(void) {
 
        // Multiply the color by the illumination level. It will be interpolated across the triangle.
        passLight = passLight + vertexLight[index].diffuse * diffuse;
+       // passLight = vec4(1,0,0,0);
+       passLight = vec4(diffuse, 0, 0, 0);
     }
 
 }

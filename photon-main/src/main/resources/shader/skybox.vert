@@ -10,7 +10,7 @@ uniform mat4 modelToWorldMatrix;     // modelMatrix
 uniform mat4 worldToCameraMatrix;    // viewMatrix  FIXME: this is no longer needed
 uniform mat4 cameraToClipMatrix;     // projectionMatrix
 
-out vec2 pass_TextureCoord;
+out vec2 passTextureCoord;
 
 void main(void) {
 
@@ -27,7 +27,7 @@ void main(void) {
     // without running into trouble with z coords
     gl_Position = gl_Position.xyww;
     
-    pass_TextureCoord = ${texture};
+    passTextureCoord = ${texture};
     
 }
 
