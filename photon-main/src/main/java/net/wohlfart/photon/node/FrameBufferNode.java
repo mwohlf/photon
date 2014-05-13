@@ -19,7 +19,7 @@ import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.render.RenderConfigImpl;
 import net.wohlfart.photon.render.VertexTransform;
 import net.wohlfart.photon.shader.IUniformValue;
-import net.wohlfart.photon.shader.Matrix4fValue;
+import net.wohlfart.photon.shader.Model2WorldMatrixValue;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureHandleValue;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
@@ -51,7 +51,7 @@ public class FrameBufferNode implements IRenderNode {
        // uniforms.put(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, new UniformHandle.Matrix4fValue(model2WorldMatrix));
     	geometry = createGeometry();
     	model2WorldMatrix.setIdentity();
-        uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, model2WorldMatrix));
+        uniforms.add(new Model2WorldMatrixValue(model2WorldMatrix));
     }
 
     @Override

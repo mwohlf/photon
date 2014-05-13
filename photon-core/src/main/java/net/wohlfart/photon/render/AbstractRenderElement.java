@@ -9,8 +9,7 @@ import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
 import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 import net.wohlfart.photon.shader.IUniformValue;
-import net.wohlfart.photon.shader.Matrix4fValue;
-import net.wohlfart.photon.shader.ShaderParser;
+import net.wohlfart.photon.shader.Model2WorldMatrixValue;
 
 
 /**
@@ -38,7 +37,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected AbstractRenderElement() {
     	model2WorldMatrix.setIdentity();
-        uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, model2WorldMatrix));
+        uniforms.add(new Model2WorldMatrixValue(model2WorldMatrix));
     }
 
     @Override

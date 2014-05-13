@@ -10,18 +10,18 @@ import org.slf4j.LoggerFactory;
 public class Matrix4fValue implements IUniformValue {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(Matrix4fValue.class);
 
-    private final Matrix4f matrix;
-	private final String name;
-
-	@Override
-	public String getKey() {
-		return name;
-	}
+    protected final Matrix4f matrix;
+	protected final String name;
 
     public Matrix4fValue(String name, Matrix4f matrix) {
     	this.name = name;
         this.matrix = matrix;
     }
+
+	@Override
+	public String getKey() {
+		return name;
+	}
 
     @Override
     public void accept(IShaderProgram shader) {

@@ -19,6 +19,7 @@ import net.wohlfart.photon.render.RendererImpl;
 import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.Matrix4fValue;
+import net.wohlfart.photon.shader.Model2WorldMatrixValue;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.state.IState;
 import net.wohlfart.photon.state.StateManager;
@@ -72,7 +73,7 @@ public class MainApplication implements ILifecycleListener {
 		// this will be updated by the model / render command
 		final Matrix4f modelToWorldMatrix = new Matrix4f();
 		modelToWorldMatrix.setIdentity();
-		uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, modelToWorldMatrix));
+		uniforms.add(new Model2WorldMatrixValue(modelToWorldMatrix));
 
 		// cam is static at 0/0/0
 		final Matrix4f worldToCamMatrix = new Matrix4f();

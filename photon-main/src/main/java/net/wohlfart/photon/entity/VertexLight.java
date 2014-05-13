@@ -1,5 +1,6 @@
 package net.wohlfart.photon.entity;
 
+import java.awt.Color;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
@@ -18,8 +19,8 @@ import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IRenderer;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.shader.IUniformValue;
-import net.wohlfart.photon.shader.Matrix4fValue;
-import net.wohlfart.photon.shader.ShaderParser;
+import net.wohlfart.photon.shader.Model2WorldMatrixValue;
+import net.wohlfart.photon.shader.VertexLightValue;
 import net.wohlfart.photon.tools.MathTool;
 import net.wohlfart.photon.tools.Quaternion;
 
@@ -82,14 +83,18 @@ public class VertexLight implements IEntity {
 		model2WorldMatrix.m33 = 1;
 	}
 
-    private class LightElement implements IRenderer.IRenderElem {
+    protected class LightElement implements IRenderer.IRenderElem {
 
     	Collection<IUniformValue> uniforms = new HashSet<IUniformValue>();
 
     	LightElement() {
-            uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, model2WorldMatrix));
-
-            // TODO: add lights here
+            uniforms.add(new Model2WorldMatrixValue(model2WorldMatrix));
+            uniforms.add(new VertexLightValue(
+            		1f,
+            		new Vector3f((float) position.x, (float) position.y, (float) position.z),
+            		Color.WHITE,
+            		new Vector3f(1f,1f,1f)
+            		));
 
     	}
 

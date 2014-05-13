@@ -40,6 +40,9 @@ public interface IShaderProgram {
 
 	int nextTextureSlot();
 
+	int nextLightSlot();
+
+
 
 	public static final IShaderProgram NULL_SHADER = new IShaderProgram() {
 
@@ -89,9 +92,13 @@ public interface IShaderProgram {
 		}
 
 		@Override
-		public void reset() {
-			// TODO Auto-generated method stub
+		public int nextLightSlot() {
+			return -1;
+		}
 
+		@Override
+		public void reset() {
+			// do nothing
 		}
 
 	};

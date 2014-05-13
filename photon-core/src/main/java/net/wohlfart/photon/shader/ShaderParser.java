@@ -31,6 +31,8 @@ public class ShaderParser {
     public static final String TEXTURE03 = "texture03";
     public static final String TEXTURE04 = "texture04";
 
+    public static final String VERTEX_LIGHT = "vertexLight";
+
 
 
     // ----- this are the constants that should be used in the shader code, wrapped in ${} -----

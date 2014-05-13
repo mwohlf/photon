@@ -22,7 +22,7 @@ import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.render.IRenderer;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.resources.ResourceManager;
-import net.wohlfart.photon.shader.Matrix4fValue;
+import net.wohlfart.photon.shader.Model2WorldMatrixValue;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.TextureValue;
 import net.wohlfart.photon.tools.Perspective;
@@ -73,8 +73,8 @@ public class Label extends AbstractRenderElement implements IComponent {
 			charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
 			geometry = createTextGeometry();
 			getUniformValues().add(new TextureValue(ShaderParser.TEXTURE01, charData.getCharTexture()));
-			Matrix4f modelMatrix = createModelMatrix(layoutManager, getModel2WorldMatrix());
-			getUniformValues().add(new Matrix4fValue(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, modelMatrix));
+			updateModelMatrix(layoutManager, getModel2WorldMatrix());
+			getUniformValues().add(new Model2WorldMatrixValue(getModel2WorldMatrix()));
 		}
 	}
 
@@ -103,7 +103,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 	// - does not depend on the aspect ratio since the aspect ration will be applied in the perspective matrix
 	// - does not depend on the z coordinate of the label since the label should always be in the near frustum plane
 	// - more x-screen-pixel means a smaller label
-	private Matrix4f createModelMatrix(LayoutStrategy<?> layoutManager, Matrix4f dest) {
+	private void updateModelMatrix(LayoutStrategy<?> layoutManager, Matrix4f dest) {
 		//float z = perspective.getNearPlane();
 		//float z = perspective.getMatrix().m22;
 		Matrix4f m = perspective.getPerspectiveMatrix();
@@ -132,9 +132,6 @@ public class Label extends AbstractRenderElement implements IComponent {
 		dest.m30 = layoutManager.getLayoutAlignmentX(this)/screenScale/aspect;
 		dest.m31 = layoutManager.getLayoutAlignmentY(this)/screenScale;
 		dest.m32 = -1;
-		dest.m33 = 1f; // need to be non zero so the next matrix can do a move
-
-		return dest;
 	}
 
 	// the geometry is pixel based, any transformations are done with the

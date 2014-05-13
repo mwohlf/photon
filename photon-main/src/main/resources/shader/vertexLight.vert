@@ -18,7 +18,7 @@ in vec3 ${position};    // vertex position in model space
 in vec2 ${texture};     // the texture position of the vertex
 in vec3 ${normal};      // the normal for the current vertex
 
-uniform VertexLight lights[${maxVertexLightCount}];
+uniform VertexLight vertexLight[${maxVertexLightCount}];
 uniform Material material;
 
 uniform mat4 modelToWorldMatrix;
@@ -51,23 +51,23 @@ void main(void) {
 
     passLight = vec4(0,0,0,0);
     for (int index = 0; index < ${maxVertexLightCount}; index++) {
-       vec3 lightPos = lights[index].position;
+       vec3 lightPos = vertexLight[index].position;
        vec3 vertexPos = vec3(modelToWorldMatrix * vec4(${position}, 1.0));
-       vec3 lightVector = normalize(lights[index].position - vertexPos);
+       vec3 lightVector = normalize(vertexLight[index].position - vertexPos);
 
        // the dot product of the light vector and vertex normal is a indication for the amount of light on the surface
        float diffuse = max(dot(passNormal, lightVector), 0.0);
 
        // Attenuate the light based on distance.
-       float distance = max(length(lights[index].position - vertexPos), 0.0);
+       float distance = max(length(vertexLight[index].position - vertexPos), 0.0);
 
-       diffuse = diffuse * (1.0 / (1.0 + (lights[index].attenuation * distance * distance)));
+       diffuse = diffuse * (1.0 / (1.0 + (vertexLight[index].attenuation * distance * distance)));
 
 
        //diffuse = 0.5; // for testing only
 
        // Multiply the color by the illumination level. It will be interpolated across the triangle.
-       passLight = passLight + lights[index].diffuse * diffuse;
+       passLight = passLight + vertexLight[index].diffuse * diffuse;
     }
 
 }

@@ -43,6 +43,7 @@ public class ShaderProgram implements IShaderProgram {
 	private GL2ES2 gl;
 
 	private int currentTextureSlot;
+	private int currentLightSlot;
 
 	public ShaderProgram(String vertexShaderCode, String fragmentShaderCode) {
 		this.vertexShaderCode = vertexShaderCode;
@@ -68,9 +69,18 @@ public class ShaderProgram implements IShaderProgram {
 	}
 
 	@Override
+	public int nextLightSlot() {
+		assert ShaderParser.MAX_VERTEX_LIGHT_COUNT_VALUE > currentLightSlot: "running out of texture slots";
+		currentLightSlot += 1;
+		LOGGER.debug("returning next light slot which is '{}' ", currentTextureSlot);
+		return currentLightSlot;  // TODO: return -1 when we are out of texture slots
+	}
+
+	@Override
 	public void reset() {
 		LOGGER.debug("resetting texture slot from '{}' to '-1' ins shader '{}'", currentTextureSlot, shaderId);
 		this.currentTextureSlot = -1; // resetting texture slot count
+		this.currentLightSlot = -1;
 	}
 
 	@Override
