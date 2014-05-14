@@ -55,7 +55,7 @@ public class VertexLight implements IEntity {
 		// a marker sphere
 		SphereElement sphere = SphereElement.createLightMarker();
 		// model2WorldMatrix = sphere.getModel2WorldMatrix();
-		// lights.add(new LightElement());
+		lights.add(new LightElement());
 		lights.add(sphere);
 	}
 

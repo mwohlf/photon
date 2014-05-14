@@ -44,7 +44,7 @@ void main(void) {
     // transforms the vertex into cam-space
     passPosition = vec3(worldToCameraMatrix * modelToWorldMatrix * vec4(${position}, 1.0));
     // transforms the normal's orientation into cam-space
-    passNormal =  normalize(vec3(${normal} * normalMatrix));
+    passNormal =  normalize(vec3(normalMatrix * ${normal}));
     // nothing happens to the texture coords, they are picked up in the fragment shader and mapped to
     // one of the textures that are bound
     passTextureCoord = ${texture};
