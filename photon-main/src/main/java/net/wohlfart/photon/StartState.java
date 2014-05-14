@@ -97,7 +97,17 @@ public class StartState implements IState {
 				new SimpleEffect().addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d)),
 				*/
 				new VertexLight().withPosition(0, 0, -15),
+			//	new VertexLight().withPosition(20, 0,  30),
+
+
 				new SphereEntity().withPosition(0, 0, -30),
+				new SphereEntity().withPosition(0, 0, 10),
+				new SphereEntity().withPosition(0, 10, -20),
+				new SphereEntity().withPosition(0, -10, -20),
+				new SphereEntity().withPosition(0, 15, 20),
+				new SphereEntity().withPosition(0, 20, 30),
+				new SphereEntity().withPosition(10, 20, -30),
+				new SphereEntity().withPosition(-10, 20, -30),
 		});
 	}
 
