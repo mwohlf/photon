@@ -1,7 +1,6 @@
 package net.wohlfart.photon.entity;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +14,10 @@ import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.ITree;
 import net.wohlfart.photon.graph.NodeSortStrategy;
 import net.wohlfart.photon.graph.NodeSortStrategy.ISortToken;
+import net.wohlfart.photon.node.SphereElement;
 import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IRenderer;
+import net.wohlfart.photon.render.IRenderer.IRenderElem;
 import net.wohlfart.photon.render.IRenderer.IRenderNode;
 import net.wohlfart.photon.shader.IUniformValue;
 import net.wohlfart.photon.shader.Model2WorldMatrixValue;
@@ -38,9 +39,8 @@ public class VertexLight implements IEntity {
 
 	protected final ISortToken sortToken = NodeSortStrategy.NEGATIVE_INFINITY_SORT_TOKEN;
 
-	protected final Matrix4f model2WorldMatrix = new Matrix4f();
+	protected final Set<IRenderElem> lights = new HashSet<IRenderElem>();
 
-	protected final Set<LightElement> lights;
 
 
 	protected final VertexLightValue vertexLightValue = new VertexLightValue(
@@ -52,7 +52,11 @@ public class VertexLight implements IEntity {
 
 
 	public VertexLight() {
-		lights = Collections.singleton(new LightElement());
+		// a marker sphere
+		SphereElement sphere = SphereElement.createLightMarker();
+		// model2WorldMatrix = sphere.getModel2WorldMatrix();
+		// lights.add(new LightElement());
+		lights.add(sphere);
 	}
 
 	@Override
@@ -71,37 +75,43 @@ public class VertexLight implements IEntity {
 
 	@Override
 	public void update(Quaternion rot, Vector3f mov, float delta) {
-		Quaternion r = new Quaternion(rot);
-		r.mult(rotation);
-		rotation.setX(r.getX());
-		rotation.setY(r.getY());
-		rotation.setZ(r.getZ());
-		rotation.setW(r.getW());
+    	Quaternion r = new Quaternion(rot);
+    	r.mult(rotation);
+    	rotation.setX(r.getX());
+    	rotation.setY(r.getY());
+    	rotation.setZ(r.getZ());
+    	rotation.setW(r.getW());
 
-		position.x += mov.x;
-		position.y += mov.y;
-		position.z += mov.z;
+        position.x += mov.x;
+        position.y += mov.y;
+        position.z += mov.z;
 
-		MathTool.mul(rot, position);
+        MathTool.mul(rot, position);
 
-		// double zOrder = Math.sqrt(position.x * position.x + position.y * position.y + position.z * position.z);
-		MathTool.convert(rotation, model2WorldMatrix);
-		model2WorldMatrix.m30 = (float) position.x;
-		model2WorldMatrix.m31 = (float) position.y;
-		model2WorldMatrix.m32 = (float) position.z;
-		model2WorldMatrix.m33 = 1;
+        double zOrder = Math.sqrt(position.x * position.x + position.y * position.y + position.z * position.z);
+        for (IRenderElem command : lights) {
+            Matrix4f m = command.getModel2WorldMatrix();
+            MathTool.convert(rotation, m);
+            m.m30 = (float) position.x;
+            m.m31 = (float) position.y;
+            m.m32 = (float) position.z;
+            m.m33 = 1;
+            command.setZOrder(zOrder);
+        }
 
 		vertexLightValue.setPosition((float) position.x, (float) position.y, (float) position.z);
+
 	}
 
-    protected class LightElement implements IRenderer.IRenderElem {
+    protected class LightElement implements IRenderElem {
 
-    	Collection<IUniformValue> uniforms = new HashSet<IUniformValue>();
+    	protected final Collection<IUniformValue> uniforms = new HashSet<IUniformValue>();
+
+        protected final Matrix4f model2WorldMatrix =  new Matrix4f();
 
     	LightElement() {
             uniforms.add(new Model2WorldMatrixValue(model2WorldMatrix));
             uniforms.add(vertexLightValue);
-
     	}
 
 		@Override
@@ -111,6 +121,7 @@ public class VertexLight implements IEntity {
 
 		@Override
 		public void accept(IRenderer renderer, ITree<IRenderNode> tree) {
+			// only add the uniforms, don't draw anything here
 	        renderer.addUniformValues(getUniformValues());
 		}
 

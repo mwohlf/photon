@@ -69,7 +69,7 @@ void main(void) {
        // Multiply the color by the illumination level. It will be interpolated across the triangle.
        passLight = passLight + vertexLight[index].diffuse * diffuse;
        // passLight = vec4(1,0,0,0);
-       passLight = vec4(diffuse, 0, 0, 0);
+       passLight = vec4(1, 1, 1, 0) * diffuse;
     }
 
 }

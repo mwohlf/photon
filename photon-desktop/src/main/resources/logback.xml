@@ -10,7 +10,7 @@
     </appender>
 
     <logger name="net.wohlfart" level="INFO" />
-    <logger name="net.wohlfart.photon.shader" level="DEBUG" />
+    <logger name="net.wohlfart.photon.shader" level="INFO" />
     <logger name="net.wohlfart.photon.resources" level="INFO" />    
     <logger name="net.wohlfart.photon.GraphicContext" level="INFO" />    
     

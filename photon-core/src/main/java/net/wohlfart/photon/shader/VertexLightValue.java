@@ -48,6 +48,7 @@ public class VertexLightValue implements IUniformValue {
 		location = shader.getUniformLocation(name + "[" + index + "].position");
 		if (location != null) {
 			LOGGER.debug("setting position: {}", position);
+	        System.out.println("lightPos: " + position.x + "," + position.y + "," + position.z);
 			shader.getGl().glUniform3f(location, position.x, position.y, position.z);
 		} else {
 			LOGGER.debug("position not found");

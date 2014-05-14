@@ -45,6 +45,7 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
         this.zOrder = zOrder;
     }
 
+    // modify the matrix to set the elements position
     @Override
     public Matrix4f getModel2WorldMatrix() {
         return model2WorldMatrix;

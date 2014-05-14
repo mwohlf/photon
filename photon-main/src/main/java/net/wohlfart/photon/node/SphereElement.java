@@ -43,4 +43,13 @@ public class SphereElement extends AbstractRenderElement {
 		return elem;
 	}
 
+	public static SphereElement createLightMarker() {
+		SphereElement elem = new SphereElement();
+		elem.geometry = new Sphere(0.3f, 4, IGeometry.VertexFormat.VERTEX_P3C0N0T0, IGeometry.StreamFormat.TRIANGLES);
+		elem.shaderIdent = ShaderIdent.TEXTURE_SHADER_ID;
+		elem.uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, TEXTURE_ID1));
+		elem.renderConfig = IRenderConfig.DEFAULT_3D;
+		return elem;
+	}
+
 }
