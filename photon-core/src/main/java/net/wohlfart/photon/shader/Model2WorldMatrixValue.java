@@ -12,7 +12,7 @@ public class Model2WorldMatrixValue extends Matrix4fValue {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(Model2WorldMatrixValue.class);
 
 	public Model2WorldMatrixValue(Matrix4f matrix) {
-		super(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, matrix);
+		super(ShaderParser.UNIFORM_MODEL_2_WORLD_MTX, matrix); // unique name/key for any shader
 	}
 
 	@Override

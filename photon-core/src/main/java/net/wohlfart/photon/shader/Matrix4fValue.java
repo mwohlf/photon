@@ -7,20 +7,24 @@ import javax.vecmath.Matrix4f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+// a simple matrix value, note the key is the name,
+// setting a second uniform value with the same key will override the first one
 public class Matrix4fValue implements IUniformValue {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(Matrix4fValue.class);
 
-    protected final Matrix4f matrix;
+	protected final String key;
 	protected final String name;
+    protected final Matrix4f matrix;
 
-    public Matrix4fValue(String name, Matrix4f matrix) {
-    	this.name = name;
+    public Matrix4fValue(String key, Matrix4f matrix) {
+    	this.key = key;
+    	this.name = key;
         this.matrix = matrix;
     }
 
 	@Override
 	public String getKey() {
-		return name;
+		return key;
 	}
 
     @Override

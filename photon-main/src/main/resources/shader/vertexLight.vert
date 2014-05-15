@@ -51,15 +51,17 @@ void main(void) {
 
     passLight = vec4(0.1, 0.1, 0.1, 0);
     for (int index = 0; index < ${maxVertexLightCount}; index++) {
+    
+       // the light ray fro the light source to the vertex position
        vec3 lightPos = vertexLight[index].position;
        vec3 vertexPos = vec3(modelToWorldMatrix * vec4(${position}, 1.0));
+             
+	   // dot product is max for 0degree between light vector and normal	
        vec3 lightVector = normalize(lightPos - vertexPos);
+       float crossSection = max(dot(passNormal, lightVector), 0.0);
 
-       // the dot product of the light vector and vertex normal is a indication for the amount of light on the surface
-       float diffuse = max(dot(passNormal, lightVector), 0.0);
-
-       // Attenuate the light based on distance.
-       float distance = max(vertexLight[index].position - length(vertexPos ), 0.0);
+       // attenuate the light based on distance.
+       float distance = max(vertexLight[index].position - length(vertexPos), 0.0);
 
        //diffuse = diffuse * (1.0 / (1.0 + (vertexLight[index].attenuation * distance * distance)));
 
@@ -67,9 +69,9 @@ void main(void) {
        //diffuse = 5; // for testing only
 
        // Multiply the color by the illumination level. It will be interpolated across the triangle.
-       passLight = passLight + vertexLight[index].diffuse * diffuse;
+       passLight = passLight + vertexLight[index].diffuse * crossSection;
        // passLight = vec4(1,0,0,0);
-       passLight = vec4(1, 1, 1, 0) * diffuse;
+       passLight = vec4(1, 1, 1, 0) * crossSection;
     }
 
 }

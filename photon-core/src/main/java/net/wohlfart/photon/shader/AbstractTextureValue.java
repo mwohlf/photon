@@ -6,7 +6,18 @@ import net.wohlfart.photon.texture.ITexture;
 
 public abstract class AbstractTextureValue implements IUniformValue {
 
-    @Override
+	protected final String key;
+
+    public AbstractTextureValue(String key) {
+		this.key = key;
+	}
+
+	@Override
+	public String getKey() {
+		return key;
+	}
+
+	@Override
     public void accept(IShaderProgram shader) {
     	GL2ES2 gl = shader.getGl();
     	int slot = shader.nextTextureSlot();

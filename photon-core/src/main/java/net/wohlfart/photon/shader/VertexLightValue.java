@@ -9,18 +9,40 @@ import org.slf4j.LoggerFactory;
 public class VertexLightValue implements IUniformValue {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(VertexLightValue.class);
 
-	private final String name;
+	// default light used to fill the light array in the shader
+	public final static VertexLightValue VERTEX_LIGHT_NULL = new VertexLightValue(
+			"NULL",
+			0,                      // no light reduction since we have no light anyways
+			new Vector3f(0,0,0),    // position at origin
+			new Vector4f(0,0,0,0),  // no directional light
+			new Vector3f(0,0,0));   // no diffuse light
+
+
+	// unique key in the GraphicContext
+	private final String key;
+
+	// name of the vertex light array
+	private final String name  = ShaderParser.VERTEX_LIGHT;
+
+	// amount of light reduction depending on the distance to the position
 	private final float attenuation;
+
+	// light position, origin of the directional light
 	private final Vector3f position;
+
+	// light color, alpha defines the glow strength
 	private final Vector4f color;
+
+	// non directional light
 	private final Vector3f diffuse;
 
 	public VertexLightValue(
+			String key,
 			float attenuation,
 			Vector3f position,
 			Vector4f color,
 			Vector3f diffuse) {
-		this.name = ShaderParser.VERTEX_LIGHT;
+		this.key = key;
 		this.attenuation = attenuation;
 		this.position = position;
 		this.color = color;
@@ -29,7 +51,7 @@ public class VertexLightValue implements IUniformValue {
 
 	@Override
 	public String getKey() {
-		return name;
+		return key;
 	}
 
 	@Override

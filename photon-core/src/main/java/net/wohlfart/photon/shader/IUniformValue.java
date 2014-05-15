@@ -18,11 +18,12 @@ public interface IUniformValue {
         }
     };
 
-    // a unique key identifying the uniform value
+    // a unique key identifying the uniform value, used to store the value in
+    // a Hashmap which is part of the graphic context
     String getKey();
 
     // setting one or more values in the shader
-    // activating texture slots
+    // activating texture slots, enabling lights, ...
     void accept(IShaderProgram shader);
 
 }

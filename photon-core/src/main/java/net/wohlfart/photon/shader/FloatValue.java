@@ -7,17 +7,19 @@ import org.slf4j.LoggerFactory;
 public class FloatValue implements IUniformValue {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(FloatValue.class);
 
-    private final Float value;
+    private final String key;
     private final String name;
+    private final Float value;
 
-    public FloatValue(String name, float value) {
-    	this.name = name;
+    public FloatValue(String key, float value) {
+    	this.key = key;
+    	this.name = key;
         this.value = value;
     }
 
 	@Override
 	public String getKey() {
-		return name;
+		return key;
 	}
 
 	@Override

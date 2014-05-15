@@ -10,13 +10,9 @@ public class TextureIdentValue extends AbstractTextureValue {
 	private final ITextureIdentifier textureIdentifier;
 
 	public TextureIdentValue(String name, ITextureIdentifier textureIdentifier) {
+		super(name); // using name as the unique key
 		this.name = name;
 		this.textureIdentifier = textureIdentifier;
-	}
-
-	@Override
-	public String getKey() {
-		return name;
 	}
 
 	@Override

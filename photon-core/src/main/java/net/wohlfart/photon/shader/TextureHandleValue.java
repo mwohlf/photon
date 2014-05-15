@@ -3,18 +3,14 @@ package net.wohlfart.photon.shader;
 
 public class TextureHandleValue extends AbstractTextureValue {
 
-	private final String name;
-	private final int textureHandle;
+	protected final String name;
+	protected final int textureHandle;
 
 	public TextureHandleValue(String name, int textureHandle) {
+		super(name);
 		assert textureHandle > -1;
 		this.name = name;
 		this.textureHandle = textureHandle;
-	}
-
-	@Override
-	public String getKey() {
-		return name;
 	}
 
 	@Override

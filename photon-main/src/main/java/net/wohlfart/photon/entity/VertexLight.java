@@ -41,15 +41,13 @@ public class VertexLight implements IEntity {
 
 	protected final Set<IRenderElem> lights = new HashSet<IRenderElem>();
 
-
-
 	protected final VertexLightValue vertexLightValue = new VertexLightValue(
+			"VERTEX_NULL_LIGHT",
     		0f,  // attenuation
     		new Vector3f((float) position.x, (float) position.y, (float) position.z),
     		new Vector4f(1f,1f,1f,1f), // color
     		new Vector3f(1f,1f,1f)     // diffuse light
     		);
-
 
 	public VertexLight() {
 		// a marker sphere
@@ -62,6 +60,8 @@ public class VertexLight implements IEntity {
 	@Override
 	public void register(ISceneGraph sceneGraph) {
 		this.sceneGraph = sceneGraph;
+		// TODO: maybe we can get a unique id for this light source from the SceneGraph
+		// check if this can also be done for the textures instead of keeping a statif string map
 		sceneGraph.addEntity(this);
 		sceneGraph.addRenderCommands(lights);
 	}

@@ -8,13 +8,9 @@ public class TextureValue extends AbstractTextureValue {
 	private final ITexture texture;
 
 	public TextureValue(String name, ITexture texture) {
+		super(name); // using the name as the key
 		this.name = name;
 		this.texture = texture;
-	}
-
-	@Override
-	public String getKey() {
-		return name;
 	}
 
 	@Override
@@ -23,9 +19,8 @@ public class TextureValue extends AbstractTextureValue {
 	}
 
 	@Override
-	int getLocation(IShaderProgram shader) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getLocation(IShaderProgram shader) {
+		return shader.getUniformLocation(name);
 	}
 
 }
