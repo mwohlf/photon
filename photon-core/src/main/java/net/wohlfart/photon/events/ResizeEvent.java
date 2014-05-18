@@ -57,8 +57,9 @@ public class ResizeEvent implements PoolableObject, Serializable {
 
     @Override
     public String toString() {
-        return this.getClass().getSimpleName() + " [x=" + dim.getWidth()
-                + ", y=" + dim.getHeighti() + "]";
+        return this.getClass().getSimpleName()
+        		+ " [x=" + dim.getWidth()
+                + ", y=" + dim.getHeight() + "]";
     }
 
 }

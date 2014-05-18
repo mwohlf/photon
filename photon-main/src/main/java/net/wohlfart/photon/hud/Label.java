@@ -104,12 +104,9 @@ public class Label extends AbstractRenderElement implements IComponent {
 	// - does not depend on the z coordinate of the label since the label should always be in the near frustum plane
 	// - more x-screen-pixel means a smaller label
 	private void updateModelMatrix(LayoutStrategy<?> layoutManager, Matrix4f dest) {
-		//float z = perspective.getNearPlane();
-		//float z = perspective.getMatrix().m22;
-		Matrix4f m = perspective.getPerspectiveMatrix();
+
 		float aspect = perspective.getAspectRatio();
 		float screenScale = perspective.getScreenScale();
-		//float nearPlane = perspective.getNearPlane();
 		float fovPixel = perspective.getFieldOfViewPixel();
 
 		// x column, incoming: 0...dim.y outgoing: -1 ... +1

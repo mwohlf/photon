@@ -27,17 +27,14 @@ public class Dimension {
 		return height;
 	}
 
-	public int getWidthi() {
-		return (int)width;
-	}
-
-	public int getHeighti() {
-		return (int)height;
-	}
-
 	public void set(Dimension dim) {
 		this.width = dim.getWidth();
 		this.height = dim.getHeight();
+	}
+
+	@Override
+	public String toString() {
+		return "Dimension [width=" + width + ", height=" + height + "]";
 	}
 
 }

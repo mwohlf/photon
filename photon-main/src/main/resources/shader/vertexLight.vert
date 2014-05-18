@@ -52,7 +52,7 @@ void main(void) {
     passLight = vec4(0.1, 0.1, 0.1, 0);
     for (int index = 0; index < ${maxVertexLightCount}; index++) {
     
-       // the light ray fro the light source to the vertex position
+       // the light ray from the light source to the vertex position
        vec3 lightPos = vertexLight[index].position;
        vec3 vertexPos = vec3(modelToWorldMatrix * vec4(${position}, 1.0));
              

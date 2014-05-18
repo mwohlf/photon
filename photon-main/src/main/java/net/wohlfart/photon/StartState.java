@@ -5,8 +5,16 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.inject.Inject;
+import javax.vecmath.Vector3d;
 
+import net.wohlfart.photon.entity.CubeEntity;
+import net.wohlfart.photon.entity.Earth;
+import net.wohlfart.photon.entity.ProceduralCelestial;
+import net.wohlfart.photon.entity.QuadEntity;
+import net.wohlfart.photon.entity.SimpleEffect;
+import net.wohlfart.photon.entity.Skybox;
 import net.wohlfart.photon.entity.SphereEntity;
+import net.wohlfart.photon.entity.SpriteCloud;
 import net.wohlfart.photon.entity.VertexLight;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
@@ -18,6 +26,8 @@ import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.hud.IScreenSizeListener;
+import net.wohlfart.photon.hud.SimpleLayer;
+import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
@@ -63,13 +73,13 @@ public class StartState implements IState {
 		if (event.getKey() == CommandKey.DEBUG_RENDER) {
 			debugOnce = true;
 		} else if (event.getKey() == CommandKey.DUMP_SCENE) {
-			LOGGER.debug("scene graph:" + sceneGraph);
+			LOGGER.debug("scene graph: " + sceneGraph);
 		}
 	}
 
 	@Subscribe
 	public void resize(ResizeEvent resize) {
-		LOGGER.info("resize.getDimension():" + resize.getDimension());
+		LOGGER.info("resize.getDimension(): " + resize.getDimension());
 		Dimension dim = resize.getDimension();
 		for (IScreenSizeListener resizable : resizables) {
 			resizable.setScreenDimension(dim);
@@ -80,7 +90,6 @@ public class StartState implements IState {
 	public void init() {
 
 		sceneGraph.setup( new IEntity[] {
-				/*
 				new Skybox(),
 				new ProceduralCelestial().withPosition(10, 0, -30).withCorona(new Corona().withThinkness(.2f)),
 				new SphereEntity().withPosition(-10, 0, -10),
@@ -95,7 +104,7 @@ public class StartState implements IState {
 				new SpriteCloud(),
 				new CubeEntity(1).withPosition(22,20,-1),
 				new SimpleEffect().addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d)),
-				*/
+
 				new VertexLight().withPosition(0, 0, -15),
 			//	new VertexLight().withPosition(20, 0,  30),
 

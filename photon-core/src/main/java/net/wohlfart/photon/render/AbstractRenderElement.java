@@ -37,7 +37,9 @@ public abstract class AbstractRenderElement implements IRenderer.IRenderElem {
 
     protected AbstractRenderElement() {
     	model2WorldMatrix.setIdentity();
-        uniforms.add(new Model2WorldMatrixValue(model2WorldMatrix));
+    	Model2WorldMatrixValue m = new Model2WorldMatrixValue(model2WorldMatrix);
+        uniforms.add(m);
+        uniforms.add(m. new NormalMatrix());
     }
 
     @Override
