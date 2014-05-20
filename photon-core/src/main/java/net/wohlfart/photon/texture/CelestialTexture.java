@@ -23,14 +23,14 @@ public class CelestialTexture implements ITexture {
     protected final int height;
 
 
-    public CelestialTexture(float radius, CelestialType type, long seed /*, int textureUnit*/) {
+    public CelestialTexture(float radius, ISphereSurfaceColor type, long seed /*, int textureUnit*/) {
         this((int) (radius * 2f * (float) Math.PI + 0.5f),
              (int) (radius * 2f * (float) Math.PI + 0.5f),
              type,
              seed);
     }
 
-    CelestialTexture(int width, int height, CelestialType celestialType, long seed /*, int textureUnit*/) {
+    CelestialTexture(int width, int height, ISphereSurfaceColor celestialType, long seed /*, int textureUnit*/) {
         this.width = width;
         this.height = height;
         this.random = new Random(seed);

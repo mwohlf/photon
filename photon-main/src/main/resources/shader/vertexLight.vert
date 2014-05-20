@@ -1,25 +1,33 @@
 #version 330 core
 
+// see: http://www.lighthouse3d.com/tutorials/glsl-tutorial/lighting/
+
 struct VertexLight {
-  vec3  position;
-  float attenuation;
   vec3  color;
-  vec4  diffuse;
+  vec4  diffuse;              // same intensity regardless of the viewer’s position
+  vec4  specular;
+  vec4  position;
+  vec4  halfVector;
+  float constantAttenuation;
+  float linearAttenuation;
+  float quadraticAttenuation;
 };
 
+// see: http://iloveshaders.blogspot.de/2011/04/implementing-basic-lights.html
 struct Material {
-  vec3 specular;
+  vec3 emissive;    // Ke : outgoing light
+  vec3 ambient;    // Ka : multiplied with the global ambient light
+  vec3 diffuse;     // Kd
+  vec3 specular;    // Ks
   float shininess;
-  vec3 ambient;
-  vec4 diffuse;
 };
+
 
 in vec3 ${position};    // vertex position in model space
 in vec2 ${texture};     // the texture position of the vertex
 in vec3 ${normal};      // the normal for the current vertex
 
 uniform VertexLight vertexLight[${maxVertexLightCount}];
-uniform Material material;
 
 uniform mat4 modelToWorldMatrix;
 uniform mat4 worldToCameraMatrix;
@@ -41,9 +49,9 @@ void main(void) {
     // the 1.0 is needed to do translations with the matrices
     gl_Position = cameraToClipMatrix * worldToCameraMatrix * modelToWorldMatrix * vec4(${position}, 1.0);
 
-    // transforms the vertex into cam-space
+    // transforms the vertex into cam-space (means minus the cameraToClipMatrix)
     passPosition = vec3(worldToCameraMatrix * modelToWorldMatrix * vec4(${position}, 1.0));
-    // transforms the normal's orientation into cam-space
+    // transforms the normal's orientation into cam-space, normal is without position, no need for the modelToWorldMatrix here
     passNormal =  normalize(vec3(normalMatrix * ${normal}));
     // nothing happens to the texture coords, they are picked up in the fragment shader and mapped to
     // one of the textures that are bound
@@ -53,7 +61,7 @@ void main(void) {
     for (int index = 0; index < ${maxVertexLightCount}; index++) {
     
        // the light ray from the light source to the vertex position
-       vec3 lightPos = vertexLight[index].position;
+       vec3 lightPos = vertexLight[index].position.xyz;
        vec3 vertexPos = vec3(modelToWorldMatrix * vec4(${position}, 1.0));
              
 	   // dot product is max for 0degree between light vector and normal	

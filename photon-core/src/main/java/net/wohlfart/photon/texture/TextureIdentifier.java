@@ -9,17 +9,17 @@ import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 public class TextureIdentifier implements ITextureIdentifier {
     private final URI textureResource;
 
-    public static TextureIdentifier create(float radius, CelestialType type, long seed) {
+    public static TextureIdentifier create(float radius, ISphereSurfaceColor color, long seed) {
         try {
             URI uri = new URI(ResourceTool.PROC_SCHEME + ":///celestial?"
                     + "radius=" + radius + "&"
-                    + "type=" + type.toString() + "&"
+                    + "type=" + color.toString() + "&"
                     + "seed=" + seed);
             return new TextureIdentifier(uri);
         } catch (Exception ex) {
             throw new IllegalStateException("invalid uri "
             		+ " radius: '" + radius + "'"
-            		+ " type: '" + type + "'"
+            		+ " type: '" + color + "'"
             		+ " seed: '" + seed + "'"
             		, ex);
         }
