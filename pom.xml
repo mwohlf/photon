@@ -16,7 +16,7 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
 		<photon.version>0.0.1-SNAPSHOT</photon.version>
-		<jogl.version>2.1.4</jogl.version>
+		<jogl.version>2.1.5-01</jogl.version>
 
 		<junit.version>4.11</junit.version>
 		<org.slf4j.version>1.7.7</org.slf4j.version>

@@ -3,23 +3,22 @@ package net.wohlfart.photon.texture;
 import java.net.URI;
 import java.net.URISyntaxException;
 
-import net.wohlfart.photon.resources.ResourceTool;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
 public class TextureIdentifier implements ITextureIdentifier {
     private final URI textureResource;
 
-    public static TextureIdentifier create(float radius, ISphereSurfaceColor color, long seed) {
+    public static TextureIdentifier create(float radius, String iSphereSurfaceColorId, long seed) {
         try {
-            URI uri = new URI(ResourceTool.PROC_SCHEME + ":///celestial?"
+            URI uri = new URI(TextureFactory.SIMPLEX_SCHEME + ":///celestial?"
                     + "radius=" + radius + "&"
-                    + "type=" + color.toString() + "&"
+                    + "type=" + iSphereSurfaceColorId + "&"
                     + "seed=" + seed);
             return new TextureIdentifier(uri);
         } catch (Exception ex) {
             throw new IllegalStateException("invalid uri "
             		+ " radius: '" + radius + "'"
-            		+ " type: '" + color + "'"
+            		+ " type: '" + iSphereSurfaceColorId + "'"
             		+ " seed: '" + seed + "'"
             		, ex);
         }
@@ -27,7 +26,7 @@ public class TextureIdentifier implements ITextureIdentifier {
 
     public static TextureIdentifier create(String path, float size) {
         try {
-            URI uri = new URI(ResourceTool.FILE_SCHEME + ":///" + path + "?size=" + size);
+            URI uri = new URI(TextureFactory.FILE_SCHEME + ":///" + path + "?size=" + size);
             return new TextureIdentifier(uri);
         } catch (URISyntaxException ex) {
             throw new IllegalStateException("invalid uri", ex);
@@ -36,7 +35,7 @@ public class TextureIdentifier implements ITextureIdentifier {
 
     public static TextureIdentifier create(String path) {
         try {
-            URI uri = new URI(ResourceTool.FILE_SCHEME + ":///" + path);
+            URI uri = new URI(TextureFactory.FILE_SCHEME + ":///" + path);
             return new TextureIdentifier(uri);
         } catch (URISyntaxException ex) {
             throw new IllegalStateException("invalid uri", ex);
