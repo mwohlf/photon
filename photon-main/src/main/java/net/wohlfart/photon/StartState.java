@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
+import net.wohlfart.photon.entity.Skybox;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -78,6 +79,7 @@ public class StartState implements IState {
 	public void init() {
 
 		sceneGraph.setup( new IEntity[] {
+				new Skybox(),
 
 				// new SunClassG(),
 
