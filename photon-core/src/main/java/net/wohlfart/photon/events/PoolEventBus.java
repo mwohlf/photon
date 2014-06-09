@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+// FIXME: do some optimization and combine multiple event on the same object (e.g. two moves can be combined into one...)
 public class PoolEventBus implements EventBus<PoolableObject> {
     protected static final Logger LOGGER = LoggerFactory.getLogger(PoolEventBus.class);
     private final ConcurrentLinkedQueue<PoolableObject> queue = new ConcurrentLinkedQueue<PoolableObject>();

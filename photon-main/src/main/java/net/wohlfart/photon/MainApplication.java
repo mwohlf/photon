@@ -45,7 +45,7 @@ public class MainApplication implements ILifecycleListener {
 	public MainApplication(
 			PoolEventBus eventBus,
 			TimerImpl timer,
-			RendererImpl renderer,
+			RendererImpl renderer,  // use interface here?
 			StateManager stateManager) {
 		this.eventBus = eventBus;
 		this.timer = timer;

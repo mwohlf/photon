@@ -21,6 +21,7 @@ public class RendererImpl implements IRenderer {
 	protected static final Logger LOGGER = LoggerFactory.getLogger(RendererImpl.class);
 
 	protected IGraphicContext graphicContext;
+
 	protected volatile boolean debug;
 	protected volatile int inset = 0;
 

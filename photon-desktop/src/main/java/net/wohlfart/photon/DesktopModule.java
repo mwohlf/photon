@@ -1,6 +1,9 @@
 package net.wohlfart.photon;
 
 import java.awt.Component;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 import javax.inject.Singleton;
 
@@ -25,6 +28,25 @@ public class DesktopModule {
 	@Provides @Singleton
 	public PoolEventBus providePoolEventBus() {
 		return new PoolEventBus();
+	}
+
+	@Provides @Singleton
+	public Properties provideProperties() {
+		final Properties properties = new Properties();
+		InputStream in = null;
+		try {
+			in = getClass().getResourceAsStream("/desktop.properties");
+			properties.load(in);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (in != null) {
+				try {
+					in.close();
+				} catch (IOException e) { /* ignored */ }
+			}
+		}
+		return properties;
 	}
 
 	@Provides

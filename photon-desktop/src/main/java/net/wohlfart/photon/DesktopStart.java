@@ -1,18 +1,16 @@
 package net.wohlfart.photon;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
 import javax.inject.Inject;
-import javax.swing.JFrame;
+import javax.media.opengl.GLCapabilities;
+import javax.media.opengl.GLProfile;
 
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
@@ -25,6 +23,12 @@ import net.wohlfart.photon.tools.ObjectPool.PoolableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.jogamp.newt.Display;
+import com.jogamp.newt.NewtFactory;
+import com.jogamp.newt.Screen;
+import com.jogamp.newt.opengl.GLWindow;
+import com.jogamp.opengl.util.FPSAnimator;
+
 import dagger.ObjectGraph;
 
 
@@ -34,46 +38,73 @@ public class DesktopStart {
 	// platform dependant drawing target, already wired with the animator loop
 	protected final OpenGlCanvas<Component> canvas;
 
+	// event Bus to listen for the quit event
 	protected final PoolEventBus eventBus;
 
-	protected final JFrame frame;
-
+	// ILifecycleListener already wired with EventBus, RendererImpl, TimerImpl, StateManager
 	protected final MainApplication game;
 
-
-	@Inject
-	public DesktopStart(MainApplication game, PoolEventBus eventBus, OpenGlCanvas<Component> canvas){
-		this.game = game;
-		this.eventBus = eventBus;
-		this.canvas = canvas;
-		this.frame = new JFrame();
-	}
+	// application properties read from properties file in classpath
+	protected final Properties properties;
 
 
-	public void start() throws InvocationTargetException, InterruptedException, IOException {
-		final Properties prop = new Properties();
-		InputStream in = null;
+	public static void main(String[] args) {
 		try {
-			in = getClass().getResourceAsStream("/desktop.properties");
-			prop.load(in);
-			String title = prop.getProperty("title");
-			int width = Integer.valueOf(prop.getProperty("width"));
-			int height = Integer.valueOf(prop.getProperty("height"));
-			start(title, width, height);
-		} finally {
-			if (in != null) {
-				in.close();
-			}
+			logJavaInfo();
+			final ObjectGraph objectGraph = ObjectGraph.create(new DesktopModule());
+			final DesktopStart desktop = objectGraph.get(DesktopStart.class);
+			desktop.start();
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 	}
 
 
-	public void start(final String title, final int width, final int height) throws InvocationTargetException, InterruptedException {
-		EventQueue.invokeAndWait(new Runnable() {
+	@Inject // constructor injection done by dagger
+	public DesktopStart(MainApplication game,
+			PoolEventBus eventBus,
+			OpenGlCanvas<Component> canvas,
+			Properties properties){
+		this.game = game;
+		this.eventBus = eventBus;
+		this.canvas = canvas;
+		this.properties = properties;
+	}
 
-			@Override
-			public void run() {
+	public void start() throws InvocationTargetException, InterruptedException {
 
+		// setup
+		final GLProfile glProfile = GLProfile.get(GLProfile.GL2ES2);
+		GLProfile.initSingleton();
+		GLCapabilities glCaps = new GLCapabilities(glProfile);
+
+
+		final String title = properties.getProperty("title");
+		final int width = Integer.valueOf(properties.getProperty("width"));
+		final int height = Integer.valueOf(properties.getProperty("height"));
+
+
+		Display display = NewtFactory.createDisplay(null);
+		Screen screen = NewtFactory.createScreen(display, 0); // screen 0
+		GLWindow glWindow = GLWindow.create(screen, glCaps);
+
+		glWindow.setSize(width, height);
+		glWindow.setTitle(title);
+
+
+		LifecycleAdpator drawable = new LifecycleAdpator(game);
+		glWindow.addGLEventListener(drawable);
+
+		FPSAnimator animator = new FPSAnimator(30, true);
+		animator.add(glWindow);
+
+
+
+		glWindow.setVisible(true);
+		animator.start();
+
+
+		/*
 				canvas.setPreferredSize(new Dimension(width, height));
 				canvas.addLifecycleListener(game);
 				canvas.addKeyListener(new KeyListener());
@@ -88,10 +119,10 @@ public class DesktopStart {
 				frame.setVisible(true);
 
 				eventBus.register(new ShutdownListener());
-			}
-		});
+		 */
 
-		canvas.startAnimator(); // start the animation loop
+
+		//canvas.startAnimator(); // start the animation loop
 	}
 
 	public void fireShutdown() {
@@ -110,8 +141,7 @@ public class DesktopStart {
 				EventQueue.invokeLater(new Runnable() {
 					@Override
 					public void run() {
-						frame.setVisible(false);
-						frame.dispose();
+						// TODO
 					}
 				});
 			}
@@ -186,20 +216,6 @@ public class DesktopStart {
 			if (evt!= null) {
 				eventBus.post(evt);
 			}
-		}
-	}
-
-
-	// -- the static bootup code
-
-	public static void main(String[] args) {
-		try {
-			logJavaInfo();
-			final ObjectGraph objectGraph = ObjectGraph.create(new DesktopModule());
-			final DesktopStart desktop = objectGraph.get(DesktopStart.class);
-			desktop.start();
-		} catch (Exception ex) {
-			ex.printStackTrace();
 		}
 	}
 

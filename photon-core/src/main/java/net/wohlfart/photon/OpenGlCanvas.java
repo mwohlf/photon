@@ -7,7 +7,7 @@ import javax.media.opengl.awt.GLCanvas;
 
 import com.jogamp.opengl.util.FPSAnimator;
 
-
+@Deprecated
 public class OpenGlCanvas<T> extends GLCanvas {
 	private static final long serialVersionUID = 1L;
 

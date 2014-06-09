@@ -44,27 +44,27 @@ public class RotateEvent  implements PoolableObject, Serializable {
     private RotateEvent() {}
 
     public static RotateEvent rotateLeft(float time) {
-        return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(0, 1, 0));
-    }
-
-    public static RotateEvent rotateRight(float time) {
         return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(0, -1, 0));
     }
 
-    public static RotateEvent rotateUp(float time) {
-        return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(1, 0, 0));
+    public static RotateEvent rotateRight(float time) {
+        return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(0, +1, 0));
     }
 
-    public static RotateEvent rotateDown(float time) {
+    public static RotateEvent rotateUp(float time) {
         return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(-1, 0, 0));
     }
 
+    public static RotateEvent rotateDown(float time) {
+        return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(+1, 0, 0));
+    }
+
     public static RotateEvent rotateClockwise(float time) {
-        return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(0, 0, 1));
+        return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(0, 0, -1));
     }
 
     public static RotateEvent rotateCounterClockwise(float time) {
-        return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(0, 0, -1));
+        return rotate(time * ROTATION_SPEED / MathTool.TWO_PI, new Vector3f(0, 0, +1));
     }
 
     // might return null if we are out of resources
