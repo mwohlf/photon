@@ -10,7 +10,6 @@ import net.wohlfart.photon.render.IGeometry.VertexFormat;
 // TODO: reduce methods
 public interface IShaderProgram {
 
-
 	public interface IShaderProgramIdentifier {
 
 		URI getVertexShaderResource();
@@ -42,6 +41,21 @@ public interface IShaderProgram {
 
 	int nextLightSlot();
 
+
+
+	IShaderProgramIdentifier NULL_SHADER_ID = new IShaderProgramIdentifier() {
+
+		@Override
+		public URI getVertexShaderResource() {
+			return null;
+		}
+
+		@Override
+		public URI getFragmentShaderResource() {
+			return null;
+		}
+
+	};
 
 
 	public static final IShaderProgram NULL_SHADER = new IShaderProgram() {

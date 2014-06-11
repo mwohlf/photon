@@ -3,6 +3,7 @@ package net.wohlfart.photon.render;
 import javax.media.opengl.GL2ES2;
 
 import net.wohlfart.photon.render.RenderConfigImpl.Blending;
+import net.wohlfart.photon.render.RenderConfigImpl.Clear;
 import net.wohlfart.photon.render.RenderConfigImpl.ClearColor;
 import net.wohlfart.photon.render.RenderConfigImpl.ClearDepth;
 import net.wohlfart.photon.render.RenderConfigImpl.ColorMask;
@@ -17,6 +18,19 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 
 	// this is for testing and debugging
 	public static final RenderConfigImpl DEFAULT = new RenderConfigImpl(
+			Clear.OFF,
+			Blending.OFF,
+			ClearColor.BLUE,
+			PointSprite.OFF,
+			ClearDepth.ONE,
+			ColorMask.ON,
+			DepthTest.OFF,
+			FaceCulling.OFF,
+			SissorTest.OFF,
+			StencilTest.OFF);
+
+	public static final RenderConfigImpl CLEAR = new RenderConfigImpl(
+			Clear.ON,
 			Blending.OFF,
 			ClearColor.BLUE,
 			PointSprite.OFF,
@@ -28,6 +42,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			StencilTest.OFF);
 
 	public static final RenderConfigImpl BLENDING_ON = new RenderConfigImpl(
+			Clear.OFF,
 			Blending.ON,
 			ClearColor.BLUE,
 			PointSprite.OFF,
@@ -39,6 +54,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			StencilTest.OFF);
 
 	public static final RenderConfigImpl DEFAULT_3D = new RenderConfigImpl(
+			Clear.OFF,
 			Blending.OFF,
 			ClearColor.BLUE,
 			PointSprite.OFF,
@@ -50,6 +66,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			StencilTest.OFF);
 
 	public static final RenderConfigImpl SPRITE_CLOUD = new RenderConfigImpl(
+			Clear.OFF,
 			Blending.OFF,
 			ClearColor.BLUE,
 			PointSprite.SIZE_FROM_SHADER,
@@ -61,6 +78,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			StencilTest.OFF);
 
 	public static final RenderConfigImpl SKYBOX = new RenderConfigImpl(
+			Clear.OFF,
 			Blending.OFF,
 			ClearColor.BLUE,
 			PointSprite.OFF,

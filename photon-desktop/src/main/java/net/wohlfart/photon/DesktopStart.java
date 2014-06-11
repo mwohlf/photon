@@ -73,16 +73,24 @@ public class DesktopStart {
 
 	public void start() throws InvocationTargetException, InterruptedException {
 
-		// setup
-		final GLProfile glProfile = GLProfile.get(GLProfile.GL2ES2);
-		GLProfile.initSingleton();
-		GLCapabilities glCaps = new GLCapabilities(glProfile);
-
-
 		final String title = properties.getProperty("title");
 		final int width = Integer.valueOf(properties.getProperty("width"));
 		final int height = Integer.valueOf(properties.getProperty("height"));
 
+		/*
+		// setup
+		final GLProfile glProfile = GLProfile.get(GLProfile.GL3);
+		GLProfile.initSingleton();
+		GLCapabilities glCaps = new GLCapabilities(glProfile);
+
+		Display display = NewtFactory.createDisplay(null);
+		Screen screen = NewtFactory.createScreen(display, 0); // screen 0
+		GLWindow glWindow = GLWindow.create(screen, glCaps);
+		 */
+
+		final GLProfile glProfile = GLProfile.get(GLProfile.GL2);
+		GLProfile.initSingleton();
+		GLCapabilities glCaps = new GLCapabilities(glProfile);
 
 		Display display = NewtFactory.createDisplay(null);
 		Screen screen = NewtFactory.createScreen(display, 0); // screen 0
@@ -90,18 +98,18 @@ public class DesktopStart {
 
 		glWindow.setSize(width, height);
 		glWindow.setTitle(title);
+		glWindow.setPointerVisible(false);
 
 
 		LifecycleAdpator drawable = new LifecycleAdpator(game);
 		glWindow.addGLEventListener(drawable);
 
+
 		FPSAnimator animator = new FPSAnimator(30, true);
 		animator.add(glWindow);
-
-
+		animator.start();
 
 		glWindow.setVisible(true);
-		animator.start();
 
 
 		/*

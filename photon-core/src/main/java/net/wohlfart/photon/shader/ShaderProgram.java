@@ -86,7 +86,7 @@ public class ShaderProgram implements IShaderProgram {
 	@Override
 	public void bind(GL2ES2 gl) {
 		if (shaderId == -1) {
-			LOGGER.debug("not binding the shader since programId is -1");
+			LOGGER.debug("setup the shader since programId is -1");
 			setup(gl);
 		}
 		LOGGER.debug("binding shaderProgramId '{}' ", shaderId);
@@ -96,6 +96,8 @@ public class ShaderProgram implements IShaderProgram {
 
 	// delayed since the OpenGL context needs to be up in order for this to work
 	private void setup(GL2ES2 gl) {
+		checkError(gl);
+
 		vertexShaderId = loadShader(gl, vertexShaderCode, GL2ES2.GL_VERTEX_SHADER);
 		fragmentShaderId = loadShader(gl, fragmentShaderCode, GL2ES2.GL_FRAGMENT_SHADER);
 		linkAndValidate(gl, vertexShaderId, fragmentShaderId);
@@ -172,6 +174,7 @@ public class ShaderProgram implements IShaderProgram {
 
 	private int loadShader(GL2ES2 gl, final String code, int shaderType) {
 		LOGGER.debug("loading shader, type is '{}'", shaderType);
+		checkError(gl);
 
 		int shader = gl.glCreateShader(shaderType);
 		if (shader == 0) {
@@ -200,23 +203,39 @@ public class ShaderProgram implements IShaderProgram {
 
 	// attach, link and validate the shaders into a shader program
 	private void linkAndValidate(GL2ES2 gl, int... handles) {
-		int error = gl.glGetError();
-		if (error != GL2ES2.GL_NO_ERROR) {// @formatter:off
-			throw new ShaderException("" + "error before linking shader, error string is '" + "" + "' \n" + "programmId is '"
-					+ shaderId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
-		}
+		checkError(gl);
 		shaderId = gl.glCreateProgram();
 		for (final int handle : handles) {
 			gl.glAttachShader(shaderId, handle);
 		}
 		gl.glLinkProgram(shaderId);
 		gl.glValidateProgram(shaderId);
-		error = gl.glGetError();
+		checkError(gl);
+	}
+
+	private void checkError(GL2ES2 gl) {
+		int error = gl.glGetError();
 		if (error != GL2ES2.GL_NO_ERROR) {// @formatter:off
-			throw new ShaderException("" + "error validating shader, error string is '" + "" + "' \n" + "programmId is '"
-					+ shaderId + "' \n" + "handles are: " + Arrays.toString(handles)); // @formatter:on
+			final String shaderInfoLog = getShaderInfoLog(gl, shaderId);
+			throw new ShaderException("" + "error validating shader, error code is: " + error
+					+ " error string is '" + shaderInfoLog + "' \n"
+					+ " programmId is '" + shaderId + "' \n");
 		}
 	}
+
+	private String getShaderInfoLog(GL2ES2 gl, int shaderId) {
+        int[] infoLogLength=new int[1];
+        gl.glGetShaderiv(shaderId, GL2ES2.GL_INFO_LOG_LENGTH, infoLogLength, 0);
+
+        if(infoLogLength[0]==0) {
+            return "(no info log)";
+        }
+        int[] charsWritten=new int[1];
+        byte[] infoLogBytes = new byte[infoLogLength[0]];
+        gl.glGetShaderInfoLog(shaderId, infoLogLength[0], charsWritten, 0, infoLogBytes, 0);
+
+        return new String(infoLogBytes, 0, charsWritten[0]);
+    }
 
 	// see: http://www.guyford.co.uk/showpage.php?id=50&page=How_to_setup_and_load_GLSL_Shaders_in_JOGL_2.0
 	// see: http://jogamp.org/wiki/index.php/How_to_write_cross_GLProfile_compatible_shader_using_JOGL

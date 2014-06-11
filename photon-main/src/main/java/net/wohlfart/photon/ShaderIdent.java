@@ -12,7 +12,7 @@ public enum ShaderIdent implements IShaderProgramIdentifier {
 	TEXTURE_SHADER_ID("shader/texture.vert", "shader/texture.frag"),
 	VERTEX_LIGHT_SHADER("shader/vertexLight.vert", "shader/vertexLight.frag"),
 	POINT_SPRITE_SHADER("shader/pointSprite.vert", "shader/pointSprite.frag"),
-	;
+	; // TODO: add null shader
 
 	private final URI vertexShaderResource;
 	private final URI fragmentShaderResource;

@@ -59,7 +59,8 @@ public class GraphicContext implements IGraphicContext {
 		assert drawable.getGL().getGL2ES2() != null : "drawable.gl.gl2es2 is null";
 
 		gl = drawable.getGL().getGL2ES2();
-		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
+		// throws error on dispose with  -Djogl.debug.DebugGL, moved to the root node
+		// gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 		currentShader = ShaderProgram.NULL_SHADER;
 		return this;
 	}
@@ -96,7 +97,7 @@ public class GraphicContext implements IGraphicContext {
 		currentShader.useUniforms(uniformValues.values());
 	}
 
-	// set or unset a framebuff as rendering target
+	// set or un-set a framebuffer as rendering target
 	@Override
 	public void setFrameBuffer(IFrameBuffer frameBuffer) {
 

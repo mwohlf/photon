@@ -6,7 +6,6 @@ import javax.vecmath.Matrix4f;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// @formatter:off
 /**
  * - the projection matrix defines the lens of the camera it translates the
  * world space into 2D screen space, it is independent of the actual screen
@@ -143,13 +142,13 @@ public class Perspective {
 
 
 	private void lazyRecalculate() {
-		assert !Float.isNaN(farPlane);
-		assert !Float.isNaN(nearPlane);
-		assert !Float.isNaN(fieldOfViewDegree);
-		assert !Float.isNaN(fieldOfViewRad);
-		assert !Float.isNaN(width);
-		assert !Float.isNaN(height);
-		assert !Float.isNaN(scaleFactor);
+		assert !Float.isNaN(farPlane) : "no farPlane configured";
+		assert !Float.isNaN(nearPlane) : "no nearPlane configured";
+		assert !Float.isNaN(fieldOfViewDegree) : "no fieldOfViewDegree configured";
+		assert !Float.isNaN(fieldOfViewRad) : "no fieldOfViewRad configured";
+		assert !Float.isNaN(width) : "no width configured";
+		assert !Float.isNaN(height) : "no height configured";
+		assert !Float.isNaN(scaleFactor) : "no scaleFactor configured";
 
 		if (!isDirty) {
 			return;

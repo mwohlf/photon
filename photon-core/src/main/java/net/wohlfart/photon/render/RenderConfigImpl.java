@@ -1,6 +1,7 @@
 package net.wohlfart.photon.render;
 
 import javax.media.opengl.GL;
+import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL2ES2;
 import javax.media.opengl.GL2GL3;
@@ -15,6 +16,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	// need to setup the weights first since they are used in the constructor...
 	private static final EnumWeights WEIGHTS = new EnumWeights(
+			Clear.class,
 			Blending.class,   // opaque objects first front to back, then the transparent back to front
 			DepthTest.class,
 			PointSprite.class,
@@ -28,6 +30,10 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 			FaceCulling.class
 			);
 
+	private final int hash;
+
+
+	private final Clear clear;
 
 	private final Blending blending;
 
@@ -48,10 +54,9 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	private final FaceCulling faceCulling;
 
 
-	private final int hash;
-
 
 	RenderConfigImpl() {
+		this.clear = null;
 		this.blending = null;
 		this.depthTest = null;
 		this.pointSprite = null;
@@ -65,6 +70,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	}
 
 	RenderConfigImpl(
+			Clear clear,
 			Blending blending,
 			ClearColor clearColor,
 			PointSprite pointSprite,
@@ -75,6 +81,7 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 			SissorTest scissorTest,
 			StencilTest stencilTest) {
 
+		this.clear = clear;
 		this.blending = blending;
 		this.clearColor = clearColor;
 		this.pointSprite = pointSprite;
@@ -85,7 +92,9 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		this.scissorTest = scissorTest;
 		this.stencilTest = stencilTest;
 
-		hash = WEIGHTS.getWeightFor(blending,
+		hash = WEIGHTS.getWeightFor(
+				clear,
+				blending,
 				clearColor,
 				clearDepth,
 				colorMask,
@@ -114,6 +123,9 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	@Override
 	public RenderConfigImpl updateValues(GL2ES2 gl, RenderConfigImpl that) {
+		if (that.clear != this.clear) {
+			clear.setValue(gl);
+		}
 		if (that.blending != this.blending) {
 			blending.setValue(gl);
 		}
@@ -154,7 +166,8 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	@Override
 	public String toString() {
-		return this.getClass().getSimpleName() + " [blending=" + blending
+		return this.getClass().getSimpleName() + " [clear=" + clear
+	            + ", blending=" + blending
 				+ ", clearColor=" + clearColor
 				+ ", clearDepth=" + clearDepth
 				+ ", colorMask=" + colorMask
@@ -167,6 +180,21 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 	interface RenderProperty {
 		// implementations get called with the old property value
 		void setValue(GL2ES2 gl);
+	}
+
+	public enum Clear implements RenderProperty {
+		OFF {
+			@Override
+			public void setValue(GL2ES2 gl) {
+				// do nothing
+			}
+		},
+		ON {
+			@Override
+			public void setValue(GL2ES2 gl) {
+				gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
+			}
+		}
 	}
 
 
