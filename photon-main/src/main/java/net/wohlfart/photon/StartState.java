@@ -5,7 +5,9 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.inject.Inject;
+import javax.vecmath.Vector3d;
 
+import net.wohlfart.photon.entity.QuadEntity;
 import net.wohlfart.photon.entity.Skybox;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
@@ -80,14 +82,14 @@ public class StartState implements IState {
 
 		sceneGraph.setup( new IEntity[] {
 				new Skybox(),
+				new QuadEntity().withPosition(new Vector3d(0, 0, -20)),
 
-				// new SunClassG(),
 
-				/*
-				new Skybox(),
+					/*
+				 new SunClassG(),
+
 				new ProceduralCelestial().withPosition(10, 0, -30).withCorona(new Corona().withThinkness(.2f)),
 				new SphereEntity().withPosition(-10, 0, -10),
-				new QuadEntity().withPosition(new Vector3d(+25, 0, 0)),
 				new CubeEntity(1).withPosition(0,0,-2),
 				new CubeEntity(1).withPosition(-20,0,-3f),
 				new CubeEntity(1).withPosition(-12,0,-4f),
