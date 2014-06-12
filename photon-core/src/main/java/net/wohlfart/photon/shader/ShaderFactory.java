@@ -22,9 +22,6 @@ public class ShaderFactory implements ResourceProducer<IShaderProgram, IShaderPr
 
 	@Override
 	public IShaderProgram produce(IShaderProgramIdentifier ident) {
-		if (ident == IShaderProgram.NULL_SHADER_ID) {
-			return IShaderProgram.NULL_SHADER;
-		}
 		try {
 			final URI vertUri = ident.getVertexShaderResource();
 			final URI fragUri = ident.getFragmentShaderResource();

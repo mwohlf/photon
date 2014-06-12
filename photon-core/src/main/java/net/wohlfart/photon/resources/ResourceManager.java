@@ -3,6 +3,8 @@ package net.wohlfart.photon.resources;
 import java.util.HashMap;
 import java.util.Map;
 
+import net.wohlfart.photon.shader.IShaderProgram;
+import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 import net.wohlfart.photon.shader.ShaderFactory;
 import net.wohlfart.photon.texture.TextureFactory;
 
@@ -28,6 +30,9 @@ public enum ResourceManager {
 
     private ResourceManager() {
     	register(new ShaderFactory());
+    	resourceCache.put(
+    			new HashKey<IShaderProgram, IShaderProgramIdentifier>(IShaderProgram.class, IShaderProgram.NULL_SHADER_ID),
+    		    IShaderProgram.NULL_SHADER);
     	register(new TextureFactory());
     };
 
