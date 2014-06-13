@@ -96,25 +96,24 @@ public class DesktopStart {
 		window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DO_NOTHING_ON_CLOSE);
 		window.addWindowListener(new CloseListener());
 
-		LifecycleAdpator drawable = new LifecycleAdpator(game);
-		window.addGLEventListener(drawable);
 		animator.add(window);
 
 		eventBus.register(this);
-		window.addKeyListener(keyListener);
 
 		return this;
 	}
 
 	public void start() throws InterruptedException {
-		animator.start();
+		animator.start();  // need the animator to run in order to get events
+		window.addGLEventListener(new LifecycleAdpator(game));
+		window.addKeyListener(keyListener);
 		window.setVisible(true);
 
 		synchronized (lock) {
 			lock.wait();
 		}
 
-		LOGGER.info("shutdown() called");
+		LOGGER.info("lock released, shutdown running");
 		animator.stop();
 		window.destroy();
 		screen.destroy();

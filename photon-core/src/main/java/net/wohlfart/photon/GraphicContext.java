@@ -139,6 +139,7 @@ public class GraphicContext implements IGraphicContext {
 			builder.append(" " + entry);
 		}
 		builder.append(readGlInfo());
+		builder.append(readShaderInfo());
 		return builder.toString();
 	}
 
@@ -148,6 +149,12 @@ public class GraphicContext implements IGraphicContext {
 		float[] pointSizeRange = new float[2];
 		gl.glGetFloatv(GL.GL_ALIASED_POINT_SIZE_RANGE, pointSizeRange, 0);
 		builder.append("GL.GL_ALIASED_POINT_SIZE_RANGE: '" + pointSizeRange[0] + "' - '" + pointSizeRange[1] + "'");
+		return builder.toString();
+	}
+
+	private String readShaderInfo() {
+		StringBuilder builder = new StringBuilder();
+		builder.append(" shader: '" + currentShader.toString() + "'");
 		return builder.toString();
 	}
 

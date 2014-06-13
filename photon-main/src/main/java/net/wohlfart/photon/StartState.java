@@ -5,10 +5,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 
 import javax.inject.Inject;
-import javax.vecmath.Vector3d;
 
-import net.wohlfart.photon.entity.QuadEntity;
-import net.wohlfart.photon.entity.Skybox;
+import net.wohlfart.photon.entity.SphereEntity;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -39,7 +37,7 @@ public class StartState implements IState {
 
 	private volatile boolean debugOnce = false;
 
-	// delegates, the scene is moved not the cam
+	// delegates, the entities are moved not the cam
 	private final CanRotateImpl rotation = new CanRotateImpl();
 	private final CanMoveImpl movement = new CanMoveImpl();
 
@@ -81,23 +79,33 @@ public class StartState implements IState {
 	public void init() {
 
 		sceneGraph.setup( new IEntity[] {
+
+				new SphereEntity().withPosition(0, 0, -30),
+
+				/*
 				new Skybox(),
 				new QuadEntity().withPosition(new Vector3d(0, 0, -20)),
-
-
-					/*
-				 new SunClassG(),
-
-				new ProceduralCelestial().withPosition(10, 0, -30).withCorona(new Corona().withThinkness(.2f)),
-				new SphereEntity().withPosition(-10, 0, -10),
 				new CubeEntity(1).withPosition(0,0,-2),
 				new CubeEntity(1).withPosition(-20,0,-3f),
 				new CubeEntity(1).withPosition(-12,0,-4f),
 				new CubeEntity(1).withPosition(-5,0,-5f),
 				new CubeEntity(1).withPosition(7,0,-6f),
+
 				new SimpleLayer(),
-				new Earth().withPosition(0, -10, -20),
+
 				new SpriteCloud(),
+
+				new SphereEntity().withPosition(0, 0, -30),
+
+				new SunClassG().withSize(4),
+				*/
+
+					/*
+
+				new ProceduralCelestial().withPosition(10, 0, -30).withCorona(new Corona().withThinkness(.2f)),
+				new SphereEntity().withPosition(-10, 0, -10),
+
+				new Earth().withPosition(0, -10, -20),
 				new CubeEntity(1).withPosition(22,20,-1),
 				new SimpleEffect().addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d)),
 
@@ -105,7 +113,6 @@ public class StartState implements IState {
 			//	new VertexLight().withPosition(20, 0,  30),
 
 
-				new SphereEntity().withPosition(0, 0, -30),
 				new SphereEntity().withPosition(0, 0, 10),
 				new SphereEntity().withPosition(0, 10, -20),
 				new SphereEntity().withPosition(0, -10, -20),

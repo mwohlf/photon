@@ -42,7 +42,6 @@ public class TextureFactory implements ResourceProducer<ITexture, TextureIdentif
         return new ImageTexture(ResourceTool.readImage(uri));
     }
 
-    // TODO: need a way to register and access texture producers
     private ITexture createProcedualTexture(URI uri) throws UnsupportedEncodingException {
         final ResourceUriParser parser = new ResourceUriParser(uri);
         final float radius = parser.getFloat("radius");
@@ -51,7 +50,7 @@ public class TextureFactory implements ResourceProducer<ITexture, TextureIdentif
         return new CelestialTexture(radius, type, seed);
     }
 
-    public ISphereSurfaceColor getSphereSurfaceColor(String key) {
+    private ISphereSurfaceColor getSphereSurfaceColor(String key) {
     	return SPHERE_SURFACE_MAP.get(key);
     }
 

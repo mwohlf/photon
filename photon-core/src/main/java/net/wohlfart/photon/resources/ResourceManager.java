@@ -6,6 +6,8 @@ import java.util.Map;
 import net.wohlfart.photon.shader.IShaderProgram;
 import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 import net.wohlfart.photon.shader.ShaderFactory;
+import net.wohlfart.photon.texture.ISphereSurfaceColor;
+import net.wohlfart.photon.texture.ITexture;
 import net.wohlfart.photon.texture.TextureFactory;
 
 import org.slf4j.Logger;
@@ -17,7 +19,7 @@ import org.slf4j.LoggerFactory;
  * loading or creating is delegated to the factories
  *
  * TODO: somehow we need to keep track which resources are loaded in the GPU's memory...
- * also check if we can do some async magic here
+ * also check if we can do some async magic here when loading resources
  */
 public enum ResourceManager {
 	INSTANCE; // todo: remove the singleton
@@ -47,6 +49,7 @@ public enum ResourceManager {
 
     @SuppressWarnings("unchecked")
     public <R,K> R load(Class<R> clazz, K key) {
+    	// the lookup key is a combination of type and resource key
         HashKey<R, K> lookup = new HashKey<R,K>(clazz, key);
         R result = clazz.cast(resourceCache.get(lookup));
         if (result != null) {
@@ -106,6 +109,11 @@ public enum ResourceManager {
 
             return true;
         }
+    }
+
+    public void registerSimplexTexture(ISphereSurfaceColor surfaceColor) {
+    	TextureFactory producer = (TextureFactory) delegates.get(ITexture.class);
+    	producer.registerSphereSurfaceColor(surfaceColor);
     }
 
 }

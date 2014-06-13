@@ -90,8 +90,9 @@ public class RendererImpl implements IRenderer {
     	for (int i = 0; i < inset; i++) {
     		string += "  ";
     	}
-    	LOGGER.error(string + node);
-    	LOGGER.error(string + graphicContext);
+    	LOGGER.error(string + String.format("node: %s", node));
+    	LOGGER.error(string + String.format("node.sort: %s", node.getSortToken()));
+    	LOGGER.error(string + String.format("context: %s", graphicContext));
     }
 
 }

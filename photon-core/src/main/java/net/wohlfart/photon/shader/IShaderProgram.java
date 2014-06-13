@@ -115,6 +115,11 @@ public interface IShaderProgram {
 			// do nothing
 		}
 
+		@Override
+		public String toString() {
+			return "NULL_SHADER";
+		}
+
 	};
 
 }
