@@ -1,6 +1,4 @@
 package net.wohlfart.photon;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Properties;
 
@@ -20,6 +18,8 @@ import org.slf4j.LoggerFactory;
 import com.jogamp.newt.Display;
 import com.jogamp.newt.NewtFactory;
 import com.jogamp.newt.Screen;
+import com.jogamp.newt.event.WindowAdapter;
+import com.jogamp.newt.event.WindowEvent;
 import com.jogamp.newt.opengl.GLWindow;
 import com.jogamp.opengl.util.FPSAnimator;
 
@@ -94,6 +94,7 @@ public class DesktopStart {
 		window.setTitle(title);
 		window.setPointerVisible(false);
 		window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DO_NOTHING_ON_CLOSE);
+		window.addWindowListener(new CloseListener());
 
 		LifecycleAdpator drawable = new LifecycleAdpator(game);
 		window.addGLEventListener(drawable);
@@ -130,20 +131,10 @@ public class DesktopStart {
 		}
 	}
 
-	public void fireShutdown() {
-		eventBus.post(CommandEvent.exit());
-		while (eventBus.hasEvent()) {
-			eventBus.fireEvent();
-		}
-	}
-
-	public class WindowListener extends WindowAdapter {
+	private class CloseListener extends WindowAdapter {
 		@Override
-		public void windowClosing(WindowEvent evt) {
+		public void windowDestroyNotify(WindowEvent evt) {
 			eventBus.post(CommandEvent.exit());
-			while (eventBus.hasEvent()) {
-				eventBus.fireEvent();
-			}
 		}
 	}
 
