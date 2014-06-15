@@ -6,7 +6,7 @@ struct VertexLight {
   vec3  color;
   vec4  diffuse;              // same intensity regardless of the viewer’s position
   vec4  specular;
-  vec4  position;
+  vec3  position;
   vec4  halfVector;
   float constantAttenuation;
   float linearAttenuation;

@@ -118,8 +118,13 @@ public class GraphicContext implements IGraphicContext {
 		gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, fboHandle);
 		final Dimension d = frameBuffer.getDimension();
 		gl.glViewport (0, 0, (int)d.getWidth(), (int)d.getHeight());
-		gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		// gives us an error when running with GL debug
+		// gl.glScissor(0, 0, (int)d.getWidth(), (int)d.getHeight());
+		// gl.glEnable(GL2.GL_SCISSOR_TEST);
+		// gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+		//gl.glClear(GL2.GL_COLOR_BUFFER_BIT);
 		gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
+		// gl.glDisable(GL2.GL_SCISSOR_TEST);
 	}
 
 	@Override

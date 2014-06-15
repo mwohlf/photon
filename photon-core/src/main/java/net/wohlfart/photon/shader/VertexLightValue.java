@@ -1,7 +1,10 @@
 package net.wohlfart.photon.shader;
 
+import javax.media.opengl.GL2ES2;
 import javax.vecmath.Vector3f;
 import javax.vecmath.Vector4f;
+
+import net.wohlfart.photon.GenericException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,40 +60,47 @@ public class VertexLightValue implements IUniformValue {
 	@Override
 	public void accept(IShaderProgram shader) {
 		Integer index = shader.nextLightSlot();
-		Integer location;
+		Integer location = null;
+		GL2ES2 gl2 = shader.getGl();
 
-		location = shader.getUniformLocation(name + "[" + index + "].attenuation");
-		if (location != null) {
-			LOGGER.debug("setting attenuation: {}", attenuation);
-			shader.getGl().glUniform1f(location, attenuation);
-		} else {
-			LOGGER.debug("attenuation not found");
+		try { // in debug mode we get an exception here if we provide wrong parameter count...
+
+			location = shader.getUniformLocation(name + "[" + index + "].attenuation");
+			if (location != null) {
+				LOGGER.debug("setting attenuation: {}", attenuation);
+				gl2.glUniform1f(location, attenuation);
+			} else {
+				LOGGER.debug("attenuation not found");
+			}
+
+			location = shader.getUniformLocation(name + "[" + index + "].position");
+			if (location != null) {
+				LOGGER.debug("setting position: {}", position);
+				gl2.glUniform3f(location, position.x, position.y, position.z);
+			} else {
+				LOGGER.debug("position not found");
+			}
+
+			location = shader.getUniformLocation(name + "[" + index + "].color");
+			if (location != null) {
+				LOGGER.debug("setting color: {}", color);
+				gl2.glUniform4f(location, color.x, color.y, color.z, color.w);
+			} else {
+				LOGGER.debug("color not found");
+			}
+
+			location = shader.getUniformLocation(name + "[" + index + "].diffuse");
+			if (location != null) {
+				LOGGER.debug("setting diffuse: {}", diffuse);
+				gl2.glUniform3f(location, diffuse.x, diffuse.y, diffuse.z);
+			} else {
+				LOGGER.debug("diffuse not found");
+			}
+
+		} catch (Exception ex) {
+			throw new GenericException("Error setting vertex light value, index: '" + index + "' "
+					+ ", location: '" + location + "' ", ex);
 		}
-
-		location = shader.getUniformLocation(name + "[" + index + "].position");
-		if (location != null) {
-			LOGGER.debug("setting position: {}", position);
-			shader.getGl().glUniform3f(location, position.x, position.y, position.z);
-		} else {
-			LOGGER.debug("position not found");
-		}
-
-		location = shader.getUniformLocation(name + "[" + index + "].color");
-		if (location != null) {
-			LOGGER.debug("setting color: {}", color);
-			shader.getGl().glUniform4f(location, color.x, color.y, color.z, color.w);
-		} else {
-			LOGGER.debug("color not found");
-		}
-
-		location = shader.getUniformLocation(name + "[" + index + "].diffuse");
-		if (location != null) {
-			LOGGER.debug("setting diffuse: {}", diffuse);
-			shader.getGl().glUniform3f(location, diffuse.x, diffuse.y, diffuse.z);
-		} else {
-			LOGGER.debug("diffuse not found");
-		}
-
 
 		// handle.getShader().getGl().glUniformMatrix4fv(handle.getLocation(), 1, false, modelview, 0);
 		// TODO

@@ -25,7 +25,7 @@ public class KeyListener extends KeyAdapter {
 		this.eventBus = eventBus;
 	}
 
-	// TODO: use a set of keyId mapped factories to be configurable
+	// TODO: use a set of keyId mapped factories to be configurable here
 
 	@Override
 	public void keyPressed(KeyEvent keyEvent) {

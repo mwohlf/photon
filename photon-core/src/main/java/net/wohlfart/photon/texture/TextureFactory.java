@@ -51,7 +51,11 @@ public class TextureFactory implements ResourceProducer<ITexture, TextureIdentif
     }
 
     private ISphereSurfaceColor getSphereSurfaceColor(String key) {
-    	return SPHERE_SURFACE_MAP.get(key);
+    	ISphereSurfaceColor result = SPHERE_SURFACE_MAP.get(key);
+    	if (result == null) {
+    		throw new IllegalArgumentException("key not found in SurfaceMap: '" + key + "'");
+    	}
+    	return result;
     }
 
     public ISphereSurfaceColor registerSphereSurfaceColor(ISphereSurfaceColor element) {

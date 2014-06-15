@@ -30,6 +30,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+
+// see: http://www.opengl.org/wiki/Common_Mistakes
 public class MainApplication implements ILifecycleListener {
 	private static final Logger LOGGER = LoggerFactory.getLogger(MainApplication.class);
 

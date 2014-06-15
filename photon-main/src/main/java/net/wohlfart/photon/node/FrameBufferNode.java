@@ -59,7 +59,7 @@ public class FrameBufferNode implements IRenderNode {
         // render on framebuffer
     	frameBufferObject = getFrameBufferObject();
     	screenDimension = renderer.getPerspective().getScreenDimension();
-    	frameBufferObject.setDimension(screenDimension);
+    	frameBufferObject.setDimension(new Dimension(512, 512));
     	renderer.setFrameBuffer(frameBufferObject);
         renderer.renderChildren(tree);
     	renderer.setFrameBuffer(null);
