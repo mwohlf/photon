@@ -104,6 +104,8 @@ public class GraphicContext implements IGraphicContext {
 		if (frameBuffer == null) {
 			// unbind
 			gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, 0);
+			final Dimension d = perspective.getScreenDimension();
+			gl.glViewport (0, 0, (int)d.getWidth(), (int)d.getHeight());
 			return;
 		}
 
@@ -116,8 +118,8 @@ public class GraphicContext implements IGraphicContext {
 
         // switch to rendering on FBO
 		gl.glBindFramebuffer(GL2.GL_FRAMEBUFFER, fboHandle);
-		final Dimension d = frameBuffer.getDimension();
-		gl.glViewport (0, 0, (int)d.getWidth(), (int)d.getHeight());
+		final Dimension bufferDim = frameBuffer.getBufferDimension();
+		gl.glViewport (0, 0, (int)bufferDim.getWidth(), (int)bufferDim.getHeight());
 		// gives us an error when running with GL debug
 		// gl.glScissor(0, 0, (int)d.getWidth(), (int)d.getHeight());
 		// gl.glEnable(GL2.GL_SCISSOR_TEST);

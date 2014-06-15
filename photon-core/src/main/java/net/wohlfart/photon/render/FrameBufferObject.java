@@ -6,7 +6,8 @@ import javax.media.opengl.GL2ES2;
 import net.wohlfart.photon.tools.Dimension;
 
 
-
+// FIXME: resize doesn't work here yet
+//
 // FIXME: checkout
 // http://gamedev.stackexchange.com/questions/19804/how-can-i-downsample-a-texture-using-fbos
 // for info about mipmaps
@@ -17,7 +18,8 @@ public class FrameBufferObject implements IFrameBuffer {
     private int depthBufferHandle = -1;
     private int textureHandle = -1;
 
-    private final Dimension dim = new Dimension();
+    private final float scaleing = 1f/20f;
+    private final Dimension bufferDimension = new Dimension();
 
 
     @Override
@@ -40,8 +42,8 @@ public class FrameBufferObject implements IFrameBuffer {
     }
 
 	@Override
-	public Dimension getDimension() {
-		return dim;
+	public Dimension getBufferDimension() {
+		return bufferDimension;
 	}
 
     @Override
@@ -49,11 +51,11 @@ public class FrameBufferObject implements IFrameBuffer {
     	// see: https://github.com/demoscenepassivist/SocialCoding/blob/master/code_demos_jogamp/src/framework/base/BaseFrameBufferObjectRendererExecutor.java
     	// see: http://www.mathematik.uni-marburg.de/~thormae/lectures/graphics1/code/JoglFboDepth/JoglFboDepth.java
 
-    	assert(this.dim.getHeight() > 0);
-    	assert(this.dim.getWidth() > 0);
+    	assert(this.bufferDimension.getHeight() > 0);
+    	assert(this.bufferDimension.getWidth() > 0);
 
-    	int width = (int) dim.getWidth();
-    	int height = (int) dim.getHeight();
+    	int width = (int) bufferDimension.getWidth();
+    	int height = (int) bufferDimension.getHeight();
 
         // create and bind a new framebuffer
         int[] arr = new int[1];
@@ -86,8 +88,8 @@ public class FrameBufferObject implements IFrameBuffer {
 
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_S, GL2.GL_CLAMP_TO_EDGE);
         gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_WRAP_T, GL2.GL_CLAMP_TO_EDGE);
-        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_NEAREST);
-        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_NEAREST);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MIN_FILTER, GL2.GL_LINEAR); // NEAREST);
+        gl.glTexParameteri(GL2.GL_TEXTURE_2D, GL2.GL_TEXTURE_MAG_FILTER, GL2.GL_LINEAR); // NEAREST);
 
         // ByteBuffer fakeDepthBuffer = ByteBuffer.allocateDirect(width * height);
         gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_DEPTH_COMPONENT, width, height, 0, GL2.GL_DEPTH_COMPONENT, GL2.GL_UNSIGNED_BYTE, null); //fakeDepthBuffer);
@@ -126,8 +128,9 @@ public class FrameBufferObject implements IFrameBuffer {
         }
     }
 
-	public void setDimension(Dimension dimension) {
-		dim.set(dimension);
+    // todo: adjust when resizing the screen
+	public void setScreenDimension(Dimension dimension) {
+		bufferDimension.set((int) (dimension.getWidth() * scaleing), (int) (dimension.getHeight() * scaleing));
 	}
 
 }

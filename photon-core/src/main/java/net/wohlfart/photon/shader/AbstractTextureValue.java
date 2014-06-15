@@ -25,7 +25,7 @@ public abstract class AbstractTextureValue implements IUniformValue {
     	gl.glActiveTexture(ITexture.TEXTURE_SLOTS[slot]);
     	gl.glBindTexture(GL2ES2.GL_TEXTURE_2D, getTextureHandle(shader));
     	// throws an error with  -Djogl.debug.DebugGL
-    	//gl.glUniform1i(getLocation(shader), slot);
+    	// gl.glUniform1i(getLocation(shader), slot);
     }
 
     abstract int getTextureHandle(IShaderProgram shader);

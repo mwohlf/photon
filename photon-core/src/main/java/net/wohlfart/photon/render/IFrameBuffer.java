@@ -16,6 +16,6 @@ public interface IFrameBuffer {
 
 	int getTextureHandle();
 
-	Dimension getDimension();
+	Dimension getBufferDimension();
 
 }

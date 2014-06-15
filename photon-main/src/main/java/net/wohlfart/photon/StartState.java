@@ -11,6 +11,7 @@ import net.wohlfart.photon.entity.CubeEntity;
 import net.wohlfart.photon.entity.Earth;
 import net.wohlfart.photon.entity.ProceduralCelestial;
 import net.wohlfart.photon.entity.QuadEntity;
+import net.wohlfart.photon.entity.SimpleEffect;
 import net.wohlfart.photon.entity.Skybox;
 import net.wohlfart.photon.entity.SphereEntity;
 import net.wohlfart.photon.entity.SpriteCloud;
@@ -118,7 +119,7 @@ public class StartState implements IState {
 
 				new Earth().withPosition(0, -10, -20),
 				new CubeEntity(1).withPosition(22,20,-1),
-			//	new SimpleEffect().addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d)),
+				new SimpleEffect().addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d)),
 
 				new VertexLight().withPosition(0, 0, -15),
 			//	new VertexLight().withPosition(20, 0,  30),

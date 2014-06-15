@@ -8,8 +8,9 @@ import java.util.HashMap;
 import net.wohlfart.photon.resources.ResourceProducer;
 import net.wohlfart.photon.resources.ResourceTool;
 import net.wohlfart.photon.resources.ResourceUriParser;
+import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 
-public class TextureFactory implements ResourceProducer<ITexture, TextureIdentifier> {
+public class TextureFactory implements ResourceProducer<ITexture, ITextureIdentifier> {
 
     public static final String FILE_SCHEME = "file";
     public static final String SIMPLEX_SCHEME = "smplx";
@@ -22,7 +23,7 @@ public class TextureFactory implements ResourceProducer<ITexture, TextureIdentif
 	}
 
     @Override
-    public ITexture produce(TextureIdentifier ident) {
+    public ITexture produce(ITextureIdentifier ident) {
         final URI uri = ident.getTextureResource();
         try {
             if (FILE_SCHEME.equals(uri.getScheme())) {

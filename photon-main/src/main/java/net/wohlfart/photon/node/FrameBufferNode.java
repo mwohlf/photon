@@ -59,7 +59,8 @@ public class FrameBufferNode implements IRenderNode {
         // render on framebuffer
     	frameBufferObject = getFrameBufferObject();
     	screenDimension = renderer.getPerspective().getScreenDimension();
-    	frameBufferObject.setDimension(new Dimension(512, 512));
+    	frameBufferObject.setScreenDimension(screenDimension); // TODO: maybe set the perspective here and check for ratio change in the framebuffer
+    	// TODO: check https://www.opengl.org/discussion_boards/showthread.php/175944-NVidia-280-x-and-GeForce-4xx?p=1229120&viewfull=1#post1229120
     	renderer.setFrameBuffer(frameBufferObject);
         renderer.renderChildren(tree);
     	renderer.setFrameBuffer(null);
@@ -73,7 +74,6 @@ public class FrameBufferNode implements IRenderNode {
         //uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));
         renderer.addUniformValues(uniforms);
         renderer.drawGeometry(geometry);
-
     }
 
     @Override
