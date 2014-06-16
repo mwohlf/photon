@@ -18,7 +18,7 @@ public class QuadElement extends AbstractRenderElement {
 	public static QuadElement createSolid() {
 		QuadElement elem = new QuadElement();
 		elem.geometry = new Quad(2f);
-		elem.shaderIdent = ShaderIdent.TEXTURE_SHADER_ID;
+		elem.shaderIdent = ShaderIdent.TEXTURE_SHADER;
 		elem.uniforms.add(new TextureIdentValue(ShaderParser.TEXTURE01, TEXTURE_ID1));
 		elem.renderConfig = IRenderConfig.DEFAULT_3D;
 		return elem;

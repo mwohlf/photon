@@ -50,7 +50,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 	public Label withText(String text) {
 		this.text = text;
 		this.geometry = null;
-		this.shaderIdent = ShaderIdent.DEFAULT_SHADER_ID;
+		this.shaderIdent = ShaderIdent.DEFAULT_SHADER;
 		return this;
 	}
 
@@ -68,7 +68,7 @@ public class Label extends AbstractRenderElement implements IComponent {
 	private void refresh() {
 		LayoutStrategy<? extends LayoutConstraints> layoutManager = container.getLayoutManager();
 		if (layoutManager.isDirty() || this.isDirty) {
-			shaderIdent = ShaderIdent.TEXTURE_SHADER_ID;
+			shaderIdent = ShaderIdent.TEXTURE_SHADER;
 			renderConfig = IRenderConfig.BLENDING_ON;
 			charData = ResourceManager.loadResource(ICharData.class, fontIdentifier);
 			geometry = createTextGeometry();

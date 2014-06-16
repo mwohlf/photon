@@ -19,6 +19,7 @@ import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.hud.IScreenSizeListener;
+import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
@@ -86,7 +87,7 @@ public class StartState implements IState {
 
 				new VertexLight().withPosition(0, 0, -15),
 
-				new ProceduralCelestial().withPosition(10, 0, -30),// .withCorona(new Corona().withThinkness(.2f)),
+				new ProceduralCelestial().withPosition(10, 0, -30).withCorona(new Corona().withThinkness(.2f)),
 
 				/*
 				new SphereEntity().withPosition(0, 0, -30),

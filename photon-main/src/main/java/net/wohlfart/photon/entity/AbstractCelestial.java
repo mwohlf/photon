@@ -85,7 +85,7 @@ public abstract class AbstractCelestial extends AbstractEntity  {
     protected static class RenderCommand extends AbstractRenderElement {
 
         public RenderCommand(IGeometry g, ITextureIdentifier texture) {
-        	this(g, texture, ShaderIdent.TEXTURE_SHADER_ID);
+        	this(g, texture, ShaderIdent.TEXTURE_SHADER);
         }
 
         public RenderCommand(IGeometry g, ITextureIdentifier texture, IShaderProgramIdentifier shaderIdent) {

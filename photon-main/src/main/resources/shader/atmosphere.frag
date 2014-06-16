@@ -10,7 +10,7 @@ uniform vec3 atmosphereRadius;              // rx^-2, ry^-2, rz^-2 - atmosphere
 uniform float atmosphereHeight;                
 uniform float maxPath;                      // max. optical path length [m] ... saturation
 
-// lights are only for local stars-atmosphere ray colision to set start color to star color
+// lights are only for local stars-atmosphere ray collision to set start color to star color
 const int fragLightCount = ${fragLightCount};
 uniform vec3 light_dir[fragLightCount];     // direction to local star in ellipsoid space
 uniform vec3 light_col[fragLightCount];     // local star color * visual intensity

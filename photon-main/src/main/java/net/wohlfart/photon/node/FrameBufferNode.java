@@ -68,7 +68,7 @@ public class FrameBufferNode implements IRenderNode {
         renderer.renderChildren(tree);
 
         // rendering the quad last, maybe we need to put it in the render cache in order to be sorted...
-        renderer.setRenderConfig(ShaderIdent.TEXTURE_SHADER_ID, renderConfig);
+        renderer.setRenderConfig(ShaderIdent.TEXTURE_SHADER, renderConfig);
         //uniforms.put(ShaderParser.TEXTURE01, new TextureHandleValue(frameBufferObject.getTextureHandle()));
         uniforms.add(new TextureHandleValue(ShaderParser.TEXTURE01, frameBufferObject.getDepthBufferHandle()));
         //uniforms.put(ShaderParser.TEXTURE01, new UniformHandle.TextureIdentValue(TEXTURE_ID1));

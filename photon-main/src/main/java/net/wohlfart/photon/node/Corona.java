@@ -16,15 +16,15 @@ public class Corona extends AbstractRenderElement {
 
 
     public Corona() {
-        renderConfig = IRenderConfig.DEFAULT_3D;
-        shaderIdent = ShaderIdent.DEFAULT_SHADER_ID;
+        renderConfig = IRenderConfig.BLENDING_ON;
+        shaderIdent = ShaderIdent.SEMI_TRANSPARENT_SHADER;
     }
 
     @Override // lazy create the geometry since we don't know the size in the constructor
     public IGeometry getGeometry() {
         if (geometry == null) {
             // geometry = new Sphere(planetSize + thinkness, 6, VertexFormat.VERTEX_P3C0N3T2, StreamFormat.TRIANGLES);
-            geometry = new Sphere(planetSize + thinkness, 6, VertexFormat.VERTEX_P3C0N0T0, StreamFormat.LINES);
+            geometry = new Sphere(planetSize + thinkness, 6, VertexFormat.VERTEX_P3C0N3T0, StreamFormat.TRIANGLES);
         }
         return geometry;
     }

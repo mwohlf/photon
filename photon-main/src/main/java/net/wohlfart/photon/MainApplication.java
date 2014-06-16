@@ -10,6 +10,7 @@ import java.util.Properties;
 import javax.inject.Inject;
 import javax.vecmath.Matrix4f;
 
+import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.PoolEventBus;
 import net.wohlfart.photon.events.ResizeEvent;
 import net.wohlfart.photon.hud.txt.CharAtlasFactory;
@@ -83,7 +84,7 @@ public class MainApplication implements ILifecycleListener {
 		uniforms.add(new Matrix4fValue(ShaderParser.UNIFORM_WORLD_2_CAM_MTX, worldToCamMatrix));
 
 		gfxCtx.addUniformValues(uniforms);
-		gfxCtx.setRenderConfig(ShaderIdent.DEFAULT_SHADER_ID, RenderConfigImpl.DEFAULT);
+		gfxCtx.setRenderConfig(ShaderIdent.DEFAULT_SHADER, RenderConfigImpl.DEFAULT);
 
 		Properties prop = new Properties();
 		InputStream in = null;
@@ -120,24 +121,31 @@ public class MainApplication implements ILifecycleListener {
 	 */
 	@Override
 	public void display(IGraphicContext gfxCtx) {
+		try {
+			LOGGER.debug("display() called");
+			if (currentState.isDone()) {
+				eventBus.unregister(currentState);
+				currentState.dispose();
+				currentState = stateManager.calculateNextState();
+				currentState.init();
+				eventBus.register(currentState);
+			}
 
-		LOGGER.debug("display() called");
-		if (currentState.isDone()) {
-			eventBus.unregister(currentState);
-			currentState.dispose();
-			currentState = stateManager.calculateNextState();
-			currentState.init();
-			eventBus.register(currentState);
-		}
+			currentState.update(timer.getDelta());
 
-		currentState.update(timer.getDelta());
+			renderer.setGfxContext(gfxCtx);
 
-		renderer.setGfxContext(gfxCtx);
+			currentState.render(renderer);
 
-		currentState.render(renderer);
-
-		while (eventBus.hasEvent()) {
-			eventBus.fireEvent();
+			while (eventBus.hasEvent()) {
+				eventBus.fireEvent();
+			}
+		} catch (Exception ex) {
+			LOGGER.error("error in display method", ex);
+			eventBus.post(CommandEvent.exit());
+			while (eventBus.hasEvent()) {
+				eventBus.fireEvent();
+			}
 		}
 
 	}

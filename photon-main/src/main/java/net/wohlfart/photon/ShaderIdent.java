@@ -7,11 +7,13 @@ import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 import net.wohlfart.photon.texture.TextureFactory;
 
 public enum ShaderIdent implements IShaderProgramIdentifier {
-	DEFAULT_SHADER_ID("shader/default.vert", "shader/default.frag"),
-	SKYBOX_SHADER_ID("shader/skybox.vert", "shader/skybox.frag"),
-	TEXTURE_SHADER_ID("shader/texture.vert", "shader/texture.frag"),
+	DEFAULT_SHADER("shader/default.vert", "shader/default.frag"),
+	SKYBOX_SHADER("shader/skybox.vert", "shader/skybox.frag"),
+	TEXTURE_SHADER("shader/texture.vert", "shader/texture.frag"),
 	VERTEX_LIGHT_SHADER("shader/vertexLight.vert", "shader/vertexLight.frag"),
 	POINT_SPRITE_SHADER("shader/pointSprite.vert", "shader/pointSprite.frag"),
+	ATMOSPHERE_SHADER("shader/atmosphere.vert", "shader/atmosphere.frag"),
+	SEMI_TRANSPARENT_SHADER("shader/semiTransparent.vert", "shader/semiTransparent.frag"),
 	; // TODO: add null shader
 
 	private final URI vertexShaderResource;
