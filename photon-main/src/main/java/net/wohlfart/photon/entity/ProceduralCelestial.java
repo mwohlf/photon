@@ -2,13 +2,14 @@ package net.wohlfart.photon.entity;
 
 import java.util.Random;
 
+import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.geometry.Sphere;
 import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
+import net.wohlfart.photon.resources.TextureIdent;
 import net.wohlfart.photon.texture.ISphereSurfaceColor;
 import net.wohlfart.photon.texture.TextureIdentifier;
-import net.wohlfart.photon.texture.simplex.ContinentalPlanetTexture;
 
 public class ProceduralCelestial extends AbstractCelestial {
 
@@ -22,7 +23,7 @@ public class ProceduralCelestial extends AbstractCelestial {
     		withSeed(2);
     	}
      	if (type == null) {
-    		withType(new ContinentalPlanetTexture());
+    		withType(TextureIdent.CONTINENTAL);
     	}
      	if (size < 0) {
      		float min = 2;
@@ -32,8 +33,8 @@ public class ProceduralCelestial extends AbstractCelestial {
 
         lod = 6;
         final TextureIdentifier textureId = TextureIdentifier.create(size * 25, type.getId(), seed);
-        final IGeometry geometry = new Sphere(getSize(), lod, VertexFormat.VERTEX_P3C0N0T2, StreamFormat.TRIANGLES);
-        final RenderCommand renderUnit = new RenderCommand(geometry, textureId);
+        final IGeometry geometry = new Sphere(getSize(), lod, VertexFormat.VERTEX_P3C0N3T2, StreamFormat.TRIANGLES);
+        final RenderCommand renderUnit = new RenderCommand(geometry, textureId, ShaderIdent.VERTEX_LIGHT_SHADER);
         renderCommands.add(renderUnit);
     }
 

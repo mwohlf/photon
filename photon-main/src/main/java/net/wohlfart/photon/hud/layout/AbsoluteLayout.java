@@ -22,8 +22,8 @@ public class AbsoluteLayout extends AbstractLayoutStrategy<AbsoluteLayout.Absolu
 
 	@Override
 	void calculatePositions() {
-		float screenWidth = screenDimension.getWidth();
-		float screenHeight = screenDimension.getHeight();
+		// float screenWidth = screenDimension.getWidth();
+		// float screenHeight = screenDimension.getHeight();
 
 		positions.clear(); // FIXME: try not to recreate positions all the time
 		for (Map.Entry<IComponent, AbsoluteLayoutConstraint> entry : components.entrySet()) {

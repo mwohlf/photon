@@ -1,10 +1,10 @@
 package net.wohlfart.photon.entity.stellar;
 
-import net.wohlfart.photon.TextureIdent;
 import net.wohlfart.photon.entity.AbstractCelestial;
 import net.wohlfart.photon.geometry.Sphere;
 import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
+import net.wohlfart.photon.resources.TextureIdent;
 import net.wohlfart.photon.texture.ISphereSurfaceColor;
 import net.wohlfart.photon.texture.TextureIdentifier;
 

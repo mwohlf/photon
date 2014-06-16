@@ -1,4 +1,4 @@
-package org.photon.android;
+package net.wohlfart.photon;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

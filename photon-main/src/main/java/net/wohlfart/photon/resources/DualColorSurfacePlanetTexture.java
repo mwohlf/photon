@@ -1,7 +1,8 @@
-package net.wohlfart.photon.texture.simplex;
+package net.wohlfart.photon.resources;
 
 import java.awt.Color;
 
+import net.wohlfart.photon.texture.simplex.AbstractSimplexSphereTexture;
 import net.wohlfart.photon.tools.ColorGradient;
 
 public class DualColorSurfacePlanetTexture extends AbstractSimplexSphereTexture {
@@ -9,7 +10,8 @@ public class DualColorSurfacePlanetTexture extends AbstractSimplexSphereTexture 
 	protected final ColorGradient gradient;
 	protected final String id;
 
-	public DualColorSurfacePlanetTexture(String id, Color colorA, Color colorB) {
+	// package private, use the enum in TextureIdent
+	DualColorSurfacePlanetTexture(String id, Color colorA, Color colorB) {
 		this.id = id;
 		gradient = new ColorGradient(colorA, colorB);
 	}

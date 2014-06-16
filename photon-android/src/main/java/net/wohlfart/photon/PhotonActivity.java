@@ -1,4 +1,4 @@
-package org.photon.android;
+package net.wohlfart.photon;
 
 import javax.inject.Inject;
 import javax.media.opengl.GLCapabilities;

@@ -1,7 +1,8 @@
-package net.wohlfart.photon.texture.simplex;
+package net.wohlfart.photon.resources;
 
 import java.awt.Color;
 
+import net.wohlfart.photon.texture.simplex.AbstractSimplexSphereTexture;
 import net.wohlfart.photon.tools.ColorGradient;
 
 public class ContinentalPlanetTexture extends AbstractSimplexSphereTexture {
@@ -18,7 +19,8 @@ public class ContinentalPlanetTexture extends AbstractSimplexSphereTexture {
             new Color(0, 255, 0),
             new Color(0, 50, 0));
 
-	public ContinentalPlanetTexture() {
+	// package private, use the enum in TextureIdent
+	ContinentalPlanetTexture() {
 		maxRadius = 6f;
         minRadius = 3f;
 	}

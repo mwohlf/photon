@@ -1,7 +1,8 @@
-package net.wohlfart.photon.texture.simplex;
+package net.wohlfart.photon.resources;
 
 import java.awt.Color;
 
+import net.wohlfart.photon.texture.simplex.AbstractSimplexSphereTexture;
 import net.wohlfart.photon.tools.ColorGradient;
 
 public class GasPlanetTexture extends AbstractSimplexSphereTexture {
@@ -9,7 +10,8 @@ public class GasPlanetTexture extends AbstractSimplexSphereTexture {
 	protected final String id;
 	protected final ColorGradient gradient;
 
-	public GasPlanetTexture(String id, Color colorA, Color colorB) {
+	// package private, use the enum in TextureIdent
+	GasPlanetTexture(String id, Color colorA, Color colorB) {
 		this.id = id;
 		this.gradient = new ColorGradient(colorA, colorB);
 	}

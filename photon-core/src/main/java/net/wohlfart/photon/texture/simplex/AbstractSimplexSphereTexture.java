@@ -5,7 +5,6 @@ import net.wohlfart.photon.tools.SimplexNoise;
 
 public abstract class AbstractSimplexSphereTexture implements ISphereSurfaceColor {
 
-
 	// default values
     // all lengths in [10^3 km]
 

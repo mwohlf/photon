@@ -1,4 +1,4 @@
-package org.photon.android;
+package net.wohlfart.photon;
 
 import java.util.Arrays;
 import java.util.List;
