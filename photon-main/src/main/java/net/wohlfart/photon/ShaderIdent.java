@@ -13,6 +13,7 @@ public enum ShaderIdent implements IShaderProgramIdentifier {
 	VERTEX_LIGHT_SHADER("shader/vertexLight.vert", "shader/vertexLight.frag"),
 	POINT_SPRITE_SHADER("shader/pointSprite.vert", "shader/pointSprite.frag"),
 	ATMOSPHERE_SHADER("shader/atmosphere.vert", "shader/atmosphere.frag"),
+	SIMPLE_ATMOSPHERE_SHADER("shader/atmosphereSimple.vert", "shader/atmosphereSimple.frag"),
 	SEMI_TRANSPARENT_SHADER("shader/semiTransparent.vert", "shader/semiTransparent.frag"),
 	; // TODO: add null shader
 

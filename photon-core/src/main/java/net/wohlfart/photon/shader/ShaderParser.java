@@ -26,6 +26,9 @@ public class ShaderParser {
     public static final String UNIFORM_NORMAL_MTX = "normalMatrix";
     public static final String UNIFORM_POINT_SIZE = "pointSize";
 
+    public static final String UNIFORM_PLANET_RADIUS = "planetRadius";
+    public static final String UNIFORM_ATMOSPHERE_RADIUS = "atmosphereRadius";
+
     public static final String TEXTURE01 = "texture01";
     public static final String TEXTURE02 = "texture02";
     public static final String TEXTURE03 = "texture03";
@@ -61,6 +64,8 @@ public class ShaderParser {
         UNIFORMS.put("cameraToClipMatrix", UNIFORM_CAM_2_CLIP_MTX);
         UNIFORMS.put("normalMatrix", UNIFORM_NORMAL_MTX);
         UNIFORMS.put("pointSize", UNIFORM_POINT_SIZE);
+        UNIFORMS.put("planetRadius", UNIFORM_PLANET_RADIUS);
+        UNIFORMS.put("atmosphereRadius", UNIFORM_ATMOSPHERE_RADIUS);
     }
 
 

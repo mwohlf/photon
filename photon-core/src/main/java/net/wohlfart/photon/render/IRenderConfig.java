@@ -49,7 +49,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			ClearDepth.ONE,
 			ColorMask.ON,
 			DepthTest.GL_LEQUAL,
-			FaceCulling.OFF,
+			FaceCulling.BACK,
 			SissorTest.OFF,
 			StencilTest.OFF);
 
