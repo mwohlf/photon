@@ -1,4 +1,4 @@
-package net.wohlfart.photon.entity;
+package net.wohlfart.photon.entity.stellar;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -7,6 +7,7 @@ import java.util.HashSet;
 import javax.vecmath.Vector3d;
 
 import net.wohlfart.photon.ShaderIdent;
+import net.wohlfart.photon.entity.AbstractEntity;
 import net.wohlfart.photon.node.Corona;
 import net.wohlfart.photon.render.AbstractRenderElement;
 import net.wohlfart.photon.render.IGeometry;
@@ -29,7 +30,7 @@ public abstract class AbstractCelestial extends AbstractEntity  {
 
     protected final Collection<AbstractRenderElement> renderCommands = new HashSet<AbstractRenderElement>();
 
-	private Corona corona;
+	protected Corona corona;
 
 
     @Override

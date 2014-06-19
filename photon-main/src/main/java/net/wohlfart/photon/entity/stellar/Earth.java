@@ -1,4 +1,4 @@
-package net.wohlfart.photon.entity;
+package net.wohlfart.photon.entity.stellar;
 
 import net.wohlfart.photon.geometry.Sphere;
 import net.wohlfart.photon.render.IGeometry.StreamFormat;
@@ -6,7 +6,6 @@ import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.texture.ITexture.ITextureIdentifier;
 import net.wohlfart.photon.texture.TextureIdentifier;
 
-@SuppressWarnings("unused")
 public class Earth extends AbstractCelestial {
 
     private static final TextureIdentifier EARTH_LOWRES =  TextureIdentifier.create("gfx/textures/earth-512.jpg");

@@ -1,8 +1,9 @@
-package net.wohlfart.photon.entity;
+package net.wohlfart.photon.entity.stellar;
 
 import java.util.Random;
 
 import net.wohlfart.photon.ShaderIdent;
+import net.wohlfart.photon.entity.stellar.AbstractCelestial.RenderCommand;
 import net.wohlfart.photon.geometry.Sphere;
 import net.wohlfart.photon.render.IGeometry;
 import net.wohlfart.photon.render.IGeometry.StreamFormat;

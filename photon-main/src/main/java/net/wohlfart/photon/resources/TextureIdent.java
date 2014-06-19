@@ -2,7 +2,6 @@ package net.wohlfart.photon.resources;
 
 import java.awt.Color;
 
-import net.wohlfart.photon.resources.ResourceManager;
 import net.wohlfart.photon.texture.ISphereSurfaceColor;
 
 public enum TextureIdent implements ISphereSurfaceColor {

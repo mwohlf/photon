@@ -1,11 +1,12 @@
 #version 330 core
 
 in float brightness;
+in vec4 passColor;
 
 out vec4 fragColor;
 
 void main(void) {
 
-    fragColor = vec4(0.2, 0.2, 0.7, 0.7) * brightness;
+    fragColor = passColor * 0.5 * brightness;
 
 }

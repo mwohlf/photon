@@ -27,7 +27,8 @@ public class ShaderParser {
     public static final String UNIFORM_POINT_SIZE = "pointSize";
 
     public static final String UNIFORM_PLANET_RADIUS = "planetRadius";
-    public static final String UNIFORM_ATMOSPHERE_RADIUS = "atmosphereRadius";
+    public static final String UNIFORM_CORONA_RADIUS = "coronaRadius";
+    public static final String UNIFORM_CORONA_COLOR = "coronaColor";
 
     public static final String TEXTURE01 = "texture01";
     public static final String TEXTURE02 = "texture02";
@@ -65,7 +66,8 @@ public class ShaderParser {
         UNIFORMS.put("normalMatrix", UNIFORM_NORMAL_MTX);
         UNIFORMS.put("pointSize", UNIFORM_POINT_SIZE);
         UNIFORMS.put("planetRadius", UNIFORM_PLANET_RADIUS);
-        UNIFORMS.put("atmosphereRadius", UNIFORM_ATMOSPHERE_RADIUS);
+        UNIFORMS.put("coronaRadius", UNIFORM_CORONA_RADIUS);
+        UNIFORMS.put("coronaColor", UNIFORM_CORONA_COLOR);
     }
 
 
