@@ -9,10 +9,14 @@ import net.wohlfart.photon.resources.ResourceProducer;
 import net.wohlfart.photon.resources.ResourceTool;
 import net.wohlfart.photon.shader.IShaderProgram.IShaderProgramIdentifier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.google.common.base.Charsets;
 import com.google.common.io.CharStreams;
 
 public class ShaderFactory implements ResourceProducer<IShaderProgram, IShaderProgram.IShaderProgramIdentifier>{
+	protected static final Logger LOGGER = LoggerFactory.getLogger(ShaderFactory.class);
 
 
 	@Override
@@ -36,6 +40,7 @@ public class ShaderFactory implements ResourceProducer<IShaderProgram, IShaderPr
 	}
 
     private String readShaderCode(URI uri) throws IOException {
+    	LOGGER.info("reading shader program from {}", uri.getPath());
 		final InputStream inputStream = ResourceTool.openStream(uri);
         final String string = CharStreams.toString(new InputStreamReader(inputStream, Charsets.UTF_8));
         final ShaderParser shaderParser = new ShaderParser(string);

@@ -48,21 +48,21 @@ public abstract class AbstractCelestial extends AbstractEntity  {
     @Override
     public AbstractCelestial withSize(float size) {
         super.withSize(size);
-        if (corona != null) {
-            this.corona.setPlanetSize(size);
-        }
+    	updateCorona();
         return this;
     }
 
     @Override
     public AbstractCelestial withPosition(Vector3d position) {
         super.withPosition(position);
+    	updateCorona();
         return this;
     }
 
     @Override
     public AbstractCelestial withPosition(double x, double y, double z) {
         super.withPosition(x, y, z);
+    	updateCorona();
         return this;
     }
 
@@ -74,12 +74,20 @@ public abstract class AbstractCelestial extends AbstractEntity  {
 
     public AbstractCelestial withCorona(Corona corona) {
     	this.corona = corona;
-        this.corona.setPlanetSize(size);
+    	updateCorona();
         renderCommands.add(corona);
         if (sceneGraph != null) {
             sceneGraph.addRenderCommands(Collections.singleton(corona));
         }
         return this;
+    }
+
+    private void updateCorona() {
+    	if ((corona != null)
+    			&& !Float.isNaN(this.getSize())
+    			&& (this.getPosition() != null)) {
+    		corona.withCelestial(this);
+    	}
     }
 
     protected static class RenderCommand extends AbstractRenderElement {

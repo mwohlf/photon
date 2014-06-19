@@ -1,6 +1,8 @@
 #version 330 core
 
 // see: http://www.lighthouse3d.com/tutorials/glsl-tutorial/lighting/
+// see: http://www.gamedev.net/page/resources/_/technical/graphics-programming-and-theory/real-time-atmospheric-scattering-r2093
+
 
 struct VertexLight {
   vec3  color;
@@ -27,8 +29,9 @@ in vec3 ${position};    // vertex position in model space
 in vec2 ${texture};     // the texture position of the vertex
 in vec3 ${normal};      // the normal for the current vertex
 
-uniform float ${planetRadius};
 uniform float ${atmosphereRadius};
+uniform float ${planetRadius};
+uniform vec3 ${planetCenter};   // in model space!
  
 uniform VertexLight vertexLight[${maxVertexLightCount}];
 
@@ -42,47 +45,34 @@ out vec2 passTextureCoord;
 out vec3 passNormal;                // normal in eye-space
 out vec3 passPosition;              // vertex position in eye-space
 
+out float brightness;
 out vec4 gl_Position;
 
 
+// cam pos is (0,0,0)
+
 void main(void) {
+	// position of the center of atmosphere sphere 
+	vec4 corePosition =  modelToWorldMatrix * vec4(0.0, 0.0, 0.0, 1.0);
+	// view path inside the atmosphere
+	vec4 farSpherePos =  modelToWorldMatrix * vec4(${position}, 1.0);
+	// atmosphere radius in world 
+	//float radius = length((modelToWorldMatrix * vec4(${atmosphereRadius}, 0.0, 0.0, 1.0)).xyz);
+	//radius = ${atmosphereRadius};
+	float inAtmosphereRay = dot(-normalize(farSpherePos.xyz), corePosition.xyz - farSpherePos.xyz) / ${atmosphereRadius};
+	
+	//inAtmosphereRay = 1;
+	//inAtmosphereRay = length(corePosition.xyz - farSpherePos.xyz) / radius;
+	//inAtmosphereRay = length(corePosition.xyz) / length(farSpherePos.xyz);
+	//inAtmosphereRay = length(farSpherePos.xyz) / length(corePosition.xyz);
+	//inAtmosphereRay = ${atmosphereRadius} / ${atmosphereRadius};
+	//inAtmosphereRay = length(farSpherePos.xyz);
+	
     // gl_Position is a special variable used to store the final position.
     // its a vec4() in normalized screen coordinates calculated by
     // transferring the in_Position from model-space to world-space to view/cam-space to clip-space
     // the 1.0 is needed to do translations with the matrices
     gl_Position = cameraToClipMatrix * worldToCameraMatrix * modelToWorldMatrix * vec4(${position}, 1.0);
 
-    // transforms the vertex into cam-space (means minus the cameraToClipMatrix)
-    passPosition = vec3(worldToCameraMatrix * modelToWorldMatrix * vec4(${position}, 1.0));
-    // transforms the normal's orientation into cam-space, normal is without position, no need for the modelToWorldMatrix here
-    passNormal =  normalize(vec3(normalMatrix * ${normal}));
-    // nothing happens to the texture coords, they are picked up in the fragment shader and mapped to
-    // one of the textures that are bound
-    passTextureCoord = ${texture};
-
-    passLight = vec4(0.1, 0.1, 0.1, 0);
-    for (int index = 0; index < ${maxVertexLightCount}; index++) {
-    
-       // the light ray from the light source to the vertex position
-       vec3 lightPos = vertexLight[index].position.xyz;
-       vec3 vertexPos = vec3(modelToWorldMatrix * vec4(${position}, 1.0));
-             
-	   // dot product is max for 0degree between light vector and normal	
-       vec3 lightVector = normalize(lightPos - vertexPos);
-       float crossSection = max(dot(passNormal, lightVector), 0.0);
-
-       // attenuate the light based on distance.
-       float distance = max(vertexLight[index].position - length(vertexPos), 0.0);
-
-       //diffuse = diffuse * (1.0 / (1.0 + (vertexLight[index].attenuation * distance * distance)));
-
-
-       //diffuse = 5; // for testing only
-
-       // Multiply the color by the illumination level. It will be interpolated across the triangle.
-       passLight = passLight + vertexLight[index].diffuse * crossSection;
-       // passLight = vec4(1,0,0,0);
-       passLight = vec4(1, 1, 1, 0) * crossSection;
-    }
-
+ 	brightness = inAtmosphereRay;
 }

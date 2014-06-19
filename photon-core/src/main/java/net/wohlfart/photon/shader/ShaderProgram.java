@@ -78,7 +78,7 @@ public class ShaderProgram implements IShaderProgram {
 
 	@Override
 	public void reset() {
-		LOGGER.debug("resetting texture slot from '{}' to '-1' ins shader '{}'", currentTextureSlot, shaderId);
+		LOGGER.debug("resetting texture slot from '{}' to '-1' in shader '{}'", currentTextureSlot, shaderId);
 		this.currentTextureSlot = -1; // resetting texture slot count
 		this.currentLightSlot = -1;
 	}
@@ -298,7 +298,7 @@ public class ShaderProgram implements IShaderProgram {
 							new Object[] {attributeName, this, attributeSize, currentHandle.getAttributeSize()});
 				}
 			} else {
-				LOGGER.info("attribute '{}' not found in shader '{}', available attribute names are {}",
+				LOGGER.debug("attribute '{}' not found in shader '{}', available attribute names are {}",
 						attributeName, this, attributeHandles.keySet());
 			}
 		} else {

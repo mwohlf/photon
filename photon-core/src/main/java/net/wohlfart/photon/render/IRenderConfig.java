@@ -53,6 +53,18 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			SissorTest.OFF,
 			StencilTest.OFF);
 
+	public static final RenderConfigImpl ATMOSPHERE_FRONT = new RenderConfigImpl(
+			Clear.OFF,
+			Blending.ON,
+			ClearColor.BLUE,
+			PointSprite.OFF,
+			ClearDepth.ONE,
+			ColorMask.ON,
+			DepthTest.OFF, // GL_LEQUAL
+			FaceCulling.FRONT,
+			SissorTest.OFF,
+			StencilTest.OFF);
+
 	public static final RenderConfigImpl DEFAULT_3D = new RenderConfigImpl(
 			Clear.OFF,
 			Blending.OFF,

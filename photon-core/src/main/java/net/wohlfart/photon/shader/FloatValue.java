@@ -9,7 +9,7 @@ public class FloatValue implements IUniformValue {
 
     private final String key;
     private final String name;
-    private final Float value;
+    private final float value;
 
     public FloatValue(String key, float value) {
     	this.key = key;
@@ -24,7 +24,7 @@ public class FloatValue implements IUniformValue {
 
 	@Override
 	public void accept(IShaderProgram shader) {
-        assert (value != null) : "Uniform '" + name + "' is empty";
+        assert (!Float.isNaN(value)) : "Uniform '" + name + "' is empty";
         final Integer location = shader.getUniformLocation(name);
         if (location != null) {
             shader.getGl().glUniform1f(location, value);

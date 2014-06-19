@@ -32,7 +32,7 @@ public class Model2WorldMatrixValue extends Matrix4fValue {
 
 			Integer location = shader.getUniformLocation(key);
 			if (location == null) {
-				LOGGER.debug("no nromal position found, skipping uniform value");
+				LOGGER.debug("no normal position found, skipping uniform value");
 				return;
 			}
 

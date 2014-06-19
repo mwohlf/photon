@@ -85,9 +85,12 @@ public class StartState implements IState {
 
 				new Skybox(),
 
-				new VertexLight().withPosition(0, 0, -15),
+				new VertexLight().withPosition(-17, 0, -30),
 
-				new ProceduralCelestial().withPosition(10, 0, -30).withCorona(new Corona().withThinkness(2f)),
+				new ProceduralCelestial()
+					.withSize(12)
+					.withPosition(0, 0, -30)
+					.withCorona(new Corona().withThinkness(2f)),
 
 				/*
 				new SphereEntity().withPosition(0, 0, -30),

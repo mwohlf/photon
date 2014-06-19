@@ -31,7 +31,7 @@ public abstract class AbstractEntity implements IEntity {
 
     protected ISceneGraph sceneGraph;
 
-    protected float size = -1;
+    protected float size = Float.NaN;
 
     protected double zOrder = 0;
 
@@ -67,7 +67,6 @@ public abstract class AbstractEntity implements IEntity {
 
     @Override
     public float getSize() {
-        assert size >= 0;
         return size;
     }
 
