@@ -60,7 +60,7 @@ public interface IRenderConfig<T extends IRenderConfig<T>> {
 			PointSprite.OFF,
 			ClearDepth.ONE,
 			ColorMask.ON,
-			DepthTest.OFF, // GL_LEQUAL
+			DepthTest.GL_LEQUAL,
 			FaceCulling.FRONT,
 			SissorTest.OFF,
 			StencilTest.OFF);

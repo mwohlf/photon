@@ -35,7 +35,7 @@ public class ProceduralCelestial extends AbstractCelestial {
         final TextureIdentifier textureId = TextureIdentifier.create(size * 25, type.getId(), seed);
         final IGeometry geometry = new Sphere(getSize(), lod, VertexFormat.VERTEX_P3C0N3T2, StreamFormat.TRIANGLES);
         final RenderCommand renderUnit = new RenderCommand(geometry, textureId, ShaderIdent.VERTEX_LIGHT_SHADER);
-    //    renderCommands.add(renderUnit);
+        renderCommands.add(renderUnit);
     }
 
     public ProceduralCelestial withType(ISphereSurfaceColor type) {

@@ -88,7 +88,7 @@ public class StartState implements IState {
 				new VertexLight().withPosition(-17, 0, -30),
 
 				new ProceduralCelestial()
-					.withSize(12)
+					.withSize(4)
 					.withPosition(0, 0, -30)
 					.withCorona(new Corona().withThinkness(2f)),
 

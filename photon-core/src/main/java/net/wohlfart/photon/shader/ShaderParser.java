@@ -26,7 +26,6 @@ public class ShaderParser {
     public static final String UNIFORM_NORMAL_MTX = "normalMatrix";
     public static final String UNIFORM_POINT_SIZE = "pointSize";
 
-    public static final String UNIFORM_PLANET_CENTER = "planetCenter";
     public static final String UNIFORM_PLANET_RADIUS = "planetRadius";
     public static final String UNIFORM_ATMOSPHERE_RADIUS = "atmosphereRadius";
 
@@ -66,7 +65,6 @@ public class ShaderParser {
         UNIFORMS.put("normalMatrix", UNIFORM_NORMAL_MTX);
         UNIFORMS.put("pointSize", UNIFORM_POINT_SIZE);
         UNIFORMS.put("planetRadius", UNIFORM_PLANET_RADIUS);
-        UNIFORMS.put("planetCenter", UNIFORM_PLANET_CENTER);
         UNIFORMS.put("atmosphereRadius", UNIFORM_ATMOSPHERE_RADIUS);
     }
 

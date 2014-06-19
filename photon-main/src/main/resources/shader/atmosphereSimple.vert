@@ -31,7 +31,7 @@ in vec3 ${normal};      // the normal for the current vertex
 
 uniform float ${atmosphereRadius};
 uniform float ${planetRadius};
-uniform vec3 ${planetCenter};   // in model space!
+// center of the atmosphere is always (0,0,0) in model space, use modelToWorldMatrix 
  
 uniform VertexLight vertexLight[${maxVertexLightCount}];
 
@@ -54,25 +54,11 @@ out vec4 gl_Position;
 void main(void) {
 	// position of the center of atmosphere sphere 
 	vec4 corePosition =  modelToWorldMatrix * vec4(0.0, 0.0, 0.0, 1.0);
-	// view path inside the atmosphere
 	vec4 farSpherePos =  modelToWorldMatrix * vec4(${position}, 1.0);
-	// atmosphere radius in world 
-	//float radius = length((modelToWorldMatrix * vec4(${atmosphereRadius}, 0.0, 0.0, 1.0)).xyz);
-	//radius = ${atmosphereRadius};
-	float inAtmosphereRay = dot(-normalize(farSpherePos.xyz), corePosition.xyz - farSpherePos.xyz) / ${atmosphereRadius};
+	// length of the path inside the corona [0..1], 1 is when we cross the center the dot product s at its max which equals the radius
+	float pathLengthInCorona = dot(-normalize(farSpherePos.xyz), corePosition.xyz - farSpherePos.xyz) / ${atmosphereRadius};
 	
-	//inAtmosphereRay = 1;
-	//inAtmosphereRay = length(corePosition.xyz - farSpherePos.xyz) / radius;
-	//inAtmosphereRay = length(corePosition.xyz) / length(farSpherePos.xyz);
-	//inAtmosphereRay = length(farSpherePos.xyz) / length(corePosition.xyz);
-	//inAtmosphereRay = ${atmosphereRadius} / ${atmosphereRadius};
-	//inAtmosphereRay = length(farSpherePos.xyz);
-	
-    // gl_Position is a special variable used to store the final position.
-    // its a vec4() in normalized screen coordinates calculated by
-    // transferring the in_Position from model-space to world-space to view/cam-space to clip-space
-    // the 1.0 is needed to do translations with the matrices
     gl_Position = cameraToClipMatrix * worldToCameraMatrix * modelToWorldMatrix * vec4(${position}, 1.0);
 
- 	brightness = inAtmosphereRay;
+ 	brightness = pathLengthInCorona;
 }

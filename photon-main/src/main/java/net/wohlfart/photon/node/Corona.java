@@ -1,8 +1,5 @@
 package net.wohlfart.photon.node;
 
-import javax.vecmath.Vector3d;
-import javax.vecmath.Vector3f;
-
 import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.entity.AbstractCelestial;
 import net.wohlfart.photon.geometry.Sphere;
@@ -13,7 +10,6 @@ import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.shader.FloatValue;
 import net.wohlfart.photon.shader.ShaderParser;
-import net.wohlfart.photon.shader.Vector3fValue;
 
 // see: http://www.gamasutra.com/view/feature/131393/a_realtime_procedural_universe_.php?print=1
 public class Corona extends AbstractRenderElement {
@@ -50,11 +46,7 @@ public class Corona extends AbstractRenderElement {
 			geometry = new Sphere(planetSize + thinkness, 6, VertexFormat.VERTEX_P3C0N3T0, StreamFormat.TRIANGLES);
 			uniforms.add(new FloatValue(ShaderParser.UNIFORM_ATMOSPHERE_RADIUS, planetSize + thinkness));
 			uniforms.add(new FloatValue(ShaderParser.UNIFORM_PLANET_RADIUS, planetSize));
-			final Vector3d pos = celestial.getPosition();
-			final Vector3f position = new Vector3f((float)pos.x, (float)pos.y, (float)pos.z);
-			uniforms.add(new Vector3fValue(ShaderParser.UNIFORM_PLANET_CENTER, position));
 		}
-
 	}
 
 	@Override
