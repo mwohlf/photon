@@ -29,7 +29,7 @@ public class SunClassG extends ProceduralCelestial {
     		withSeed(2);
     	}
      	if (type == null) {
-    		withType(TextureIdent.YELLOW);
+    		withType(TextureIdent.SUN_CLASS_G);
     	}
      	if (Float.isNaN(size)) {
      		float min = 2;

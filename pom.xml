@@ -35,7 +35,8 @@
 		<module>photon-main</module>
 		<module>photon-desktop</module>
 		<module>photon-android</module>
-	</modules>
+		<module>photon-tools</module>
+    </modules>
 
 	<dependencies>
 

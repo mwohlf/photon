@@ -84,17 +84,17 @@ public class StartState implements IState {
 				new Skybox(),
 
 				new SunClassG().withPosition(-17, 0, -30).withSize(4),
+				/*
 
-/*
 				new VertexLight().withPosition(-17, 0, -30),
 
 				new ProceduralCelestial()
 					.withSize(4)
 					.withPosition(0, 0, -30)
 					.withCorona(new Corona().withThinkness(2f)),
-					*/
 
-				/*
+
+
 				new SphereEntity().withPosition(0, 0, -30),
 
 
@@ -117,7 +117,7 @@ public class StartState implements IState {
 
 				new Earth().withPosition(0, -10, -20),
 				new CubeEntity(1).withPosition(22,20,-1),
-				new SimpleEffect().addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d)),
+			//	new SimpleEffect().addEntity(new Earth().withSize(5).withPosition( 0, 0, -10d)),
 
 				new VertexLight().withPosition(20, 0,  30),
 
@@ -129,8 +129,8 @@ public class StartState implements IState {
 				new SphereEntity().withPosition(0, 20, 30),
 				new SphereEntity().withPosition(10, 20, -30),
 				new SphereEntity().withPosition(-10, 20, -30),
-				*/
 
+*/
 		});
 	}
 

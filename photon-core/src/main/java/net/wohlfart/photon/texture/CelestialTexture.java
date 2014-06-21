@@ -24,8 +24,8 @@ public class CelestialTexture implements ITexture {
 
 
     public CelestialTexture(float radius, ISphereSurfaceColor type, long seed /*, int textureUnit*/) {
-        this((int) (radius * 2f * (float) Math.PI + 0.5f),
-             (int) (radius * 2f * (float) Math.PI + 0.5f),
+        this((int) (radius * TEXTURE_RESOLUTION),
+             (int) (radius * TEXTURE_RESOLUTION),
              type,
              seed);
     }
@@ -71,6 +71,7 @@ public class CelestialTexture implements ITexture {
         // all RGB bytes are aligned to each other and each component is 1 byte
         gl.glPixelStorei(GL2.GL_UNPACK_ALIGNMENT, 1);
         // upload the texture data and generate mip maps (for scaling)
+        //gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA8, width, height, 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_INT_8_8_8_8_REV, intBuffer);
         gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, GL2.GL_RGBA8, width, height, 0, GL2.GL_RGBA, GL2.GL_UNSIGNED_INT_8_8_8_8_REV, intBuffer);
         gl.glGenerateMipmap(GL2.GL_TEXTURE_2D);
 
@@ -102,7 +103,7 @@ public class CelestialTexture implements ITexture {
      *
      * height, width of the texture in pixel x,y the position inside the texture
      */
-    public static Vector3f getNormalVector(float x, float y) {
+    private Vector3f getNormalVector(float x, float y) {
         final float latitude = (float) Math.PI * y; // [0 .. PI] (north-south)
         final float longitude = (float) Math.PI * 2 * x; // [0 .. TWO_PI]
 

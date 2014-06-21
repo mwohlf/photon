@@ -92,7 +92,7 @@ public class DesktopStart {
 
 		window.setSize(width, height);
 		window.setTitle(title);
-		window.setPointerVisible(false);
+		window.setPointerVisible(true);
 		window.setDefaultCloseOperation(WindowClosingProtocol.WindowClosingMode.DO_NOTHING_ON_CLOSE);
 		window.addWindowListener(new CloseListener());
 

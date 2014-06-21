@@ -59,7 +59,7 @@ void main(void) {
 	vec4 corePosition =  modelToWorldMatrix * vec4(0.0, 0.0, 0.0, 1.0);
 	vec4 farSpherePos =  modelToWorldMatrix * vec4(${position}, 1.0);
 	// length of the path inside the corona [0..1], 1 is when we cross the center the dot product s at its max which equals the radius
-	float pathLengthInCorona = dot(-normalize(farSpherePos.xyz), corePosition.xyz - farSpherePos.xyz) / ${coronaRadius};
+	float pathLengthInCorona = asin(dot(-normalize(farSpherePos.xyz), corePosition.xyz - farSpherePos.xyz) / ${coronaRadius});
 	
     gl_Position = cameraToClipMatrix * worldToCameraMatrix * modelToWorldMatrix * vec4(${position}, 1.0);
  	brightness = pathLengthInCorona;
