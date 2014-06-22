@@ -9,9 +9,7 @@
         </encoder>
     </appender>
 
-    <!--
-    <logger name="net.wohlfart" level="DEBUG" />
-    -->
+    <logger name="net.wohlfart" level="INFO" />   
     <logger name="net.wohlfart.photon.shader" level="INFO" />
     <logger name="net.wohlfart.photon.DesktopModule" level="INFO" />
     <logger name="net.wohlfart.photon.KeyListener" level="INFO" />

@@ -30,7 +30,7 @@ public class CelestialTexture implements ITexture {
              seed);
     }
 
-    CelestialTexture(int width, int height, ISphereSurfaceColor celestialType, long seed /*, int textureUnit*/) {
+    CelestialTexture(int width, int height, ISphereSurfaceColor celestialType, long seed) {
         this.width = width;
         this.height = height;
         this.random = new Random(seed);

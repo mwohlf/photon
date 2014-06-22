@@ -78,6 +78,13 @@ public class DesktopStart {
 		final GLProfile glProfile = GLProfile.get(GLProfile.GL2);
 		GLProfile.initSingleton();
 		final GLCapabilities glCaps = new GLCapabilities(glProfile);
+		final int aaSamples = Integer.parseInt(properties.getProperty("aaSamples", "0"));
+		if (aaSamples > 0) {
+			glCaps.setSampleBuffers(true);
+			glCaps.setNumSamples(4);
+		} else {
+			glCaps.setSampleBuffers(false);
+		}
 
 		this.display = NewtFactory.createDisplay(null);
 		this.screen = NewtFactory.createScreen(display, 0); // screen 0
