@@ -23,7 +23,7 @@ public class SunClassG extends ProceduralCelestial {
 
     @Override
     public void setup() {
-		withCorona(new Corona().withThinkness(6f).withColor(Color.YELLOW));
+		withCorona(new Corona().withThinkness(6f).withColor(Color.RED));
 
     	if (seed < 0) {
     		withSeed(2);

@@ -37,7 +37,7 @@ public class ColorGradient implements Serializable {
         return gradientPoints;
     }
 
-    public Color getColor(final double value) {
+    public Color getColor(double value) {
 
         final int size = gradientPoints.size();
         final GradientPoint pointArray[] = new GradientPoint[size];

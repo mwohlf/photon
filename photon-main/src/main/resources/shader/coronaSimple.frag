@@ -7,6 +7,6 @@ out vec4 fragColor;
 
 void main(void) {
 
-    fragColor = passColor * 0.5 * brightness;
+    fragColor = passColor * brightness;
 
 }

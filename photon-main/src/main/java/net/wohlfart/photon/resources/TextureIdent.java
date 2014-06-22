@@ -7,7 +7,8 @@ import net.wohlfart.photon.texture.ISphereSurfaceColor;
 public enum TextureIdent implements ISphereSurfaceColor {
 	GAS_PLANET(new GasPlanetTexture("GAS1", Color.BLUE, Color.RED)),
 	CONTINENTAL(new ContinentalPlanetTexture()),
-	SUN_CLASS_G(new MultiColorSurfacePlanetTexture("SUN_CLASS_G", Color.WHITE, Color.WHITE, Color.YELLOW.brighter(), Color.YELLOW, Color.BLACK)),
+	SUN_CLASS_G(new MultiColorSurfacePlanetTexture("SUN_CLASS_G",
+				Color.WHITE, Color.YELLOW, Color.RED, Color.BLACK)),
 	YELLOW(new MonoColorSurfaceColor("YELLOW", Color.YELLOW)),
 	BLUE(new MonoColorSurfaceColor("BLUE", Color.BLUE)),
 	RED(new MonoColorSurfaceColor("RED", Color.RED)),

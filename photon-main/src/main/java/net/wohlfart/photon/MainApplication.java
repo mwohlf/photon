@@ -132,9 +132,7 @@ public class MainApplication implements ILifecycleListener {
 			}
 
 			currentState.update(timer.getDelta());
-
 			renderer.setGfxContext(gfxCtx);
-
 			currentState.render(renderer);
 
 			while (eventBus.hasEvent()) {
