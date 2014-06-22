@@ -10,11 +10,7 @@
     </appender>
 
     <logger name="net.wohlfart" level="INFO" />
-    <logger name="net.wohlfart.photon.shader" level="DEBUG" />
     
-    
-    
-
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
     </root>

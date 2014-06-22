@@ -40,13 +40,13 @@ public class TextureTool {
 
 	public TextureTool initialize() {
 		assert EventQueue.isDispatchThread() : "running in wrong thread";
-		this.texture = new ReadableCelestialTexture(3, TextureIdent.CONTINENTAL, 1);
-		this.texture = new ReadableCelestialTexture(3, TextureIdent.GAS_PLANET, 1);
-		this.texture = new ReadableCelestialTexture(3, TextureIdent.GREEN, 1);
-		this.texture = new ReadableCelestialTexture(3, TextureIdent.SUN_CLASS_G, 1);
-        // this.image = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
-		// the texture format is RGBA
-        this.image = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_RGB);
+		this.texture = new ReadableCelestialTexture(3 * 10, TextureIdent.CONTINENTAL, 1);
+		this.texture = new ReadableCelestialTexture(3 * 10, TextureIdent.GAS_PLANET, 1);
+		this.texture = new ReadableCelestialTexture(3 * 10, TextureIdent.GREEN, 1);
+		this.texture = new ReadableCelestialTexture(3 * 10, TextureIdent.RED, 1);
+		this.texture = new ReadableCelestialTexture(3 * 10, TextureIdent.GREEN, 1);
+		this.texture = new ReadableCelestialTexture(3 * 10, TextureIdent.SUN_CLASS_G, 1);
+        this.image = new BufferedImage(texture.getWidth(), texture.getHeight(), BufferedImage.TYPE_INT_ARGB_PRE);
 		return this;
 	}
 
@@ -101,13 +101,13 @@ public class TextureTool {
 	            for (int y = 0; y < image.getHeight(); y++) {
 	            	int pixel = buffer.get(x + y * image.getWidth());
 	                int value = 0;
-	                value = value | 0xff & pixel;          // A
+	                value = value | (pixel >> 24) & 0xFF;     // alpha component for RGBA
 	                value = value << 8;
-	                value = value | 0xff & (pixel >> 32);  // R
+	                value = value | (pixel >> 0) & 0xFF;     // red component
 	                value = value << 8;
-	                value = value | 0xff & (pixel >> 8);   // G
+	                value = value | (pixel >> 8) & 0xFF;      // green component
 	                value = value << 8;
-	                value = value | 0xff & (pixel >> 16);  // B
+	                value = value | (pixel >> 16) & 0xFF;    // blue component
 	                image.setRGB(x, y, value);
 	            }
 	        }

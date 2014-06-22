@@ -12,6 +12,7 @@ public class ToolsStart {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
+				LOGGER.info("runnging tools");
 				new TextureTool() .initialize() .start();
 			}
 		});
