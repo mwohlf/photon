@@ -102,7 +102,7 @@ public class Geometry implements IGeometry {
 			gl.glDrawElements( // see: http://www.opengl.org/wiki/GlDrawElements
 					getPrimitiveType(streamFormat), // mode: primitive type see: http://www.opengl.org/wiki/Primitive
 					indices.size(), // indicesCount
-					getIndexElemSize(), // indexElemSize
+					getBestIndexElemSize(), // indexElemSize
 					0); // indexOffset
 		} else {
 			// render plain vertices without indices
@@ -115,22 +115,22 @@ public class Geometry implements IGeometry {
 	}
 
 	private void bindVboHandle(GL2ES2 gl) {
-		if (vboHandle > -1) {
-			gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, vboHandle);
-		} else {
+		if (vboHandle < 0) {
 			final FloatBuffer verticesBuffer = createVertexFloatBuffer();
 			final long size = verticesBuffer.capacity();
-			vboHandle = createAndBindBuffer(GL2.GL_ARRAY_BUFFER, gl);
+			vboHandle = createBuffer(GL2.GL_ARRAY_BUFFER, gl);
+			gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, vboHandle);
 			gl.glBufferData(GL2.GL_ARRAY_BUFFER, size  * Buffers.SIZEOF_FLOAT, verticesBuffer, GL2.GL_STATIC_DRAW);
+		} else {
+			gl.glBindBuffer(GL2.GL_ARRAY_BUFFER, vboHandle);
 		}
 	}
 
 	private void bindIdxBufferHandle(GL2ES2 gl) {
-		if (iboHandle > -1) {
-			gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, iboHandle);
-		} else {
+		if (iboHandle < 0) {
 			int indicesCount = indices.size();
-			iboHandle = createAndBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, gl);
+			iboHandle = createBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, gl);
+			gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, iboHandle);
 			if (indicesCount > Short.MAX_VALUE) {
 				final IntBuffer indicesBuffer = createIndexIntBuffer();
 				gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_INT, indicesBuffer, GL2.GL_STATIC_DRAW);
@@ -141,17 +141,18 @@ public class Geometry implements IGeometry {
 				final ByteBuffer indicesBuffer = createIndexByteBuffer();
 				gl.glBufferData(GL2.GL_ELEMENT_ARRAY_BUFFER, indicesBuffer.capacity() * Buffers.SIZEOF_BYTE, indicesBuffer, GL2.GL_STATIC_DRAW);
 			}
+		} else {
+			gl.glBindBuffer(GL2.GL_ELEMENT_ARRAY_BUFFER, iboHandle);
 		}
 	}
 
-	private int createAndBindBuffer(int type, GL2ES2 gl) {
+	private int createBuffer(int type, GL2ES2 gl) {
 		int[] handle = new int[1];
 		gl.glGenBuffers(1, handle, 0);
-		gl.glBindBuffer(type, handle[0]);
 		return handle[0];
 	}
 
-	private int getIndexElemSize() {
+	private int getBestIndexElemSize() {
 		int indicesCount = indices.size();
 		if (indicesCount > Short.MAX_VALUE) {
 			return GL2.GL_UNSIGNED_INT;
@@ -234,7 +235,6 @@ public class Geometry implements IGeometry {
 		return verticesBuffer;
 	}
 
-
 	private IntBuffer createIndexIntBuffer() {
 		final IntBuffer indicesBuffer = createIntBuffer(indices.size());
 		indicesBuffer.put(indices.toArray());
@@ -268,11 +268,11 @@ public class Geometry implements IGeometry {
 		return currentVertex;
 	}
 
-	public StreamFormat getStreamFormat() {
+	protected StreamFormat getStreamFormat() {
 		return streamFormat;
 	}
 
-	public VertexFormat getVertexFormat() {
+	protected VertexFormat getVertexFormat() {
 		return vertexFormat;
 	}
 

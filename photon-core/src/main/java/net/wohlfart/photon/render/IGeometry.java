@@ -125,7 +125,6 @@ public interface IGeometry {
         TRIANGLES,    // 0-1-2, 3-4-5, 6-7-8
     }
 
-    // this should replace the rest of the methods...
 	void draw(IShaderProgram currentShader, GL2ES2 gl);
 
 }

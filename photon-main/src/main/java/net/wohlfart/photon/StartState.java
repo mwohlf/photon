@@ -7,7 +7,7 @@ import java.util.Iterator;
 import javax.inject.Inject;
 
 import net.wohlfart.photon.entity.Skybox;
-import net.wohlfart.photon.entity.stellar.SunClassG;
+import net.wohlfart.photon.entity.stellar.SunClassM;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
 import net.wohlfart.photon.events.MoveEvent;
@@ -18,6 +18,7 @@ import net.wohlfart.photon.graph.ISceneGraph;
 import net.wohlfart.photon.graph.ISceneGraph.IEntity;
 import net.wohlfart.photon.graph.SceneGraph;
 import net.wohlfart.photon.hud.IScreenSizeListener;
+import net.wohlfart.photon.hud.SimpleLayer;
 import net.wohlfart.photon.pov.CanMoveImpl;
 import net.wohlfart.photon.pov.CanRotateImpl;
 import net.wohlfart.photon.render.IRenderer;
@@ -81,9 +82,11 @@ public class StartState implements IState {
 
 		sceneGraph.setup( new IEntity[] {
 
+				new SimpleLayer(),
+
 				new Skybox(),
 
-				new SunClassG().withPosition(-17, 0, -30).withSize(4),
+				new SunClassM().withPosition(-17, 0, -30),
 				/*
 
 				new VertexLight().withPosition(-17, 0, -30),
@@ -108,7 +111,6 @@ public class StartState implements IState {
 				new CubeEntity(1).withPosition(-5,0,-5f),
 				new CubeEntity(1).withPosition(7,0,-6f),
 
-				new SimpleLayer(),
 
 				new SpriteCloud(),
 

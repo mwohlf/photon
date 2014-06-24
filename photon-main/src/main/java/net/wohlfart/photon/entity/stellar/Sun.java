@@ -15,7 +15,7 @@ import net.wohlfart.photon.texture.TextureIdentifier;
 
 
 // see: http://en.wikipedia.org/wiki/Stellar_classification#Modern_interpretation
-public class SunClassG extends ProceduralCelestial {
+public abstract class Sun extends ProceduralCelestial {
 
     protected ISphereSurfaceColor type;
     protected long seed = -1;
@@ -44,10 +44,19 @@ public class SunClassG extends ProceduralCelestial {
         renderCommands.add(renderUnit);
     }
 
+
+    protected ISphereSurfaceColor getType() {
+    	return type;
+    }
+
     @Override
 	public ProceduralCelestial withType(ISphereSurfaceColor type) {
         this.type = type;
         return this;
+    }
+
+    protected long getSeed() {
+    	return seed;
     }
 
     @Override

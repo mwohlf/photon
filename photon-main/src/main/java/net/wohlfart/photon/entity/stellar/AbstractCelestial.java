@@ -1,7 +1,6 @@
 package net.wohlfart.photon.entity.stellar;
 
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
 
 import javax.vecmath.Vector3d;
@@ -77,9 +76,6 @@ public abstract class AbstractCelestial extends AbstractEntity  {
     	this.corona = corona;
     	updateCorona();
         renderCommands.add(corona);
-        if (sceneGraph != null) {
-            sceneGraph.addRenderCommands(Collections.singleton(corona));
-        }
         return this;
     }
 
