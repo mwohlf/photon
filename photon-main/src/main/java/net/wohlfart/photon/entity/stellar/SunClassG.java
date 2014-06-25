@@ -11,17 +11,17 @@ import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.resources.TextureIdent;
 import net.wohlfart.photon.texture.TextureIdentifier;
 
-public class SunClassM extends Sun {
+public class SunClassG extends Sun {
 
     @Override
     public void setup() {
-		withCorona(new Corona().withThinkness(6f).withColor(Color.YELLOW));
+		withCorona(new Corona().withThinkness(6f).withColor(Color.RED));
 
     	if (seed < 0) {
     		withSeed(2);
     	}
      	if (type == null) {
-    		withType(TextureIdent.SUN_CLASS_M);
+    		withType(TextureIdent.SUN_CLASS_G);
     	}
      	if (Float.isNaN(size)) {
      		float min = 2;

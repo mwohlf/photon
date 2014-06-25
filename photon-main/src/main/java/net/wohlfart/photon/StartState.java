@@ -7,6 +7,8 @@ import java.util.Iterator;
 import javax.inject.Inject;
 
 import net.wohlfart.photon.entity.Skybox;
+import net.wohlfart.photon.entity.stellar.PlanetClassM;
+import net.wohlfart.photon.entity.stellar.SunClassG;
 import net.wohlfart.photon.entity.stellar.SunClassM;
 import net.wohlfart.photon.events.CommandEvent;
 import net.wohlfart.photon.events.CommandEvent.CommandKey;
@@ -87,6 +89,8 @@ public class StartState implements IState {
 				new Skybox(),
 
 				new SunClassM().withPosition(-17, 0, -30),
+				new SunClassG().withPosition(+17, 0, -30),
+				new PlanetClassM().withPosition( 0, -17, -30),
 				/*
 
 				new VertexLight().withPosition(-17, 0, -30),
