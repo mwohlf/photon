@@ -12,11 +12,12 @@ import net.wohlfart.photon.resources.TextureIdent;
 import net.wohlfart.photon.texture.TextureIdentifier;
 
 public class SunClassG extends Sun {
+	public static final float MIN_SIZE = 2;
+	public static final float MAX_SIZE = 10;
+	public static final float CORONA_ASPECT = 0.5f;
 
     @Override
     public void setup() {
-		withCorona(new Corona().withThinkness(6f).withColor(Color.RED));
-
     	if (seed < 0) {
     		withSeed(2);
     	}
@@ -24,10 +25,12 @@ public class SunClassG extends Sun {
     		withType(TextureIdent.SUN_CLASS_G);
     	}
      	if (Float.isNaN(size)) {
-     		float min = 2;
-     		float max = 10;
-     		withSize(random.nextFloat() * (max - min) + min);
+     		assert random != null: "need to set random";
+     		withSize(random.nextFloat() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE);
     	}
+     	if (corona == null) {
+     		withCorona(new Corona().withThinkness(size * CORONA_ASPECT).withColor(Color.RED));
+     	}
 
         lod = 6;
         final TextureIdentifier textureId = TextureIdentifier.create(size * 25, type.getId(), seed);

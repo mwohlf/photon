@@ -232,6 +232,7 @@
 								<include>jogl/**</include>
 								<include>jogamp/**</include>
 								<include>javax/**</include>
+								<include>net/**</include>
 							</includes>
 							<followSymlinks>false</followSymlinks>
 						</fileset>

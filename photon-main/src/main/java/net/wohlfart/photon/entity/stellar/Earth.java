@@ -8,8 +8,7 @@ import net.wohlfart.photon.texture.TextureIdentifier;
 
 public class Earth extends AbstractCelestial {
 
-    private static final TextureIdentifier EARTH_LOWRES =  TextureIdentifier.create("gfx/textures/earth-512.jpg");
-
+    // private static final TextureIdentifier EARTH_LOWRES =  TextureIdentifier.create("gfx/textures/earth-512.jpg");
     private static final ITextureIdentifier EARTH_HIRES =  TextureIdentifier.create("gfx/textures/earth-1024.jpg");
 
     @Override

@@ -3,6 +3,7 @@ package net.wohlfart.photon;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.inject.Inject;
 
@@ -82,15 +83,15 @@ public class StartState implements IState {
 	@Override
 	public void init() {
 
+		Random random = new Random(3);
+
 		sceneGraph.setup( new IEntity[] {
 
 				new SimpleLayer(),
-
 				new Skybox(),
-
-				new SunClassM().withPosition(-17, 0, -30),
-				new SunClassG().withPosition(+17, 0, -30),
-				new PlanetClassM().withPosition( 0, -17, -30),
+				new SunClassM().withSeed(random.nextLong()).withPosition(-17, 0, -30),
+				new SunClassG().withSeed(random.nextLong()).withPosition(+17, 0, -30),
+				new PlanetClassM().withSeed(random.nextLong()).withPosition( 0, -17, -30),
 				/*
 
 				new VertexLight().withPosition(-17, 0, -30),
