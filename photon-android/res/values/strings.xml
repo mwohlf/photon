@@ -1,8 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- 
-see http://developer.android.com/guide/topics/resources/string-resource.html
- -->
 <resources>
-    <string name="application_name">Photon</string>
-    <string name="launcher_name">Photon-Launcher</string>
+  <string name="app_name">Android Photon</string>
 </resources>

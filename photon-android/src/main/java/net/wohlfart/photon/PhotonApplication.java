@@ -18,11 +18,13 @@ public class PhotonApplication extends Application {
     }
 
     protected List<Object> getModules() {
-        return Arrays.<Object>asList(new PhotonModule(this)
+        return Arrays.<Object>asList(
+        		new PhotonModule(this)
         );
     }
 
-    public ObjectGraph getObjectGraph() {
-        return this.objectGraph;
+    public void inject(Object object) {
+    	objectGraph.inject(object);
     }
+
 }
