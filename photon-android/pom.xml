@@ -4,7 +4,9 @@
 		http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd
 	">
 
-	<!-- see: http://jogamp.org/wiki/index.php/Maven -->
+	<!-- see: 
+	http://www.tikalk.com/alm/android-eclipse-maven
+	http://jogamp.org/wiki/index.php/Maven -->
 
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
