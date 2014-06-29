@@ -45,10 +45,6 @@
 					<artifactId>dagger-compiler</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.squareup.dagger</groupId>
-					<artifactId>dagger-compiler</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>ch.qos.logback</groupId>
 					<artifactId>logback-classic</artifactId>
 				</exclusion>
@@ -84,10 +80,6 @@
 					<artifactId>dagger-compiler</artifactId>
 				</exclusion>
 				<exclusion>
-					<groupId>com.squareup.dagger</groupId>
-					<artifactId>dagger-compiler</artifactId>
-				</exclusion>
-				<exclusion>
 					<groupId>ch.qos.logback</groupId>
 					<artifactId>logback-classic</artifactId>
 				</exclusion>
@@ -101,18 +93,12 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.github.tony19</groupId>
-			<artifactId>logback-android-classic</artifactId>
-			<version>1.1.1-2</version>
-		</dependency>
-
-		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
 			<version>2.2.1</version>
 			<scope>provided</scope>
 		</dependency>
-
+	
 		<!-- Depend on the gluegen runtime Android package -->
 		<dependency>
 			<groupId>org.jogamp.gluegen</groupId>
@@ -307,8 +293,9 @@
 						<configuration>
 							<excludeJarResources>
 								<excludeJarResource>dagger-compiler-.*\.jar$</excludeJarResource>
+								<excludeJarResource>dagger-compiler-.*\.jar$</excludeJarResource>
 								<excludeJarResource>jogl-.*\.jar$</excludeJarResource>
-								<excludeJarResource>gluegen-rt-.*\.jar$</excludeJarResource>
+								<excludeJarResource>ch.qos.*\.jar$</excludeJarResource>
 							</excludeJarResources>
 						</configuration>
 					</execution>
