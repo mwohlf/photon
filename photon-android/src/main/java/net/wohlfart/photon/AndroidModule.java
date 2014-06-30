@@ -49,4 +49,5 @@ public class AndroidModule {
   public LocationManager provideLocationManager() {
     return (LocationManager) application.getSystemService(LOCATION_SERVICE);
   }
+
 }

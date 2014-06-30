@@ -12,12 +12,12 @@ public class HomeActivity extends PhotonBaseActivity {
   LocationManager locationManager;
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     // After the super.onCreate call returns we are guaranteed our injections are available.
 
     TextView text = new TextView(this);
-    text.setText("Hello World, Android - mkyong.com");
+    text.setText("Hello Photon!");
     setContentView(text);
 
     // TODO do something with the injected dependencies here!

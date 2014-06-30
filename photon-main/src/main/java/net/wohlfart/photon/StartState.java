@@ -48,7 +48,7 @@ public class StartState implements IState {
 
 
 	@Inject
-	StartState() {}
+	public StartState() {}
 
 	@Subscribe
 	public void move(MoveEvent evt) {

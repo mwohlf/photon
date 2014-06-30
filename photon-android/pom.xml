@@ -35,11 +35,7 @@
 				<exclusion>
 					<groupId>org.jogamp.gluegen</groupId>
 					<artifactId>gluegen-rt-main</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jogamp.jogl</groupId>
-					<artifactId>jogl-all-main</artifactId>
-				</exclusion>
+				</exclusion>	
 				<exclusion>
 					<groupId>com.squareup.dagger</groupId>
 					<artifactId>dagger-compiler</artifactId>
@@ -57,23 +53,15 @@
 			<artifactId>photon-main</artifactId>
 			<version>${photon.version}</version>
 
-			<!-- The photon-scene project depends on jogl-all in order to type-check/compile, 
+			<!-- The photon-main project depends on jogl-all in order to type-check/compile, 
 				and therefore will be added as a transitive dependency of this project. However, 
 				this is an Android package and wants to use the Android JOGL package. Obviously, 
 				it's not possible to use both, so this exclusion tells Maven that the dependency 
-				introduced by photon-scene on JOGL should be ignored. -->
+				introduced by photon-main on JOGL should be ignored. -->
 			<exclusions>
 				<exclusion>
 					<groupId>org.jogamp.jogl</groupId>
 					<artifactId>jogl-all</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jogamp.gluegen</groupId>
-					<artifactId>gluegen-rt-main</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.jogamp.jogl</groupId>
-					<artifactId>jogl-all-main</artifactId>
 				</exclusion>
 				<exclusion>
 					<groupId>com.squareup.dagger</groupId>
@@ -95,7 +83,7 @@
 		<dependency>
 			<groupId>com.google.android</groupId>
 			<artifactId>android</artifactId>
-			<version>2.2.1</version>
+			<version>2.3.3</version>
 			<scope>provided</scope>
 		</dependency>
 	
@@ -292,10 +280,8 @@
 						</goals>
 						<configuration>
 							<excludeJarResources>
-								<excludeJarResource>dagger-compiler-.*\.jar$</excludeJarResource>
-								<excludeJarResource>dagger-compiler-.*\.jar$</excludeJarResource>
-								<excludeJarResource>jogl-.*\.jar$</excludeJarResource>
-								<excludeJarResource>ch.qos.*\.jar$</excludeJarResource>
+                				<excludeJarResource>jogl-.*\.jar$</excludeJarResource>
+                				<excludeJarResource>gluegen-rt-.*\.jar$</excludeJarResource>
 							</excludeJarResources>
 						</configuration>
 					</execution>

@@ -24,6 +24,6 @@
     <string name="clear">Clear</string>
 
     <!-- This is a complex string containing style runs. -->
-    <string name="main_label">hello Android!</string>
+    <string name="main_label">hello Photon</string>
 </resources>
 

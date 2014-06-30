@@ -8,6 +8,7 @@ import javax.inject.Singleton;
 
 import net.wohlfart.photon.events.PoolEventBus;
 import net.wohlfart.photon.render.RendererImpl;
+import net.wohlfart.photon.state.StateManager;
 import net.wohlfart.photon.time.ClockImpl;
 import net.wohlfart.photon.time.TimerImpl;
 
@@ -75,6 +76,10 @@ public class DesktopModule {
 		return new FPSAnimator(30, true);
 	}
 
+	@Provides @Singleton
+	public StateManager provideStateManager() {
+		return new StateManager();
+	}
 
 	@Provides @Singleton
 	public KeyListener providesKeyListener(PoolEventBus poolEventBus) {

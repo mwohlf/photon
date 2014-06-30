@@ -1,6 +1,5 @@
 package net.wohlfart.photon.state;
 
-import javax.inject.Inject;
 
 public class StateManager {
 
@@ -8,8 +7,7 @@ public class StateManager {
 
     private IState startState;
 
-    @Inject
-    StateManager() {}
+    public StateManager() {}
 
     public void setStartState(IState state) {
     	startState = state;
