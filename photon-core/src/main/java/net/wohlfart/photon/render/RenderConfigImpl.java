@@ -2,9 +2,7 @@ package net.wohlfart.photon.render;
 
 import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
-import javax.media.opengl.GL2ES1;
 import javax.media.opengl.GL2ES2;
-import javax.media.opengl.GL2GL3;
 
 import net.wohlfart.photon.tools.EnumWeights;
 
@@ -123,35 +121,46 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 
 	@Override
 	public RenderConfigImpl updateValues(GL2ES2 gl, RenderConfigImpl that) {
+		checkError(gl);
 		if (that.clear != this.clear) {
 			clear.setValue(gl);
+			checkError(gl);
 		}
 		if (that.blending != this.blending) {
 			blending.setValue(gl);
+			checkError(gl);
 		}
 		if (that.clearColor != this.clearColor) {
 			clearColor.setValue(gl);
+			checkError(gl);
 		}
 		if (that.pointSprite != this.pointSprite) {
 			pointSprite.setValue(gl);
+			checkError(gl);
 		}
 		if (that.clearDepth != this.clearDepth) {
 			clearDepth.setValue(gl);
+			checkError(gl);
 		}
 		if (that.colorMask != this.colorMask) {
 			colorMask.setValue(gl);
+			checkError(gl);
 		}
 		if (that.depthTest != this.depthTest) {
 			depthTest.setValue(gl);
+			checkError(gl);
 		}
 		if (that.faceCulling != this.faceCulling) {
 			faceCulling.setValue(gl);
+			checkError(gl);
 		}
 		if (that.scissorTest != this.scissorTest) {
 			scissorTest.setValue(gl);
+			checkError(gl);
 		}
 		if (that.stencilTest != stencilTest) {
 			stencilTest.setValue(gl);
+			checkError(gl);
 		}
 		return this;
 	}
@@ -266,15 +275,17 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		SIZE_FROM_SHADER {
 			@Override
 			public void setValue(GL2ES2 gl) {
-		           gl.glEnable(GL2ES1.GL_POINT_SPRITE);
-		           gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+				// TODO: fixme
+	//	           gl.glEnable(GL2ES1.GL_POINT_SPRITE);
+	//	           gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		},
 		OFF {
 			@Override
 			public void setValue(GL2ES2 gl) {
-		           gl.glDisable(GL2ES1.GL_POINT_SPRITE);
-		           gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+				// TODO: fixme
+	//	           gl.glDisable(GL2ES1.GL_POINT_SPRITE);
+	//	           gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		}
 
@@ -351,6 +362,13 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 			public void setValue(GL2ES2 gl) {
 				gl.glDisable(GL.GL_DEPTH_TEST);
 			}
+		}
+	}
+
+	private void checkError(GL2ES2 gl) {
+		int error = gl.glGetError();
+		if (error != GL2ES2.GL_NO_ERROR) {// @formatter:off
+			throw new IllegalStateException("error validating shader, error code is: " + error + "\n");
 		}
 	}
 

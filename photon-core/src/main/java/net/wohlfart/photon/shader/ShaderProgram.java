@@ -194,10 +194,17 @@ public class ShaderProgram implements IShaderProgram {
 			final int[] logLength = new int[1];
 			gl.glGetShaderiv(shader, GL2ES2.GL_INFO_LOG_LENGTH, logLength, 0);
 
-			final byte[] log = new byte[logLength[0]];
-			gl.glGetShaderInfoLog(shader, logLength[0], (int[])null, 0, log, 0);
+			// TODO: fixme
+			// final byte[] log = new byte[logLength[0]];
+			// gl.glGetShaderInfoLog(shader, logLength[0], (int[])null, 0, log, 0);
 
-			throw new IllegalStateException(new String(log));
+	          byte[] chars = new byte[1000];
+              int[] ints = new int[1];
+              ints[0]=1000;
+              gl.glGetShaderInfoLog(shader, 1000, ints , 0, chars , 0);
+
+
+			throw new IllegalStateException(new String(chars));
 		}
 	}
 

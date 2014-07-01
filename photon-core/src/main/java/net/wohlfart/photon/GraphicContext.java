@@ -59,6 +59,8 @@ public class GraphicContext implements IGraphicContext {
 		assert drawable.getGL().getGL2ES2() != null : "drawable.gl.gl2es2 is null";
 
 		gl = drawable.getGL().getGL2ES2();
+		checkError();
+
 		// throws error on dispose with  -Djogl.debug.DebugGL, moved to the root node
 		// gl.glClear(GL2.GL_COLOR_BUFFER_BIT | GL2.GL_DEPTH_BUFFER_BIT | GL2.GL_STENCIL_BUFFER_BIT);
 		currentShader = ShaderProgram.NULL_SHADER;
@@ -71,16 +73,22 @@ public class GraphicContext implements IGraphicContext {
 	// this is the only way to let the shader know the current OpenGL context
 	@Override
 	public void setRenderConfig(IShaderProgramIdentifier newShaderIdent, IRenderConfig<RenderConfigImpl> newConfig) {
+		checkError();
+
 		IShaderProgram newShader = ResourceManager.loadResource(IShaderProgram.class, newShaderIdent);
 		// no need to update the state if it didn't change
 		if (!currentConfig.equals(newConfig)) {
 			currentConfig = newConfig.updateValues(gl, currentConfig);
+			checkError();
 		}
 		if (!currentShader.equals(newShader)) {
+			checkError();
 			LOGGER.debug("switching shaders '{}' -> '{}'", currentShader.getId(), newShader.getId());
 			currentShader.unbind();
+			checkError();
 			currentShader = newShader;
 			currentShader.bind(gl);
+			checkError();
 		} else {
 			LOGGER.debug("not switching shaders, shader id is still the same '{}'", currentShader.getId());
 		}
@@ -90,6 +98,8 @@ public class GraphicContext implements IGraphicContext {
 	// configure the shader's uniforms and textures
 	@Override
 	public void addUniformValues(Collection<IUniformValue> newUniformValues) {
+		checkError();
+
 		assert newUniformValues!= null : "uniforma values must not be null, use an empty collection instead";
 		for (IUniformValue uniformValue : newUniformValues) {
 			uniformValues.put(uniformValue.getKey(), uniformValue);
@@ -100,6 +110,7 @@ public class GraphicContext implements IGraphicContext {
 	// set or un-set a framebuffer as rendering target
 	@Override
 	public void setFrameBuffer(IFrameBuffer frameBuffer) {
+		checkError();
 
 		if (frameBuffer == null) {
 			// unbind
@@ -131,6 +142,7 @@ public class GraphicContext implements IGraphicContext {
 
 	@Override
 	public void drawGeometry(IGeometry geometry) {
+		checkError();
 		geometry.draw(currentShader, gl);
 	}
 
@@ -152,6 +164,7 @@ public class GraphicContext implements IGraphicContext {
 
 	// TODO: print this and more info somewhere at startup instead of hiding here
 	private String readGlInfo() {
+		checkError();
 		StringBuilder builder = new StringBuilder();
 		float[] pointSizeRange = new float[2];
 		gl.glGetFloatv(GL.GL_ALIASED_POINT_SIZE_RANGE, pointSizeRange, 0);
@@ -160,9 +173,17 @@ public class GraphicContext implements IGraphicContext {
 	}
 
 	private String readShaderInfo() {
+		checkError();
 		StringBuilder builder = new StringBuilder();
 		builder.append(" shader: '" + currentShader.toString() + "'");
 		return builder.toString();
+	}
+
+	private void checkError() {
+		int error = gl.glGetError();
+		if (error != GL2ES2.GL_NO_ERROR) {// @formatter:off
+			throw new IllegalStateException("error validating shader, error code is: " + error + "\n");
+		}
 	}
 
 }
