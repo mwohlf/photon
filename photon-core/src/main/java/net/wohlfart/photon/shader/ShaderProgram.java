@@ -182,12 +182,12 @@ public class ShaderProgram implements IShaderProgram {
 		}
 		gl.glShaderSource(shader, 1, new String[] { code }, (int[]) null, 0);
 		gl.glCompileShader(shader);
-		checkCompileStatus(gl, shader); // throws illegal state exception
+		checkCompileStatus(gl, shader, code); // throws illegal state exception
 		LOGGER.info("shader compiled, shader id was '{}', type is '{}'", shader, shaderType);
 		return shader;
 	}
 
-	private void checkCompileStatus(GL2ES2 gl, int shader) {
+	private void checkCompileStatus(GL2ES2 gl, int shader, String code) {
 		final int[] compiled = new int[1];
 		gl.glGetShaderiv(shader, GL2ES2.GL_COMPILE_STATUS, compiled, 0);
 		if (compiled[0] == 0) {
@@ -203,7 +203,7 @@ public class ShaderProgram implements IShaderProgram {
               ints[0]=1000;
               gl.glGetShaderInfoLog(shader, 1000, ints , 0, chars , 0);
 
-
+              System.err.println(code);
 			throw new IllegalStateException(new String(chars));
 		}
 	}

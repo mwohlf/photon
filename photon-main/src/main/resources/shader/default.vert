@@ -1,6 +1,6 @@
-#version 330 core
+#version 110
 
-in vec3 ${position};
+attribute vec3 ${position};
 
 uniform mat4 modelToWorldMatrix;     // modelMatrix
 uniform mat4 worldToCameraMatrix;    // viewMatrix

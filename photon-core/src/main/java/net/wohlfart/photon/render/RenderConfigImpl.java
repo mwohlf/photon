@@ -275,17 +275,17 @@ public class RenderConfigImpl implements IRenderConfig<RenderConfigImpl> {
 		SIZE_FROM_SHADER {
 			@Override
 			public void setValue(GL2ES2 gl) {
-				// TODO: fixme
-	//	           gl.glEnable(GL2ES1.GL_POINT_SPRITE);
-	//	           gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+		           //gl.glEnable(GL2ES1.GL_POINT_SPRITE);
+		           // not supported for ES2:
+		           // gl.glEnable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		},
 		OFF {
 			@Override
 			public void setValue(GL2ES2 gl) {
-				// TODO: fixme
-	//	           gl.glDisable(GL2ES1.GL_POINT_SPRITE);
-	//	           gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
+		           //gl.glDisable(GL2ES1.GL_POINT_SPRITE);
+		           // not supported in ES2:
+		           // gl.glDisable(GL2GL3.GL_VERTEX_PROGRAM_POINT_SIZE);
 			}
 		}
 

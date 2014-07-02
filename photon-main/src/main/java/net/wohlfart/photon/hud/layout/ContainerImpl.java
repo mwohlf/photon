@@ -1,6 +1,5 @@
 package net.wohlfart.photon.hud.layout;
 
-import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
  */
 public class ContainerImpl<C extends LayoutConstraints> implements IContainer<C> {
-    protected static final Logger LOGGER = LoggerFactory.getLogger(Container.class);
+    protected static final Logger LOGGER = LoggerFactory.getLogger(ContainerImpl.class);
 
     // the order in which the children are layout-ed and rendered is important
     protected final List<IComponent> children = new ArrayList<IComponent>();
