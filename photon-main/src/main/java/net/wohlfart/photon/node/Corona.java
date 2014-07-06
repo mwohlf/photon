@@ -1,6 +1,5 @@
 package net.wohlfart.photon.node;
 
-import java.awt.Color;
 
 import javax.vecmath.Vector4f;
 
@@ -15,6 +14,7 @@ import net.wohlfart.photon.render.IRenderConfig;
 import net.wohlfart.photon.shader.FloatValue;
 import net.wohlfart.photon.shader.ShaderParser;
 import net.wohlfart.photon.shader.Vector4fValue;
+import net.wohlfart.photon.tools.Color;
 
 // see: http://www.gamasutra.com/view/feature/131393/a_realtime_procedural_universe_.php?print=1
 public class Corona extends AbstractRenderElement {

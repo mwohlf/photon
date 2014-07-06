@@ -1,8 +1,8 @@
 package net.wohlfart.photon.resources;
 
-import java.awt.Color;
-
 import net.wohlfart.photon.texture.ISphereSurfaceColor;
+import net.wohlfart.photon.tools.Color;
+
 
 public enum TextureIdent implements ISphereSurfaceColor {
 	GAS_PLANET(new GasPlanetTexture("GAS1", Color.BLUE, Color.RED)),

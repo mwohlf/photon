@@ -1,9 +1,9 @@
 package net.wohlfart.photon.resources;
 
-import java.awt.Color;
-
 import net.wohlfart.photon.texture.simplex.AbstractSimplexSphereTexture;
+import net.wohlfart.photon.tools.Color;
 import net.wohlfart.photon.tools.ColorGradient;
+
 
 public class GasPlanetTexture extends AbstractSimplexSphereTexture {
 

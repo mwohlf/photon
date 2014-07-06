@@ -1,8 +1,7 @@
 package net.wohlfart.photon.resources;
 
-import java.awt.Color;
-
 import net.wohlfart.photon.texture.simplex.AbstractSimplexSphereTexture;
+import net.wohlfart.photon.tools.Color;
 import net.wohlfart.photon.tools.ColorGradient;
 
 public class ContinentalPlanetTexture extends AbstractSimplexSphereTexture {
@@ -10,14 +9,14 @@ public class ContinentalPlanetTexture extends AbstractSimplexSphereTexture {
 	public static final String ID = "CONTINENTAL_PLANET";
 
 	protected ColorGradient gradient = new ColorGradient(
-            new Color(0, 0, 0),
-            new Color(0, 0, 100),
-            new Color(0, 0, 255),
-            new Color(10, 10, 255),
-            new Color(180, 180, 180),
-            new Color(10, 255, 10),
-            new Color(0, 255, 0),
-            new Color(0, 50, 0));
+            new Color(  0f/255f,   0f/255f,   0f/255f),
+            new Color(  0f/255f,   0f/255f, 100f/255f),
+            new Color(  0f/255f,   0f/255f, 255f/255f),
+            new Color( 10f/255f,  10f/255f, 255f/255f),
+            new Color(180f/255f, 180f/255f, 180f/255f),
+            new Color( 10f/255f, 255f/255f,  10f/255f),
+            new Color(  0f/255f, 255f/255f,   0f/255f),
+            new Color(  0f/255f,  50f/255f,  0f/255f));
 
 	// package private, use the enum in TextureIdent
 	ContinentalPlanetTexture() {

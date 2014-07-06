@@ -1,12 +1,13 @@
 package net.wohlfart.photon.texture;
 
-import java.awt.Color;
 import java.nio.IntBuffer;
 import java.util.Random;
 
 import javax.media.opengl.GL2;
 import javax.media.opengl.GL2ES2;
 import javax.vecmath.Vector3f;
+
+import net.wohlfart.photon.tools.Color;
 
 import com.jogamp.common.nio.Buffers;
 
@@ -133,13 +134,13 @@ public class CelestialTexture implements ITexture {
 
         final int i = x + y * width;
         int value = 0;
-        value = value | 0xff & color.getAlpha();
+        value = value | color.getAlpha();
         value = value << 8;
-        value = value | 0xff & color.getBlue();
+        value = value | color.getBlue();
         value = value << 8;
-        value = value | 0xff & color.getGreen();
+        value = value | color.getGreen();
         value = value << 8;
-        value = value | 0xff & color.getRed();
+        value = value | color.getRed();
         data[i] = value;
     }
 

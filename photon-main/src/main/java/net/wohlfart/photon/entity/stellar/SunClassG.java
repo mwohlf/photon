@@ -1,6 +1,5 @@
 package net.wohlfart.photon.entity.stellar;
 
-import java.awt.Color;
 
 import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.geometry.Sphere;
@@ -10,6 +9,7 @@ import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.resources.TextureIdent;
 import net.wohlfart.photon.texture.TextureIdentifier;
+import net.wohlfart.photon.tools.Color;
 
 public class SunClassG extends Sun {
 	public static final float MIN_SIZE = 2;

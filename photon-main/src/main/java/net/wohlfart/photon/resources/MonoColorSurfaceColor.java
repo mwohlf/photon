@@ -1,8 +1,8 @@
 package net.wohlfart.photon.resources;
 
-import java.awt.Color;
-
 import net.wohlfart.photon.texture.ISphereSurfaceColor;
+import net.wohlfart.photon.tools.Color;
+
 
 public class MonoColorSurfaceColor implements ISphereSurfaceColor {
 
@@ -10,9 +10,9 @@ public class MonoColorSurfaceColor implements ISphereSurfaceColor {
 	private final String id;
 
 	// package private, use the enum in TextureIdent
-	MonoColorSurfaceColor(String id, Color color) {
+	MonoColorSurfaceColor(String id, Color yellow) {
 		this.id = id;
-		this.color = color;
+		this.color = yellow;
 	}
 
 	@Override

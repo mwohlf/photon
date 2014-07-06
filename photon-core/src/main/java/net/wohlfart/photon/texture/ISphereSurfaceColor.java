@@ -1,6 +1,7 @@
 package net.wohlfart.photon.texture;
 
-import java.awt.Color;
+import net.wohlfart.photon.tools.Color;
+
 
 public interface ISphereSurfaceColor {
 

@@ -1,7 +1,5 @@
 package net.wohlfart.photon.tools;
 
-import java.awt.Color;
-
 import javax.vecmath.Vector3f;
 
 /**
@@ -9,7 +7,7 @@ import javax.vecmath.Vector3f;
  *
  * see: http://www.lwjgl.org/wiki/index.php?title=The_Quad_interleaved
  */
-public class VertexData { 
+public class VertexData {
 
     private float[] xyzw = new float[] { 0f, 0f, 0f, 1f };
     private float[] rgba = new float[] { 1f, 1f, 1f, 1f };

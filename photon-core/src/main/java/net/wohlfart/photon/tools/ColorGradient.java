@@ -1,6 +1,5 @@
 package net.wohlfart.photon.tools;
 
-import java.awt.Color;
 import java.io.Serializable;
 import java.util.Set;
 import java.util.TreeSet;

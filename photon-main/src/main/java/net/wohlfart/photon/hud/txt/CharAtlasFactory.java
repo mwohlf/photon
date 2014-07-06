@@ -1,6 +1,5 @@
 package net.wohlfart.photon.hud.txt;
 
-import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -13,6 +12,7 @@ import java.io.InputStream;
 import net.wohlfart.photon.GenericException;
 import net.wohlfart.photon.resources.ResourceProducer;
 import net.wohlfart.photon.resources.ResourceTool;
+import net.wohlfart.photon.tools.Color;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -69,7 +69,7 @@ public class CharAtlasFactory implements ResourceProducer<ICharAtlas, FontIdenti
         final Graphics2D g = (Graphics2D) buffImage.getGraphics();
         g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         g.setFont(font);
-        g.setColor(new Color(0f, 0f, 0f, 0f)); // transparent
+        g.setColor(new Color(0f, 0f, 0f, 0f).getAwtColor()); // transparent
         g.fillRect(0, 0, WIDTH, HEIGHT);
         final FontMetrics fontMetrics = g.getFontMetrics();
         final LineMetrics lineMetrics = fontMetrics.getLineMetrics(CHARS, g);
@@ -93,11 +93,11 @@ public class CharAtlasFactory implements ResourceProducer<ICharAtlas, FontIdenti
                             + " dimensions of the canvas is " + WIDTH + "x" + HEIGHT);
                 }
             }
-            g.setColor(Color.WHITE);
+            g.setColor(Color.WHITE.getAwtColor());
             g.drawString(String.valueOf(c), x + charGap, y + ascent);  // draw the next char more right
             atlas.put(c, x, y, width, height, charGap);                // but still take the whole space (width contains the gap)
             if (borderOn) {
-                g.setColor(Color.RED);
+                g.setColor(Color.RED.getAwtColor());
                 g.drawRect(Math.round(x), Math.round(y), Math.round(width), Math.round(height));
             }
             x += width;

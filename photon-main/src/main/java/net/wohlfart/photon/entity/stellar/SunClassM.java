@@ -1,6 +1,5 @@
 package net.wohlfart.photon.entity.stellar;
 
-import java.awt.Color;
 
 import net.wohlfart.photon.ShaderIdent;
 import net.wohlfart.photon.geometry.Sphere;
@@ -10,11 +9,12 @@ import net.wohlfart.photon.render.IGeometry.StreamFormat;
 import net.wohlfart.photon.render.IGeometry.VertexFormat;
 import net.wohlfart.photon.resources.TextureIdent;
 import net.wohlfart.photon.texture.TextureIdentifier;
+import net.wohlfart.photon.tools.Color;
 
 public class SunClassM extends Sun {
 	public static final float MIN_SIZE = 2;
 	public static final float MAX_SIZE = 10;
-	public static final float CORONA_ASPECT = 0.5f;
+	public static final float CORONA_ASPECT = 2f;
 
     @Override
     public void setup() {
